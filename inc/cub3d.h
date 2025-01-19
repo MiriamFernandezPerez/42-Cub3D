@@ -20,7 +20,7 @@
 # include <stddef.h>
 # include "../my_libft/libft.h"
 # include "../my_libft/get_next_line/get_next_line.h"
-# include "../mlx_linux/mlx.h"
+# include "../minilibx-linux/mlx.h"
 # include <X11/Xlib.h>
 # include <X11/keysym.h>
 
@@ -56,6 +56,21 @@
 //# define ERR_COLOR "Error\nInvalid color\n"
 
 
+/*Player*/
+typedef struct s_player
+{
+	int		pos[2];
+	char	dir;
+}	t_player;
+
+
+typedef struct s_color
+ {
+	int r;
+	int g;
+	int b;
+} t_color;
+
 typedef struct s_map
 {
 	char	**map;
@@ -69,20 +84,6 @@ typedef struct s_map
 	//textura sur
 	t_player *player;
 }	t_map;
-
-/*Player*/
-typedef struct s_player
-{
-	int		pos[2];
-	char	dir;
-}	t_player;
-
-typedef struct s_color
- {
-	int r;
-	int g;
-	int b;
-} t_color;
 
 /*Cub3d*/
 typedef struct s_data

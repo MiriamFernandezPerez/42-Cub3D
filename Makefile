@@ -14,9 +14,9 @@ CFLAGS = -MMD -Wall -Wextra -Werror -g -fsanitize=address -fsanitize=leak
 
 HEADER_DIR = inc/
 
-LIB_FLAGS = -Lmlx_linux -lmlx_Linux -L/usr/lib -Imlx_linux -lXext -lX11 -lm -lz
+LIB_FLAGS = -Lmlx_linux -L/usr/lib -Imlx_linux -lXext -lX11 -lm -lz
 
-LIBMLX_DIR = mlx_linux/
+LIBMLX_DIR = minilibx-linux/
 
 INCLUDES = -I $(HEADER_DIR) -I $(LIBMLX_DIR)
 
