@@ -1,22 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   check_args.c                                       :+:      :+:    :+:   */
+/*   test_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mirifern <mirifern@student.42barcel>       +#+  +:+       +#+        */
+/*   By: igarcia2 <igarcia2@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/19 21:34:00 by mirifern          #+#    #+#             */
-/*   Updated: 2025/01/20 15:02:55 by igarcia2         ###   ########.fr       */
+/*   Created: 2025/01/20 16:44:21 by igarcia2          #+#    #+#             */
+/*   Updated: 2025/01/20 16:45:20 by igarcia2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/cub3d.h"
 
-int	check_args(int ac, char **av)
+//(TEST) Receives a char** as a parameter and prints its content by console
+void	print_str_array(char **str_array)
 {
-	if (ac != 2)
-		return (ft_error(ERR_ARGS), EXIT_FAILURE);
-	if (ft_strncmp(av[1] + ft_strlen(av[1]) - 4, ".cub", 4))
-		return (ft_error(ERR_EXT), EXIT_FAILURE);	
-	return (EXIT_SUCCESS);
+	int	i;
+
+	i = 0;
+	if (str_array)
+	{
+		while (str_array[i])
+		{
+			printf("[%d]: %s\n", i, str_array[i]);
+			i++;
+		}
+	}
 }

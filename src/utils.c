@@ -1,22 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   check_args.c                                       :+:      :+:    :+:   */
+/*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mirifern <mirifern@student.42barcel>       +#+  +:+       +#+        */
+/*   By: igarcia2 <igarcia2@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/19 21:34:00 by mirifern          #+#    #+#             */
-/*   Updated: 2025/01/20 15:02:55 by igarcia2         ###   ########.fr       */
+/*   Created: 2025/01/20 15:27:13 by igarcia2          #+#    #+#             */
+/*   Updated: 2025/01/20 16:01:31 by igarcia2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/cub3d.h"
 
-int	check_args(int ac, char **av)
+void	malloc_protection(void *ptr, t_data *data)
 {
-	if (ac != 2)
-		return (ft_error(ERR_ARGS), EXIT_FAILURE);
-	if (ft_strncmp(av[1] + ft_strlen(av[1]) - 4, ".cub", 4))
-		return (ft_error(ERR_EXT), EXIT_FAILURE);	
-	return (EXIT_SUCCESS);
+	if (ptr == NULL)
+	{
+		ft_error(ERR_MALLOC);
+		if (data)
+			free_data(data);
+		exit(EXIT_FAILURE);
+	}
 }

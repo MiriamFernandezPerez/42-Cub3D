@@ -1,22 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   check_args.c                                       :+:      :+:    :+:   */
+/*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mirifern <mirifern@student.42barcel>       +#+  +:+       +#+        */
+/*   By: igarcia2 <igarcia2@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/19 21:34:00 by mirifern          #+#    #+#             */
-/*   Updated: 2025/01/20 15:02:55 by igarcia2         ###   ########.fr       */
+/*   Created: 2025/01/20 15:02:05 by igarcia2          #+#    #+#             */
+/*   Updated: 2025/01/20 15:14:21 by igarcia2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/cub3d.h"
 
-int	check_args(int ac, char **av)
+void	ft_error(char *msg)
 {
-	if (ac != 2)
-		return (ft_error(ERR_ARGS), EXIT_FAILURE);
-	if (ft_strncmp(av[1] + ft_strlen(av[1]) - 4, ".cub", 4))
-		return (ft_error(ERR_EXT), EXIT_FAILURE);	
-	return (EXIT_SUCCESS);
+	ft_putstr_fd(msg, STDERR_FILENO);
+}
+
+void	ft_perror(char *msg)
+{
+	ft_putstr_fd("Error\n", STDERR_FILENO);
+	perror(msg);
 }

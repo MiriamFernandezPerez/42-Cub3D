@@ -6,7 +6,7 @@
 /*   By: mirifern <mirifern@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 21:08:03 by mirifern          #+#    #+#             */
-/*   Updated: 2024/12/19 21:08:15 by mirifern         ###   ########.fr       */
+/*   Updated: 2025/01/20 16:45:40 by igarcia2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,11 +36,10 @@
 /*Errors*/
 # define ERR_ARGS "Error\nInvalid number of arguments\n"
 # define ERR_EXT "Error\nInvalid file extension\n"
-# define ERR_FILE "Error\nInvalid file\n"
-
-
-# define ERR_OPEN "Error\nCould not open file\n"
 # define ERR_MALLOC "Error\nMemory allocation failed\n"
+
+# define ERR_FILE "Error\nInvalid file\n"
+# define ERR_OPEN "Error\nCould not open file\n"
 # define ERR_MAP "Error\nInvalid map\n"
 # define ERR_PLAYER "Error\nInvalid player\n"
 # define ERR_MAP_CHAR "Error\nInvalid map character\n"
@@ -73,22 +72,23 @@ typedef struct s_color
 
 typedef struct s_map
 {
-	char	**map;
-	int		max_height;
-	int		max_width;
-	t_color floor;
-	t_color ceiling;
-	//textura este
-	//texturo oeste
-	//textura norte
-	//textura sur
-	t_player *player;
+	char		**map;
+	int			max_height;
+	int			max_width;
+	char		*north_texture_path;
+	char		*south_texture_path;
+	char		*east_texture_path;
+	char		*west_texture_path;
+	t_color		*floor;
+	t_color		*ceiling;
+	t_player	*player;
 }	t_map;
 
 /*Cub3d*/
 typedef struct s_data
 {
-
+	t_map	*map_data;
+	char	**cub_file;
 }	t_data;
 
 
@@ -96,7 +96,28 @@ typedef struct s_data
 int		main(int ac, char **av);
 
 /*check_args.c*/
-int	check_args(int ac, char **av);
+int		check_args(int ac, char **av);
+
+/*open_file.c*/
+int		open_map(char *path, t_data *data);
+
+/*error.c*/
+void	ft_error(char *msg);
+void	ft_perror(char *msg);
+
+/*str_utils.c*/
+char	**add_to_array(char ***current, char *new_value);
+
+/*free_utils*/
+void	free_data(t_data *data);
+void	free_str_array(char ***str_array);
+
+/*utils.c*/
+void	malloc_protection(void *ptr, t_data *data);
+
+/*test_utils.c*/
+void	print_str_array(char **str_array);
+
 
 #endif
 

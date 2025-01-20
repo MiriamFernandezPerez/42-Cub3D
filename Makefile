@@ -22,6 +22,12 @@ INCLUDES = -I $(HEADER_DIR) -I $(LIBMLX_DIR)
 
 SRC_FILES = src/main.c \
 	src/check_args.c \
+	src/open_file.c \
+	src/error.c \
+	src/utils.c \
+	src/free_utils.c \
+	src/str_utils.c \
+	src/test_utils.c
 	
 OBJ_FILES = $(SRC_FILES:.c=.o)
 
