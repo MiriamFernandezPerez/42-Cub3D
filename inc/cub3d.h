@@ -6,7 +6,7 @@
 /*   By: mirifern <mirifern@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 21:08:03 by mirifern          #+#    #+#             */
-/*   Updated: 2025/01/20 16:55:30 by igarcia2         ###   ########.fr       */
+/*   Updated: 2025/01/20 17:32:32 by igarcia2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,7 @@
 # include <fcntl.h>
 # include <math.h>
 # include <stddef.h>
-# include "../my_libft/libft.h"
-# include "../my_libft/get_next_line/get_next_line.h"
+# include "../src/libft/libft.h"
 # include "../minilibx-linux/mlx.h"
 # include <X11/Xlib.h>
 # include <X11/keysym.h>
