@@ -6,7 +6,7 @@
 /*   By: mirifern <mirifern@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 21:08:03 by mirifern          #+#    #+#             */
-/*   Updated: 2025/01/20 16:45:40 by igarcia2         ###   ########.fr       */
+/*   Updated: 2025/01/20 16:55:30 by igarcia2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,7 @@ int		main(int ac, char **av);
 int		check_args(int ac, char **av);
 
 /*open_file.c*/
-int		open_map(char *path, t_data *data);
+int		open_file(char *path, t_data *data);
 
 /*error.c*/
 void	ft_error(char *msg);
