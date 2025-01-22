@@ -6,7 +6,7 @@
 /*   By: igarcia2 <igarcia2@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 15:32:12 by igarcia2          #+#    #+#             */
-/*   Updated: 2025/01/20 17:13:26 by igarcia2         ###   ########.fr       */
+/*   Updated: 2025/01/22 16:46:42 by igarcia2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,8 @@ void	free_map(t_map *map_data)
 		free(map_data->ceiling);
 	if (map_data->player)
 		free(map_data->player);
+	if (map_data->next_map)
+		free(map_data->next_map);
 	free(map_data);
 }
 

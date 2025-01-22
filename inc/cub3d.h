@@ -6,7 +6,7 @@
 /*   By: mirifern <mirifern@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 21:08:03 by mirifern          #+#    #+#             */
-/*   Updated: 2025/01/20 17:32:32 by igarcia2         ###   ########.fr       */
+/*   Updated: 2025/01/22 18:50:48 by igarcia2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,12 @@
 # include "../minilibx-linux/mlx.h"
 # include <X11/Xlib.h>
 # include <X11/keysym.h>
+
+/*Constants*/
+# define WIDTH 1020
+# define HEIGHT 720
+# define BLOCK_SIZE 64
+# define FOV 60
 
 /*Keys*/
 # define ESC 65307
@@ -57,11 +63,11 @@
 /*Player*/
 typedef struct s_player
 {
-	int		pos[2];
-	char	dir;
+	int	pos[2];
+	int	angle;
 }	t_player;
 
-
+/*Color*/
 typedef struct s_color
  {
 	int r;
@@ -69,6 +75,7 @@ typedef struct s_color
 	int b;
 } t_color;
 
+/*Map info*/
 typedef struct s_map
 {
 	char		**map;
@@ -81,21 +88,27 @@ typedef struct s_map
 	t_color		*floor;
 	t_color		*ceiling;
 	t_player	*player;
+	char		**next_map;
 }	t_map;
+
+/*Raycasting data*/
+typedef struct s_raycasting
+{
+	double distance_pp; //Distance to project plane
+	double angle_increment; //Angle increment
+}	t_raycasting;
 
 /*Cub3d*/
 typedef struct s_data
 {
-	t_map	*map_data;
-	char	**cub_file;
+	t_map			*map_data;
+	t_raycasting	ray_data;
+	char			**cub_file;
 }	t_data;
 
 
 /*main.c*/
 int		main(int ac, char **av);
-
-/*check_args.c*/
-int		check_args(int ac, char **av);
 
 /*open_file.c*/
 int		open_file(char *path, t_data *data);

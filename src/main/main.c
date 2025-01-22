@@ -6,7 +6,7 @@
 /*   By: mirifern <mirifern@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 21:05:41 by mirifern          #+#    #+#             */
-/*   Updated: 2025/01/20 17:12:44 by igarcia2         ###   ########.fr       */
+/*   Updated: 2025/01/22 18:48:40 by igarcia2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,15 @@ void	init_data(t_data **data)
 	malloc_protection(*data, NULL);
 	(*data)->map_data = NULL;
 	(*data)->cub_file = NULL;
+}
+
+int	check_args(int ac, char **av)
+{
+	if (ac != 2)
+		return (ft_error(ERR_ARGS), EXIT_FAILURE);
+	if (ft_strncmp(av[1] + ft_strlen(av[1]) - 4, ".cub", 4))
+		return (ft_error(ERR_EXT), EXIT_FAILURE);	
+	return (EXIT_SUCCESS);
 }
 
 //Main function
