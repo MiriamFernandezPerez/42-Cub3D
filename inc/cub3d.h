@@ -6,7 +6,7 @@
 /*   By: mirifern <mirifern@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 21:08:03 by mirifern          #+#    #+#             */
-/*   Updated: 2025/01/22 18:50:48 by igarcia2         ###   ########.fr       */
+/*   Updated: 2025/01/22 19:03:05 by igarcia2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,8 +63,8 @@
 /*Player*/
 typedef struct s_player
 {
-	int	pos[2];
-	int	angle;
+	int	pos[2]; //X and Y 
+	int	angle; //Direction
 }	t_player;
 
 /*Color*/
