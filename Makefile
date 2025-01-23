@@ -15,15 +15,15 @@ NAME = cub3d
 SRC_DIR = src/
 
 # Subdirectories to include
-SUBDIRS = main file utils 
+SUBDIRS = main file utils draw 
 # Find all .c files only in the specified subdirectories
 SRC_FULL_DIR = $(foreach dir, $(SUBDIRS), $(wildcard $(SRC_DIR)$(dir)/*.c))
 
 LIBFT = src/libft/libft.a
 LIBFT_DIR = src/libft/
 
-LIBMLX_NAME = libmlx.a
-LIBMLX_FLAGS = -Lmlx_linux -L/usr/lib -Imlx_linux -lXext -lX11 -lm -lz
+LIBMLX = libmlx.a
+LIBMLX_FLAGS = -Lmlx_linux -L/usr/lib -Imlx_linux -lXext -lX11 -lm -lz 
 LIBMLX_DIR = minilibx-linux/
 
 OBJ_DIR = bin/
@@ -32,7 +32,7 @@ OBJ = $(SRC_FULL_DIR:$(SRC_DIR)%.c=$(OBJ_DIR)%.o)
 DEPS = $(OBJ:.o=.d)
 
 CC = gcc
-CFLAGS = -Wall -Wextra -Werror $(READLINE_INCLUDE)
+CFLAGS = -Wall -Wextra -Werror
 RM = rm -rf
 
 # Color codes
@@ -101,7 +101,7 @@ $(OBJ_DIR)%.o: $(SRC_DIR)%.c Makefile | create_obj_dirs
 $(NAME): $(OBJ_DIR) $(OBJ)
 		@echo ""
 		@$(call SHOW_MESSAGE, $(YELLOW)$(INFO), " LINKING CUB3D...")
-		@$(CC) -o $(NAME) $(OBJ) $(LIBFT) $(LIBMLX_FLAGS) -fsanitize=address
+		@$(CC) -o $(NAME) $(OBJ) $(LIBFT) $(LIBMLX) $(LIBMLX_FLAGS) -fsanitize=address
 		@$(call SHOW_MESSAGE, $(GREEN)$(CHECKMARK), " CUB3D DONE!")
 
 $(OBJ_DIR): Makefile $(LIBFT)

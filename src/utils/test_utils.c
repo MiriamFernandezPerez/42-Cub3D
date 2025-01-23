@@ -12,6 +12,36 @@
 
 #include "../../inc/cub3d.h"
 
+//Creates t_map structure with hardcoded values
+void	init_map_test(t_map	*map)
+{
+	map->map = malloc(sizeof(char *) * 5 + 1);
+	map->map[0] = malloc(sizeof(char) * 5 + 1);	
+	map->map[1] = malloc(sizeof(char) * 5 + 1);
+	map->map[2] = malloc(sizeof(char) * 5 + 1);
+	map->map[3] = malloc(sizeof(char) * 5 + 1);
+	map->map[4] = malloc(sizeof(char) * 5 + 1);
+	map->map[5] = NULL;
+	map->map[0] = "11111";
+	map->map[1] = "10001";
+	map->map[2] = "10N01";
+	map->map[3] = "10001";
+	map->map[4] = "11111";
+	map->max_height = 5;
+	map->max_width = 5;
+	map->north_texture_path = NULL;
+	map->south_texture_path = NULL;
+	map->west_texture_path = NULL;
+	map->east_texture_path = NULL;
+	map->floor = NULL;
+	map->ceiling = NULL;
+	map->player = malloc(sizeof(t_player));
+	map->player->angle = 90;
+	map->player->pos[0] = 96;	
+	map->player->pos[1] = 96;
+	map->next_map = NULL;
+}
+
 //(TEST) Receives a char** as a parameter and prints its content by console
 void	print_str_array(char **str_array)
 {

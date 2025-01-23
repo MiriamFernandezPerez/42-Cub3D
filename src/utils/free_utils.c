@@ -62,6 +62,8 @@ void	free_data(t_data *data)
 	{
 		if (data->map_data)
 			free_map(data->map_data);
+		if (data->ray_data)
+			free(data->ray_data);
 		if (data->cub_file)
 			free_str_array(&data->cub_file);
 		free(data);

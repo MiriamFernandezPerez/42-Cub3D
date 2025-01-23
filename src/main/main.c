@@ -17,10 +17,17 @@ void	init_data(t_data **data)
 {
 	*data = malloc(sizeof(t_data));
 	malloc_protection(*data, NULL);
-	(*data)->map_data = NULL;
 	(*data)->cub_file = NULL;
+	(*data)->map_data = NULL;
+	(*data)->ray_data = malloc(sizeof(t_raycasting));
+	malloc_protection((*data)->ray_data, *data);
+	(*data)->ray_data->angle_increment = FOV / WIDTH;
+	(*data)->ray_data->distance_pp = (WIDTH / 2) / (tan(FOV / 2));
+	(*data)->map_data = malloc(sizeof(t_map);
+	malloc_protection((*data)->map_data, *data);
 }
 
+//Check if arg value is valid
 int	check_args(int ac, char **av)
 {
 	if (ac != 2)
@@ -38,12 +45,14 @@ int	main(int ac, char **av)
 	data = NULL;
 	init_data(&data);
 	if (check_args(ac, av) == EXIT_FAILURE)
-		return (free_data(data), EXIT_FAILURE);
+		return (free_data(data), EXIT_FAILURE)
+	//PARSE MAP	
 	if (open_file(av[1], data) == EXIT_FAILURE)
 		return (free_data(data), EXIT_FAILURE);
-
 	//TEST
-	print_str_array(data->cub_file);
-
+	//print_str_array(data->cub_file);
+	init_map_test(data->map_data);
+	//DRAW MAP
+	draw_map(data);
 	return (free_data(data), EXIT_SUCCESS);
 }

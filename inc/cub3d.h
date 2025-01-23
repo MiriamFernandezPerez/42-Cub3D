@@ -129,7 +129,7 @@ void	malloc_protection(void *ptr, t_data *data);
 
 /*test_utils.c*/
 void	print_str_array(char **str_array);
-
+void	init_map_test(t_map *map);
 
 #endif
 
