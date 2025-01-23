@@ -12,10 +12,10 @@
 
 #include "../../inc/cub3d.h"
 
-//Receive a char** and free all of its contents
-void	free_str_array(char ***str_array)
+// Receive a char** and free all of its contents
+void free_str_array(char ***str_array)
 {
-	int	i;
+	int i;
 
 	i = 0;
 	if (str_array && *str_array)
@@ -31,32 +31,35 @@ void	free_str_array(char ***str_array)
 	}
 }
 
-//Releases all map data
-void	free_map(t_map *map_data)
+// Releases all map data
+void free_map(t_map *map_data)
 {
-	if (map_data->map)
-		free_str_array(&(map_data->map));
-	if (map_data->north_texture_path)
-		free(map_data->north_texture_path);
-	if (map_data->south_texture_path)
-		free(map_data->south_texture_path);
-	if (map_data->east_texture_path)
-		free(map_data->east_texture_path);
-	if (map_data->west_texture_path)
-		free(map_data->west_texture_path);
-	if (map_data->floor)
-		free(map_data->floor);
-	if (map_data->ceiling)
-		free(map_data->ceiling);
-	if (map_data->player)
-		free(map_data->player);
-	if (map_data->next_map)
-		free(map_data->next_map);
-	free(map_data);
+	if (map_data)
+	{
+		if (map_data->map)
+			free_str_array(&(map_data->map));
+		if (map_data->north_texture_path)
+			free(map_data->north_texture_path);
+		if (map_data->south_texture_path)
+			free(map_data->south_texture_path);
+		if (map_data->east_texture_path)
+			free(map_data->east_texture_path);
+		if (map_data->west_texture_path)
+			free(map_data->west_texture_path);
+		if (map_data->floor)
+			free(map_data->floor);
+		if (map_data->ceiling)
+			free(map_data->ceiling);
+		if (map_data->player)
+			free(map_data->player);
+		if (map_data->next_map)
+			free(map_data->next_map);
+		free(map_data);
+	}
 }
 
-//Releases all the data necessary to finalize the program execution
-void	free_data(t_data *data)
+// Releases all the data necessary to finalize the program execution
+void free_data(t_data *data)
 {
 	if (data)
 	{

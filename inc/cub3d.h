@@ -24,7 +24,7 @@
 # include <X11/keysym.h>
 
 /*Constants*/
-# define WIDTH 1020
+# define WIDTH 1280
 # define HEIGHT 720
 # define BLOCK_SIZE 64
 # define FOV 60
@@ -102,7 +102,7 @@ typedef struct s_raycasting
 typedef struct s_data
 {
 	t_map			*map_data;
-	t_raycasting	ray_data;
+	t_raycasting	*ray_data;
 	char			**cub_file;
 }	t_data;
 

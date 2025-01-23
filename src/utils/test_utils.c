@@ -37,8 +37,8 @@ void	init_map_test(t_map	*map)
 	map->ceiling = NULL;
 	map->player = malloc(sizeof(t_player));
 	map->player->angle = 90;
-	map->player->pos[0] = 96;	
-	map->player->pos[1] = 96;
+	map->player->pos[0] = 160;	
+	map->player->pos[1] = 160;
 	map->next_map = NULL;
 }
 

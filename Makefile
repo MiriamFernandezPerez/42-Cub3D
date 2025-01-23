@@ -6,7 +6,7 @@
 #    By: igarcia2 <igarcia2@student.42barcel>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/21 21:07:38 by igarcia2          #+#    #+#              #
-#    Updated: 2025/01/20 17:26:12 by igarcia2         ###   ########.fr        #
+#    Updated: 2025/01/23 22:00:35 by mirifern         ###   ########.fr        #
 #
 # **************************************************************************** #
 
@@ -22,7 +22,7 @@ SRC_FULL_DIR = $(foreach dir, $(SUBDIRS), $(wildcard $(SRC_DIR)$(dir)/*.c))
 LIBFT = src/libft/libft.a
 LIBFT_DIR = src/libft/
 
-LIBMLX = libmlx.a
+LIBMLX = minilibx-linux/libmlx.a
 LIBMLX_FLAGS = -Lmlx_linux -L/usr/lib -Imlx_linux -lXext -lX11 -lm -lz 
 LIBMLX_DIR = minilibx-linux/
 

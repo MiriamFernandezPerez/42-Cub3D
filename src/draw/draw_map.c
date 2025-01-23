@@ -2,6 +2,7 @@
 
 void	draw_map(t_data *data)
 {
+	(void)data;
 	/*Raycasting
 
 	Primer angulo pixel 0 (pj angle + 30)
@@ -22,6 +23,6 @@ void	draw_map(t_data *data)
 			Printar muro
 			Printar suelo
 		Restar decremento angulo (izq a derecha resta)
-	fin bucle
-	*/
+	fin bucle */
+	
 }
