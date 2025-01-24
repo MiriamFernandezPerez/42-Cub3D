@@ -59,6 +59,11 @@
 //# define ERR_TEX "Error\nInvalid texture\n"
 //# define ERR_COLOR "Error\nInvalid color\n"
 
+enum e_grid
+{
+	HORIZONTAL,
+	VERTICAL
+}
 
 /*Player*/
 typedef struct s_player
@@ -92,11 +97,15 @@ typedef struct s_map
 }	t_map;
 
 /*Raycasting data*/
-typedef struct s_raycasting
+typedef struct s_raycast
 {
-	double distance_pp; //Distance to project plane
-	double angle_increment; //Angle increment
-}	t_raycasting;
+	double	distance_pp; //Distance to project plane
+	double	angle_increment; //Angle increment
+	int		h_intersect[2];
+	int		v_intersect[2];
+	double	h_distance;
+	double	v_distance;
+}	t_raycast;
 
 /*Cub3d*/
 typedef struct s_data
@@ -130,6 +139,9 @@ void	malloc_protection(void *ptr, t_data *data);
 /*test_utils.c*/
 void	print_str_array(char **str_array);
 void	init_map_test(t_map *map);
+
+/*draw_map.c*/
+void	draw_map(t_raycasting *ray_data, t_data *data);
 
 #endif
 

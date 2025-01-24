@@ -19,7 +19,7 @@ void init_data(t_data **data)
 	malloc_protection(*data, NULL);
 	(*data)->cub_file = NULL;
 	(*data)->map_data = NULL;
-	(*data)->ray_data = malloc(sizeof(t_raycasting));
+	(*data)->ray_data = malloc(sizeof(t_raycast));
 	malloc_protection((*data)->ray_data, *data);
 	(*data)->ray_data->angle_increment = FOV / WIDTH;
 	(*data)->ray_data->distance_pp = (WIDTH / 2) / (tan(FOV / 2));
@@ -56,6 +56,6 @@ int main(int ac, char **av)
 	init_map_test(data->map_data);
 	------------------------*/
 	// DRAW MAP
-	// draw_map(data);
+	draw_map(data->ray_data, data);
 	return (free_data(data), EXIT_SUCCESS);
 }
