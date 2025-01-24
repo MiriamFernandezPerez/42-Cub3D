@@ -86,8 +86,8 @@ typedef enum {
 /*Player*/
 typedef struct s_player
 {
-	int	pos[2]; //X and Y 
-	int	angle; //Direction
+	int		pos[2]; //X and Y 
+	double	angle; //Direction
 }	t_player;
 
 /*Color*/
