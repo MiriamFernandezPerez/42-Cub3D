@@ -22,3 +22,9 @@ void	malloc_protection(void *ptr, t_data *data)
 		exit(EXIT_FAILURE);
 	}
 }
+
+// Function to convert degrees to radians
+double	deg_to_rad(double degrees)
+{
+	return (degrees * M_PI / 180.0);
+}

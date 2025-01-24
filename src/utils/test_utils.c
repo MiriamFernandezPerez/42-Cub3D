@@ -13,7 +13,7 @@
 #include "../../inc/cub3d.h"
 
 //Creates t_map structure with hardcoded values
-void	init_map_test(t_map	*map)
+void	init_map_test(t_map	*map, t_data data)
 {
 	map->map = malloc(sizeof(char *) * 5 + 1);
 	map->map[0] = malloc(sizeof(char) * 5 + 1);	
@@ -36,9 +36,9 @@ void	init_map_test(t_map	*map)
 	map->floor = NULL;
 	map->ceiling = NULL;
 	map->player = malloc(sizeof(t_player));
-	map->player->angle = 90;
-	map->player->pos[0] = 160;	
-	map->player->pos[1] = 160;
+	data->player->angle = 90;
+	data->player->pos[X] = 160;	
+	data->player->pos[Y] = 160;
 	map->next_map = NULL;
 }
 

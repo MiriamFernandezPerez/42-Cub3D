@@ -50,8 +50,6 @@ void free_map(t_map *map_data)
 			free(map_data->floor);
 		if (map_data->ceiling)
 			free(map_data->ceiling);
-		if (map_data->player)
-			free(map_data->player);
 		if (map_data->next_map)
 			free(map_data->next_map);
 		free(map_data);
@@ -69,6 +67,8 @@ void free_data(t_data *data)
 			free(data->ray_data);
 		if (data->cub_file)
 			free_str_array(&data->cub_file);
+		if (data->player)
+			free(data->player);
 		free(data);
 	}
 }

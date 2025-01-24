@@ -23,6 +23,11 @@
 # include <X11/Xlib.h>
 # include <X11/keysym.h>
 
+
+# ifndef M_PI
+#  define M_PI 3.14159265358979323846
+# endif
+
 /*Constants*/
 # define WIDTH 1280
 # define HEIGHT 720
@@ -59,11 +64,24 @@
 //# define ERR_TEX "Error\nInvalid texture\n"
 //# define ERR_COLOR "Error\nInvalid color\n"
 
-enum e_grid
+/*Coordinates*/
+typedef enum
 {
-	HORIZONTAL,
-	VERTICAL
-}
+    X = 0,  // Represents index 0
+    Y = 1   // Represents index 1
+} coordinates;
+
+/*Tile Type*/
+typedef enum {
+    TILE_WALL = '1',
+    TILE_EMPTY = '0',
+    TILE_PLAYER_N = 'N',
+    TILE_PLAYER_E = 'E',
+    TILE_PLAYER_W = 'W',
+    TILE_PLAYER_S = 'S',
+	TILE_DOOR = 'D',
+    TILE_EXIT = 'X'
+} tile_type;
 
 /*Player*/
 typedef struct s_player
@@ -92,7 +110,6 @@ typedef struct s_map
 	char		*west_texture_path;
 	t_color		*floor;
 	t_color		*ceiling;
-	t_player	*player;
 	char		**next_map;
 }	t_map;
 
@@ -113,6 +130,7 @@ typedef struct s_data
 	t_map			*map_data;
 	t_raycasting	*ray_data;
 	char			**cub_file;
+	t_player		*player;
 }	t_data;
 
 
@@ -135,10 +153,11 @@ void	free_str_array(char ***str_array);
 
 /*utils.c*/
 void	malloc_protection(void *ptr, t_data *data);
+double	deg_to_rad(double degrees);
 
 /*test_utils.c*/
 void	print_str_array(char **str_array);
-void	init_map_test(t_map *map);
+void	init_map_test(t_map *map, t_data *data);
 
 /*draw_map.c*/
 void	draw_map(t_raycasting *ray_data, t_data *data);

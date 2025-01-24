@@ -19,6 +19,7 @@ void init_data(t_data **data)
 	malloc_protection(*data, NULL);
 	(*data)->cub_file = NULL;
 	(*data)->map_data = NULL;
+	(*data)->player = NULL;
 	(*data)->ray_data = malloc(sizeof(t_raycast));
 	malloc_protection((*data)->ray_data, *data);
 	(*data)->ray_data->angle_increment = FOV / WIDTH;
@@ -53,7 +54,7 @@ int main(int ac, char **av)
 	print_str_array(data->cub_file);
 
 	/*---------TEST---------
-	init_map_test(data->map_data);
+	init_map_test(data->map_data, data);
 	------------------------*/
 	// DRAW MAP
 	draw_map(data->ray_data, data);
