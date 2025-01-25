@@ -6,7 +6,7 @@
 /*   By: mirifern <mirifern@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 21:08:03 by mirifern          #+#    #+#             */
-/*   Updated: 2025/01/22 19:03:05 by igarcia2         ###   ########.fr       */
+/*   Updated: 2025/01/25 18:21:00 by igarcia2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@
 /*Constants*/
 # define WIDTH 60
 # define HEIGHT 30
-# define BLOCK_SIZE 64
+# define TILE_SIZE 64
 # define FOV 60
 
 /*Keys*/
@@ -119,8 +119,8 @@ typedef struct s_raycast
 {
 	double	distance_pp; //Distance to project plane
 	double	angle_increment; //Angle increment
-	int		h_intersect[2];
-	int		v_intersect[2];
+	int		horz_hit[2];
+	int		vert_hit[2];
 	double	h_distance;
 	double	v_distance;
 }	t_raycast;
@@ -162,6 +162,10 @@ void	init_map_test(t_map *map, t_data *data);
 
 /*draw_map.c*/
 void	draw_map(t_raycast *ray_data, t_data *data);
+
+/*hit_wall.c*/
+void vert_wall_hit(double alpha, t_player *player, t_data *data);
+void horz_wall_hit(double alpha, t_player *player, t_data *data);
 
 #endif
 
