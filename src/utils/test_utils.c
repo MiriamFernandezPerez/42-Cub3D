@@ -6,7 +6,7 @@
 /*   By: igarcia2 <igarcia2@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 16:44:21 by igarcia2          #+#    #+#             */
-/*   Updated: 2025/01/25 18:14:43 by igarcia2         ###   ########.fr       */
+/*   Updated: 2025/01/25 23:13:34 by igarcia2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	init_map_test(t_map	*map_data, t_data *data)
 	map_data->map[5] = NULL;
 	map_data->map[0] = ft_strdup("11111");
 	map_data->map[1] = ft_strdup("10001");
-	map_data->map[2] = ft_strdup("10N01");
+	map_data->map[2] = ft_strdup("10101");
 	map_data->map[3] = ft_strdup("10001");
 	map_data->map[4] = ft_strdup("11111");
 	map_data->max_height = 5;
@@ -31,9 +31,9 @@ void	init_map_test(t_map	*map_data, t_data *data)
 	map_data->floor = NULL;
 	map_data->ceiling = NULL;
 	data->player = malloc(sizeof(t_player));
-	data->player->angle = 270;
-	data->player->pos[X] = 224;	
-	data->player->pos[Y] = 96;
+	data->player->angle = 350;
+	data->player->pos[X] = 250;	
+	data->player->pos[Y] = 160;
 	map_data->next_map = NULL;
 }
 
