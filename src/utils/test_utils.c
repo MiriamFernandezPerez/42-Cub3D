@@ -6,7 +6,7 @@
 /*   By: igarcia2 <igarcia2@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 16:44:21 by igarcia2          #+#    #+#             */
-/*   Updated: 2025/01/25 21:22:53 by igarcia2         ###   ########.fr       */
+/*   Updated: 2025/01/25 23:13:34 by igarcia2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	init_map_test(t_map	*map_data, t_data *data)
 	map_data->floor = NULL;
 	map_data->ceiling = NULL;
 	data->player = malloc(sizeof(t_player));
-	data->player->angle = 180;
+	data->player->angle = 350;
 	data->player->pos[X] = 250;	
 	data->player->pos[Y] = 160;
 	map_data->next_map = NULL;

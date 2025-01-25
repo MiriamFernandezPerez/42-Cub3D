@@ -6,7 +6,7 @@
 /*   By: mirifern <mirifern@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 21:08:03 by mirifern          #+#    #+#             */
-/*   Updated: 2025/01/25 18:21:00 by igarcia2         ###   ########.fr       */
+/*   Updated: 2025/01/25 23:34:19 by igarcia2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,8 @@
 # endif
 
 /*Constants*/
-# define WIDTH 60
-# define HEIGHT 30
+# define WIDTH 320
+# define HEIGHT 200
 # define TILE_SIZE 64
 # define FOV 60
 
@@ -119,10 +119,11 @@ typedef struct s_raycast
 {
 	double	distance_pp; //Distance to project plane
 	double	angle_increment; //Angle increment
+	double	projection_factor;
 	int		horz_hit[2];
 	int		vert_hit[2];
-	double	h_distance;
-	double	v_distance;
+	double	shortest_distance;
+	double	corrected_distance;
 }	t_raycast;
 
 /*Cub3d*/
