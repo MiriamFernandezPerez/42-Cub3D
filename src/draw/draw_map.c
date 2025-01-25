@@ -40,7 +40,8 @@ void vert_wall_hit(double alpha, t_data *data)
 
 	// A.y = Py + (Px-A.x)*tan(ALPHA);
 	// B.y = Py + (Px-B.x)*tan(ALPHA); (ALPHA in radians);
-	hit[Y] = (int)floor(data->player->pos[Y] + (data->player->pos[X] - hit[X]) * tan(deg_to_rad(alpha)));
+	hit[Y] = (int)floor(data->player->pos[Y] + (data->player->pos[X] - hit[X])
+		* tan(deg_to_rad(alpha)));
 
 
 	// X increment
@@ -84,23 +85,19 @@ void horz_wall_hit(double alpha, t_data *data)
 
 	if (alpha > 0 && alpha < 180)
 		// Facing up
-		// A.y = rounded_down(Py/64) * (64) - 1;
+		// A.y = rounded_down(Py/TILE_SIZE) * TILE_SIZE - 1;
 		hit[Y] = (int)(floor(data->player->pos[Y] / 64) * 64) - 1;
 	else if (alpha == 0 || alpha == 180)
 		return;
 	else
 		// Facing down
-		// A.y = rounded_down(Py/64) * (64) + 64;
+		// A.y = rounded_down(Py/TILE_SIZE) * TILE_SIZE + TILE_SIZE;
 		hit[Y] = (int)(floor(data->player->pos[Y] / 64) * 64) + 64;
 
-	// Grid A.Y = rounded_down(A.y / 64);
-	grid[Y] = (int)floor(hit[Y] / 64);
 
-	// A.x = Px + (Py-A.y)/tan(ALPHA); (ALPHA in radians);
-	hit[X] = (int)floor(data->player->pos[X] + (data->player->pos[Y] - hit[Y]) / tan(deg_to_rad(alpha)));
-
-	// Grid A.X = rounded_down(A.x / 64);
-	grid[X] = (int)floor(hit[X] / 64);
+	// A.x = Px + (Py-A.y)/tan(ALPHA);
+	hit[X] = (int)floor(data->player->pos[X] + (data->player->pos[Y] - hit[Y])
+		/ tan(deg_to_rad(alpha)));
 
 	// Y increment
 	if (alpha > 0 && alpha < 180)
@@ -110,24 +107,27 @@ void horz_wall_hit(double alpha, t_data *data)
 		// Facing down
 		delta[Y] = 64;
 
-	// delta[X] = 64/tan(ALPHA);
+	// delta[X] = TILE_SIZE/tan(ALPHA);
 	delta[X] = (int)floor(64 / tan(deg_to_rad(alpha)));
 	if (alpha > 90 && alpha < 270)
 		delta[X] = -fabs(delta[X]);
 	else
 		delta[X] = fabs(delta[X]);
 
-	if (grid[X] < 0 || grid[X] >= data->map_data->max_width || grid[Y] < 0 || grid[Y] >= data->map_data->max_height)
-		return;
-	while (is_wall(grid, data->map_data) == 0)
+	while (42)
 	{
+		// Grid A.Y = rounded_down(A.y / TILE_SIZE);
+		grid[Y] = (int)floor(hit[Y] / 64);
+		// Grid A.X = rounded_down(A.x / TILE_SIZE);
+		grid[X] = (int)floor(hit[X] / 64);
+		if (grid[X] < 0 || grid[X] >= data->map_data->max_width
+			|| grid[Y] < 0 || grid[Y] >= data->map_data->max_height)
+			return;
+		if (is_wall(grid, data->map_data) == 1)
+			break;
 		hit[X] += delta[X];
 		hit[Y] += delta[Y];
-		grid[Y] = (int)floor(hit[Y] / 64);
-		grid[X] = (int)floor(hit[X] / 64);
-		if (grid[X] < 0 || grid[X] >= data->map_data->max_width || grid[Y] < 0 || grid[Y] >= data->map_data->max_height)
-			return;
-	}
+		}
 	printf("HIT X: %d\n", hit[X]);
 	printf("Horizontal grid [%d][%d]\n", grid[X], grid[Y]);
 }
