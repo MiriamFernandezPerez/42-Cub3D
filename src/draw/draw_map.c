@@ -27,48 +27,51 @@ void vert_wall_hit(double alpha, t_data *data)
 
 	if (alpha >= 90 && alpha <= 270)
 		// Facing left
-		// B.x = rounded_down(Px/64) * (64) - 1
+		// B.x = rounded_down(Px/TILE_SIZE) * TILE_SIZE - 1
 		hit[X] = (int)(floor(data->player->pos[X] / 64) * 64) - 1;
+	else if (alpha == 90 || alpha == 270)
+		return ;
 	else
 		// Facing right
-		// B.x = rounded_down(Px/64) * (64) + 64
+		// B.x = rounded_down(Px/TILE_SIZE) * TILE_SIZE + TILE_SIZE
 		hit[X] = (int)(floor(data->player->pos[X] / 64) * 64) + 64;
 
-	// Grid B.X = rounded_down(B.x / 64);
-	grid[X] = (int)floor(hit[X] / 64);
+
 
 	// A.y = Py + (Px-A.x)*tan(ALPHA);
 	// B.y = Py + (Px-B.x)*tan(ALPHA); (ALPHA in radians);
 	hit[Y] = (int)floor(data->player->pos[Y] + (data->player->pos[X] - hit[X]) * tan(deg_to_rad(alpha)));
 
-	// Grid B.Y = rounded_down(B.y / 64);
-	grid[Y] = (int)floor(hit[Y] / 64);
 
 	// X increment
-	if (alpha >= 90 && alpha <= 270)
+	if (alpha > 90 && alpha < 270)
 		// Facing left
 		delta[X] = -64;
 	else
 		// Facing right
 		delta[X] = 64;
 
-	// delta[y] = 64 * tan(ALPHA);
+	// delta[y] = TILE_SIZE * tan(ALPHA);
 	delta[Y] = (int)floor(64 * tan(deg_to_rad(alpha)));
-	if (delta[Y] < 0 && alpha >=181 && alpha <=359)
-		delta[Y] *= - 1;
-	
+	if (alpha > 0 && alpha < 180)
+		delta[Y] = -fabs(delta[Y]);
+	else
+		delta[Y] = fabs(delta[Y]);	
 	printf("deltaY: %d\n", delta[Y]);
 
-	if (grid[X] < 0 || grid[X] >= data->map_data->max_width || grid[Y] < 0 || grid[Y] >= data->map_data->max_height)
-		return;
-	while (is_wall(grid, data->map_data) == 0)
+	while (42)
 	{
+		// Grid B.X = rounded_down(B.x / TILE_SIZE);
+		grid[X] = (int)floor(hit[X] / 64);
+		// Grid B.Y = rounded_down(B.y / TILE_SIZE);
+		grid[Y] = (int)floor(hit[Y] / 64);
+		if (grid[X] < 0 || grid[X] >= data->map_data->max_width
+			|| grid[Y] < 0 || grid[Y] >= data->map_data->max_height)
+			return;
+		if (is_wall(grid, data->map_data) == 1)
+			break;
 		hit[X] += delta[X];
 		hit[Y] += delta[Y];
-		grid[Y] = (int)floor(hit[Y] / 64);
-		grid[X] = (int)floor(hit[X] / 64);
-		if (grid[X] < 0 || grid[X] >= data->map_data->max_width || grid[Y] < 0 || grid[Y] >= data->map_data->max_height)
-			return;
 	}
 	printf("Vertical grid [%d][%d]\n", grid[X], grid[Y]);
 }
@@ -79,10 +82,12 @@ void horz_wall_hit(double alpha, t_data *data)
 	int hit[2];
 	int	delta[2];
 
-	if (alpha >= 0 && alpha <= 180)
+	if (alpha > 0 && alpha < 180)
 		// Facing up
 		// A.y = rounded_down(Py/64) * (64) - 1;
 		hit[Y] = (int)(floor(data->player->pos[Y] / 64) * 64) - 1;
+	else if (alpha == 0 || alpha == 180)
+		return;
 	else
 		// Facing down
 		// A.y = rounded_down(Py/64) * (64) + 64;
@@ -98,7 +103,7 @@ void horz_wall_hit(double alpha, t_data *data)
 	grid[X] = (int)floor(hit[X] / 64);
 
 	// Y increment
-	if (alpha >= 0 && alpha <= 180)
+	if (alpha > 0 && alpha < 180)
 		// Facing up
 		delta[Y] = -64;
 	else
@@ -107,8 +112,10 @@ void horz_wall_hit(double alpha, t_data *data)
 
 	// delta[X] = 64/tan(ALPHA);
 	delta[X] = (int)floor(64 / tan(deg_to_rad(alpha)));
-	if (delta[X] < 0 && ((alpha >= 271 && alpha <=359) || (alpha >= 1 && alpha <= 89))) 
-		delta[X] *= - 1;
+	if (alpha > 90 && alpha < 270)
+		delta[X] = -fabs(delta[X]);
+	else
+		delta[X] = fabs(delta[X]);
 
 	if (grid[X] < 0 || grid[X] >= data->map_data->max_width || grid[Y] < 0 || grid[Y] >= data->map_data->max_height)
 		return;
