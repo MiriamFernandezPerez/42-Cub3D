@@ -47,10 +47,12 @@
 # define ERR_ARGS "Error\nInvalid number of arguments\n"
 # define ERR_EXT "Error\nInvalid file extension\n"
 # define ERR_MALLOC "Error\nMemory allocation failed\n"
+# define ERR_EMPTY "Error\nFile is Empty\n"
+# define ERR_MAP "Error\nInvalid map\n"
 
 # define ERR_FILE "Error\nInvalid file\n"
 # define ERR_OPEN "Error\nCould not open file\n"
-# define ERR_MAP "Error\nInvalid map\n"
+
 # define ERR_PLAYER "Error\nInvalid player\n"
 # define ERR_MAP_CHAR "Error\nInvalid map character\n"
 # define ERR_MAP_BORDER "Error\nMap is not closed\n"
@@ -142,6 +144,7 @@ int		main(int ac, char **av);
 int		open_file(char *path, t_data *data);
 
 /*error.c*/
+void	ft_error_exit(char *msg, t_data *data);
 void	ft_error(char *msg);
 void	ft_perror(char *msg);
 

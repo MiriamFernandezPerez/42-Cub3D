@@ -12,6 +12,13 @@
 
 #include "../../inc/cub3d.h"
 
+void	ft_error_exit(char *msg, t_data *data)
+{
+	ft_putstr_fd(msg, STDERR_FILENO);
+	free_data(data);
+	exit (EXIT_FAILURE);
+}
+
 void	ft_error(char *msg)
 {
 	ft_putstr_fd(msg, STDERR_FILENO);

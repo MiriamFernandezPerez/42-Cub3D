@@ -12,8 +12,20 @@
 
 #include "../../inc/cub3d.h"
 
+void	init_map(t_map *map_data)
+{
+	map_data->map = NULL;
+	map_data->north_texture_path = NULL;
+	map_data->south_texture_path = NULL;
+	map_data->east_texture_path = NULL;
+	map_data->west_texture_path = NULL;
+	map_data->floor = NULL;
+	map_data->ceiling = NULL;
+	map_data->next_map = NULL;
+}
+
 // Initializes data struct
-void init_data(t_data **data)
+void	init_data(t_data **data)
 {
 	*data = malloc(sizeof(t_data));
 	malloc_protection(*data, NULL);
@@ -26,7 +38,7 @@ void init_data(t_data **data)
 	(*data)->ray_data->distance_pp = (WIDTH / 2) / (tan(FOV / 2));
 	(*data)->map_data = malloc(sizeof(t_map));
 	malloc_protection((*data)->map_data, *data);
-	// Inicializar valores map_data
+	init_map((*data)->map_data);
 }
 
 // Check if arg value is valid
@@ -51,10 +63,10 @@ int main(int ac, char **av)
 	init_data(&data);
 	if (open_file(av[1], data) == EXIT_FAILURE)
 		return (free_data(data), EXIT_FAILURE);
-	print_str_array(data->cub_file);
+	//print_str_array(data->cub_file);
 
-	init_map_test(data->map_data, data);
+	//init_map_test(data->map_data, data);
 	// DRAW MAP
-	draw_map(data->ray_data, data);
+	//draw_map(data->ray_data, data);
 	return (free_data(data), EXIT_SUCCESS);
 }

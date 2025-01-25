@@ -64,6 +64,7 @@ char	*ft_substr(char const *s, unsigned int start, size_t len);
 int		ft_toupper(int c);
 int		ft_tolower(int c);
 int		str_array_len(char **array);
+int		ft_isspace(int c);
 //List
 t_list	*ft_lstnew(void *content);
 void	ft_lstadd_front(t_list **lst, t_list *new);
