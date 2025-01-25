@@ -29,8 +29,8 @@
 # endif
 
 /*Constants*/
-# define WIDTH 1280
-# define HEIGHT 720
+# define WIDTH 60
+# define HEIGHT 30
 # define BLOCK_SIZE 64
 # define FOV 60
 
@@ -72,7 +72,8 @@ typedef enum
 } coordinates;
 
 /*Tile Type*/
-typedef enum {
+typedef enum
+{
     TILE_WALL = '1',
     TILE_EMPTY = '0',
     TILE_PLAYER_N = 'N',
@@ -128,7 +129,7 @@ typedef struct s_raycast
 typedef struct s_data
 {
 	t_map			*map_data;
-	t_raycasting	*ray_data;
+	t_raycast		*ray_data;
 	char			**cub_file;
 	t_player		*player;
 }	t_data;
@@ -160,7 +161,7 @@ void	print_str_array(char **str_array);
 void	init_map_test(t_map *map, t_data *data);
 
 /*draw_map.c*/
-void	draw_map(t_raycasting *ray_data, t_data *data);
+void	draw_map(t_raycast *ray_data, t_data *data);
 
 #endif
 

@@ -13,33 +13,28 @@
 #include "../../inc/cub3d.h"
 
 //Creates t_map structure with hardcoded values
-void	init_map_test(t_map	*map, t_data data)
+void	init_map_test(t_map	*map_data, t_data *data)
 {
-	map->map = malloc(sizeof(char *) * 5 + 1);
-	map->map[0] = malloc(sizeof(char) * 5 + 1);	
-	map->map[1] = malloc(sizeof(char) * 5 + 1);
-	map->map[2] = malloc(sizeof(char) * 5 + 1);
-	map->map[3] = malloc(sizeof(char) * 5 + 1);
-	map->map[4] = malloc(sizeof(char) * 5 + 1);
-	map->map[5] = NULL;
-	map->map[0] = "11111";
-	map->map[1] = "10001";
-	map->map[2] = "10N01";
-	map->map[3] = "10001";
-	map->map[4] = "11111";
-	map->max_height = 5;
-	map->max_width = 5;
-	map->north_texture_path = NULL;
-	map->south_texture_path = NULL;
-	map->west_texture_path = NULL;
-	map->east_texture_path = NULL;
-	map->floor = NULL;
-	map->ceiling = NULL;
-	map->player = malloc(sizeof(t_player));
-	data->player->angle = 90;
+	map_data->map = malloc(sizeof(char *) * (5 + 1));
+	map_data->map[5] = NULL;
+	map_data->map[0] = ft_strdup("11111");
+	map_data->map[1] = ft_strdup("10001");
+	map_data->map[2] = ft_strdup("10N01");
+	map_data->map[3] = ft_strdup("10001");
+	map_data->map[4] = ft_strdup("11111");
+	map_data->max_height = 5;
+	map_data->max_width = 5;
+	map_data->north_texture_path = NULL;
+	map_data->south_texture_path = NULL;
+	map_data->west_texture_path = NULL;
+	map_data->east_texture_path = NULL;
+	map_data->floor = NULL;
+	map_data->ceiling = NULL;
+	data->player = malloc(sizeof(t_player));
+	data->player->angle = 210;
 	data->player->pos[X] = 160;	
 	data->player->pos[Y] = 160;
-	map->next_map = NULL;
+	map_data->next_map = NULL;
 }
 
 //(TEST) Receives a char** as a parameter and prints its content by console

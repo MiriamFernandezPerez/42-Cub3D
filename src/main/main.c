@@ -22,10 +22,10 @@ void init_data(t_data **data)
 	(*data)->player = NULL;
 	(*data)->ray_data = malloc(sizeof(t_raycast));
 	malloc_protection((*data)->ray_data, *data);
-	(*data)->ray_data->angle_increment = FOV / WIDTH;
+	(*data)->ray_data->angle_increment = (double)FOV / (double)WIDTH;
 	(*data)->ray_data->distance_pp = (WIDTH / 2) / (tan(FOV / 2));
-	//(*data)->map_data = malloc(sizeof(t_map));
-	// malloc_protection((*data)->map_data, *data);
+	(*data)->map_data = malloc(sizeof(t_map));
+	malloc_protection((*data)->map_data, *data);
 	// Inicializar valores map_data
 }
 
@@ -53,9 +53,7 @@ int main(int ac, char **av)
 		return (free_data(data), EXIT_FAILURE);
 	print_str_array(data->cub_file);
 
-	/*---------TEST---------
 	init_map_test(data->map_data, data);
-	------------------------*/
 	// DRAW MAP
 	draw_map(data->ray_data, data);
 	return (free_data(data), EXIT_SUCCESS);
