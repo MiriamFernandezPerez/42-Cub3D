@@ -1,6 +1,5 @@
 *.swp
 *.o
 *.d
-*.cub
 *.a
 cub3d
