@@ -101,7 +101,7 @@ $(OBJ_DIR)%.o: $(SRC_DIR)%.c Makefile | create_obj_dirs
 $(NAME): $(OBJ_DIR) $(OBJ)
 		@echo ""
 		@$(call SHOW_MESSAGE, $(YELLOW)$(INFO), " LINKING CUB3D...")
-		@$(CC) -o $(NAME) $(OBJ) $(LIBFT) $(LIBMLX) $(LIBMLX_FLAGS) -fsanitize=address
+		@$(CC) -o $(NAME) $(OBJ) $(LIBFT) $(LIBMLX) $(LIBMLX_FLAGS) -g -fsanitize=address -fsanitize=leak
 		@$(call SHOW_MESSAGE, $(GREEN)$(CHECKMARK), " CUB3D DONE!")
 
 $(OBJ_DIR): Makefile $(LIBFT)

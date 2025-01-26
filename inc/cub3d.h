@@ -93,14 +93,6 @@ typedef struct s_player
 	double	angle; //Direction
 }	t_player;
 
-/*Color*/
-typedef struct s_color
- {
-	int r;
-	int g;
-	int b;
-} t_color;
-
 /*Map info*/
 typedef struct s_map
 {
@@ -111,8 +103,8 @@ typedef struct s_map
 	char		*south_texture_path;
 	char		*east_texture_path;
 	char		*west_texture_path;
-	t_color		*floor;
-	t_color		*ceiling;
+	char		*floor;
+	char		*ceiling;
 	char		**next_map;
 }	t_map;
 
