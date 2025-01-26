@@ -6,39 +6,27 @@
 /*   By: mirifern <mirifern@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 21:05:41 by mirifern          #+#    #+#             */
-/*   Updated: 2025/01/26 01:26:28 by igarcia2         ###   ########.fr       */
+/*   Updated: 2025/01/26 17:24:28 by igarcia2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/cub3d.h"
 
-//Function that close program execution
-int	close_win(t_data *data)
+void	init_mlx(t_data *data)
 {
-	mlx_destroy_window(data->screen->mlx, data->screen->win);
-	free_data(data);
-	exit(EXIT_SUCCESS);
-}
-
-//Function that listens for the key pressed and calls the corresponding function
-int	key_pressed(int keycode, t_data *data)
-{
-	if (keycode == ESC)
-		close_win(data);
-	return (EXIT_SUCCESS);
-}
-
-void	init_screen(t_data *data)
-{
-	t_screen	*screen;
-
-	data->screen = malloc(sizeof(t_screen));
-	malloc_protection(data->screen, data);
-	screen = data->screen;
-	screen->mlx = mlx_init();
-	screen->win = mlx_new_window(screen->mlx, WIDTH, HEIGHT, "Hello world!");
-	mlx_hook(screen->win, 2, 1L << 0, key_pressed, &screen);
-	mlx_hook(screen->win, 17, 0, close_win, data);
+	data->mlx_data = malloc(sizeof(t_mlx));
+	malloc_protection(data->mlx_data, data);
+	data->mlx_data->mlx_ptr = mlx_init();
+	if (!data->mlx_data->mlx_ptr)
+		ft_error_exit(ERR_MLX_INIT, data);
+	data->mlx_data->win_ptr =
+		mlx_new_window(data->mlx_data->mlx_ptr, WIDTH, HEIGHT, "cub3d");
+	if (!data->mlx_data->win_ptr)
+		ft_error_exit(ERR_MLX_WIN, data);
+	data->mlx_data->img_ptr = NULL;
+    data->mlx_data->redraw = 1;
+	mlx_key_hook(data->mlx_data->win_ptr, key_hook, &data); // Manejar eventos de teclado
+	mlx_loop_hook(data->mlx_data->mlx_ptr, game_loop, &data); // Vincular el bucle principal
 }
 
 void	init_map(t_map *map_data)
@@ -58,10 +46,11 @@ void	init_data(t_data **data)
 {
 	*data = malloc(sizeof(t_data));
 	malloc_protection(*data, NULL);
-	(*data)->cub_file = NULL;
 	(*data)->map_data = NULL;
+	(*data)->ray_data = NULL;
+	(*data)->mlx_data = NULL;
 	(*data)->player = NULL;
-	(*data)->screen = NULL;
+	(*data)->cub_file = NULL;
 	(*data)->ray_data = malloc(sizeof(t_raycast));
 	malloc_protection((*data)->ray_data, *data);
 	(*data)->ray_data->angle_increment = (double)FOV / (double)WIDTH;
@@ -81,18 +70,6 @@ int check_args(int ac, char **av)
 	return (EXIT_SUCCESS);
 }
 
-//Function that refreshes on-screen rendering
-void	refresh_render(t_screen *screen)
-{
-	screen->img = mlx_new_image(screen->mlx, WIDTH, HEIGHT);
-	screen->addr = mlx_get_data_addr(screen->img, &(screen->bits_per_pixel),
-			&(screen->line_length), &(screen->endian));
-	//print_pixels(screen, vars);
-	mlx_put_image_to_window(screen->mlx, screen->win, screen->img, 0, 0);
-	//draw_menu(vars);
-	mlx_loop(screen->mlx);
-}
-
 // Main function
 int main(int ac, char **av)
 {
@@ -102,13 +79,15 @@ int main(int ac, char **av)
 	if (check_args(ac, av) == EXIT_FAILURE)
 		return (free_data(data), EXIT_FAILURE);
 	// PARSE MAP
+
 	init_data(&data);
-	if (open_file(av[1], data) == EXIT_FAILURE)
-		return (free_data(data), EXIT_FAILURE);
+	//if (open_file(av[1], data) == EXIT_FAILURE)
+		//return (free_data(data), EXIT_FAILURE);
 	init_map_test(data->map_data, data);
+
 	// DRAW MAP
-	init_screen(data);
-	//refresh_render(data->screen);
+	init_mlx(data);
 	draw_map(data->ray_data, data);
+    mlx_loop(data->mlx_data->mlx_ptr);
 	return (free_data(data), EXIT_SUCCESS);
 }

@@ -6,7 +6,7 @@
 /*   By: igarcia2 <igarcia2@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 15:32:12 by igarcia2          #+#    #+#             */
-/*   Updated: 2025/01/26 01:22:11 by igarcia2         ###   ########.fr       */
+/*   Updated: 2025/01/26 17:02:23 by igarcia2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,20 @@ void free_str_array(char ***str_array)
 	}
 }
 
+void	destroy_mlx(t_data *data)
+{
+	if (data->mlx_data)
+	{
+		if (data->mlx_data->img_ptr)
+			mlx_destroy_image(data->mlx_data->mlx_ptr, data->mlx_data->img_ptr);
+		if (data->mlx_data->win_ptr)
+			mlx_destroy_window(data->mlx_data->mlx_ptr, data->mlx_data->win_ptr);
+		free(data->mlx_data->mlx_ptr);
+		free(data->mlx_data);
+		data->mlx_data = NULL;
+    }
+}
+
 // Releases all map data
 void free_map(t_map *map_data)
 {
@@ -53,6 +67,7 @@ void free_map(t_map *map_data)
 		if (map_data->next_map)
 			free(map_data->next_map);
 		free(map_data);
+		map_data = NULL;
 	}
 }
 
@@ -69,8 +84,8 @@ void	free_data(t_data *data)
 			free_str_array(&data->cub_file);
 		if (data->player)
 			free(data->player);
-		if (data->screen)
-			free(data->screen);
+		if (data->mlx_data)
+			destroy_mlx(data);
 		free(data);
 	}
 }

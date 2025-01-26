@@ -6,7 +6,7 @@
 /*   By: mirifern <mirifern@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 21:08:03 by mirifern          #+#    #+#             */
-/*   Updated: 2025/01/26 01:06:42 by igarcia2         ###   ########.fr       */
+/*   Updated: 2025/01/26 17:15:21 by igarcia2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,10 @@
 
 # define ERR_FILE "Error\nInvalid file\n"
 # define ERR_OPEN "Error\nCould not open file\n"
+
+# define ERR_MLX_INIT "Error\nmlx : initialization failed\n"
+# define ERR_MLX_WIN "Error\nmlx : window creation failed\n"
+# define ERR_MLX_IMG "Error\nmlx : image creation failed\n"
 
 # define ERR_PLAYER "Error\nInvalid player\n"
 # define ERR_MAP_CHAR "Error\nInvalid map character\n"
@@ -109,7 +113,7 @@ typedef struct s_map
 }	t_map;
 
 /*Raycasting data*/
-typedef struct s_raycast
+typedef struct	s_raycast
 {
 	double	distance_pp; //Distance to project plane
 	double	angle_increment; //Angle increment
@@ -120,26 +124,27 @@ typedef struct s_raycast
 	int		projected_slice_height;
 }	t_raycast;
 
-/*Screen*/
-typedef struct s_screen
+/*Mlx*/
+typedef struct	s_mlx
 {
-	void	*mlx;
-	void	*win;
-	void	*img;
-	char	*addr;
-	int		bits_per_pixel;
-	int		line_length;
-	int		endian;
-} t_screen;
+	void	*mlx_ptr; // Puntero a la conexión con MiniLibX
+	void	*win_ptr; // Puntero a la ventana
+	void	*img_ptr; // Puntero a la imagen
+	char	*img_addr; // Dirección de memoria de la imagen
+	int		bpp;      // Bits por píxel
+	int		line_len; // Longitud de cada línea de la imagen
+	int     endian;   // Orden de los bytes (endianess)
+	int		redraw;
+} t_mlx;
 
 /*Cub3d*/
-typedef struct s_data
+typedef struct	s_data
 {
 	t_map			*map_data;
 	t_raycast		*ray_data;
-	char			**cub_file;
+	t_mlx			*mlx_data;
 	t_player		*player;
-	t_screen		*screen;
+	char			**cub_file;
 }	t_data;
 
 
@@ -160,6 +165,7 @@ char	**add_to_array(char ***current, char *new_value);
 /*free_utils*/
 void	free_data(t_data *data);
 void	free_str_array(char ***str_array);
+void	destroy_mlx(t_data *data);
 
 /*utils.c*/
 void	malloc_protection(void *ptr, t_data *data);
@@ -175,6 +181,10 @@ void	draw_map(t_raycast *ray_data, t_data *data);
 /*hit_wall.c*/
 void vert_wall_hit(double alpha, t_player *player, t_data *data);
 void horz_wall_hit(double alpha, t_player *player, t_data *data);
+
+/*mlx.c*/
+int	game_loop(t_data *data);
+int	key_hook(int keycode, t_data *data);
 
 #endif
 

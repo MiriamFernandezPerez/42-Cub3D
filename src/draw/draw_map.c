@@ -6,7 +6,7 @@
 /*   By: igarcia2 <igarcia2@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 15:27:13 by igarcia2          #+#    #+#             */
-/*   Updated: 2025/01/26 00:33:06 by igarcia2         ###   ########.fr       */
+/*   Updated: 2025/01/26 17:18:21 by igarcia2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,9 +88,8 @@ void	draw_map(t_raycast *ray_data, t_data *data)
 				/ ray_data->corrected_distance * ray_data->distance_pp);
 		printf("projected_slice_height: %d\n", ray_data->projected_slice_height);
 
-		// Printar cielo
-		// Printar muro
-		// Printar suelo
+		// Printar column
+
 		// Restar decremento angulo (izq a derecha resta)
 		alpha -= ray_data->angle_increment;
 		alpha = normalize_angle(alpha);
