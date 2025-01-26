@@ -6,7 +6,7 @@
 /*   By: mirifern <mirifern@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 21:05:41 by mirifern          #+#    #+#             */
-/*   Updated: 2025/01/26 01:22:23 by igarcia2         ###   ########.fr       */
+/*   Updated: 2025/01/26 01:26:28 by igarcia2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,8 +105,6 @@ int main(int ac, char **av)
 	init_data(&data);
 	if (open_file(av[1], data) == EXIT_FAILURE)
 		return (free_data(data), EXIT_FAILURE);
-	//print_str_array(data->cub_file);
-
 	init_map_test(data->map_data, data);
 	// DRAW MAP
 	init_screen(data);
