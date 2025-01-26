@@ -6,7 +6,7 @@
 /*   By: mirifern <mirifern@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 21:05:41 by mirifern          #+#    #+#             */
-/*   Updated: 2025/01/26 17:24:28 by igarcia2         ###   ########.fr       */
+/*   Updated: 2025/01/26 20:37:37 by igarcia2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,11 @@ void	init_mlx(t_data *data)
 	if (!data->mlx_data->win_ptr)
 		ft_error_exit(ERR_MLX_WIN, data);
 	data->mlx_data->img_ptr = NULL;
+	data->mlx_data->img_addr = NULL;
+	//COmprovar creacion img correcta
     data->mlx_data->redraw = 1;
-	mlx_key_hook(data->mlx_data->win_ptr, key_hook, &data); // Manejar eventos de teclado
-	mlx_loop_hook(data->mlx_data->mlx_ptr, game_loop, &data); // Vincular el bucle principal
+	mlx_key_hook(data->mlx_data->win_ptr, key_hook, data); // Manejar eventos de teclado
+	mlx_loop_hook(data->mlx_data->mlx_ptr, game_loop, data); // Vincular el bucle principal
 }
 
 void	init_map(t_map *map_data)
@@ -87,7 +89,6 @@ int main(int ac, char **av)
 
 	// DRAW MAP
 	init_mlx(data);
-	draw_map(data->ray_data, data);
     mlx_loop(data->mlx_data->mlx_ptr);
 	return (free_data(data), EXIT_SUCCESS);
 }

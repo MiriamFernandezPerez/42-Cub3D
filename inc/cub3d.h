@@ -6,7 +6,7 @@
 /*   By: mirifern <mirifern@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 21:08:03 by mirifern          #+#    #+#             */
-/*   Updated: 2025/01/26 17:15:21 by igarcia2         ###   ########.fr       */
+/*   Updated: 2025/01/26 21:43:41 by igarcia2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,13 +29,14 @@
 # endif
 
 /*Constants*/
-# define WIDTH 2560
-# define HEIGHT 1440
+# define WIDTH 2000
+# define HEIGHT 1000
 # define TILE_SIZE 64
 # define FOV 60
 
 /*Keys*/
 # define ESC 65307
+# define ENTER 65293
 # define W 119
 # define A 97
 # define S 115
@@ -107,8 +108,10 @@ typedef struct s_map
 	char		*south_texture_path;
 	char		*east_texture_path;
 	char		*west_texture_path;
-	char		*floor;
 	char		*ceiling;
+	char		*floor;
+	int			ceiling_color;
+	int			floor_color;
 	char		**next_map;
 }	t_map;
 
@@ -121,7 +124,8 @@ typedef struct	s_raycast
 	int		vert_hit[2];
 	double	shortest_distance;
 	double	corrected_distance;
-	int		projected_slice_height;
+	int		wall_height;
+	int		wall_y;
 }	t_raycast;
 
 /*Mlx*/
@@ -170,13 +174,14 @@ void	destroy_mlx(t_data *data);
 /*utils.c*/
 void	malloc_protection(void *ptr, t_data *data);
 double	deg_to_rad(double degrees);
+double	normalize_angle(double angle);
 
 /*test_utils.c*/
 void	print_str_array(char **str_array);
 void	init_map_test(t_map *map, t_data *data);
 
 /*draw_map.c*/
-void	draw_map(t_raycast *ray_data, t_data *data);
+void	draw_map(t_raycast *ray_data, char *img_addr, t_data *data);
 
 /*hit_wall.c*/
 void vert_wall_hit(double alpha, t_player *player, t_data *data);
@@ -185,6 +190,7 @@ void horz_wall_hit(double alpha, t_player *player, t_data *data);
 /*mlx.c*/
 int	game_loop(t_data *data);
 int	key_hook(int keycode, t_data *data);
+void	print_pixel(int x, int y, int color, t_mlx *mlx_data, char *img_addr);
 
 #endif
 

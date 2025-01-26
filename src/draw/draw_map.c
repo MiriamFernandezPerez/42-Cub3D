@@ -6,20 +6,11 @@
 /*   By: igarcia2 <igarcia2@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 15:27:13 by igarcia2          #+#    #+#             */
-/*   Updated: 2025/01/26 17:18:21 by igarcia2         ###   ########.fr       */
+/*   Updated: 2025/01/26 21:37:50 by igarcia2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/cub3d.h"
-
-double	normalize_angle(double angle)
-{
-	if (angle < 0)
-		angle = 360 + angle;
-	if (angle > 359)
-		angle = angle - 360;
-	return (angle);
-}
 
 void	calculate_corrected_distance(double alpha, t_data *data)
 {
@@ -60,21 +51,48 @@ void	find_shortest_hit_distance(t_player *player, t_raycast *ray_data)
 	printf("horz_distance: %f\n", horz_distance);
 	printf("vert_distance: %f\n", vert_distance);
 	printf("shortest_distance: %f\n", ray_data->shortest_distance);
+	printf("distance_pp: %d\n", (int)ray_data->distance_pp);
 }
 
-void	draw_map(t_raycast *ray_data, t_data *data)
+void	render_column(int x, char *img_addr, t_data *data)
 {
-	int i;
+	int	y;
+
+	y = 0;
+	while (y < HEIGHT)
+	{
+		if (data->ray_data->wall_height >= HEIGHT)
+			print_pixel(x, y, 0xA95C4C, data->mlx_data, img_addr);
+		else
+		{
+			if (y < data->ray_data->wall_y)
+				print_pixel(x, y, data->map_data->ceiling_color, data->mlx_data, img_addr);
+			else if (y >= data->ray_data->wall_y
+					&& y <= data->ray_data->wall_y + data->ray_data->wall_height)
+				print_pixel(x, y, 0xA95C4C, data->mlx_data, img_addr);
+			else
+				print_pixel(x, y, data->map_data->floor_color, data->mlx_data, img_addr);
+		}
+		y++;
+	}
+	//eliminar?
+	data->ray_data->wall_y = 0;
+}
+
+void	draw_map(t_raycast *ray_data, char *img_addr, t_data *data)
+{
+	int x;
 	double alpha;
 
-	i = 0;
+	x = 0;
 	alpha = data->player->angle + FOV / 2;
+	printf("Alpha: %f\n", alpha);
 	alpha = normalize_angle(alpha);
 	/*Raycasting*/
 
 	// Primer angulo pixel 0 (pj angle + 30)
 	// Bucle all pixels WIDTH
-	while (i < WIDTH)
+	while (x < WIDTH)
 	{
 		printf("---PRINTANDO ALPHA %f---\n", alpha);
 		horz_wall_hit(alpha, data->player, data);
@@ -84,16 +102,17 @@ void	draw_map(t_raycast *ray_data, t_data *data)
 		// Calcular distancia real (sin distorsion)
 		calculate_corrected_distance(alpha, data);
 		//Calculate projection_slice_height
-		ray_data->projected_slice_height = ceil(TILE_SIZE
-				/ ray_data->corrected_distance * ray_data->distance_pp);
-		printf("projected_slice_height: %d\n", ray_data->projected_slice_height);
+		ray_data->wall_height = ceil((TILE_SIZE * (ray_data->distance_pp / 2)) / ray_data->corrected_distance);
+		if (ray_data->wall_height < HEIGHT)
+			ray_data->wall_y = HEIGHT / 2 - ray_data->wall_height / 2;
+		printf("wall_height: %d\n", ray_data->wall_height);
 
 		// Printar column
-
+		render_column(x, img_addr, data);	
 		// Restar decremento angulo (izq a derecha resta)
 		alpha -= ray_data->angle_increment;
 		alpha = normalize_angle(alpha);
-		i++;
+		x++;
 		printf("--------------------\n");
 	}
 }
