@@ -6,7 +6,7 @@
 /*   By: igarcia2 <igarcia2@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 15:32:12 by igarcia2          #+#    #+#             */
-/*   Updated: 2025/01/22 16:46:42 by igarcia2         ###   ########.fr       */
+/*   Updated: 2025/01/26 01:22:11 by igarcia2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ void free_map(t_map *map_data)
 }
 
 // Releases all the data necessary to finalize the program execution
-void free_data(t_data *data)
+void	free_data(t_data *data)
 {
 	if (data)
 	{
@@ -69,6 +69,8 @@ void free_data(t_data *data)
 			free_str_array(&data->cub_file);
 		if (data->player)
 			free(data->player);
+		if (data->screen)
+			free(data->screen);
 		free(data);
 	}
 }

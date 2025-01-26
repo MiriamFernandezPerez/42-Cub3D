@@ -6,7 +6,7 @@
 /*   By: igarcia2 <igarcia2@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 15:27:13 by igarcia2          #+#    #+#             */
-/*   Updated: 2025/01/25 23:18:48 by igarcia2         ###   ########.fr       */
+/*   Updated: 2025/01/26 00:33:06 by igarcia2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,12 +79,14 @@ void	draw_map(t_raycast *ray_data, t_data *data)
 		printf("---PRINTANDO ALPHA %f---\n", alpha);
 		horz_wall_hit(alpha, data->player, data);
 		vert_wall_hit(alpha, data->player, data);
-
 		// Calcular distancia
 		find_shortest_hit_distance(data->player, data->ray_data);
-
 		// Calcular distancia real (sin distorsion)
 		calculate_corrected_distance(alpha, data);
+		//Calculate projection_slice_height
+		ray_data->projected_slice_height = ceil(TILE_SIZE
+				/ ray_data->corrected_distance * ray_data->distance_pp);
+		printf("projected_slice_height: %d\n", ray_data->projected_slice_height);
 
 		// Printar cielo
 		// Printar muro
