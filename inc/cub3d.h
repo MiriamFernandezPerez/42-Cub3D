@@ -29,8 +29,8 @@
 # endif
 
 /*Constants*/
-# define WIDTH 2000
-# define HEIGHT 1000
+# define WIDTH 1000
+# define HEIGHT 500
 # define TILE_SIZE 64
 # define FOV 60
 
@@ -191,6 +191,10 @@ void horz_wall_hit(double alpha, t_player *player, t_data *data);
 int	game_loop(t_data *data);
 int	key_hook(int keycode, t_data *data);
 void	print_pixel(int x, int y, int color, t_mlx *mlx_data, char *img_addr);
+
+/*mlx_utils.c*/
+void	print_nbr(t_mlx *mlx_data, int x, int y, int nbr);
+void	print_str(t_mlx *mlx_data, int x, int y, char *str);
 
 #endif
 

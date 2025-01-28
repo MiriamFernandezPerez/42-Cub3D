@@ -23,7 +23,7 @@ LIBFT = src/libft/libft.a
 LIBFT_DIR = src/libft/
 
 LIBMLX = minilibx-linux/libmlx.a
-LIBMLX_FLAGS = -Lmlx_linux -L/usr/lib -Imlx_linux -lXext -lX11 -lm -lz 
+LIBMLX_FLAGS = -Lmlx_linux -Lmlx_Linux -L/usr/lib -Imlx_linux -lXext -lX11 -lm -lz -L/usr/lib/x86_64-linux-gnu 
 LIBMLX_DIR = minilibx-linux/
 
 OBJ_DIR = bin/
@@ -101,7 +101,7 @@ $(OBJ_DIR)%.o: $(SRC_DIR)%.c Makefile | create_obj_dirs
 $(NAME): $(OBJ_DIR) $(OBJ)
 		@echo ""
 		@$(call SHOW_MESSAGE, $(YELLOW)$(INFO), " LINKING CUB3D...")
-		@$(CC) -o $(NAME) $(OBJ) $(LIBFT) $(LIBMLX) $(LIBMLX_FLAGS) -g -fsanitize=address -fsanitize=leak
+		@$(CC) -I/usr/include -o $(NAME) $(OBJ) $(LIBFT) $(LIBMLX) $(LIBMLX_FLAGS) -g -fsanitize=address -fsanitize=leak
 		@$(call SHOW_MESSAGE, $(GREEN)$(CHECKMARK), " CUB3D DONE!")
 
 $(OBJ_DIR): Makefile $(LIBFT)

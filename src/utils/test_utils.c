@@ -18,9 +18,9 @@ void	init_map_test(t_map	*map_data, t_data *data)
 	map_data->map = malloc(sizeof(char *) * (5 + 1));
 	map_data->map[5] = NULL;
 	map_data->map[0] = ft_strdup("111111111111111");
-	map_data->map[1] = ft_strdup("100000000000111");
-	map_data->map[2] = ft_strdup("1000000000N0011");
-	map_data->map[3] = ft_strdup("100100000000001");
+	map_data->map[1] = ft_strdup("100000000000001");
+	map_data->map[2] = ft_strdup("1000000000N0001");
+	map_data->map[3] = ft_strdup("100000000000001");
 	map_data->map[4] = ft_strdup("111111111111111");
 	map_data->max_height = 5;
 	map_data->max_width = 15;
@@ -31,7 +31,7 @@ void	init_map_test(t_map	*map_data, t_data *data)
 	map_data->floor_color = 0xBBEFA8;
 	map_data->ceiling_color = 0x8BDDE;
 	data->player = malloc(sizeof(t_player));
-	data->player->angle = 180;
+	data->player->angle = 236;
 	data->player->pos[X] = 544;	
 	data->player->pos[Y] = 160;
 	map_data->next_map = NULL;

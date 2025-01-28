@@ -26,6 +26,9 @@ int	game_loop(t_data *data)
 
 		//2. Dibujar en la imagen
 		draw_map(data->ray_data, new_img_addr, data);
+
+		
+	
 		data->mlx_data->redraw = 0;
 
 		// 3. Proyectar la nueva imagen en la ventana
@@ -39,8 +42,32 @@ int	game_loop(t_data *data)
 		// 5. Actualizar el puntero de la imagen actual
 		data->mlx_data->img_ptr = new_img_ptr;
 		data->mlx_data->img_addr = new_img_addr;
+
+		//TEST
+		print_str(data->mlx_data, 10, 10, "Angle: ");
+		print_nbr(data->mlx_data, 60, 10, data->player->angle);
+		print_str(data->mlx_data, 10, 30, "Player[X]: ");
+		print_nbr(data->mlx_data, 80, 30, data->player->pos[X]);
+		print_str(data->mlx_data, 10, 60, "Player[Y]: ");
+		print_nbr(data->mlx_data, 80, 60, data->player->pos[Y]);
+
 	}
 	return (0);
+}
+
+void move_player(t_player *player, double speed)
+{
+    double angle = player->angle; // Ángulo del jugador en radianes
+
+    // Calcular el desplazamiento
+    int dx = cos(deg_to_rad(angle)) * speed;
+    int dy = sin(deg_to_rad(angle)) * speed;
+
+    // Actualizar la posición del jugador
+    	player->pos[X] += dx;
+    player->pos[Y] += dy;
+
+    // Si usas un sistema de colisión, verifica que no atraviese muros aquí
 }
 
 // Evento de teclado para mover al jugador o cambiar el ángulo
@@ -57,6 +84,8 @@ int	key_hook(int keycode, t_data *data)
 		data->player->angle += 1;
 	else if (keycode == RIGHT)
 		data->player->angle -= 1;
+	else if (keycode == W)
+		move_player(data->player, 5);
 	normalize_angle(data->player->angle);
 	data->mlx_data->redraw = 1;
 	return (0);
