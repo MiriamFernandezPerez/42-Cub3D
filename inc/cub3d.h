@@ -48,17 +48,24 @@
 # define ERR_ARGS "Error\nInvalid number of arguments\n"
 # define ERR_EXT "Error\nInvalid file extension\n"
 # define ERR_MALLOC "Error\nMemory allocation failed\n"
+# define ERR_CPY "Error\nMemory error when duplicating map\n"
 # define ERR_EMPTY "Error\nFile is Empty\n"
 # define ERR_MAP "Error\nInvalid map\n"
-
+# define ERR_TXT "Error\nInvalid textures in configuration map\n"
+# define ERR_PATH "Error\nCan't open texture path\n"
+# define ERR_COLOR "Error\n.Invalid color format\n"
+# define ERR_RGB "Error\n. Invalid RGB configuration\n"
 # define ERR_FILE "Error\nInvalid file\n"
 # define ERR_OPEN "Error\nCould not open file\n"
-
+# define ERR_CONF "Error\nRequired sections missing from .cub file\n"
+# define ERR_INV_CHAR "Error\nInvalid character in map\n"
+# define ERR_PLAYER "Error\nMap must have only one player\n"
+# define ERR_BORDER "Error\nThe map must be closed/surrounded by walls\n"
 # define ERR_MLX_INIT "Error\nmlx : initialization failed\n"
 # define ERR_MLX_WIN "Error\nmlx : window creation failed\n"
 # define ERR_MLX_IMG "Error\nmlx : image creation failed\n"
 
-# define ERR_PLAYER "Error\nInvalid player\n"
+
 # define ERR_MAP_CHAR "Error\nInvalid map character\n"
 # define ERR_MAP_BORDER "Error\nMap is not closed\n"
 # define ERR_MAP_PLAYER "Error\nPlayer is not in the map\n"

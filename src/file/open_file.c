@@ -12,66 +12,283 @@
 
 #include "../../inc/cub3d.h"
 
-int check_texture_file(char *path)
+int	only_spaces(const char *str)
 {
-	int	fd;
-	fd = open(path, O_RDONLY);
-	if (fd == -1)
-		return (ft_perror(path), EXIT_FAILURE);
-	return (EXIT_SUCCESS);
-}
+	int	i;
 
-char	*find_path(t_data *data, char *line, int j)
-{
-	int		start;
-	int 	len;
-	char	*path;
-
-	while (ft_isspace(line[j]))
-		j++;
-	start = j;
-	while (!ft_isspace(line[j]) || line[j] != '\n')
-		j++;
-	len = ft_strlen(line) - start - 1;
-	path = ft_substr(line, start, len);
-	printf("%s\n", path);
-	if (check_texture_file(path) == 0)
-		return (path);
-	else
+	i = 0;
+	while (str[i])
 	{
-		free_data(data);
-		exit(EXIT_FAILURE);
+		if (!ft_isspace(str[i]))
+			return (0);
+		i++;
 	}
+	return (1);
 }
 
-void	check_cube_file(t_data *data, char **cub_file, int i, int j)
+char	**ft_array_cpy(char **array, t_data *data)
 {
-	while (cub_file[i])
+	int		i;
+	int		length;
+	char	**duplicate;
+
+	i = 0;
+	length = 0;
+	while (array[length])
+		length++;
+	duplicate = malloc(sizeof(char *) * (length + 1));
+	malloc_protection(duplicate, data);
+	while (i < length)
+	{
+		duplicate[i] = ft_strdup(array[i]);
+		if (!duplicate[i])
+		{
+			while (i > 0)
+				free(duplicate[--i]);
+			free(duplicate);
+			ft_error_exit("ERR_CPY", data);
+		}
+		i++;
+	}
+	duplicate[i] = NULL;
+	return (duplicate);
+}
+
+void	validate_map_border(t_data *data, char **map)
+{
+	int i;
+	int	j;
+
+	i = 0;
+	while (map[i])
 	{
 		j = 0;
-		while (ft_isspace(cub_file[i][j]))
+		while (map[i][j])
+		{
+			if (map[i][j] == ' ' || map[i][j] == '0')
+			{
+				if (i == 0 || j == 0 || !map[i + 1] || !map[i][j + 1] ||
+					map[i - 1][j] == ' ' || map[i + 1][j] == ' ' ||
+					map[i][j - 1] == ' ' || map[i][j + 1] == ' ')
+					ft_error_exit(ERR_BORDER, data);
+			}
 			j++;
-		if (ft_strncmp(&cub_file[i][j], "NO", 2) == 0)
-	       	data->map_data->north_texture_path = find_path(data, cub_file[i], j + 2);
-	    else if (ft_strncmp(&cub_file[i][j], "SO", 2) == 0)
-            data->map_data->south_texture_path = find_path(data, cub_file[i], j + 2);
-        else if (ft_strncmp(&cub_file[i][j], "WE", 2) == 0)
-            data->map_data->west_texture_path = find_path(data, cub_file[i], j + 2);
-        else if (ft_strncmp(&cub_file[i][j], "EA", 2) == 0)
-            data->map_data->east_texture_path = find_path(data, cub_file[i], j + 2);
-        else if (ft_strncmp(&cub_file[i][j], "F", 1) == 0)
-            data->map_data->floor = find_path(data, cub_file[i], j + 1);
-        else if (ft_strncmp(&cub_file[i][j], "C", 1) == 0)
-            data->map_data->floor = find_path(data, cub_file[i], j + 1);
-        /*else if (ft_strncmp(&cub_file[i][j], "X", 1) == 0)
-            data->map_data->next_map = find_path(data, cub_file[i], j + 1);*/
+		}
 		i++;
 	}
 }
 
+void	validate_map(t_data *data, char **map)
+{
+	int	i;
+	int	j;
+	int	player_qt;
+
+	i = 0;
+	player_qt = 0;
+	while (map[i])
+	{
+		j = 0;
+		while (map[i][j])
+		{
+			if (ft_strchr("NSWE", map[i][j]))
+				player_qt++;
+			//TODO CHECKEAR EL RESTO DEL MAPA, NO POR CONJUNTO DE CARACTERES
+			/*else if (!ft_strchr("01", map[i][j]))
+			{
+				printf("XXX\n");
+				ft_error_exit(ERR_INV_CHAR, data);
+			}*/
+			j++;
+		}
+		i++;
+	}
+	if (player_qt != 1)
+		ft_error_exit("ERR_PLAYER", data);
+	validate_map_border(data, map);
+}
+
+void parse_map(t_data *data, char **map_line)
+{
+	data->map_data->map = ft_array_cpy(map_line, data);
+	validate_map(data, data->map_data->map);
+}
+
+void	validate_conf_textures(t_data *data)
+{
+	printf("1 - %s\n2 - %s\n3 - %s\n4 - %s\n5 - %s\n6 - %s\n", data->map_data->north_texture_path, data->map_data->south_texture_path, data->map_data->west_texture_path, data->map_data->east_texture_path, data->map_data->floor, data->map_data->ceiling);
+	if (!data->map_data->north_texture_path || !data->map_data->south_texture_path || !data->map_data->west_texture_path || !data->map_data->east_texture_path || !data->map_data->floor || !data->map_data->ceiling)
+		ft_error_exit(ERR_CONF, data);
+}
+
+int	check_rgb_array(char **rgb)
+{
+	int count;
+
+	count = 0;
+	while (rgb[count])
+		count++;
+	return (count);
+}
+
+char	*parse_color(char *line, t_data *data)
+{
+	char	**rgb;
+	int		r;
+	int		g;
+	int		b;
+
+	rgb = ft_split(line, ',');
+	if (!rgb || check_rgb_array(rgb) != 3)
+		ft_error_exit(ERR_COLOR, data);
+	r = ft_atoi(rgb[0]);
+	g = ft_atoi(rgb[1]);
+	b = ft_atoi(rgb[2]);
+	free_str_array(&rgb);
+	if (r < 0 || r > 255 || g < 0 || g > 255 || b < 0 || b > 255)
+		ft_error_exit(ERR_RGB, data);
+	return (ft_strdup(line));
+}
+
+int	check_rgb(char *path, int *i)
+{
+	int	num;
+
+	num = 0;
+	while (path[*i] != '\0' && path[*i] != ',')
+	{
+		if (!ft_isdigit(path[*i]))
+			return (0);
+		num = num * 10 + (path[*i] - '0');
+		(*i)++;
+	}
+	if (num < 0 || num > 255)
+		return (0);
+	return (num);
+}
+
+unsigned int	rgb_to_hex(char *path)
+{
+	int	r;
+	int	g;
+	int	b;
+	int	i;
+
+	i = 0;
+	r = check_rgb(path, &i);
+	if (r < 0 || r > 255 || path[i] != ',')
+		return (0);
+	i++;
+	g = check_rgb(path, &i);
+	if (r < 0 || r > 255 || path[i] != ',')
+		return (0);
+	i++;
+	b = check_rgb(path, &i);
+	if (r < 0 || r > 255 || path[i] != '\0')
+		return (0);
+	return ((r << 16) | (g << 8) | b);
+}
+
+void	check_color_or_texture(t_data *data, char *path, char id)
+{
+	int				fd;
+	unsigned int	color;
+
+	if (ft_strchr(path, ','))
+	{
+		color = rgb_to_hex(path);
+		if (color == 0)
+		{
+			printf("x\n");
+			ft_error_exit(ERR_COLOR, data);
+		}
+		if (id == 'F')
+			data->map_data->floor_color = rgb_to_hex(path);
+		else if (id == 'C')
+			data->map_data->ceiling_color = rgb_to_hex(path);
+	}
+	else
+	{
+		fd = open(path, O_RDONLY);
+		if (fd == -1)
+			ft_error_exit(ERR_PATH, data);
+		data->map_data->floor_color = -1;
+		data->map_data->ceiling_color = -1;
+	}
+}
+
+char	*parse_path(char *line, t_data *data, char id)
+{
+	char	*path;
+	int		fd;
+
+	path = ft_strtrim(line, " \t");
+	if (!path || ft_strchr(path, ' '))
+	{
+		printf("Error: Path contains extra spaces.\n");
+		ft_error_exit(ERR_TXT, data);
+	}
+	if (id == 'N' || id == 'S' || id == 'W' || id == 'E')
+	{
+		fd = open(path, O_RDONLY);
+		if (fd == -1)
+		{
+			printf("Error: Unable to open file %s.\n", path);
+			ft_error_exit(ERR_PATH, data);
+		}
+		close(fd);
+	}
+	else if (id == 'F' || id == 'C')
+		check_color_or_texture(data, path, id);
+	return path;
+}
+
+void	parse_line(t_data *data, char *line)
+{
+	char	*trim_line;
+
+	if (ft_strlen(line) == 0 || only_spaces(line))
+		return;
+	trim_line = ft_strtrim(line, "\t\n");
+	if (ft_strncmp(trim_line, "NO ", 3) == 0)
+		data->map_data->north_texture_path = parse_path(trim_line + 3, data, 'N');
+	else if (ft_strncmp(trim_line, "SO ", 3) == 0)
+		data->map_data->south_texture_path = parse_path(trim_line + 3, data, 'S');
+	else if (ft_strncmp(trim_line, "WE ", 3) == 0)
+		data->map_data->west_texture_path = parse_path(trim_line + 3, data, 'W');
+	else if (ft_strncmp(trim_line, "EA ", 3) == 0)
+		data->map_data->east_texture_path = parse_path(trim_line + 3, data, 'E');
+	else if (ft_strncmp(trim_line, "F ", 2) == 0)
+		data->map_data->floor = parse_path(trim_line + 2, data, 'F');
+	else if (ft_strncmp(trim_line, "C ", 2) == 0)
+		data->map_data->ceiling = parse_path(trim_line + 2, data, 'C');
+	/*else
+		ft_error_exit(ERR_TXT, data);*/
+	free(trim_line);
+}
+
+void	parse_cub_file(t_data *data, char **cub_file)
+{
+	int	i;
+
+	i = 0;
+	while (cub_file[i] && !ft_isdigit(cub_file[i][0]))
+	{
+		if (ft_strlen(cub_file[i]) == 0 || only_spaces(cub_file[i]))
+			i++;
+		else
+			parse_line(data, cub_file[i++]);
+	}
+	validate_conf_textures(data);
+	printf("DEBUG: Raw map data:\n");
+	for (int j = i; cub_file[j]; j++)
+		printf("%s\n", cub_file[j]);
+	parse_map(data, cub_file + i);
+}
+
 int	read_file(int fd, t_data *data)
 {
-	char *line;
+	char	*line;
 
 	line = get_next_line(fd);
 	while (line)
@@ -88,16 +305,15 @@ int	read_file(int fd, t_data *data)
 	return (EXIT_SUCCESS);
 }
 
-//Opens file from path
 int	open_file(char *path, t_data *data)
 {
 	int	fd;
-	
+
 	fd = open(path, O_RDONLY);
 	if (fd == -1)
 		return (ft_perror(path), EXIT_FAILURE);
 	if (read_file(fd, data) == EXIT_FAILURE)
 		return (ft_perror(path), EXIT_FAILURE);
-	check_cube_file(data, data->cub_file, 0, 0);
+	parse_cub_file(data, data->cub_file);
 	return (EXIT_SUCCESS);
 }
