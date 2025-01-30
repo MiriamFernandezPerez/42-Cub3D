@@ -65,10 +65,11 @@ void	validate_map_border(t_data *data, char **map)
 		j = 0;
 		while (map[i][j])
 		{
-			if (map[i][j] == ' ' || map[i][j] == '0')
+			if (map[i][j] == '0' || ft_strchr("NSWE", map[i][j]))
 			{
-				if (i == 0 || j == 0 || !map[i + 1] || !map[i][j + 1] ||
-					map[i - 1][j] == ' ' || map[i + 1][j] == ' ' ||
+				if (i == 0 || j == 0 || !map[i + 1] || !map[i][j + 1])
+					ft_error_exit(ERR_BORDER, data);
+				if (map[i - 1][j] == ' ' || map[i + 1][j] == ' ' ||
 					map[i][j - 1] == ' ' || map[i][j + 1] == ' ')
 					ft_error_exit(ERR_BORDER, data);
 			}
@@ -78,46 +79,80 @@ void	validate_map_border(t_data *data, char **map)
 	}
 }
 
+int	calulate_angle(char **map, int x, int y)
+{
+	if (map[x][y] == 'N')
+		return (90);
+	else if (map[x][y] == 'S')
+		return (270);
+	else if (map[x][y] == 'E')
+		return (0);
+	else if (map[x][y] == 'W')
+		return (180); 
+	return (-1);
+}
+
+int	check_player(t_data *data, int i, int j)
+{
+	if (ft_strchr("NSWE", data->map_data->map[i][j]))
+	{
+		data->player->pos[0] = i;
+		data->player->pos[1] = j;
+		data->player->angle = calulate_angle(data->map_data->map, i, j);
+		return (1);
+	}
+	return (0);
+}
+
 void	validate_map(t_data *data, char **map)
 {
 	int	i;
 	int	j;
 	int	player_qt;
+	int max_j;
 
 	i = 0;
 	player_qt = 0;
+	max_j = 0;
 	while (map[i])
 	{
 		j = 0;
 		while (map[i][j])
 		{
-			if (ft_strchr("NSWE", map[i][j]))
+			if (check_player(data, i, j) == 1)
 				player_qt++;
-			//TODO CHECKEAR EL RESTO DEL MAPA, NO POR CONJUNTO DE CARACTERES
-			/*else if (!ft_strchr("01", map[i][j]))
-			{
-				printf("XXX\n");
+			else if (!ft_strchr("01 ", map[i][j]))
 				ft_error_exit(ERR_INV_CHAR, data);
-			}*/
+			
 			j++;
+			if (max_j < j)
+				max_j = j;
 		}
 		i++;
 	}
-	if (player_qt != 1 || player_qt == 0)
-		ft_error_exit("ERR_PLAYER", data);
+	if (player_qt != 1)
+		ft_error_exit(ERR_PLAYER, data);
 	validate_map_border(data, map);
+	data->map_data->max_width = i;
+	data->map_data->max_height = max_j;
 }
 
 void	parse_map(t_data *data, char **map_line)
 {
-	int	i;
+	int		i;
+	char	*map_line_trimmed;
 
 	i = 0;
 	while(map_line[i])
 	{
-		data->map_data->map = add_to_array(&data->map_data->map, map_line[i]);
+		map_line_trimmed = ft_strtrim(map_line[i], "\n");
+		data->map_data->map = add_to_array(&data->map_data->map, map_line_trimmed);
 		i++;
+		free(map_line_trimmed);
 	}
+	/*printf("map data array:\n");
+	for (int i = 0; data->map_data->map[i] != NULL; i++)
+		printf("%s\n", data->map_data->map[i]);*/
 	validate_map(data, data->map_data->map);
 }
 
@@ -207,6 +242,7 @@ void	check_color_or_texture(t_data *data, char *path, char id)
 	int				fd;
 	unsigned int	color;
 
+	color = 0;
 	if (ft_strchr(path, ','))
 	{
 		color = rgb_to_hex(path);
@@ -216,8 +252,8 @@ void	check_color_or_texture(t_data *data, char *path, char id)
 			data->map_data->floor_color = rgb_to_hex(path);
 		else if (id == 'C')
 			data->map_data->ceiling_color = rgb_to_hex(path);
-		printf("HEX:'0x%06X'\n", data->map_data->floor_color);
-		printf("HEX:'0x%06X'\n", data->map_data->ceiling_color);
+		//printf("HEX:'0x%06X'\n", data->map_data->floor_color);
+		//printf("HEX:'0x%06X'\n", data->map_data->ceiling_color);
 	}
 	else
 	{
@@ -258,7 +294,7 @@ char	*parse_path(char *line, t_data *data, char id)
 	return (path);
 }
 
-void	parse_line(t_data *data, char *line)
+int	parse_line(t_data *data, char *line)
 {
 	char	*trim_line;
 
@@ -277,7 +313,9 @@ void	parse_line(t_data *data, char *line)
 		data->map_data->ceiling = parse_path(trim_line + 2, data, 'C');
 	else if (ft_strncmp(trim_line, "X ", 2) == 0)
 		data->map_data->next_map = parse_path(trim_line + 2, data, 'X');
-	free(trim_line);
+	else
+		return (free(trim_line), 1);
+	return (free(trim_line), 0);
 }
 
 void	parse_cub_file(t_data *data, char **cub_file)
@@ -290,12 +328,15 @@ void	parse_cub_file(t_data *data, char **cub_file)
 		if (ft_strlen(cub_file[i]) == 0 || only_spaces(cub_file[i]))
 			i++;
 		else
-			parse_line(data, cub_file[i++]);
+		{
+			if (parse_line(data, cub_file[i++]) == 1)
+			{
+				i--;
+				break ;
+			}
+		}
 	}
 	validate_conf_textures(data);
-	printf("DEBUG: Raw map data:\n");
-	//for (int j = i; cub_file[j]; j++)
-	//	printf("%s", cub_file[j]);
 	parse_map(data, cub_file + i);
 }
 

@@ -34,12 +34,16 @@ void	init_mlx(t_data *data)
 void	init_map(t_map *map_data)
 {
 	map_data->map = NULL;
+	map_data->max_height = 0;
+	map_data->max_width = 0;
 	map_data->north_texture_path = NULL;
 	map_data->south_texture_path = NULL;
 	map_data->east_texture_path = NULL;
 	map_data->west_texture_path = NULL;
 	map_data->floor = NULL;
 	map_data->ceiling = NULL;
+	map_data->ceiling_color = 0;
+	map_data->floor_color = 0;
 	map_data->next_map = NULL;
 }
 
@@ -51,7 +55,8 @@ void	init_data(t_data **data)
 	(*data)->map_data = NULL;
 	(*data)->ray_data = NULL;
 	(*data)->mlx_data = NULL;
-	(*data)->player = NULL;
+	(*data)->player = (t_player *)malloc(sizeof(t_player));
+	malloc_protection((*data)->player, *data);
 	(*data)->cub_file = NULL;
 	(*data)->ray_data = malloc(sizeof(t_raycast));
 	malloc_protection((*data)->ray_data, *data);
@@ -83,9 +88,9 @@ int main(int ac, char **av)
 	// PARSE MAP
 
 	init_data(&data);
-	//if (open_file(av[1], data) == EXIT_FAILURE)
-		//return (free_data(data), EXIT_FAILURE);
-	init_map_test(data->map_data, data);
+	if (open_file(av[1], data) == EXIT_FAILURE)
+		return (free_data(data), EXIT_FAILURE);
+	//init_map_test(data->map_data, data);
 
 	// DRAW MAP
 	init_mlx(data);
