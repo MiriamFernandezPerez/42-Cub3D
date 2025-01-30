@@ -53,6 +53,8 @@
 # define ERR_MAP "Error\nInvalid map\n"
 # define ERR_TXT "Error\nInvalid textures in configuration map\n"
 # define ERR_PATH "Error\nCan't open texture path\n"
+# define ERR_NEXT "Error\nNext map file is not a .cub file\n"
+# define ERR_OPEN_NEXT "Error\nCan't open next_map file\n"
 # define ERR_COLOR "Error\n.Invalid color format\n"
 # define ERR_RGB "Error\n. Invalid RGB configuration\n"
 # define ERR_FILE "Error\nInvalid file\n"
@@ -119,7 +121,7 @@ typedef struct s_map
 	char		*floor;
 	int			ceiling_color;
 	int			floor_color;
-	char		**next_map;
+	char		*next_map;
 }	t_map;
 
 /*Raycasting data*/

@@ -123,13 +123,15 @@ void	parse_map(t_data *data, char **map_line)
 
 void	validate_conf_textures(t_data *data)
 {
-	printf("1 - '%s'\n2 - '%s'\n3 - '%s'\n4 - '%s'\n5 - '%s'\n6 - '%s'\n", data->map_data->north_texture_path, data->map_data->south_texture_path, data->map_data->west_texture_path, data->map_data->east_texture_path, data->map_data->floor, data->map_data->ceiling);
 	if (!data->map_data->north_texture_path
 		|| !data->map_data->south_texture_path
 		|| !data->map_data->west_texture_path
 		|| !data->map_data->east_texture_path
 		|| !data->map_data->floor || !data->map_data->ceiling)
 		ft_error_exit(ERR_CONF, data);
+	printf("1 - '%s'\n2 - '%s'\n3 - '%s'\n4 - '%s'\n5 - '%s'\n6 - '%s'\n", data->map_data->north_texture_path, data->map_data->south_texture_path, data->map_data->west_texture_path, data->map_data->east_texture_path, data->map_data->floor, data->map_data->ceiling);
+	if (data->map_data->next_map)
+		printf("7 - '%s'\n", data->map_data->next_map);
 }
 
 int	check_rgb_array(char **rgb)
@@ -244,6 +246,15 @@ char	*parse_path(char *line, t_data *data, char id)
 	}
 	else if (id == 'F' || id == 'C')
 		check_color_or_texture(data, path, id);
+	if (id == 'X')
+	{
+		if (ft_strncmp(path + ft_strlen(path) - 4, ".cub", 4))
+			ft_error_exit(ERR_NEXT, data);
+		fd = open(path, O_RDONLY);
+		if (fd == -1)
+			ft_error_exit(ERR_OPEN_NEXT, data);
+		close(fd);
+	}
 	return (path);
 }
 
@@ -251,8 +262,6 @@ void	parse_line(t_data *data, char *line)
 {
 	char	*trim_line;
 
-	if (ft_strlen(line) == 0 || only_spaces(line))
-		return ;
 	trim_line = ft_strtrim(line, "\t\n ");
 	if (ft_strncmp(trim_line, "NO ", 3) == 0)
 		data->map_data->north_texture_path = parse_path(trim_line + 3, data, 'N');
@@ -266,6 +275,8 @@ void	parse_line(t_data *data, char *line)
 		data->map_data->floor = parse_path(trim_line + 2, data, 'F');
 	else if (ft_strncmp(trim_line, "C ", 2) == 0)
 		data->map_data->ceiling = parse_path(trim_line + 2, data, 'C');
+	else if (ft_strncmp(trim_line, "X ", 2) == 0)
+		data->map_data->next_map = parse_path(trim_line + 2, data, 'X');
 	free(trim_line);
 }
 
@@ -274,7 +285,7 @@ void	parse_cub_file(t_data *data, char **cub_file)
 	int	i;
 
 	i = 0;
-	while (cub_file[i] /*&& !ft_isdigit(cub_file[i][0])*/)
+	while (cub_file[i])
 	{
 		if (ft_strlen(cub_file[i]) == 0 || only_spaces(cub_file[i]))
 			i++;
@@ -283,8 +294,8 @@ void	parse_cub_file(t_data *data, char **cub_file)
 	}
 	validate_conf_textures(data);
 	printf("DEBUG: Raw map data:\n");
-	for (int j = i; cub_file[j]; j++)
-		printf("%s", cub_file[j]);
+	//for (int j = i; cub_file[j]; j++)
+	//	printf("%s", cub_file[j]);
 	parse_map(data, cub_file + i);
 }
 
