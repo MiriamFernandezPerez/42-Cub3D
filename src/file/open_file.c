@@ -56,7 +56,7 @@ char	**ft_array_cpy(char **array, t_data *data)
 
 void	validate_map_border(t_data *data, char **map)
 {
-	int i;
+	int	i;
 	int	j;
 
 	i = 0;
@@ -103,27 +103,38 @@ void	validate_map(t_data *data, char **map)
 		}
 		i++;
 	}
-	if (player_qt != 1)
+	if (player_qt != 1 || player_qt == 0)
 		ft_error_exit("ERR_PLAYER", data);
 	validate_map_border(data, map);
 }
 
-void parse_map(t_data *data, char **map_line)
+void	parse_map(t_data *data, char **map_line)
 {
-	data->map_data->map = ft_array_cpy(map_line, data);
+	int	i;
+
+	i = 0;
+	while(map_line[i])
+	{
+		data->map_data->map = add_to_array(&data->map_data->map, map_line[i]);
+		i++;
+	}
 	validate_map(data, data->map_data->map);
 }
 
 void	validate_conf_textures(t_data *data)
 {
-	printf("1 - %s\n2 - %s\n3 - %s\n4 - %s\n5 - %s\n6 - %s\n", data->map_data->north_texture_path, data->map_data->south_texture_path, data->map_data->west_texture_path, data->map_data->east_texture_path, data->map_data->floor, data->map_data->ceiling);
-	if (!data->map_data->north_texture_path || !data->map_data->south_texture_path || !data->map_data->west_texture_path || !data->map_data->east_texture_path || !data->map_data->floor || !data->map_data->ceiling)
+	printf("1 - '%s'\n2 - '%s'\n3 - '%s'\n4 - '%s'\n5 - '%s'\n6 - '%s'\n", data->map_data->north_texture_path, data->map_data->south_texture_path, data->map_data->west_texture_path, data->map_data->east_texture_path, data->map_data->floor, data->map_data->ceiling);
+	if (!data->map_data->north_texture_path
+		|| !data->map_data->south_texture_path
+		|| !data->map_data->west_texture_path
+		|| !data->map_data->east_texture_path
+		|| !data->map_data->floor || !data->map_data->ceiling)
 		ft_error_exit(ERR_CONF, data);
 }
 
 int	check_rgb_array(char **rgb)
 {
-	int count;
+	int	count;
 
 	count = 0;
 	while (rgb[count])
@@ -198,14 +209,13 @@ void	check_color_or_texture(t_data *data, char *path, char id)
 	{
 		color = rgb_to_hex(path);
 		if (color == 0)
-		{
-			printf("x\n");
 			ft_error_exit(ERR_COLOR, data);
-		}
 		if (id == 'F')
 			data->map_data->floor_color = rgb_to_hex(path);
 		else if (id == 'C')
 			data->map_data->ceiling_color = rgb_to_hex(path);
+		printf("HEX:'0x%06X'\n", data->map_data->floor_color);
+		printf("HEX:'0x%06X'\n", data->map_data->ceiling_color);
 	}
 	else
 	{
@@ -224,23 +234,17 @@ char	*parse_path(char *line, t_data *data, char id)
 
 	path = ft_strtrim(line, " \t");
 	if (!path || ft_strchr(path, ' '))
-	{
-		printf("Error: Path contains extra spaces.\n");
 		ft_error_exit(ERR_TXT, data);
-	}
 	if (id == 'N' || id == 'S' || id == 'W' || id == 'E')
 	{
 		fd = open(path, O_RDONLY);
 		if (fd == -1)
-		{
-			printf("Error: Unable to open file %s.\n", path);
 			ft_error_exit(ERR_PATH, data);
-		}
 		close(fd);
 	}
 	else if (id == 'F' || id == 'C')
 		check_color_or_texture(data, path, id);
-	return path;
+	return (path);
 }
 
 void	parse_line(t_data *data, char *line)
@@ -248,8 +252,8 @@ void	parse_line(t_data *data, char *line)
 	char	*trim_line;
 
 	if (ft_strlen(line) == 0 || only_spaces(line))
-		return;
-	trim_line = ft_strtrim(line, "\t\n");
+		return ;
+	trim_line = ft_strtrim(line, "\t\n ");
 	if (ft_strncmp(trim_line, "NO ", 3) == 0)
 		data->map_data->north_texture_path = parse_path(trim_line + 3, data, 'N');
 	else if (ft_strncmp(trim_line, "SO ", 3) == 0)
@@ -262,8 +266,6 @@ void	parse_line(t_data *data, char *line)
 		data->map_data->floor = parse_path(trim_line + 2, data, 'F');
 	else if (ft_strncmp(trim_line, "C ", 2) == 0)
 		data->map_data->ceiling = parse_path(trim_line + 2, data, 'C');
-	/*else
-		ft_error_exit(ERR_TXT, data);*/
 	free(trim_line);
 }
 
@@ -272,7 +274,7 @@ void	parse_cub_file(t_data *data, char **cub_file)
 	int	i;
 
 	i = 0;
-	while (cub_file[i] && !ft_isdigit(cub_file[i][0]))
+	while (cub_file[i] /*&& !ft_isdigit(cub_file[i][0])*/)
 	{
 		if (ft_strlen(cub_file[i]) == 0 || only_spaces(cub_file[i]))
 			i++;
@@ -282,7 +284,7 @@ void	parse_cub_file(t_data *data, char **cub_file)
 	validate_conf_textures(data);
 	printf("DEBUG: Raw map data:\n");
 	for (int j = i; cub_file[j]; j++)
-		printf("%s\n", cub_file[j]);
+		printf("%s", cub_file[j]);
 	parse_map(data, cub_file + i);
 }
 
