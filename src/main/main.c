@@ -6,7 +6,7 @@
 /*   By: mirifern <mirifern@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 21:05:41 by mirifern          #+#    #+#             */
-/*   Updated: 2025/01/26 20:37:37 by igarcia2         ###   ########.fr       */
+/*   Updated: 2025/01/31 15:37:32 by igarcia2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	init_mlx(t_data *data)
 		ft_error_exit(ERR_MLX_WIN, data);
 	data->mlx_data->img_ptr = NULL;
 	data->mlx_data->img_addr = NULL;
-	//COmprovar creacion img correcta
+	//Comprovar creacion img correcta
     data->mlx_data->redraw = 1;
 	mlx_key_hook(data->mlx_data->win_ptr, key_hook, data); // Manejar eventos de teclado
 	mlx_loop_hook(data->mlx_data->mlx_ptr, game_loop, data); // Vincular el bucle principal
@@ -55,9 +55,9 @@ void	init_data(t_data **data)
 	(*data)->map_data = NULL;
 	(*data)->ray_data = NULL;
 	(*data)->mlx_data = NULL;
+	(*data)->cub_file = NULL;
 	(*data)->player = (t_player *)malloc(sizeof(t_player));
 	malloc_protection((*data)->player, *data);
-	(*data)->cub_file = NULL;
 	(*data)->ray_data = malloc(sizeof(t_raycast));
 	malloc_protection((*data)->ray_data, *data);
 	(*data)->ray_data->angle_increment = (double)FOV / (double)WIDTH;
@@ -88,12 +88,12 @@ int main(int ac, char **av)
 	// PARSE MAP
 
 	init_data(&data);
-	if (open_file(av[1], data) == EXIT_FAILURE)
-		return (free_data(data), EXIT_FAILURE);
-	//init_map_test(data->map_data, data);
+	//if (open_file(av[1], data) == EXIT_FAILURE)
+		//return (free_data(data), EXIT_FAILURE);
+	init_map_test(data->map_data, data);
 
 	// DRAW MAP
 	init_mlx(data);
     mlx_loop(data->mlx_data->mlx_ptr);
-	return (free_data(data), EXIT_SUCCESS);
+	return (0);
 }

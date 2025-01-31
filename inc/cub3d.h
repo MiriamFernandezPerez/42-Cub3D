@@ -6,7 +6,7 @@
 /*   By: mirifern <mirifern@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 21:08:03 by mirifern          #+#    #+#             */
-/*   Updated: 2025/01/26 21:43:41 by igarcia2         ###   ########.fr       */
+/*   Updated: 2025/01/31 17:24:08 by igarcia2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,8 @@
 # endif
 
 /*Constants*/
-# define WIDTH 1000
-# define HEIGHT 500
+# define WIDTH 3200
+# define HEIGHT 2000
 # define TILE_SIZE 64
 # define FOV 60
 

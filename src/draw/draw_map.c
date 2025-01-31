@@ -6,7 +6,7 @@
 /*   By: igarcia2 <igarcia2@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 15:27:13 by igarcia2          #+#    #+#             */
-/*   Updated: 2025/01/26 21:37:50 by igarcia2         ###   ########.fr       */
+/*   Updated: 2025/01/31 18:15:55 by igarcia2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,13 @@ void	calculate_corrected_distance(double alpha, t_data *data)
 
 	beta = alpha - data->player->angle;
 	beta = normalize_angle(beta);
-	printf("beta: %f\n", beta);
+	if (beta > 180)
+		beta = 360 - beta;
+	//printf("beta: %f\n", beta);
+	//printf("cos_beta: %f\n", cos(deg_to_rad(beta)));
     data->ray_data->corrected_distance =
 		data->ray_data->shortest_distance * cos(deg_to_rad(beta));
-	printf("corrected_distance: %f\n", data->ray_data->corrected_distance);
+	//printf("corrected_distance: %f\n", data->ray_data->corrected_distance);
 }
 
 void	find_shortest_hit_distance(t_player *player, t_raycast *ray_data)
@@ -102,7 +105,9 @@ void	draw_map(t_raycast *ray_data, char *img_addr, t_data *data)
 		// Calcular distancia real (sin distorsion)
 		calculate_corrected_distance(alpha, data);
 		//Calculate projection_slice_height
-		ray_data->wall_height = ceil((TILE_SIZE * (ray_data->distance_pp / 2)) / ray_data->corrected_distance);
+		ray_data->wall_height = ceil((TILE_SIZE * (ray_data->distance_pp))
+				/ ray_data->corrected_distance);
+
 		if (ray_data->wall_height < HEIGHT)
 			ray_data->wall_y = HEIGHT / 2 - ray_data->wall_height / 2;
 		printf("wall_height: %d\n", ray_data->wall_height);
