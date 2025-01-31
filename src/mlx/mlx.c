@@ -6,7 +6,7 @@
 /*   By: igarcia2 <igarcia2@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/26 16:47:55 by igarcia2          #+#    #+#             */
-/*   Updated: 2025/01/31 21:11:44 by igarcia2         ###   ########.fr       */
+/*   Updated: 2025/01/31 21:34:48 by igarcia2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,21 +55,23 @@ int	game_loop(t_data *data)
 
 void	move_player(t_player *player, double speed)
 {
-    double	angle;
+	double	angle;
 	double	dx;
 	double	dy;
 
-	angle = player->angle; // Ángulo del jugador en radianes
-    
+	angle = player->angle; // Ángulo en grados
+
 	// Calcular el desplazamiento
-    dx = cos(deg_to_rad(angle)) * speed;
-    dy = sin(deg_to_rad(angle)) * speed;
+	dx = cos(deg_to_rad(angle)) * speed;
+	dy = sin(deg_to_rad(angle)) * speed * -1;
+	dx = copysign(ceil(fabs(dx)), dx);
+	dy = copysign(ceil(fabs(dy)), dy);
 
     // Actualizar la posición del jugador
-    player->pos[X] += ceil(dx);
-    player->pos[Y] += ceil(dy * - 1);
-
+	player->pos[X] += dx;
+	player->pos[Y] += dy;
     // Si usas un sistema de colisión, verifica que no atraviese muros aquí
+
 }
 
 // Evento de teclado para mover al jugador o cambiar el ángulo
@@ -87,7 +89,7 @@ int	key_press(int keycode, t_data *data)
 		data->player->angle -= 5;
 	else if (keycode == W)
 		move_player(data->player, 5);
-	normalize_angle(data->player->angle);
+	data->player->angle = normalize_angle(data->player->angle);
 	data->mlx_data->redraw = 1;
 	return (0);
 }

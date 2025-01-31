@@ -6,7 +6,7 @@
 /*   By: igarcia2 <igarcia2@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/25 18:19:40 by igarcia2          #+#    #+#             */
-/*   Updated: 2025/01/31 20:55:32 by igarcia2         ###   ########.fr       */
+/*   Updated: 2025/01/31 22:18:32 by igarcia2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,13 +62,13 @@ void vert_wall_hit(double alpha, t_player *player, t_data *data)
 	if (alpha >= 90 && alpha <= 270)
 		// Facing left
 		// B.x = rounded_down(Px/TILE_SIZE) * TILE_SIZE - 1
-		hit[X] = (player->pos[X] / TILE_SIZE) * TILE_SIZE - 1;
+		hit[X] = floor(player->pos[X] / TILE_SIZE) * TILE_SIZE - 0.01;
 	else if (alpha == 90 || alpha == 270)
 		return ;
 	else
 		// Facing right
 		// B.x = rounded_down(Px/TILE_SIZE) * TILE_SIZE + TILE_SIZE
-		hit[X] = (player->pos[X] / TILE_SIZE) * TILE_SIZE + TILE_SIZE;
+		hit[X] = floor(player->pos[X] / TILE_SIZE) * TILE_SIZE + TILE_SIZE;
 
 	// A.y = Py + (Px-A.x)*tan(ALPHA);
 	// B.y = Py + (Px-B.x)*tan(ALPHA); (ALPHA in radians);
@@ -93,8 +93,8 @@ void vert_wall_hit(double alpha, t_player *player, t_data *data)
 	if (search_for_wall(grid, hit, delta, data) == 0)
 		return (reset_hit_data(Y, data->ray_data));
 	//Guardarme hit point X e Y
-	//printf("hit[X]:%f hit[Y]:%f\n", hit[X], hit[Y]);
-	//printf("Vertical grid [%d][%d]\n", grid[X], grid[Y]);
+	printf("hit[X]:%f hit[Y]:%f\n", hit[X], hit[Y]);
+	printf("Vertical grid [%d][%d]\n", grid[X], grid[Y]);
 	data->ray_data->vert_hit[X] = hit[X];
 	data->ray_data->vert_hit[Y] = hit[Y];
 }
@@ -108,13 +108,13 @@ void horz_wall_hit(double alpha, t_player *player, t_data *data)
 	if (alpha > 0 && alpha < 180)
 		// Facing up
 		// A.y = rounded_down(Py/TILE_SIZE) * TILE_SIZE - 1;
-		hit[Y] = (player->pos[Y] / TILE_SIZE) * TILE_SIZE - 1;
+		hit[Y] = floor(player->pos[Y] / TILE_SIZE) * TILE_SIZE - 0.01;
 	else if (alpha == 0 || alpha == 180)
 		return;
 	else
 		// Facing down
 		// A.y = rounded_down(Py/TILE_SIZE) * TILE_SIZE + TILE_SIZE;
-		hit[Y] = (player->pos[Y] / TILE_SIZE) * TILE_SIZE + TILE_SIZE;
+		hit[Y] = floor(player->pos[Y] / TILE_SIZE) * TILE_SIZE + TILE_SIZE;
 
 
 	// A.x = Px + (Py-A.y)/tan(ALPHA);
@@ -142,6 +142,6 @@ void horz_wall_hit(double alpha, t_player *player, t_data *data)
 	//Guardarme el valor de hit X e Y
 	data->ray_data->horz_hit[X] = hit[X];
 	data->ray_data->horz_hit[Y] = hit[Y];
-	//printf("hit[X]:%f hit[Y]:%f\n", hit[X], hit[Y]);
-	//printf("Horizontal grid [%d][%d]\n", grid[X], grid[Y]);
+	printf("hit[X]:%f hit[Y]:%f\n", hit[X], hit[Y]);
+	printf("Horizontal grid [%d][%d]\n", grid[X], grid[Y]);
 }
