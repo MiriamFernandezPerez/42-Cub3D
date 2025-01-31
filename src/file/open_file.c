@@ -96,8 +96,8 @@ int	check_player(t_data *data, int i, int j)
 {
 	if (ft_strchr("NSWE", data->map_data->map[i][j]))
 	{
-		data->player->pos[0] = i;
-		data->player->pos[1] = j;
+		data->player->pos[0] = (i * TILE_SIZE) + TILE_SIZE/2;
+		data->player->pos[1] = (j * TILE_SIZE) + TILE_SIZE/2;
 		data->player->angle = calulate_angle(data->map_data->map, i, j);
 		return (1);
 	}
@@ -169,35 +169,6 @@ void	validate_conf_textures(t_data *data)
 		printf("7 - '%s'\n", data->map_data->next_map);
 }
 
-int	check_rgb_array(char **rgb)
-{
-	int	count;
-
-	count = 0;
-	while (rgb[count])
-		count++;
-	return (count);
-}
-
-char	*parse_color(char *line, t_data *data)
-{
-	char	**rgb;
-	int		r;
-	int		g;
-	int		b;
-
-	rgb = ft_split(line, ',');
-	if (!rgb || check_rgb_array(rgb) != 3)
-		ft_error_exit(ERR_COLOR, data);
-	r = ft_atoi(rgb[0]);
-	g = ft_atoi(rgb[1]);
-	b = ft_atoi(rgb[2]);
-	free_str_array(&rgb);
-	if (r < 0 || r > 255 || g < 0 || g > 255 || b < 0 || b > 255)
-		ft_error_exit(ERR_RGB, data);
-	return (ft_strdup(line));
-}
-
 int	check_rgb(char *path, int *i)
 {
 	int	num;
@@ -205,17 +176,18 @@ int	check_rgb(char *path, int *i)
 	num = 0;
 	while (path[*i] != '\0' && path[*i] != ',')
 	{
+
 		if (!ft_isdigit(path[*i]))
-			return (0);
+			return (-1);
 		num = num * 10 + (path[*i] - '0');
 		(*i)++;
 	}
 	if (num < 0 || num > 255)
-		return (0);
+		return (-1);
 	return (num);
 }
 
-unsigned int	rgb_to_hex(char *path)
+int	rgb_to_hex(char *path)
 {
 	int	r;
 	int	g;
@@ -223,45 +195,42 @@ unsigned int	rgb_to_hex(char *path)
 	int	i;
 
 	i = 0;
+	
 	r = check_rgb(path, &i);
-	if (r < 0 || r > 255 || path[i] != ',')
-		return (0);
+	if (r == -1 || path[i] != ',')
+		return (-1);
 	i++;
 	g = check_rgb(path, &i);
-	if (r < 0 || r > 255 || path[i] != ',')
-		return (0);
+	if (g == -1 || path[i] != ',')
+		return (-1);
 	i++;
 	b = check_rgb(path, &i);
-	if (r < 0 || r > 255 || path[i] != '\0')
-		return (0);
+	if (b == -1 || path[i] != '\0')
+		return (-1);
 	return ((r << 16) | (g << 8) | b);
 }
 
 void	check_color_or_texture(t_data *data, char *path, char id)
 {
-	int				fd;
-	unsigned int	color;
+	int	fd;
+	int	color;
 
-	color = 0;
+	color = -1;
 	if (ft_strchr(path, ','))
 	{
 		color = rgb_to_hex(path);
-		if (color == 0)
+		if (color == -1)
 			ft_error_exit(ERR_COLOR, data);
 		if (id == 'F')
-			data->map_data->floor_color = rgb_to_hex(path);
+			data->map_data->floor_color = color;
 		else if (id == 'C')
-			data->map_data->ceiling_color = rgb_to_hex(path);
-		//printf("HEX:'0x%06X'\n", data->map_data->floor_color);
-		//printf("HEX:'0x%06X'\n", data->map_data->ceiling_color);
+			data->map_data->ceiling_color = color;
 	}
 	else
 	{
 		fd = open(path, O_RDONLY);
 		if (fd == -1)
 			ft_error_exit(ERR_PATH, data);
-		data->map_data->floor_color = -1;
-		data->map_data->ceiling_color = -1;
 	}
 }
 
