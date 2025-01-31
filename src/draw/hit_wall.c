@@ -6,7 +6,7 @@
 /*   By: igarcia2 <igarcia2@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/25 18:19:40 by igarcia2          #+#    #+#             */
-/*   Updated: 2025/01/31 22:18:32 by igarcia2         ###   ########.fr       */
+/*   Updated: 2025/01/31 22:27:57 by igarcia2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,8 +93,8 @@ void vert_wall_hit(double alpha, t_player *player, t_data *data)
 	if (search_for_wall(grid, hit, delta, data) == 0)
 		return (reset_hit_data(Y, data->ray_data));
 	//Guardarme hit point X e Y
-	printf("hit[X]:%f hit[Y]:%f\n", hit[X], hit[Y]);
-	printf("Vertical grid [%d][%d]\n", grid[X], grid[Y]);
+	//printf("hit[X]:%f hit[Y]:%f\n", hit[X], hit[Y]);
+	//printf("Vertical grid [%d][%d]\n", grid[X], grid[Y]);
 	data->ray_data->vert_hit[X] = hit[X];
 	data->ray_data->vert_hit[Y] = hit[Y];
 }
@@ -142,6 +142,6 @@ void horz_wall_hit(double alpha, t_player *player, t_data *data)
 	//Guardarme el valor de hit X e Y
 	data->ray_data->horz_hit[X] = hit[X];
 	data->ray_data->horz_hit[Y] = hit[Y];
-	printf("hit[X]:%f hit[Y]:%f\n", hit[X], hit[Y]);
-	printf("Horizontal grid [%d][%d]\n", grid[X], grid[Y]);
+	//printf("hit[X]:%f hit[Y]:%f\n", hit[X], hit[Y]);
+	//printf("Horizontal grid [%d][%d]\n", grid[X], grid[Y]);
 }

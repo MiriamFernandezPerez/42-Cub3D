@@ -6,7 +6,7 @@
 /*   By: igarcia2 <igarcia2@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 16:44:21 by igarcia2          #+#    #+#             */
-/*   Updated: 2025/01/31 22:22:54 by igarcia2         ###   ########.fr       */
+/*   Updated: 2025/01/31 22:28:54 by igarcia2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	init_map_test(t_map	*map_data, t_data *data)
 	map_data->map[5] = NULL;
 	map_data->map[0] = ft_strdup("111111111111111");
 	map_data->map[1] = ft_strdup("110000000011001");
-	map_data->map[2] = ft_strdup("1001001N0000001");
+	map_data->map[2] = ft_strdup("1001000N0000001");
 	map_data->map[3] = ft_strdup("100000000000111");
 	map_data->map[4] = ft_strdup("111111111111111");
 	map_data->max_height = 5;
