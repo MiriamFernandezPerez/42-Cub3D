@@ -6,7 +6,7 @@
 /*   By: mirifern <mirifern@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 21:05:41 by mirifern          #+#    #+#             */
-/*   Updated: 2025/01/31 15:37:32 by igarcia2         ###   ########.fr       */
+/*   Updated: 2025/01/31 20:40:53 by igarcia2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,8 @@ void	init_mlx(t_data *data)
 	data->mlx_data->img_addr = NULL;
 	//Comprovar creacion img correcta
     data->mlx_data->redraw = 1;
-	mlx_key_hook(data->mlx_data->win_ptr, key_hook, data); // Manejar eventos de teclado
+	mlx_hook(data->mlx_data->win_ptr, 2, 1L << 0, key_press, data);
+	mlx_hook(data->mlx_data->win_ptr, 3, 1L << 1, key_release, data); 
 	mlx_loop_hook(data->mlx_data->mlx_ptr, game_loop, data); // Vincular el bucle principal
 }
 

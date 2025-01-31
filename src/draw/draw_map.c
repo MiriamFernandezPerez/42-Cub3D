@@ -6,7 +6,7 @@
 /*   By: igarcia2 <igarcia2@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 15:27:13 by igarcia2          #+#    #+#             */
-/*   Updated: 2025/01/31 18:15:55 by igarcia2         ###   ########.fr       */
+/*   Updated: 2025/01/31 20:54:15 by igarcia2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,10 +51,10 @@ void	find_shortest_hit_distance(t_player *player, t_raycast *ray_data)
 	else
 		ray_data->shortest_distance = vert_distance;
 
-	printf("horz_distance: %f\n", horz_distance);
-	printf("vert_distance: %f\n", vert_distance);
-	printf("shortest_distance: %f\n", ray_data->shortest_distance);
-	printf("distance_pp: %d\n", (int)ray_data->distance_pp);
+	//printf("horz_distance: %f\n", horz_distance);
+	//printf("vert_distance: %f\n", vert_distance);
+	//printf("shortest_distance: %f\n", ray_data->shortest_distance);
+	//printf("distance_pp: %d\n", (int)ray_data->distance_pp);
 }
 
 void	render_column(int x, char *img_addr, t_data *data)
@@ -89,7 +89,6 @@ void	draw_map(t_raycast *ray_data, char *img_addr, t_data *data)
 
 	x = 0;
 	alpha = data->player->angle + FOV / 2;
-	printf("Alpha: %f\n", alpha);
 	alpha = normalize_angle(alpha);
 	/*Raycasting*/
 
@@ -97,7 +96,7 @@ void	draw_map(t_raycast *ray_data, char *img_addr, t_data *data)
 	// Bucle all pixels WIDTH
 	while (x < WIDTH)
 	{
-		printf("---PRINTANDO ALPHA %f---\n", alpha);
+		//printf("---PRINTANDO ALPHA %f---\n", alpha);
 		horz_wall_hit(alpha, data->player, data);
 		vert_wall_hit(alpha, data->player, data);
 		// Calcular distancia
@@ -110,7 +109,7 @@ void	draw_map(t_raycast *ray_data, char *img_addr, t_data *data)
 
 		if (ray_data->wall_height < HEIGHT)
 			ray_data->wall_y = HEIGHT / 2 - ray_data->wall_height / 2;
-		printf("wall_height: %d\n", ray_data->wall_height);
+		//printf("wall_height: %d\n", ray_data->wall_height);
 
 		// Printar column
 		render_column(x, img_addr, data);	
@@ -118,6 +117,6 @@ void	draw_map(t_raycast *ray_data, char *img_addr, t_data *data)
 		alpha -= ray_data->angle_increment;
 		alpha = normalize_angle(alpha);
 		x++;
-		printf("--------------------\n");
+		//printf("--------------------\n");
 	}
 }

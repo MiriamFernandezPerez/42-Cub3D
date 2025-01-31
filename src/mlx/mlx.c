@@ -6,7 +6,7 @@
 /*   By: igarcia2 <igarcia2@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/26 16:47:55 by igarcia2          #+#    #+#             */
-/*   Updated: 2025/01/26 21:43:08 by igarcia2         ###   ########.fr       */
+/*   Updated: 2025/01/31 21:11:44 by igarcia2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,6 @@ int	game_loop(t_data *data)
 
 		//2. Dibujar en la imagen
 		draw_map(data->ray_data, new_img_addr, data);
-
-		
 	
 		data->mlx_data->redraw = 0;
 
@@ -44,36 +42,39 @@ int	game_loop(t_data *data)
 		data->mlx_data->img_addr = new_img_addr;
 
 		//TEST
-		print_str(data->mlx_data, 10, 10, "Angle: ");
-		print_nbr(data->mlx_data, 60, 10, data->player->angle);
-		print_str(data->mlx_data, 10, 30, "Player[X]: ");
-		print_nbr(data->mlx_data, 80, 30, data->player->pos[X]);
-		print_str(data->mlx_data, 10, 60, "Player[Y]: ");
-		print_nbr(data->mlx_data, 80, 60, data->player->pos[Y]);
+		print_str(data->mlx_data, 10, 20, "Angle: ");
+		print_nbr(data->mlx_data, 60, 20, data->player->angle);
+		print_str(data->mlx_data, 10, 40, "Player[X]: ");
+		print_nbr(data->mlx_data, 80, 40, data->player->pos[X]);
+		print_str(data->mlx_data, 10, 70, "Player[Y]: ");
+		print_nbr(data->mlx_data, 80, 70, data->player->pos[Y]);
 
 	}
 	return (0);
 }
 
-void move_player(t_player *player, double speed)
+void	move_player(t_player *player, double speed)
 {
-    double angle = player->angle; // Ángulo del jugador en radianes
+    double	angle;
+	double	dx;
+	double	dy;
 
-    // Calcular el desplazamiento
-    int dx = cos(deg_to_rad(angle)) * speed;
-    int dy = sin(deg_to_rad(angle)) * speed;
+	angle = player->angle; // Ángulo del jugador en radianes
+    
+	// Calcular el desplazamiento
+    dx = cos(deg_to_rad(angle)) * speed;
+    dy = sin(deg_to_rad(angle)) * speed;
 
     // Actualizar la posición del jugador
-    	player->pos[X] += dx;
-    player->pos[Y] += dy;
+    player->pos[X] += ceil(dx);
+    player->pos[Y] += ceil(dy * - 1);
 
     // Si usas un sistema de colisión, verifica que no atraviese muros aquí
 }
 
 // Evento de teclado para mover al jugador o cambiar el ángulo
-int	key_hook(int keycode, t_data *data)
+int	key_press(int keycode, t_data *data)
 {
-	printf("KeyPressed: %d\n", keycode);
 	if (keycode == ESC) // Tecla ESC para salir
 	{
 		destroy_mlx(data);
@@ -81,13 +82,20 @@ int	key_hook(int keycode, t_data *data)
         exit(EXIT_SUCCESS);
 	}
 	else if (keycode == LEFT)
-		data->player->angle += 1;
+		data->player->angle += 5;
 	else if (keycode == RIGHT)
-		data->player->angle -= 1;
+		data->player->angle -= 5;
 	else if (keycode == W)
 		move_player(data->player, 5);
 	normalize_angle(data->player->angle);
 	data->mlx_data->redraw = 1;
+	return (0);
+}
+
+int	key_release(int keycode, t_data *data)
+{
+	if (keycode == LEFT || keycode == RIGHT)
+		data->mlx_data->key_pressed = 0;
 	return (0);
 }
 

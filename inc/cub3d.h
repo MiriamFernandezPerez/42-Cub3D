@@ -6,7 +6,7 @@
 /*   By: mirifern <mirifern@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 21:08:03 by mirifern          #+#    #+#             */
-/*   Updated: 2025/01/31 17:24:08 by igarcia2         ###   ########.fr       */
+/*   Updated: 2025/01/31 20:52:04 by igarcia2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,8 @@
 # endif
 
 /*Constants*/
-# define WIDTH 3200
-# define HEIGHT 2000
+# define WIDTH 1600
+# define HEIGHT 1000
 # define TILE_SIZE 64
 # define FOV 60
 
@@ -148,6 +148,7 @@ typedef struct	s_mlx
 	int		line_len; // Longitud de cada línea de la imagen
 	int     endian;   // Orden de los bytes (endianess)
 	int		redraw;
+	int		key_pressed;
 } t_mlx;
 
 /*Cub3d*/
@@ -197,8 +198,9 @@ void vert_wall_hit(double alpha, t_player *player, t_data *data);
 void horz_wall_hit(double alpha, t_player *player, t_data *data);
 
 /*mlx.c*/
-int	game_loop(t_data *data);
-int	key_hook(int keycode, t_data *data);
+int		game_loop(t_data *data);
+int		key_press(int keycode, t_data *data);
+int		key_release(int keycode, t_data *data);
 void	print_pixel(int x, int y, int color, t_mlx *mlx_data, char *img_addr);
 
 /*mlx_utils.c*/

@@ -6,7 +6,7 @@
 #    By: igarcia2 <igarcia2@student.42barcel>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/21 21:07:38 by igarcia2          #+#    #+#              #
-#    Updated: 2025/01/26 16:47:41 by igarcia2         ###   ########.fr        #
+#    Updated: 2025/01/31 21:12:46 by igarcia2         ###   ########.fr        #
 #
 # **************************************************************************** #
 
@@ -101,7 +101,7 @@ $(OBJ_DIR)%.o: $(SRC_DIR)%.c Makefile | create_obj_dirs
 $(NAME): $(OBJ_DIR) $(OBJ)
 		@echo ""
 		@$(call SHOW_MESSAGE, $(YELLOW)$(INFO), " LINKING CUB3D...")
-		@$(CC) -I/usr/include -o $(NAME) $(OBJ) $(LIBFT) $(LIBMLX) $(LIBMLX_FLAGS) -g -fsanitize=address -fsanitize=leak
+		@$(CC) -I/usr/include -o $(NAME) $(OBJ) $(LIBFT) $(LIBMLX) $(LIBMLX_FLAGS) -fsanitize=address -fsanitize=leak
 		@$(call SHOW_MESSAGE, $(GREEN)$(CHECKMARK), " CUB3D DONE!")
 
 $(OBJ_DIR): Makefile $(LIBFT)
