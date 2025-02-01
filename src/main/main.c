@@ -89,10 +89,11 @@ int main(int ac, char **av)
 	// PARSE MAP
 
 	init_data(&data);
-	//if (open_file(av[1], data) == EXIT_FAILURE)
-		//return (free_data(data), EXIT_FAILURE);
-	init_map_test(data->map_data, data);
+	if (open_file(av[1], data) == EXIT_FAILURE)
+		return (free_data(data), EXIT_FAILURE);
 
+	print_str_array(data->map_data->map);
+	//init_map_test(data->map_data, data);
 	// DRAW MAP
 	init_mlx(data);
     mlx_loop(data->mlx_data->mlx_ptr);

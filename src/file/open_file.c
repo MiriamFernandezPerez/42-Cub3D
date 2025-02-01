@@ -26,60 +26,36 @@ int	only_spaces(const char *str)
 	return (1);
 }
 
-char	**ft_array_cpy(char **array, t_data *data)
-{
-	int		i;
-	int		length;
-	char	**duplicate;
-
-	i = 0;
-	length = 0;
-	while (array[length])
-		length++;
-	duplicate = malloc(sizeof(char *) * (length + 1));
-	malloc_protection(duplicate, data);
-	while (i < length)
-	{
-		duplicate[i] = ft_strdup(array[i]);
-		if (!duplicate[i])
-		{
-			while (i > 0)
-				free(duplicate[--i]);
-			free(duplicate);
-			ft_error_exit("ERR_CPY", data);
-		}
-		i++;
-	}
-	duplicate[i] = NULL;
-	return (duplicate);
-}
-
 void	validate_map_border(t_data *data, char **map)
 {
 	int	i;
 	int	j;
-
-	i = 0;
-	while (map[i])
+	int	row_len;
+	
+	i = -1;
+	while (map[++i])
 	{
 		j = 0;
-		while (map[i][j])
+		row_len = ft_strlen(map[i]);
+		while (j < row_len)
 		{
 			if (map[i][j] == '0' || ft_strchr("NSWE", map[i][j]))
 			{
-				if (i == 0 || j == 0 || !map[i + 1] || !map[i][j + 1])
-					ft_error_exit(ERR_BORDER, data);
-				if (map[i - 1][j] == ' ' || map[i + 1][j] == ' ' ||
-					map[i][j - 1] == ' ' || map[i][j + 1] == ' ')
+				if (i == 0 || j == 0 || !map[i + 1]
+					|| j >= (int)ft_strlen(map[i + 1])
+					|| (i > 0 && j < (int)ft_strlen(map[i - 1])
+					&& map[i - 1][j] == ' ') 
+					|| (map[i + 1] && j < (int)ft_strlen(map[i + 1])
+					&& map[i + 1][j] == ' ') || (j > 0 && map[i][j - 1] == ' ')
+					|| (j < row_len - 1 && map[i][j + 1] == ' '))
 					ft_error_exit(ERR_BORDER, data);
 			}
 			j++;
 		}
-		i++;
 	}
 }
 
-int	calulate_angle(char **map, int x, int y)
+int	calculate_angle(char **map, int x, int y)
 {
 	if (map[x][y] == 'N')
 		return (90);
@@ -96,9 +72,9 @@ int	check_player(t_data *data, int i, int j)
 {
 	if (ft_strchr("NSWE", data->map_data->map[i][j]))
 	{
-		data->player->pos[0] = (i * TILE_SIZE) + TILE_SIZE/2;
-		data->player->pos[1] = (j * TILE_SIZE) + TILE_SIZE/2;
-		data->player->angle = calulate_angle(data->map_data->map, i, j);
+		data->player->pos[Y] = (i * TILE_SIZE) + TILE_SIZE/2;
+		data->player->pos[X] = (j * TILE_SIZE) + TILE_SIZE/2;
+		data->player->angle = calculate_angle(data->map_data->map, i, j);
 		return (1);
 	}
 	return (0);
@@ -121,9 +97,9 @@ void	validate_map(t_data *data, char **map)
 		{
 			if (check_player(data, i, j) == 1)
 				player_qt++;
+			//Anadir X para la salida, D para las puertas y C para coleccionable si lo implementamos
 			else if (!ft_strchr("01 ", map[i][j]))
 				ft_error_exit(ERR_INV_CHAR, data);
-			
 			j++;
 			if (max_j < j)
 				max_j = j;
@@ -133,8 +109,8 @@ void	validate_map(t_data *data, char **map)
 	if (player_qt != 1)
 		ft_error_exit(ERR_PLAYER, data);
 	validate_map_border(data, map);
-	data->map_data->max_width = i;
-	data->map_data->max_height = max_j;
+	data->map_data->max_width = max_j;
+	data->map_data->max_height = i;
 }
 
 void	parse_map(t_data *data, char **map_line)
@@ -150,9 +126,8 @@ void	parse_map(t_data *data, char **map_line)
 		i++;
 		free(map_line_trimmed);
 	}
-	/*printf("map data array:\n");
-	for (int i = 0; data->map_data->map[i] != NULL; i++)
-		printf("%s\n", data->map_data->map[i]);*/
+	if (!data->map_data->map)
+		ft_error_exit(ERR_MAP, data);
 	validate_map(data, data->map_data->map);
 }
 
@@ -180,10 +155,10 @@ int	check_rgb(char *path, int *i)
 		if (!ft_isdigit(path[*i]))
 			return (-1);
 		num = num * 10 + (path[*i] - '0');
+		if (num < 0 || num > 255)
+			return (-1);
 		(*i)++;
 	}
-	if (num < 0 || num > 255)
-		return (-1);
 	return (num);
 }
 
@@ -280,8 +255,10 @@ int	parse_line(t_data *data, char *line)
 		data->map_data->floor = parse_path(trim_line + 2, data, 'F');
 	else if (ft_strncmp(trim_line, "C ", 2) == 0)
 		data->map_data->ceiling = parse_path(trim_line + 2, data, 'C');
-	else if (ft_strncmp(trim_line, "X ", 2) == 0)
-		data->map_data->next_map = parse_path(trim_line + 2, data, 'X');
+	else if (ft_strncmp(trim_line, "N ", 2) == 0)
+		data->map_data->next_map = parse_path(trim_line + 2, data, 'N');
+	/*else if (ft_strncmp(trim_line, "X ", 2) == 0)
+		data->map_data->exit_sprite = parse_path(trim_line + 2, data, 'X');*/
 	else
 		return (free(trim_line), 1);
 	return (free(trim_line), 0);
@@ -324,7 +301,7 @@ int	read_file(int fd, t_data *data)
 	}
 	close(fd);
 	if (!data->cub_file)
-		ft_error_exit(ERR_EMPTY, data);
+		return (ft_error(ERR_EMPTY), EXIT_FAILURE);
 	return (EXIT_SUCCESS);
 }
 
@@ -336,7 +313,10 @@ int	open_file(char *path, t_data *data)
 	if (fd == -1)
 		return (ft_perror(path), EXIT_FAILURE);
 	if (read_file(fd, data) == EXIT_FAILURE)
+	{
+		close(fd);
 		return (ft_perror(path), EXIT_FAILURE);
+	}
 	parse_cub_file(data, data->cub_file);
 	return (EXIT_SUCCESS);
 }

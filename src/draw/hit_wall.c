@@ -62,7 +62,7 @@ void vert_wall_hit(double alpha, t_player *player, t_data *data)
 	if (alpha >= 90 && alpha <= 270)
 		// Facing left
 		// B.x = rounded_down(Px/TILE_SIZE) * TILE_SIZE - 1
-		hit[X] = floor(player->pos[X] / TILE_SIZE) * TILE_SIZE - 0.01;
+		hit[X] = floor(player->pos[X] / TILE_SIZE) * TILE_SIZE - 0.0001;
 	else if (alpha == 90 || alpha == 270)
 		return ;
 	else
@@ -108,7 +108,7 @@ void horz_wall_hit(double alpha, t_player *player, t_data *data)
 	if (alpha > 0 && alpha < 180)
 		// Facing up
 		// A.y = rounded_down(Py/TILE_SIZE) * TILE_SIZE - 1;
-		hit[Y] = floor(player->pos[Y] / TILE_SIZE) * TILE_SIZE - 0.01;
+		hit[Y] = floor(player->pos[Y] / TILE_SIZE) * TILE_SIZE - 0.0001;
 	else if (alpha == 0 || alpha == 180)
 		return;
 	else
