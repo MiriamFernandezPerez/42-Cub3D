@@ -6,7 +6,7 @@
 /*   By: igarcia2 <igarcia2@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 16:44:21 by igarcia2          #+#    #+#             */
-/*   Updated: 2025/01/31 22:28:54 by igarcia2         ###   ########.fr       */
+/*   Updated: 2025/02/01 18:59:01 by igarcia2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	init_map_test(t_map	*map_data, t_data *data)
 	map_data->floor_color = 0xBBEFA8;
 	map_data->ceiling_color = 0x8BDDE;
 	data->player->angle = 180;
-	data->player->pos[X] = 480;	
+	data->player->pos[X] = 480;
 	data->player->pos[Y] = 160;
 	map_data->next_map = NULL;
 }

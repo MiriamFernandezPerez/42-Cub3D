@@ -6,16 +6,16 @@
 /*   By: igarcia2 <igarcia2@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 15:32:12 by igarcia2          #+#    #+#             */
-/*   Updated: 2025/01/31 15:30:25 by igarcia2         ###   ########.fr       */
+/*   Updated: 2025/02/01 18:58:40 by igarcia2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/cub3d.h"
 
 // Receive a char** and free all of its contents
-void free_str_array(char ***str_array)
+void	free_str_array(char ***str_array)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	if (str_array && *str_array)
@@ -38,15 +38,16 @@ void	destroy_mlx(t_data *data)
 		if (data->mlx_data->img_ptr)
 			mlx_destroy_image(data->mlx_data->mlx_ptr, data->mlx_data->img_ptr);
 		if (data->mlx_data->win_ptr)
-			mlx_destroy_window(data->mlx_data->mlx_ptr, data->mlx_data->win_ptr);
+			mlx_destroy_window(
+				data->mlx_data->mlx_ptr, data->mlx_data->win_ptr);
 		free(data->mlx_data->mlx_ptr);
 		free(data->mlx_data);
 		data->mlx_data = NULL;
-    }
+	}
 }
 
 // Releases all map data
-void free_map(t_map *map_data)
+void	free_map(t_map *map_data)
 {
 	if (map_data)
 	{

@@ -6,7 +6,7 @@
 /*   By: igarcia2 <igarcia2@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 15:27:13 by igarcia2          #+#    #+#             */
-/*   Updated: 2025/01/31 15:46:23 by igarcia2         ###   ########.fr       */
+/*   Updated: 2025/02/01 18:57:19 by igarcia2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,8 @@ double	deg_to_rad(double degrees)
 
 double	normalize_angle(double angle)
 {
-	angle = fmod(angle, 360);  // Asegura que esté en el rango [-360, 360]
-    if (angle < 0)
-		angle += 360;  // Corrige valores negativos
+	angle = fmod(angle, 360);
+	if (angle < 0)
+		angle += 360;
 	return (angle);
 }

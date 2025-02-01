@@ -6,7 +6,7 @@
 /*   By: mirifern <mirifern@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 21:08:03 by mirifern          #+#    #+#             */
-/*   Updated: 2025/02/01 00:06:13 by igarcia2         ###   ########.fr       */
+/*   Updated: 2025/02/01 18:46:28 by igarcia2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,18 +23,14 @@
 # include <X11/Xlib.h>
 # include <X11/keysym.h>
 
-
-# ifndef M_PI
-#  define M_PI 3.14159265358979323846
-# endif
-
 /*Constants*/
-# define WIDTH 1600
-# define HEIGHT 1000
+# define WIDTH 3200
+# define HEIGHT 2000
 # define TILE_SIZE 64
 # define FOV 60
 # define PLAYER_SPEED 5
 # define EPSILON 0.0001
+# define M_PI 3.14159265358979323846
 
 /*Keys*/
 # define KEY_ESC 65307
@@ -69,7 +65,6 @@
 # define ERR_MLX_WIN "Error\nmlx : window creation failed\n"
 # define ERR_MLX_IMG "Error\nmlx : image creation failed\n"
 
-
 # define ERR_MAP_CHAR "Error\nInvalid map character\n"
 # define ERR_MAP_BORDER "Error\nMap is not closed\n"
 # define ERR_MAP_PLAYER "Error\nPlayer is not in the map\n"
@@ -83,24 +78,24 @@
 //# define ERR_COLOR "Error\nInvalid color\n"
 
 /*Coordinates*/
-typedef enum
+typedef enum e_coord
 {
-    X = 0,  // Represents index 0
-    Y = 1   // Represents index 1
-} coordinates;
+	X = 0,
+	Y = 1
+}	t_coord;
 
 /*Tile Type*/
-typedef enum
+typedef enum e_tile_type
 {
-    TILE_WALL = '1',
-    TILE_EMPTY = '0',
-    TILE_PLAYER_N = 'N',
-    TILE_PLAYER_E = 'E',
-    TILE_PLAYER_W = 'W',
-    TILE_PLAYER_S = 'S',
+	TILE_WALL = '1',
+	TILE_EMPTY = '0',
+	TILE_PLAYER_N = 'N',
+	TILE_PLAYER_E = 'E',
+	TILE_PLAYER_W = 'W',
+	TILE_PLAYER_S = 'S',
 	TILE_DOOR = 'D',
-    TILE_EXIT = 'X'
-} tile_type;
+	TILE_EXIT = 'X'
+}	t_tile_type;
 
 /*Player*/
 typedef struct s_player
@@ -127,10 +122,10 @@ typedef struct s_map
 }	t_map;
 
 /*Raycasting data*/
-typedef struct	s_raycast
+typedef struct s_raycast
 {
-	double	distance_pp; //Distance to project plane
-	double	angle_increment; //Angle increment
+	double	distance_pp;
+	double	angle_increment;
 	double	horz_hit[2];
 	double	vert_hit[2];
 	double	shortest_distance;
@@ -140,21 +135,22 @@ typedef struct	s_raycast
 }	t_raycast;
 
 /*Mlx*/
-typedef struct	s_mlx
+typedef struct s_mlx
 {
-	void	*mlx_ptr; // Puntero a la conexión con MiniLibX
-	void	*win_ptr; // Puntero a la ventana
-	void	*img_ptr; // Puntero a la imagen
-	char	*img_addr; // Dirección de memoria de la imagen
-	int		bpp;      // Bits por píxel
-	int		line_len; // Longitud de cada línea de la imagen
-	int     endian;   // Orden de los bytes (endianess)
+	void	*mlx_ptr;
+	void	*win_ptr;
+	void	*img_ptr;
+	char	*img_addr;
+	char	*new_img_addr;
+	int		bpp;
+	int		line_len;
+	int		endian;
 	int		redraw;
 	int		key_pressed;
-} t_mlx;
+}	t_mlx;
 
 /*Cub3d*/
-typedef struct	s_data
+typedef struct s_data
 {
 	t_map			*map_data;
 	t_raycast		*ray_data;
@@ -162,7 +158,6 @@ typedef struct	s_data
 	t_player		*player;
 	char			**cub_file;
 }	t_data;
-
 
 /*main.c*/
 int		main(int ac, char **av);
@@ -194,21 +189,20 @@ void	init_map_test(t_map *map, t_data *data);
 void	print_player_info(t_data *data);
 
 /*draw_map.c*/
-void	draw_map(t_raycast *ray_data, char *img_addr, t_data *data);
+void	draw_map(t_raycast *ray_data, t_data *data);
 
 /*hit_wall.c*/
-void vert_wall_hit(double alpha, t_player *player, t_data *data);
-void horz_wall_hit(double alpha, t_player *player, t_data *data);
+void	vert_wall_hit(double alpha, t_player *player, t_data *data);
+void	horz_wall_hit(double alpha, t_player *player, t_data *data);
 
 /*mlx.c*/
 int		game_loop(t_data *data);
 int		key_press(int keycode, t_data *data);
 int		key_release(int keycode, t_data *data);
-void	print_pixel(int x, int y, int color, t_mlx *mlx_data, char *img_addr);
 
 /*mlx_utils.c*/
 void	print_nbr(t_mlx *mlx_data, int x, int y, int nbr);
 void	print_str(t_mlx *mlx_data, int x, int y, char *str);
+void	print_pixel_render(int x, int y, int color, t_mlx *mlx_data);
 
 #endif
-
