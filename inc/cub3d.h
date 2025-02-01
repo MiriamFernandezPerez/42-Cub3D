@@ -6,7 +6,7 @@
 /*   By: mirifern <mirifern@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 21:08:03 by mirifern          #+#    #+#             */
-/*   Updated: 2025/02/01 18:46:28 by igarcia2         ###   ########.fr       */
+/*   Updated: 2025/02/01 23:48:27 by igarcia2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,15 @@
 # define KEY_D 100
 # define KEY_LEFT 65361
 # define KEY_RIGHT 65363
+
+/*Minimap*/
+# define MINIMAP_WIDTH 0.2
+# define MINIMAP_HEIGHT 0.2
+# define MINIMAP_MARGIN 0.02
+# define TILES_VERTICAL 9
+# define MINIMAP_BACK_COLOR 0x808080
+# define MINIMAP_BORDER_COLOR 0x000000
+# define MINIMAP_SHADOW_COLOR 0x505050
 
 /*Errors*/
 # define ERR_ARGS "Error\nInvalid number of arguments\n"
@@ -136,6 +145,16 @@ typedef struct s_raycast
 	int		wall_y;
 }	t_raycast;
 
+typedef struct s_minimap
+{
+	int		size[2];
+	int		start[2];
+	int		margin[2];
+	int		tile_size;
+	int		tiles_horz;
+	double	scale;
+}	t_minimap;
+
 /*Mlx*/
 typedef struct s_mlx
 {
@@ -156,6 +175,7 @@ typedef struct s_data
 {
 	t_map			*map_data;
 	t_raycast		*ray_data;
+	t_minimap		*minimap_data;
 	t_mlx			*mlx_data;
 	t_player		*player;
 	char			**cub_file;
@@ -196,6 +216,9 @@ void	draw_map(t_raycast *ray_data, t_data *data);
 /*hit_wall.c*/
 void	vert_wall_hit(double alpha, t_player *player, t_data *data);
 void	horz_wall_hit(double alpha, t_player *player, t_data *data);
+
+/*minimap.c*/
+void	create_minimap(t_minimap *minimap_data, t_mlx *mlx_data, t_data *data);
 
 /*mlx.c*/
 int		game_loop(t_data *data);

@@ -6,7 +6,7 @@
 /*   By: igarcia2 <igarcia2@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 15:32:12 by igarcia2          #+#    #+#             */
-/*   Updated: 2025/02/01 18:58:40 by igarcia2         ###   ########.fr       */
+/*   Updated: 2025/02/01 22:34:36 by igarcia2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,8 @@ void	free_data(t_data *data)
 			free(data->player);
 		if (data->mlx_data)
 			destroy_mlx(data);
+		if (data->minimap_data)
+			free(data->minimap_data);
 		free(data);
 	}
 }

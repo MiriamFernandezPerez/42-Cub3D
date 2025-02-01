@@ -6,7 +6,7 @@
 /*   By: igarcia2 <igarcia2@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/26 16:47:55 by igarcia2          #+#    #+#             */
-/*   Updated: 2025/02/01 19:23:02 by igarcia2         ###   ########.fr       */
+/*   Updated: 2025/02/01 23:50:01 by igarcia2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ int	game_loop(t_data *data)
 			= mlx_get_data_addr(new_img_ptr, &(data->mlx_data->bpp),
 				&(data->mlx_data->line_len), &(data->mlx_data->endian));
 		draw_map(data->ray_data, data);
+		create_minimap(data->minimap_data, data->mlx_data, data);
 		data->mlx_data->redraw = 0;
 		mlx_put_image_to_window(data->mlx_data->mlx_ptr,
 			data->mlx_data->win_ptr, new_img_ptr, 0, 0);
