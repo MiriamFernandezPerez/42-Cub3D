@@ -6,7 +6,7 @@
 /*   By: igarcia2 <igarcia2@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/26 16:47:55 by igarcia2          #+#    #+#             */
-/*   Updated: 2025/01/31 21:34:48 by igarcia2         ###   ########.fr       */
+/*   Updated: 2025/02/01 00:33:01 by igarcia2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,23 +53,24 @@ int	game_loop(t_data *data)
 	return (0);
 }
 
-void	move_player(t_player *player, double speed)
+void	move_player(t_player *player)
 {
-	double	angle;
 	double	dx;
 	double	dy;
 
-	angle = player->angle; // Ángulo en grados
 
 	// Calcular el desplazamiento
-	dx = cos(deg_to_rad(angle)) * speed;
-	dy = sin(deg_to_rad(angle)) * speed * -1;
+	dx = cos(deg_to_rad(player->angle)) * PLAYER_SPEED;
+	dy = sin(deg_to_rad(player->angle)) * PLAYER_SPEED * -1;
 	dx = copysign(ceil(fabs(dx)), dx);
 	dy = copysign(ceil(fabs(dy)), dy);
 
     // Actualizar la posición del jugador
+	
 	player->pos[X] += dx;
 	player->pos[Y] += dy;
+
+	
     // Si usas un sistema de colisión, verifica que no atraviese muros aquí
 
 }
@@ -88,7 +89,7 @@ int	key_press(int keycode, t_data *data)
 	else if (keycode == RIGHT)
 		data->player->angle -= 5;
 	else if (keycode == W)
-		move_player(data->player, 5);
+		move_player(data->player);
 	data->player->angle = normalize_angle(data->player->angle);
 	data->mlx_data->redraw = 1;
 	return (0);

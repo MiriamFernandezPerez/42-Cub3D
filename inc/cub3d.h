@@ -6,7 +6,7 @@
 /*   By: mirifern <mirifern@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 21:08:03 by mirifern          #+#    #+#             */
-/*   Updated: 2025/01/31 22:15:52 by igarcia2         ###   ########.fr       */
+/*   Updated: 2025/02/01 00:06:13 by igarcia2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@
 # define HEIGHT 2000
 # define TILE_SIZE 64
 # define FOV 60
+# define PLAYER_SPEED 5
 
 /*Keys*/
 # define ESC 65307
