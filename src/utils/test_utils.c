@@ -51,3 +51,14 @@ void	print_str_array(char **str_array)
 		}
 	}
 }
+
+//(TEST) Prints player debugger info
+void	print_player_info(t_data *data)
+{
+	print_str(data->mlx_data, 10, 20, "Angle: ");
+	print_nbr(data->mlx_data, 60, 20, data->player->angle);
+	print_str(data->mlx_data, 10, 40, "Player[X]: ");
+	print_nbr(data->mlx_data, 80, 40, data->player->pos[X]);
+	print_str(data->mlx_data, 10, 60, "Player[Y]: ");
+	print_nbr(data->mlx_data, 80, 60, data->player->pos[Y]);
+}

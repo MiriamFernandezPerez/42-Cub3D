@@ -41,64 +41,70 @@ int	game_loop(t_data *data)
 		data->mlx_data->img_ptr = new_img_ptr;
 		data->mlx_data->img_addr = new_img_addr;
 
-		//TEST
-		print_str(data->mlx_data, 10, 20, "Angle: ");
-		print_nbr(data->mlx_data, 60, 20, data->player->angle);
-		print_str(data->mlx_data, 10, 40, "Player[X]: ");
-		print_nbr(data->mlx_data, 80, 40, data->player->pos[X]);
-		print_str(data->mlx_data, 10, 70, "Player[Y]: ");
-		print_nbr(data->mlx_data, 80, 70, data->player->pos[Y]);
-
+		print_player_info(data); //TEST	
 	}
 	return (0);
 }
 
-void	move_player(t_player *player)
+void move_player(int key_pressed, t_player *player)
 {
-	double	dx;
+    double	dx;
 	double	dy;
-
-
-	// Calcular el desplazamiento
-	dx = cos(deg_to_rad(player->angle)) * PLAYER_SPEED;
-	dy = sin(deg_to_rad(player->angle)) * PLAYER_SPEED * -1;
-	dx = copysign(ceil(fabs(dx)), dx);
-	dy = copysign(ceil(fabs(dy)), dy);
-
-    // Actualizar la posición del jugador
+    double	direction;
+	double	angle;
 	
-	player->pos[X] += dx;
-	player->pos[Y] += dy;
+	angle = player->angle;
+    direction = 1;
+	if (key_pressed == KEY_S)
+		direction = -1;
+	if (key_pressed == KEY_A)
+		angle += 90;
+	else if (key_pressed == KEY_D)
+		angle -= 90;
+	angle = normalize_angle(angle);
 
-	
-    // Si usas un sistema de colisión, verifica que no atraviese muros aquí
+    // Calcular desplazamiento
+    dx = direction * cos(deg_to_rad(angle)) * PLAYER_SPEED;
+    dy = direction * sin(deg_to_rad(angle)) * PLAYER_SPEED * -1;
 
+	if (fabs(dx) < EPSILON)
+		dx = 0;
+	if (fabs(dy) < EPSILON)
+		dy = 0;
+    dx = copysign(ceil(fabs(dx)), dx);
+    dy = copysign(ceil(fabs(dy)), dy);
+
+    // Actualizar posición del jugador
+    player->pos[X] += dx;
+    player->pos[Y] += dy;
+
+    // Agregar colisiones 
 }
 
 // Evento de teclado para mover al jugador o cambiar el ángulo
 int	key_press(int keycode, t_data *data)
 {
-	if (keycode == ESC) // Tecla ESC para salir
+	if (keycode == KEY_ESC) // Tecla ESC para salir
 	{
 		destroy_mlx(data);
 		free_data(data);
         exit(EXIT_SUCCESS);
 	}
-	else if (keycode == LEFT)
+	else if (keycode == KEY_LEFT)
 		data->player->angle += 5;
-	else if (keycode == RIGHT)
+	else if (keycode == KEY_RIGHT)
 		data->player->angle -= 5;
-	else if (keycode == W)
-		move_player(data->player);
+	else if (keycode == KEY_W)
+		move_player(KEY_W, data->player);
+	else if (keycode == KEY_S)
+		move_player(KEY_S, data->player);
+	else if (keycode == KEY_A)
+		move_player(KEY_A, data->player);
+	else if (keycode == KEY_D)
+		move_player(KEY_D, data->player);
+
 	data->player->angle = normalize_angle(data->player->angle);
 	data->mlx_data->redraw = 1;
-	return (0);
-}
-
-int	key_release(int keycode, t_data *data)
-{
-	if (keycode == LEFT || keycode == RIGHT)
-		data->mlx_data->key_pressed = 0;
 	return (0);
 }
 

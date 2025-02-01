@@ -29,21 +29,22 @@
 # endif
 
 /*Constants*/
-# define WIDTH 3200
-# define HEIGHT 2000
+# define WIDTH 1600
+# define HEIGHT 1000
 # define TILE_SIZE 64
 # define FOV 60
 # define PLAYER_SPEED 5
+# define EPSILON 0.0001
 
 /*Keys*/
-# define ESC 65307
-# define ENTER 65293
-# define W 119
-# define A 97
-# define S 115
-# define D 100
-# define LEFT 65361
-# define RIGHT 65363
+# define KEY_ESC 65307
+# define KEY_ENTER 65293
+# define KEY_W 119
+# define KEY_A 97
+# define KEY_S 115
+# define KEY_D 100
+# define KEY_LEFT 65361
+# define KEY_RIGHT 65363
 
 /*Errors*/
 # define ERR_ARGS "Error\nInvalid number of arguments\n"
@@ -190,6 +191,7 @@ double	normalize_angle(double angle);
 /*test_utils.c*/
 void	print_str_array(char **str_array);
 void	init_map_test(t_map *map, t_data *data);
+void	print_player_info(t_data *data);
 
 /*draw_map.c*/
 void	draw_map(t_raycast *ray_data, char *img_addr, t_data *data);

@@ -25,11 +25,9 @@ void	init_mlx(t_data *data)
 		ft_error_exit(ERR_MLX_WIN, data);
 	data->mlx_data->img_ptr = NULL;
 	data->mlx_data->img_addr = NULL;
-	//Comprovar creacion img correcta
     data->mlx_data->redraw = 1;
 	mlx_hook(data->mlx_data->win_ptr, 2, 1L << 0, key_press, data);
-	mlx_hook(data->mlx_data->win_ptr, 3, 1L << 1, key_release, data); 
-	mlx_loop_hook(data->mlx_data->mlx_ptr, game_loop, data); // Vincular el bucle principal
+	mlx_loop_hook(data->mlx_data->mlx_ptr, game_loop, data);
 }
 
 void	init_map(t_map *map_data)
@@ -92,7 +90,6 @@ int main(int ac, char **av)
 	if (open_file(av[1], data) == EXIT_FAILURE)
 		return (free_data(data), EXIT_FAILURE);
 
-	print_str_array(data->map_data->map);
 	//init_map_test(data->map_data, data);
 	// DRAW MAP
 	init_mlx(data);
