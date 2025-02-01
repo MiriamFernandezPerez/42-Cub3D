@@ -46,14 +46,45 @@ int	game_loop(t_data *data)
 	return (0);
 }
 
-void move_player(int key_pressed, t_player *player)
+// Función que chequea si el personaje puede moverse a la nueva posición
+int	check_collision(double *dx, double *dy, t_data *data)
+{
+	int	collision[2];
+	int	grid[2];
+
+	collision[X] = 0;
+	collision[Y] = 0;
+    if (*dx != 0)
+	{
+		grid[X] = floor((data->player->pos[X] + *dx) / TILE_SIZE);
+		grid[Y] = floor(data->player->pos[Y] / TILE_SIZE);
+		if (data->map_data->map[grid[Y]][grid[X]] == TILE_WALL)
+            collision[X] = 1;
+    }
+	if (*dy != 0)
+	{
+		grid[X] = floor(data->player->pos[X] / TILE_SIZE);
+		grid[Y] = floor((data->player->pos[Y] + *dy) / TILE_SIZE);
+		if (data->map_data->map[grid[Y]][grid[X]] == TILE_WALL)
+            collision[Y] = 1;
+    }
+	if (collision[X] == 1)
+		*dx = 0;
+	if (collision[Y] == 1)
+		*dy = 0;
+	if (collision[X] == 0 || collision[Y] == 0)
+		return (0);
+	return (1);
+}
+
+void move_player(int key_pressed, t_data *data)
 {
     double	dx;
 	double	dy;
     double	direction;
 	double	angle;
 	
-	angle = player->angle;
+	angle = data->player->angle;
     direction = 1;
 	if (key_pressed == KEY_S)
 		direction = -1;
@@ -74,11 +105,14 @@ void move_player(int key_pressed, t_player *player)
     dx = copysign(ceil(fabs(dx)), dx);
     dy = copysign(ceil(fabs(dy)), dy);
 
-    // Actualizar posición del jugador
-    player->pos[X] += dx;
-    player->pos[Y] += dy;
+	// Checkear colisiones
+	if (check_collision(&dx, &dy, data))
+		return;
 
-    // Agregar colisiones 
+    // Actualizar posición del jugador
+    data->player->pos[X] += dx;
+    data->player->pos[Y] += dy;
+
 }
 
 // Evento de teclado para mover al jugador o cambiar el ángulo
@@ -95,13 +129,13 @@ int	key_press(int keycode, t_data *data)
 	else if (keycode == KEY_RIGHT)
 		data->player->angle -= 5;
 	else if (keycode == KEY_W)
-		move_player(KEY_W, data->player);
+		move_player(KEY_W, data);
 	else if (keycode == KEY_S)
-		move_player(KEY_S, data->player);
+		move_player(KEY_S, data);
 	else if (keycode == KEY_A)
-		move_player(KEY_A, data->player);
+		move_player(KEY_A, data);
 	else if (keycode == KEY_D)
-		move_player(KEY_D, data->player);
+		move_player(KEY_D, data);
 
 	data->player->angle = normalize_angle(data->player->angle);
 	data->mlx_data->redraw = 1;
