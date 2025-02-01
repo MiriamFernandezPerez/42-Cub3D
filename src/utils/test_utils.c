@@ -24,10 +24,10 @@ void	init_map_test(t_map	*map_data, t_data *data)
 	map_data->map[4] = ft_strdup("111111111111111");
 	map_data->max_height = 5;
 	map_data->max_width = 15;
-	map_data->north_texture_path = NULL;
-	map_data->south_texture_path = NULL;
-	map_data->west_texture_path = NULL;
-	map_data->east_texture_path = NULL;
+	map_data->north_txt_path = NULL;
+	map_data->south_txt_path = NULL;
+	map_data->west_txt_path = NULL;
+	map_data->east_txt_path = NULL;
 	map_data->floor_color = 0xBBEFA8;
 	map_data->ceiling_color = 0x8BDDE;
 	data->player->angle = 180;

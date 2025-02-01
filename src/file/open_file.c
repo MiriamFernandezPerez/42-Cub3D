@@ -31,7 +31,7 @@ void	validate_map_border(t_data *data, char **map)
 	int	i;
 	int	j;
 	int	row_len;
-	
+
 	i = -1;
 	while (map[++i])
 	{
@@ -44,7 +44,7 @@ void	validate_map_border(t_data *data, char **map)
 				if (i == 0 || j == 0 || !map[i + 1]
 					|| j >= (int)ft_strlen(map[i + 1])
 					|| (i > 0 && j < (int)ft_strlen(map[i - 1])
-					&& map[i - 1][j] == ' ') 
+						&& map[i - 1][j] == ' ')
 					|| (map[i + 1] && j < (int)ft_strlen(map[i + 1])
 					&& map[i + 1][j] == ' ') || (j > 0 && map[i][j - 1] == ' ')
 					|| (j < row_len - 1 && map[i][j + 1] == ' '))
@@ -64,7 +64,7 @@ int	calculate_angle(char **map, int x, int y)
 	else if (map[x][y] == 'E')
 		return (0);
 	else if (map[x][y] == 'W')
-		return (180); 
+		return (180);
 	return (-1);
 }
 
@@ -72,8 +72,8 @@ int	check_player(t_data *data, int i, int j)
 {
 	if (ft_strchr("NSWE", data->map_data->map[i][j]))
 	{
-		data->player->pos[Y] = (i * TILE_SIZE) + TILE_SIZE/2;
-		data->player->pos[X] = (j * TILE_SIZE) + TILE_SIZE/2;
+		data->player->pos[Y] = (i * TILE_SIZE) + TILE_SIZE / 2;
+		data->player->pos[X] = (j * TILE_SIZE) + TILE_SIZE / 2;
 		data->player->angle = calculate_angle(data->map_data->map, i, j);
 		return (1);
 	}
@@ -85,7 +85,7 @@ void	validate_map(t_data *data, char **map)
 	int	i;
 	int	j;
 	int	player_qt;
-	int max_j;
+	int	max_j;
 
 	i = 0;
 	player_qt = 0;
@@ -98,7 +98,7 @@ void	validate_map(t_data *data, char **map)
 			if (check_player(data, i, j) == 1)
 				player_qt++;
 			//Anadir X para la salida, D para las puertas y C para coleccionable si lo implementamos
-			else if (!ft_strchr("01 ", map[i][j]))
+			else if (!ft_strchr("01DX ", map[i][j]))
 				ft_error_exit(ERR_INV_CHAR, data);
 			j++;
 			if (max_j < j)
@@ -116,15 +116,17 @@ void	validate_map(t_data *data, char **map)
 void	parse_map(t_data *data, char **map_line)
 {
 	int		i;
-	char	*map_line_trimmed;
+	char	*line_trimmed;
 
 	i = 0;
-	while(map_line[i])
+	while (map_line[i])
 	{
-		map_line_trimmed = ft_strtrim(map_line[i], "\n");
-		data->map_data->map = add_to_array(&data->map_data->map, map_line_trimmed);
+		if (only_spaces(map_line[i]))
+			ft_error_exit(ERR_MAP, data);
+		line_trimmed = ft_strtrim(map_line[i], "\n");
+		data->map_data->map = add_to_array(&data->map_data->map, line_trimmed);
 		i++;
-		free(map_line_trimmed);
+		free(line_trimmed);
 	}
 	if (!data->map_data->map)
 		ft_error_exit(ERR_MAP, data);
@@ -133,13 +135,13 @@ void	parse_map(t_data *data, char **map_line)
 
 void	validate_conf_textures(t_data *data)
 {
-	if (!data->map_data->north_texture_path
-		|| !data->map_data->south_texture_path
-		|| !data->map_data->west_texture_path
-		|| !data->map_data->east_texture_path
-		|| !data->map_data->floor || !data->map_data->ceiling)
+	if (!data->map_data->north_txt_path
+		|| !data->map_data->south_txt_path
+		|| !data->map_data->west_txt_path
+		|| !data->map_data->east_txt_path
+		|| !data->map_data->floor_txt_path || !data->map_data->ceiling_txt_path)
 		ft_error_exit(ERR_CONF, data);
-	printf("1 - '%s'\n2 - '%s'\n3 - '%s'\n4 - '%s'\n5 - '%s'\n6 - '%s'\n", data->map_data->north_texture_path, data->map_data->south_texture_path, data->map_data->west_texture_path, data->map_data->east_texture_path, data->map_data->floor, data->map_data->ceiling);
+	printf("1 - '%s'\n2 - '%s'\n3 - '%s'\n4 - '%s'\n5 - '%s'\n6 - '%s'\n 7 - '%s'\n 8 - '%s'\n 9 - '%s'\n", data->map_data->north_txt_path, data->map_data->south_txt_path, data->map_data->west_txt_path, data->map_data->east_txt_path, data->map_data->floor_txt_path, data->map_data->ceiling_txt_path, data->map_data->door_txt_path, data->map_data->next_map, data->map_data->exit_sprite_path);
 	if (data->map_data->next_map)
 		printf("7 - '%s'\n", data->map_data->next_map);
 }
@@ -151,7 +153,6 @@ int	check_rgb(char *path, int *i)
 	num = 0;
 	while (path[*i] != '\0' && path[*i] != ',')
 	{
-
 		if (!ft_isdigit(path[*i]))
 			return (-1);
 		num = num * 10 + (path[*i] - '0');
@@ -209,6 +210,14 @@ void	check_color_or_texture(t_data *data, char *path, char id)
 	}
 }
 
+void	check_exit_sprite(char *path, t_data *data, int id)
+{
+	(void)path;
+	(void)data;
+	(void)id;
+	printf("checkeo el sprite\n");
+}
+
 char	*parse_path(char *line, t_data *data, char id)
 {
 	char	*path;
@@ -217,23 +226,24 @@ char	*parse_path(char *line, t_data *data, char id)
 	path = ft_strtrim(line, " \t");
 	if (!path || ft_strchr(path, ' '))
 		ft_error_exit(ERR_TXT, data);
-	if (id == 'N' || id == 'S' || id == 'W' || id == 'E')
+	if (id == 'N' || id == 'S' || id == 'W' || id == 'E' || id == 'X' || id == 'M')
 	{
 		fd = open(path, O_RDONLY);
 		if (fd == -1)
+		{
+			printf("aqui %d\n", id);
 			ft_error_exit(ERR_PATH, data);
+		}
 		close(fd);
 	}
-	else if (id == 'F' || id == 'C')
+	else if (id == 'F' || id == 'C' || id == 'D')
 		check_color_or_texture(data, path, id);
 	if (id == 'X')
+		check_exit_sprite(path, data, id);
+	if (id == 'M')
 	{
 		if (ft_strncmp(path + ft_strlen(path) - 4, ".cub", 4))
 			ft_error_exit(ERR_NEXT, data);
-		fd = open(path, O_RDONLY);
-		if (fd == -1)
-			ft_error_exit(ERR_OPEN_NEXT, data);
-		close(fd);
 	}
 	return (path);
 }
@@ -244,21 +254,23 @@ int	parse_line(t_data *data, char *line)
 
 	trim_line = ft_strtrim(line, "\t\n ");
 	if (ft_strncmp(trim_line, "NO ", 3) == 0)
-		data->map_data->north_texture_path = parse_path(trim_line + 3, data, 'N');
+		data->map_data->north_txt_path = parse_path(trim_line + 3, data, 'N');
 	else if (ft_strncmp(trim_line, "SO ", 3) == 0)
-		data->map_data->south_texture_path = parse_path(trim_line + 3, data, 'S');
+		data->map_data->south_txt_path = parse_path(trim_line + 3, data, 'S');
 	else if (ft_strncmp(trim_line, "WE ", 3) == 0)
-		data->map_data->west_texture_path = parse_path(trim_line + 3, data, 'W');
+		data->map_data->west_txt_path = parse_path(trim_line + 3, data, 'W');
 	else if (ft_strncmp(trim_line, "EA ", 3) == 0)
-		data->map_data->east_texture_path = parse_path(trim_line + 3, data, 'E');
+		data->map_data->east_txt_path = parse_path(trim_line + 3, data, 'E');
 	else if (ft_strncmp(trim_line, "F ", 2) == 0)
-		data->map_data->floor = parse_path(trim_line + 2, data, 'F');
+		data->map_data->floor_txt_path = parse_path(trim_line + 2, data, 'F');
 	else if (ft_strncmp(trim_line, "C ", 2) == 0)
-		data->map_data->ceiling = parse_path(trim_line + 2, data, 'C');
-	else if (ft_strncmp(trim_line, "N ", 2) == 0)
-		data->map_data->next_map = parse_path(trim_line + 2, data, 'N');
-	/*else if (ft_strncmp(trim_line, "X ", 2) == 0)
-		data->map_data->exit_sprite = parse_path(trim_line + 2, data, 'X');*/
+		data->map_data->ceiling_txt_path = parse_path(trim_line + 2, data, 'C');
+	else if (ft_strncmp(trim_line, "D ", 2) == 0)
+		data->map_data->door_txt_path = parse_path(trim_line + 2, data, 'D');
+	else if (ft_strncmp(trim_line, "MAP ", 4) == 0)
+		data->map_data->next_map = parse_path(trim_line + 4, data, 'M');
+	else if (ft_strncmp(trim_line, "EXIT ", 5) == 0)
+		data->map_data->exit_sprite_path = parse_path(trim_line + 5, data, 'X');
 	else
 		return (free(trim_line), 1);
 	return (free(trim_line), 0);
@@ -284,6 +296,7 @@ void	parse_cub_file(t_data *data, char **cub_file)
 	}
 	validate_conf_textures(data);
 	parse_map(data, cub_file + i);
+	//print_str_array(data->map_data->map);
 }
 
 int	read_file(int fd, t_data *data)
