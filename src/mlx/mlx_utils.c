@@ -41,3 +41,21 @@ void	print_pixel_render(int x, int y, int color, t_mlx *mlx_data)
 	if (mlx_data->bpp == 32)
 		mlx_data->new_img_addr[pixel + 3] = (color >> 24);
 }
+
+void	print_tile_pixel(int x, int y, int tile_type, t_mlx *mlx_data)
+{
+	int	color;
+
+	if (tile_type == TILE_WALL)
+		color = MINIMAP_WALL_COLOR;
+	else if (tile_type == TILE_EMPTY)
+		color = MINIMAP_FLOOR_COLOR;
+	else if (tile_type == TILE_SPACE)
+		color = MINIMAP_BACK_COLOR;
+	else if (tile_type == TILE_PLAYER_W || tile_type == TILE_PLAYER_N
+		|| tile_type == TILE_PLAYER_S || tile_type == TILE_PLAYER_E)
+		color = MINIMAP_FLOOR_COLOR;
+	else if (tile_type == TILE_DOOR)
+		color = MINIMAP_DOOR_COLOR;
+	print_pixel_render(x, y, color, mlx_data);
+}

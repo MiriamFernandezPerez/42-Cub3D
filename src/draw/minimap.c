@@ -12,7 +12,7 @@
 
 #include "../../inc/cub3d.h"
 
-void	draw_minimap_border(t_mlx *mlx_data, int start[2], int minimap_size[2])
+void	draw_border(t_mlx *mlx_data, int start[2], int minimap_size[2])
 {
 	int	index[2];
 
@@ -34,7 +34,7 @@ void	draw_minimap_border(t_mlx *mlx_data, int start[2], int minimap_size[2])
 	}
 }
 
-void	draw_minimap_shadow(t_mlx *mlx_data, int start[2], int minimap_size[2])
+void	draw_shadow(t_mlx *mlx_data, int start[2], int minimap_size[2])
 {
 	int	index[2];
 
@@ -56,29 +56,62 @@ void	draw_minimap_shadow(t_mlx *mlx_data, int start[2], int minimap_size[2])
 	}
 }
 
-void	draw_minimap_content(t_minimap *minimap_data, t_mlx *mlx_data, t_data *data)
+void	draw_content(t_minimap *minimap_data, t_mlx *mlx_data, t_data *data)
 {
 	int		index[2];
 	int		start[2];
-	int		current[2];
+	int		curr[2];
 
 	index[X] = 0;
-	start[X] = data->player->pos[X] - (minimap_data->tiles_horz / 2) * 64;
-	start[Y] = data->player->pos[Y] - (TILES_VERTICAL / 2) * 64;
-	while (index[X] <  minimap_data->size[X] - 2)
+	start[X] = data->player->pos[X] - (minimap_data->tiles_horz / 2.0)
+		* TILE_SIZE;
+	start[Y] = data->player->pos[Y] - (TILES_VERTICAL / 2.0) * TILE_SIZE;
+	while (index[X] < minimap_data->size[X] - 2)
 	{
 		index[Y] = 0;
-		current[X] = (start[X] + (index[X] * minimap_data->scale)) / TILE_SIZE;
+		curr[X] = floor((start[X] + (index[X] * minimap_data->scale))
+				/ TILE_SIZE);
 		while (index[Y] < minimap_data->size[Y] - 2)
 		{
-			current[Y] = (start[Y] + (index[Y] * minimap_data->scale)) / TILE_SIZE;
-			if (current[Y] < 0 || current[X] < 0 || current[X] > data->map_data->max_width
-					|| current[Y] > data->map_data->max_height)
+			curr[Y] = floor((start[Y] + (index[Y] * minimap_data->scale))
+					/ TILE_SIZE);
+			if (curr[Y] < 0 || curr[X] < 0
+				|| curr[X] >= data->map_data->max_width
+				|| curr[Y] >= data->map_data->max_height)
 				print_pixel_render(index[X] + minimap_data->start[X] + 1,
-					index[Y] + minimap_data->start[Y] + 1, 0x000000, mlx_data);
-			else if (data->map_data->map[current[Y]][current[X]] == TILE_WALL)
-				print_pixel_render(index[X] + minimap_data->start[X] + 1,
-					index[Y] + minimap_data->start[Y] + 1, 0xFFFFFF, mlx_data);
+					index[Y] + minimap_data->start[Y] + 1,
+					MINIMAP_BACK_COLOR, mlx_data);
+			else
+				print_tile_pixel(index[X] + minimap_data->start[X] + 1,
+					index[Y] + minimap_data->start[Y] + 1,
+					data->map_data->map[curr[Y]][curr[X]], mlx_data);
+			index[Y]++;
+		}
+		index[X]++;
+	}
+}
+
+void	draw_player(t_minimap *minimap_data, t_mlx *mlx_data)
+{
+	int	start_pos[2];
+	int	index[2];
+	int	square_size;
+
+	square_size = minimap_data->tile_size / 3.0;
+	if (square_size % 2 == 1)
+		square_size++;
+	start_pos[X] = minimap_data->start[X] + (minimap_data->size[X] / 2)
+		- (square_size / 2);
+	start_pos[Y] = minimap_data->start[Y] + (minimap_data->size[Y] / 2)
+		- (square_size / 2);
+	index[X] = 0;
+	while (index[X] < square_size)
+	{
+		index[Y] = 0;
+		while (index[Y] < square_size)
+		{
+			print_pixel_render(start_pos[X] + index[X], start_pos[Y] + index[Y],
+				0xFF0000, mlx_data);
 			index[Y]++;
 		}
 		index[X]++;
@@ -87,20 +120,8 @@ void	draw_minimap_content(t_minimap *minimap_data, t_mlx *mlx_data, t_data *data
 
 void	create_minimap(t_minimap *minimap_data, t_mlx *mlx_data, t_data *data)
 {
-	int	index[2];
-	draw_minimap_border(mlx_data, minimap_data->start, minimap_data->size);
-	draw_minimap_shadow(mlx_data, minimap_data->start, minimap_data->size);
-	index[X] = minimap_data->start[X] + 1;
-	
-	while (index[X] < minimap_data->start[X] + minimap_data->size[X] - 1)
-	{
-		index[Y] = minimap_data->start[Y] + 1;
-		while (index[Y] < minimap_data->start[Y] + minimap_data->size[Y] - 1)
-		{
-			print_pixel_render(index[X], index[Y], MINIMAP_BACK_COLOR, mlx_data);
-			index[Y]++;
-		}
-		index[X]++;
-	}
-	draw_minimap_content(minimap_data, mlx_data, data);
+	draw_border(mlx_data, minimap_data->start, minimap_data->size);
+	draw_shadow(mlx_data, minimap_data->start, minimap_data->size);
+	draw_content(minimap_data, mlx_data, data);
+	draw_player(minimap_data, mlx_data);
 }

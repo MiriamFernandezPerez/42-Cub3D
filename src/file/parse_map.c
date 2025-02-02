@@ -93,7 +93,7 @@ void	validate_map_tiles(t_data *data, char **map)
 	}
 	if (player_qt != 1)
 		ft_error_exit(ERR_PLAYER, data);
-	data->map_data->max_width = max_j;
+	data->map_data->max_width = max_j + 1;
 	data->map_data->max_height = i;
 }
 

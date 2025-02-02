@@ -25,8 +25,8 @@
 # include <X11/keysym.h>
 
 /*Constants*/
-# define WIDTH 3200
-# define HEIGHT 2000
+# define WIDTH 1600
+# define HEIGHT 1000
 # define TILE_SIZE 64
 # define FOV 60
 # define PLAYER_SPEED 5
@@ -48,7 +48,10 @@
 # define MINIMAP_HEIGHT 0.2
 # define MINIMAP_MARGIN 0.02
 # define TILES_VERTICAL 9
-# define MINIMAP_BACK_COLOR 0x808080
+# define MINIMAP_BACK_COLOR 0xA7A6A6
+# define MINIMAP_WALL_COLOR 0xA95C4C
+# define MINIMAP_FLOOR_COLOR 12316584
+# define MINIMAP_DOOR_COLOR 0x505050
 # define MINIMAP_BORDER_COLOR 0x000000
 # define MINIMAP_SHADOW_COLOR 0x505050
 
@@ -100,6 +103,7 @@ typedef enum e_tile_type
 {
 	TILE_WALL = '1',
 	TILE_EMPTY = '0',
+	TILE_SPACE = ' ',
 	TILE_PLAYER_N = 'N',
 	TILE_PLAYER_E = 'E',
 	TILE_PLAYER_W = 'W',
@@ -255,5 +259,6 @@ int		key_release(int keycode, t_data *data);
 void	print_nbr(t_mlx *mlx_data, int x, int y, int nbr);
 void	print_str(t_mlx *mlx_data, int x, int y, char *str);
 void	print_pixel_render(int x, int y, int color, t_mlx *mlx_data);
+void	print_tile_pixel(int x, int y, int tile_type, t_mlx *mlx_data);
 
 #endif

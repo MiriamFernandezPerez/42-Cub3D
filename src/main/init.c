@@ -72,8 +72,7 @@ void	init_minimap_data(t_minimap *minimap_data)
 	minimap_data->start[X]
 		= WIDTH - minimap_data->size[X] - minimap_data->margin[X];
 	minimap_data->start[Y] = minimap_data->margin[Y];
-	printf("minimap_data->tile_size:%d \n", minimap_data->tile_size);
-	minimap_data->scale = TILE_SIZE / minimap_data->tile_size;
+	minimap_data->scale = TILE_SIZE / (double)minimap_data->tile_size;
 }
 
 // Initializes data struct
