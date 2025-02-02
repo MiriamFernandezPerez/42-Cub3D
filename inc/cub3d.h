@@ -229,9 +229,17 @@ void	try_open_path(t_data *data, char *path);
 int		open_cub_file(char *path, t_data *data);
 
 /*parse_file.c*/
+int	check_tiles_between(char **map, int y, int x);
+void	validate_doors(t_data *data, char **map);
+char	*parse_path(char *line, t_data *data, char id);
+int		parse_line(t_data *data, t_map *map_data, char *line);
 void	parse_cub_file(t_data *data, char **cub_file);
 
 /*parse_map.c*/
+void	validate_map_border(t_data *data, t_map *map_data, char **map);
+int		check_player(t_data *data, int y, int x);
+void	normalize_map(t_data *data, char **map);
+void	validate_map_tiles(t_data *data, char **map);
 void	parse_map(t_data *data, char **map_line);
 
 /*validate_txt_and_colors.c*/

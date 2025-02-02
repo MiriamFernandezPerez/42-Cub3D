@@ -113,25 +113,30 @@ void	validate_map_tiles(t_data *data, char **map)
 	data->map_data->max_height = i;
 }
 
-void	parse_map(t_data *data, char **map_line)
+void	parse_map(t_data *data, char **map)
 {
 	int		i;
+	int		j;
+	int		k;
 	char	*line_trimmed;
 
-	i = 0;
-	while (map_line[i])
+	i = -1;
+	while (map[++i])
 	{
-		if (only_spaces(map_line[i]))
-			ft_error_exit(ERR_MAP, data);
-		line_trimmed = ft_strtrim(map_line[i], "\n");
+		if (only_spaces(map[i]) || map[i][0] == '\n')
+		{
+			j = i - 1;
+			while (map[++j])
+			{
+				k = -1;
+				if (map[j][++k] != '\n')
+					ft_error_exit(ERR_MAP, data);
+			}
+		}
+		line_trimmed = ft_strtrim(map[i], "\n");
 		data->map_data->map = add_to_array(&data->map_data->map, line_trimmed);
-		i++;
 		free(line_trimmed);
 	}
 	if (!data->map_data->map)
 		ft_error_exit(ERR_MAP, data);
-	validate_map_tiles(data, data->map_data->map);
-	normalize_map(data, data->map_data->map);
-	validate_map_border(data, data->map_data, data->map_data->map);
-	validate_map_route(data);
 }
