@@ -36,3 +36,18 @@ double	normalize_angle(double angle)
 		angle += 360;
 	return (angle);
 }
+
+int	only_spaces(const char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i])
+	{
+		if (!ft_isspace(str[i]))
+			return (0);
+		i++;
+	}
+	return (1);
+}
+

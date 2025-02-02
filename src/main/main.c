@@ -46,6 +46,8 @@ void	init_map(t_map *map_data)
 	map_data->ceiling_color = 0;
 	map_data->floor_color = 0;
 	map_data->next_map = NULL;
+	map_data->zero_qt = 0;
+	map_data->zeros_found = 0;
 }
 
 // Initializes data struct

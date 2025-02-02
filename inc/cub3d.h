@@ -18,6 +18,7 @@
 # include <fcntl.h>
 # include <math.h>
 # include <stddef.h>
+# include <stdbool.h>
 # include "../src/libft/libft.h"
 # include "../minilibx-linux/mlx.h"
 # include <X11/Xlib.h>
@@ -61,6 +62,7 @@
 # define ERR_INV_CHAR "Error\nInvalid character in map\n"
 # define ERR_PLAYER "Error\nMap must have only one player\n"
 # define ERR_BORDER "Error\nThe map must be closed/surrounded by walls\n"
+# define ERR_SOLUT "Error\nInvalid Map, player can't visit all the spaces\n"
 # define ERR_MLX_INIT "Error\nmlx : initialization failed\n"
 # define ERR_MLX_WIN "Error\nmlx : window creation failed\n"
 # define ERR_MLX_IMG "Error\nmlx : image creation failed\n"
@@ -94,13 +96,15 @@ typedef enum e_tile_type
 	TILE_PLAYER_W = 'W',
 	TILE_PLAYER_S = 'S',
 	TILE_DOOR = 'D',
-	TILE_EXIT = 'X'
+	TILE_EXIT = 'X',
+	TILE_COLLECT = 'C'
 }	t_tile_type;
 
 /*Player*/
 typedef struct s_player
 {
-	int		pos[2]; //X and Y 
+	int		pos[2]; //X and Y in pixels
+	int		coord[2]; //X y Y on grids
 	double	angle; //Direction
 }	t_player;
 
@@ -120,6 +124,8 @@ typedef struct s_map
 	char		*exit_sprite_path;
 	int			ceiling_color;
 	int			floor_color;
+	int			zero_qt;
+	int			zeros_found;
 	char		*next_map;
 }	t_map;
 
@@ -167,6 +173,19 @@ int		main(int ac, char **av);
 /*open_file.c*/
 int		open_file(char *path, t_data *data);
 
+/*parse_file.c*/
+void	parse_cub_file(t_data *data, char **cub_file);
+
+/*parse_map.c*/
+void	parse_map(t_data *data, char **map_line);
+
+/*validate_txt_and_colors.c*/
+void	validate_conf_textures(t_data *data);
+void	check_color_or_texture(t_data *data, char *path, char id);
+void	check_exit_sprite(char *path, t_data *data, int id);
+/*flood_fill.c*/
+void	validate_map_route(t_data *data);
+
 /*error.c*/
 void	ft_error_exit(char *msg, t_data *data);
 void	ft_error(char *msg);
@@ -184,6 +203,7 @@ void	destroy_mlx(t_data *data);
 void	malloc_protection(void *ptr, t_data *data);
 double	deg_to_rad(double degrees);
 double	normalize_angle(double angle);
+int		only_spaces(const char *str);
 
 /*test_utils.c*/
 void	print_str_array(char **str_array);
