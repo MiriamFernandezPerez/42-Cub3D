@@ -6,7 +6,7 @@
 /*   By: mirifern <mirifern@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 21:08:03 by mirifern          #+#    #+#             */
-/*   Updated: 2025/02/03 00:33:21 by igarcia2         ###   ########.fr       */
+/*   Updated: 2025/02/03 00:57:20 by igarcia2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -293,6 +293,7 @@ void	print_str(t_mlx *mlx_data, int x, int y, char *str);
 /*texture_utils.c*/
 void	add_texture_node(char id_texture, char *path, t_data *data);
 void	clear_txt_list(t_texture **txt_list);
+t_texture	*get_texture(char id_txt, t_data *data);
 
 /*draw_map.c*/
 void	draw_map(t_raycast *ray_data, t_data *data);
