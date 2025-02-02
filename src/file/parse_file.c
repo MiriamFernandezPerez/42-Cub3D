@@ -122,4 +122,8 @@ void	parse_cub_file(t_data *data, char **cub_file)
 	validate_conf_textures(data);
 	parse_map(data, cub_file + i);
 	validate_doors(data, data->map_data->map);
+	validate_map_tiles(data, data->map_data->map);
+	normalize_map(data, data->map_data->map);
+	validate_map_border(data, data->map_data, data->map_data->map);
+	validate_map_route(data);
 }
