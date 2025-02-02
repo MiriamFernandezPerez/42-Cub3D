@@ -234,6 +234,7 @@ void	malloc_protection(void *ptr, t_data *data);
 double	deg_to_rad(double degrees);
 double	normalize_angle(double angle);
 int		only_spaces(const char *str);
+int		calculate_angle(char **map, int x, int y);
 
 /*test_utils.c*/
 void	print_str_array(char **str_array);

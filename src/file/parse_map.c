@@ -41,19 +41,6 @@ void	validate_map_border(t_data *data, char **map)
 	}
 }
 
-int	calculate_angle(char **map, int x, int y)
-{
-	if (map[x][y] == 'N')
-		return (90);
-	else if (map[x][y] == 'S')
-		return (270);
-	else if (map[x][y] == 'E')
-		return (0);
-	else if (map[x][y] == 'W')
-		return (180);
-	return (-1);
-}
-
 int	check_player(t_data *data, int i, int j)
 {
 	if (ft_strchr("NSWE", data->map_data->map[i][j]))
@@ -66,6 +53,32 @@ int	check_player(t_data *data, int i, int j)
 		return (1);
 	}
 	return (0);
+}
+
+void	normalize_map(t_data *data, char **map)
+{
+	int		i;
+	char	*new_row;
+	int		len;
+
+	i = 0;
+	while (map[i])
+	{
+		len = (int)ft_strlen(map[i]);
+		if (len == data->map_data->max_width)
+			i++;
+		else
+		{
+			new_row = malloc(data->map_data->max_width + 1);
+			malloc_protection(new_row, data);
+			ft_memcpy(new_row, map[i], len);
+			ft_memset(new_row + len, ' ', data->map_data->max_width - len);
+			new_row[data->map_data->max_width] = '\0';
+			free(map[i]);
+			map[i] = new_row;
+		}
+        i++;
+    }
 }
 
 void	validate_map_tiles(t_data *data, char **map)
@@ -115,6 +128,7 @@ void	parse_map(t_data *data, char **map_line)
 	if (!data->map_data->map)
 		ft_error_exit(ERR_MAP, data);
 	validate_map_tiles(data, data->map_data->map);
+	normalize_map(data, data->map_data->map);
 	validate_map_border(data, data->map_data->map);
 	validate_map_route(data);
 }

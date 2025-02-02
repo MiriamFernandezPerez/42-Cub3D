@@ -50,3 +50,16 @@ int	only_spaces(const char *str)
 	}
 	return (1);
 }
+
+int	calculate_angle(char **map, int x, int y)
+{
+	if (map[x][y] == 'N')
+		return (90);
+	else if (map[x][y] == 'S')
+		return (270);
+	else if (map[x][y] == 'E')
+		return (0);
+	else if (map[x][y] == 'W')
+		return (180);
+	return (-1);
+}
