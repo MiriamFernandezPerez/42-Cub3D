@@ -1,0 +1,20 @@
+    NO ./sources/textures/north_txt.xpm     
+SO     ./sources/textures/south_txt.xpm
+ WE   ./sources/textures/west_txt.xpm      
+EA  ./sources/textures/east_txt.xpm     
+F    187,239,168
+    C 139,221,222  
+D ./sources/textures/east_txt.xpm
+    MAP ./sources/maps/map.cub
+    EXIT ./sources/textures/east_txt.xpm 
+
+
+11111111111111
+10000000000001
+1000000N000001
+10000000000001
+10000001000001
+1111110D011111
+10000001000001
+10000000000001
+11111111111111

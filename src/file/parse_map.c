@@ -41,18 +41,18 @@ void	validate_map_border(t_data *data, t_map *map_data, char **map)
 	}
 }
 
-int	check_player(t_data *data, int i, int j)
+int	check_player(t_data *data, int y, int x)
 {
-	if (data->map_data->map[i][j] == TILE_N
-		|| data->map_data->map[i][j] == TILE_S
-		|| data->map_data->map[i][j] == TILE_W
-		|| data->map_data->map[i][j] == TILE_E)
+	if (data->map_data->map[y][x] == TILE_N
+		|| data->map_data->map[y][x] == TILE_S
+		|| data->map_data->map[y][x] == TILE_W
+		|| data->map_data->map[y][x] == TILE_E)
 	{
-		data->player->pos[Y] = (i * TILE_SIZE) + TILE_SIZE / 2;
-		data->player->pos[X] = (j * TILE_SIZE) + TILE_SIZE / 2;
-		data->player->coord[Y] = i;
-		data->player->coord[X] = j;
-		data->player->angle = calculate_angle(data->map_data->map, i, j);
+		data->player->pos[Y] = (y * TILE_SIZE) + TILE_SIZE / 2;
+		data->player->pos[X] = (x * TILE_SIZE) + TILE_SIZE / 2;
+		data->player->coord[Y] = y;
+		data->player->coord[X] = x;
+		data->player->angle = calculate_angle(data->map_data->map, y, x);
 		return (1);
 	}
 	return (0);

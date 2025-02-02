@@ -55,7 +55,6 @@
 # define EXIT "EXIT "
 # define VALID_TILES "01DXC "
 
-
 /*id_cub_file_settings*/
 # define ID_NORTH 'N'
 # define ID_SOUTH 'S'
@@ -66,7 +65,6 @@
 # define ID_DOOR 'D'
 # define ID_MAP 'M'
 # define ID_EXIT 'X'
-
 
 /*Minimap*/
 # define MINIMAP_WIDTH 0.2
@@ -98,6 +96,7 @@
 # define ERR_CONF "Error\nRequired sections missing from .cub file\n"
 # define ERR_INV_CHAR "Error\nInvalid character in map\n"
 # define ERR_PLAYER "Error\nMap must have only one player\n"
+# define ERR_DOOR "Error\nInvalid door at map\n"
 # define ERR_BORDER "Error\nThe map must be closed/surrounded by walls\n"
 # define ERR_SOLUT "Error\nInvalid Map, player can't visit all the spaces\n"
 # define ERR_MLX_INIT "Error\nmlx : initialization failed\n"
@@ -226,7 +225,8 @@ void	init_map(t_map *map_data);
 void	init_mlx(t_data *data);
 
 /*open_file.c*/
-int		open_file(char *path, t_data *data);
+void	try_open_path(t_data *data, char *path);
+int		open_cub_file(char *path, t_data *data);
 
 /*parse_file.c*/
 void	parse_cub_file(t_data *data, char **cub_file);

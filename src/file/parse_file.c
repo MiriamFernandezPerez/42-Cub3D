@@ -12,26 +12,59 @@
 
 #include "../../inc/cub3d.h"
 
+int	check_tiles_between(char **map, int y, int x)
+{
+	if ((map[y - 1]
+			&& (map[y - 1][x] == TILE_FLOOR && map[y + 1][x] != TILE_FLOOR))
+		|| (map[y - 1]
+			&& (map[y - 1][x] == TILE_WALL && map[y + 1][x] != TILE_WALL))
+		|| (map[x - 1]
+			&& (map[y][x - 1] == TILE_FLOOR && map[y][x + 1] != TILE_FLOOR))
+		|| (map[x - 1]
+			&& (map[y][x - 1] == TILE_WALL && map[y][x + 1] != TILE_WALL)))
+		return (1);
+	return (0);
+}
+
+void	validate_doors(t_data *data, char **map)
+{
+	int	y;
+	int	x;
+
+	y = 0;
+	while (map[y])
+	{
+		x = 0;
+		while (map[y][x])
+		{
+			if (map[y][x] == TILE_DOOR)
+			{
+				if (check_tiles_between(map, y, x))
+					ft_error_exit(ERR_DOOR, data);
+			}
+			x++;
+		}
+		y++;
+	}
+}
+
 char	*parse_path(char *line, t_data *data, char id)
 {
 	char	*path;
-	int		fd;
 
 	path = ft_strtrim(line, " \t");
 	if (!path || ft_strchr(path, ' '))
 		ft_error_exit(ERR_TXT, data);
 	if (id == ID_NORTH || id == ID_SOUTH || id == ID_WEST || id == ID_EAST
 		|| id == ID_EXIT || id == ID_MAP)
-	{
-		fd = open(path, O_RDONLY);
-		if (fd == -1)
-			ft_error_exit(ERR_PATH, data);
-		close(fd);
-	}
+		try_open_path(data, path);
 	else if (id == ID_FLOOR || id == ID_CEIL || id == ID_DOOR)
 		check_color_or_texture(data, path, id);
 	if (id == ID_EXIT || id == ID_DOOR)
-		check_exit_sprite(path, data, id);
+	{
+		try_open_path(data, path);
+		//check_exit_sprite(path, data, id);
+	}
 	if (id == ID_MAP)
 	{
 		if (ft_strncmp(path + ft_strlen(path) - 4, ".cub", 4))
@@ -88,4 +121,5 @@ void	parse_cub_file(t_data *data, char **cub_file)
 	}
 	validate_conf_textures(data);
 	parse_map(data, cub_file + i);
+	validate_doors(data, data->map_data->map);
 }

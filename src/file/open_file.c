@@ -12,6 +12,19 @@
 
 #include "../../inc/cub3d.h"
 
+void	try_open_path(t_data *data, char *path)
+{
+	int	fd;
+
+	fd = open(path, O_RDONLY);
+	if (fd == -1)
+	{
+		close(fd);
+		ft_error_exit(ERR_PATH, data);
+	}
+	close(fd);
+}
+
 int	read_file(int fd, t_data *data)
 {
 	char	*line;
@@ -31,7 +44,7 @@ int	read_file(int fd, t_data *data)
 	return (EXIT_SUCCESS);
 }
 
-int	open_file(char *path, t_data *data)
+int	open_cub_file(char *path, t_data *data)
 {
 	int	fd;
 
