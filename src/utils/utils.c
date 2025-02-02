@@ -37,15 +37,15 @@ double	normalize_angle(double angle)
 	return (angle);
 }
 
-int	calculate_angle(char **map, int x, int y)
+int	calculate_angle(char **map, int y, int x)
 {
-	if (map[x][y] == 'N')
+	if (map[y][x] == 'N')
 		return (90);
-	else if (map[x][y] == 'S')
+	else if (map[y][x] == 'S')
 		return (270);
-	else if (map[x][y] == 'E')
+	else if (map[y][x] == 'E')
 		return (0);
-	else if (map[x][y] == 'W')
+	else if (map[y][x] == 'W')
 		return (180);
 	return (-1);
 }
