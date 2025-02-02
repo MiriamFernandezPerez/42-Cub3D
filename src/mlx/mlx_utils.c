@@ -6,7 +6,7 @@
 /*   By: igarcia2 <igarcia2@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 19:25:31 by igarcia2          #+#    #+#             */
-/*   Updated: 2025/02/01 21:30:07 by igarcia2         ###   ########.fr       */
+/*   Updated: 2025/02/02 21:14:02 by igarcia2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,20 +42,29 @@ void	print_pixel_render(int x, int y, int color, t_mlx *mlx_data)
 		mlx_data->new_img_addr[pixel + 3] = (color >> 24);
 }
 
-void	print_tile_pixel(int x, int y, int tile_type, t_mlx *mlx_data)
+void	print_tile_pixel(int x, int y, int map_idx[2], t_data *data)
 {
 	int	color;
+	int	tile_type;
 
-	if (tile_type == TILE_WALL)
-		color = MINIMAP_WALL_COLOR;
-	else if (tile_type == TILE_FLOOR)
-		color = MINIMAP_FLOOR_COLOR;
-	else if (tile_type == TILE_SPACE)
+	if (map_idx[Y] < 0 || map_idx[X] < 0
+		|| map_idx[X] >= data->map_data->max_width
+		|| map_idx[Y] >= data->map_data->max_height)
 		color = MINIMAP_BACK_COLOR;
-	else if (tile_type == TILE_W || tile_type == TILE_N
-		|| tile_type == TILE_S || tile_type == TILE_E)
-		color = MINIMAP_FLOOR_COLOR;
-	else if (tile_type == TILE_DOOR)
-		color = MINIMAP_DOOR_COLOR;
-	print_pixel_render(x, y, color, mlx_data);
+	else
+	{
+		tile_type = data->map_data->map[map_idx[Y]][map_idx[X]];
+		if (tile_type == TILE_WALL)
+			color = MINIMAP_WALL_COLOR;
+		else if (tile_type == TILE_FLOOR)
+			color = MINIMAP_FLOOR_COLOR;
+		else if (tile_type == TILE_SPACE)
+			color = MINIMAP_BACK_COLOR;
+		else if (tile_type == TILE_W || tile_type == TILE_N
+			|| tile_type == TILE_S || tile_type == TILE_E)
+			color = MINIMAP_FLOOR_COLOR;
+		else if (tile_type == TILE_DOOR)
+			color = MINIMAP_DOOR_COLOR;
+	}
+	print_pixel_render(x, y, color, data->mlx_data);
 }
