@@ -6,7 +6,7 @@
 /*   By: mirifern <mirifern@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 21:05:41 by mirifern          #+#    #+#             */
-/*   Updated: 2025/01/31 20:40:53 by igarcia2         ###   ########.fr       */
+/*   Updated: 2025/02/02 01:56:44 by igarcia2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,13 +19,16 @@ void	init_mlx(t_data *data)
 	data->mlx_data->mlx_ptr = mlx_init();
 	if (!data->mlx_data->mlx_ptr)
 		ft_error_exit(ERR_MLX_INIT, data);
-	data->mlx_data->win_ptr =
-		mlx_new_window(data->mlx_data->mlx_ptr, WIDTH, HEIGHT, "cub3d");
+	data->mlx_data->win_ptr
+		= mlx_new_window(data->mlx_data->mlx_ptr, WIDTH, HEIGHT, "cub3d");
 	if (!data->mlx_data->win_ptr)
 		ft_error_exit(ERR_MLX_WIN, data);
 	data->mlx_data->img_ptr = NULL;
 	data->mlx_data->img_addr = NULL;
-    data->mlx_data->redraw = 1;
+	data->mlx_data->new_img_addr = NULL;
+	data->mlx_data->img_ptr = NULL;
+	data->mlx_data->img_addr = NULL;
+	data->mlx_data->redraw = 1;
 	mlx_hook(data->mlx_data->win_ptr, 2, 1L << 0, key_press, data);
 	mlx_loop_hook(data->mlx_data->mlx_ptr, game_loop, data);
 }
@@ -50,6 +53,29 @@ void	init_map(t_map *map_data)
 	map_data->zeros_found = 0;
 }
 
+void	init_minimap_data(t_minimap *minimap_data)
+{
+	minimap_data->size[X] = WIDTH * 0.2;
+	minimap_data->size[Y] = HEIGHT * 0.2;
+	minimap_data->margin[X] = WIDTH * MINIMAP_MARGIN;
+	minimap_data->margin[Y] = HEIGHT * MINIMAP_MARGIN;
+	minimap_data->tile_size = minimap_data->size[Y] / TILES_VERTICAL;
+	minimap_data->size[Y] = (minimap_data->tile_size * TILES_VERTICAL) + 2;
+	minimap_data->size[X] = (minimap_data->size[X] / minimap_data->tile_size)
+		* minimap_data->tile_size + 2;
+	minimap_data->tiles_horz = minimap_data->size[X] / minimap_data->tile_size;
+	if (minimap_data->tiles_horz % 2 == 0)
+	{
+		minimap_data->tiles_horz++;
+		minimap_data->size[X] += minimap_data->tile_size;
+	}
+	minimap_data->start[X]
+		= WIDTH - minimap_data->size[X] - minimap_data->margin[X];	
+	minimap_data->start[Y] = minimap_data->margin[Y];
+	printf("minimap_data->tile_size:%d \n", minimap_data->tile_size);
+	minimap_data->scale = TILE_SIZE / minimap_data->tile_size;
+}
+
 // Initializes data struct
 void	init_data(t_data **data)
 {
@@ -59,6 +85,7 @@ void	init_data(t_data **data)
 	(*data)->ray_data = NULL;
 	(*data)->mlx_data = NULL;
 	(*data)->cub_file = NULL;
+	(*data)->minimap_data = NULL;
 	(*data)->player = (t_player *)malloc(sizeof(t_player));
 	malloc_protection((*data)->player, *data);
 	(*data)->ray_data = malloc(sizeof(t_raycast));
@@ -68,10 +95,13 @@ void	init_data(t_data **data)
 	(*data)->map_data = malloc(sizeof(t_map));
 	malloc_protection((*data)->map_data, *data);
 	init_map((*data)->map_data);
+	(*data)->minimap_data = malloc(sizeof(t_minimap));
+	malloc_protection((*data)->minimap_data, (*data));
+	init_minimap_data((*data)->minimap_data);
 }
 
 // Check if arg value is valid
-int check_args(int ac, char **av)
+int	check_args(int ac, char **av)
 {
 	if (ac != 2)
 		return (ft_error(ERR_ARGS), EXIT_FAILURE);
@@ -81,22 +111,17 @@ int check_args(int ac, char **av)
 }
 
 // Main function
-int main(int ac, char **av)
+int	main(int ac, char **av)
 {
-	t_data *data;
+	t_data	*data;
 
 	data = NULL;
 	if (check_args(ac, av) == EXIT_FAILURE)
 		return (free_data(data), EXIT_FAILURE);
-	// PARSE MAP
-
 	init_data(&data);
 	if (open_file(av[1], data) == EXIT_FAILURE)
 		return (free_data(data), EXIT_FAILURE);
-
-	//init_map_test(data->map_data, data);
-	// DRAW MAP
 	init_mlx(data);
-    mlx_loop(data->mlx_data->mlx_ptr);
+	mlx_loop(data->mlx_data->mlx_ptr);
 	return (0);
 }
