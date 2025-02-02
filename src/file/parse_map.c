@@ -12,38 +12,41 @@
 
 #include "../../inc/cub3d.h"
 
-void	validate_map_border(t_data *data, char **map)
+void	validate_map_border(t_data *data, t_map *map_data, char **map)
 {
-	int	i;
-	int	j;
-	int	row_len;
+	int	i[2];
 
-	i = -1;
-	while (map[++i])
+	i[Y] = -1;
+	while (map[++i[Y]])
 	{
-		j = 0;
-		row_len = ft_strlen(map[i]);
-		while (j < row_len)
+		i[X] = -1;
+		while (++i[X] < map_data->max_width)
 		{
-			if (map[i][j] == '0' || ft_strchr("NSWE", map[i][j]))
+			if (map[i[Y]][i[X]] == TILE_FLOOR || map[i[Y]][i[X]] == TILE_N
+				|| map[i[Y]][i[X]] == TILE_S || map[i[Y]][i[X]] == TILE_W
+				|| map[i[Y]][i[X]] == TILE_E)
 			{
-				if (i == 0 || j == 0 || !map[i + 1]
-					|| j >= (int)ft_strlen(map[i + 1])
-					|| (i > 0 && j < (int)ft_strlen(map[i - 1])
-						&& map[i - 1][j] == ' ')
-					|| (map[i + 1] && j < (int)ft_strlen(map[i + 1])
-					&& map[i + 1][j] == ' ') || (j > 0 && map[i][j - 1] == ' ')
-					|| (j < row_len - 1 && map[i][j + 1] == ' '))
+				if (i[Y] == 0 || i[X] == 0 || !map[i[Y] + 1]
+					|| i[X] >= (int)ft_strlen(map[i[Y] + 1])
+					|| (i[Y] > 0 && i[X] < (int)ft_strlen(map[i[Y] - 1])
+						&& map[i[Y] - 1][i[X]] == ' ')
+					|| (map[i[Y] + 1] && i[X] < (int)ft_strlen(map[i[Y] + 1])
+					&& map[i[Y] + 1][i[X]] == ' ')
+					|| (i[X] > 0 && map[i[Y]][i[X] - 1] == ' ')
+					|| (i[X] < map_data->max_width - 1
+						&& map[i[Y]][i[X] + 1] == ' '))
 					ft_error_exit(ERR_BORDER, data);
 			}
-			j++;
 		}
 	}
 }
 
 int	check_player(t_data *data, int i, int j)
 {
-	if (ft_strchr("NSWE", data->map_data->map[i][j]))
+	if (data->map_data->map[i][j] == TILE_N
+		|| data->map_data->map[i][j] == TILE_S
+		|| data->map_data->map[i][j] == TILE_W
+		|| data->map_data->map[i][j] == TILE_E)
 	{
 		data->player->pos[Y] = (i * TILE_SIZE) + TILE_SIZE / 2;
 		data->player->pos[X] = (j * TILE_SIZE) + TILE_SIZE / 2;
@@ -77,8 +80,8 @@ void	normalize_map(t_data *data, char **map)
 			free(map[i]);
 			map[i] = new_row;
 		}
-        i++;
-    }
+		i++;
+	}
 }
 
 void	validate_map_tiles(t_data *data, char **map)
@@ -98,7 +101,7 @@ void	validate_map_tiles(t_data *data, char **map)
 		{
 			if (check_player(data, i, j) == 1)
 				player_qt++;
-			else if (!ft_strchr("01DXC ", map[i][j]))
+			else if (!ft_strchr(VALID_TILES, map[i][j]))
 				ft_error_exit(ERR_INV_CHAR, data);
 			if (max_j < j)
 				max_j = j;
@@ -129,6 +132,6 @@ void	parse_map(t_data *data, char **map_line)
 		ft_error_exit(ERR_MAP, data);
 	validate_map_tiles(data, data->map_data->map);
 	normalize_map(data, data->map_data->map);
-	validate_map_border(data, data->map_data->map);
+	validate_map_border(data, data->map_data, data->map_data->map);
 	validate_map_route(data);
 }

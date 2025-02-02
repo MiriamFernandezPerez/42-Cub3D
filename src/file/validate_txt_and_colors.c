@@ -73,9 +73,9 @@ void	check_color_or_texture(t_data *data, char *path, char id)
 		color = rgb_to_hex(path);
 		if (color == -1)
 			ft_error_exit(ERR_COLOR, data);
-		if (id == 'F')
+		if (id == ID_FLOOR)
 			data->map_data->floor_color = color;
-		else if (id == 'C')
+		else if (id == ID_CEIL)
 			data->map_data->ceiling_color = color;
 	}
 	else

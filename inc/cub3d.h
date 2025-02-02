@@ -43,6 +43,31 @@
 # define KEY_LEFT 65361
 # define KEY_RIGHT 65363
 
+/*cub_file*/
+# define NORTH_TXT "NO "
+# define SOUTH_TXT "SO "
+# define WEST_TXT "WE "
+# define EAST_TXT "EA "
+# define FLOOR "F "
+# define CEIL "C "
+# define DOOR "D "
+# define NEXT_MAP "NEXT "
+# define EXIT "EXIT "
+# define VALID_TILES "01DXC "
+
+
+/*id_cub_file_settings*/
+# define ID_NORTH 'N'
+# define ID_SOUTH 'S'
+# define ID_WEST 'W'
+# define ID_EAST 'E'
+# define ID_FLOOR 'F'
+# define ID_CEIL 'C'
+# define ID_DOOR 'D'
+# define ID_MAP 'M'
+# define ID_EXIT 'X'
+
+
 /*Minimap*/
 # define MINIMAP_WIDTH 0.2
 # define MINIMAP_HEIGHT 0.2
@@ -102,12 +127,12 @@ typedef enum e_coord
 typedef enum e_tile_type
 {
 	TILE_WALL = '1',
-	TILE_EMPTY = '0',
+	TILE_FLOOR = '0',
 	TILE_SPACE = ' ',
-	TILE_PLAYER_N = 'N',
-	TILE_PLAYER_E = 'E',
-	TILE_PLAYER_W = 'W',
-	TILE_PLAYER_S = 'S',
+	TILE_N = 'N',
+	TILE_E = 'E',
+	TILE_W = 'W',
+	TILE_S = 'S',
 	TILE_DOOR = 'D',
 	TILE_EXIT = 'X',
 	TILE_COLLECT = 'C'

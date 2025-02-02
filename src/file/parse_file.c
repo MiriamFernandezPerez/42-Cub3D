@@ -20,19 +20,19 @@ char	*parse_path(char *line, t_data *data, char id)
 	path = ft_strtrim(line, " \t");
 	if (!path || ft_strchr(path, ' '))
 		ft_error_exit(ERR_TXT, data);
-	if (id == 'N' || id == 'S' || id == 'W' || id == 'E'
-		|| id == 'X' || id == 'M')
+	if (id == ID_NORTH || id == ID_SOUTH || id == ID_WEST || id == ID_EAST
+		|| id == ID_EXIT || id == ID_MAP)
 	{
 		fd = open(path, O_RDONLY);
 		if (fd == -1)
 			ft_error_exit(ERR_PATH, data);
 		close(fd);
 	}
-	else if (id == 'F' || id == 'C' || id == 'D')
+	else if (id == ID_FLOOR || id == ID_CEIL || id == ID_DOOR)
 		check_color_or_texture(data, path, id);
-	if (id == 'X' || id == 'D')
+	if (id == ID_EXIT || id == ID_DOOR)
 		check_exit_sprite(path, data, id);
-	if (id == 'M')
+	if (id == ID_MAP)
 	{
 		if (ft_strncmp(path + ft_strlen(path) - 4, ".cub", 4))
 			ft_error_exit(ERR_NEXT, data);
@@ -40,29 +40,29 @@ char	*parse_path(char *line, t_data *data, char id)
 	return (path);
 }
 
-int	parse_line(t_data *data, char *line)
+int	parse_line(t_data *data, t_map *map_data, char *line)
 {
 	char	*trim_line;
 
 	trim_line = ft_strtrim(line, "\t\n ");
-	if (ft_strncmp(trim_line, "NO ", 3) == 0)
-		data->map_data->north_txt_path = parse_path(trim_line + 3, data, 'N');
-	else if (ft_strncmp(trim_line, "SO ", 3) == 0)
-		data->map_data->south_txt_path = parse_path(trim_line + 3, data, 'S');
-	else if (ft_strncmp(trim_line, "WE ", 3) == 0)
-		data->map_data->west_txt_path = parse_path(trim_line + 3, data, 'W');
-	else if (ft_strncmp(trim_line, "EA ", 3) == 0)
-		data->map_data->east_txt_path = parse_path(trim_line + 3, data, 'E');
-	else if (ft_strncmp(trim_line, "F ", 2) == 0)
-		data->map_data->floor_txt_path = parse_path(trim_line + 2, data, 'F');
-	else if (ft_strncmp(trim_line, "C ", 2) == 0)
-		data->map_data->ceiling_txt_path = parse_path(trim_line + 2, data, 'C');
-	else if (ft_strncmp(trim_line, "D ", 2) == 0)
-		data->map_data->door_txt_path = parse_path(trim_line + 2, data, 'D');
-	else if (ft_strncmp(trim_line, "MAP ", 4) == 0)
-		data->map_data->next_map = parse_path(trim_line + 4, data, 'M');
-	else if (ft_strncmp(trim_line, "EXIT ", 5) == 0)
-		data->map_data->exit_sprite_path = parse_path(trim_line + 5, data, 'X');
+	if (ft_strncmp(trim_line, NORTH_TXT, 3) == 0)
+		map_data->north_txt_path = parse_path(trim_line + 3, data, ID_NORTH);
+	else if (ft_strncmp(trim_line, SOUTH_TXT, 3) == 0)
+		map_data->south_txt_path = parse_path(trim_line + 3, data, ID_SOUTH);
+	else if (ft_strncmp(trim_line, WEST_TXT, 3) == 0)
+		map_data->west_txt_path = parse_path(trim_line + 3, data, ID_WEST);
+	else if (ft_strncmp(trim_line, EAST_TXT, 3) == 0)
+		map_data->east_txt_path = parse_path(trim_line + 3, data, ID_EAST);
+	else if (ft_strncmp(trim_line, FLOOR, 2) == 0)
+		map_data->floor_txt_path = parse_path(trim_line + 2, data, ID_FLOOR);
+	else if (ft_strncmp(trim_line, CEIL, 2) == 0)
+		map_data->ceiling_txt_path = parse_path(trim_line + 2, data, ID_CEIL);
+	else if (ft_strncmp(trim_line, DOOR, 2) == 0)
+		map_data->door_txt_path = parse_path(trim_line + 2, data, ID_DOOR);
+	else if (ft_strncmp(trim_line, NEXT_MAP, 5) == 0)
+		map_data->next_map = parse_path(trim_line + 5, data, ID_MAP);
+	else if (ft_strncmp(trim_line, EXIT, 5) == 0)
+		map_data->exit_sprite_path = parse_path(trim_line + 5, data, ID_EXIT);
 	else
 		return (free(trim_line), 1);
 	return (free(trim_line), 0);
@@ -79,7 +79,7 @@ void	parse_cub_file(t_data *data, char **cub_file)
 			i++;
 		else
 		{
-			if (parse_line(data, cub_file[i++]) == 1)
+			if (parse_line(data, data->map_data, cub_file[i++]) == 1)
 			{
 				i--;
 				break ;

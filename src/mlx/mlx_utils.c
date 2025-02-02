@@ -48,12 +48,12 @@ void	print_tile_pixel(int x, int y, int tile_type, t_mlx *mlx_data)
 
 	if (tile_type == TILE_WALL)
 		color = MINIMAP_WALL_COLOR;
-	else if (tile_type == TILE_EMPTY)
+	else if (tile_type == TILE_FLOOR)
 		color = MINIMAP_FLOOR_COLOR;
 	else if (tile_type == TILE_SPACE)
 		color = MINIMAP_BACK_COLOR;
-	else if (tile_type == TILE_PLAYER_W || tile_type == TILE_PLAYER_N
-		|| tile_type == TILE_PLAYER_S || tile_type == TILE_PLAYER_E)
+	else if (tile_type == TILE_W || tile_type == TILE_N
+		|| tile_type == TILE_S || tile_type == TILE_E)
 		color = MINIMAP_FLOOR_COLOR;
 	else if (tile_type == TILE_DOOR)
 		color = MINIMAP_DOOR_COLOR;
