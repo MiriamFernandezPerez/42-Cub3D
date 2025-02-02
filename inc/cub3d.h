@@ -6,7 +6,7 @@
 /*   By: mirifern <mirifern@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 21:08:03 by mirifern          #+#    #+#             */
-/*   Updated: 2025/02/02 21:12:29 by igarcia2         ###   ########.fr       */
+/*   Updated: 2025/02/02 22:17:29 by igarcia2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,8 @@
 # include <X11/keysym.h>
 
 /*Constants*/
-# define WIDTH 1600
-# define HEIGHT 1000
+# define WIDTH 3200
+# define HEIGHT 2000
 # define TILE_SIZE 64
 # define FOV 60
 # define PLAYER_SPEED 5
@@ -72,6 +72,7 @@
 # define MINIMAP_MARGIN 0.02
 # define TILES_VERTICAL 9
 # define MINIMAP_BACK_COLOR 0xA7A6A6
+# define MINIMAP_PLAYER_COLOR 0xFF0000
 # define MINIMAP_WALL_COLOR 0xA95C4C
 # define MINIMAP_FLOOR_COLOR 12316584
 # define MINIMAP_DOOR_COLOR 0x505050
@@ -273,6 +274,8 @@ int		calculate_angle(char **map, int x, int y);
 void	print_str_array(char **str_array);
 void	init_map_test(t_map *map, t_data *data);
 void	print_player_info(t_data *data);
+void	print_nbr(t_mlx *mlx_data, int x, int y, int nbr);
+void	print_str(t_mlx *mlx_data, int x, int y, char *str);
 
 /*draw_map.c*/
 void	draw_map(t_raycast *ray_data, t_data *data);
@@ -290,9 +293,8 @@ int		key_press(int keycode, t_data *data);
 int		key_release(int keycode, t_data *data);
 
 /*mlx_utils.c*/
-void	print_nbr(t_mlx *mlx_data, int x, int y, int nbr);
-void	print_str(t_mlx *mlx_data, int x, int y, char *str);
 void	print_pixel_render(int x, int y, int color, t_mlx *mlx_data);
 void	print_tile_pixel(int x, int y, int map_idx[2], t_data *data);
+void	print_triangle(int v[3][2], int color, t_mlx *mlx_data);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: igarcia2 <igarcia2@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 20:32:28 by igarcia2          #+#    #+#             */
-/*   Updated: 2025/02/02 21:13:49 by igarcia2         ###   ########.fr       */
+/*   Updated: 2025/02/02 22:18:39 by igarcia2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,31 +83,24 @@ void	draw_content(t_minimap *minimap_data, t_data *data)
 	}
 }
 
-void	draw_player(t_minimap *minimap_data, t_mlx *mlx_data)
+void	draw_player(t_minimap *minimap_data, t_data *data)
 {
-	int	start_pos[2];
-	int	index[2];
-	int	square_size;
+	int		center[2];
+	int		vertex[3][2];
+	double	angle_rad;
+	int		size;
 
-	square_size = minimap_data->tile_size / 3.0;
-	if (square_size % 2 == 1)
-		square_size++;
-	start_pos[X] = minimap_data->start[X] + (minimap_data->size[X] / 2)
-		- (square_size / 2);
-	start_pos[Y] = minimap_data->start[Y] + (minimap_data->size[Y] / 2)
-		- (square_size / 2);
-	index[X] = 0;
-	while (index[X] < square_size)
-	{
-		index[Y] = 0;
-		while (index[Y] < square_size)
-		{
-			print_pixel_render(start_pos[X] + index[X], start_pos[Y] + index[Y],
-				0xFF0000, mlx_data);
-			index[Y]++;
-		}
-		index[X]++;
-	}
+	size = minimap_data->tile_size / 2;
+	center[X] = minimap_data->start[X] + minimap_data->size[X] / 2;
+	center[Y] = minimap_data->start[Y] + minimap_data->size[Y] / 2;
+	angle_rad = data->player->angle * (M_PI / 180.0);
+	vertex[0][X] = center[X] + cos(angle_rad) * size * 0.8;
+	vertex[0][Y] = center[Y] - sin(angle_rad) * size * 0.8;
+	vertex[1][X] = center[X] + cos(angle_rad + 2.5) * (size / 1.2);
+	vertex[1][Y] = center[Y] - sin(angle_rad + 2.5) * (size / 1.2);
+	vertex[2][X] = center[X] + cos(angle_rad - 2.5) * (size / 1.2);
+	vertex[2][Y] = center[Y] - sin(angle_rad - 2.5) * (size / 1.2);
+	print_triangle(vertex, MINIMAP_PLAYER_COLOR, data->mlx_data);
 }
 
 void	create_minimap(t_minimap *minimap_data, t_mlx *mlx_data, t_data *data)
@@ -115,5 +108,5 @@ void	create_minimap(t_minimap *minimap_data, t_mlx *mlx_data, t_data *data)
 	draw_border(mlx_data, minimap_data->start, minimap_data->size);
 	draw_shadow(mlx_data, minimap_data->start, minimap_data->size);
 	draw_content(minimap_data, data);
-	draw_player(minimap_data, mlx_data);
+	draw_player(minimap_data, data);
 }
