@@ -6,7 +6,7 @@
 /*   By: mirifern <mirifern@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 21:08:03 by mirifern          #+#    #+#             */
-/*   Updated: 2025/02/02 02:29:08 by igarcia2         ###   ########.fr       */
+/*   Updated: 2025/02/02 21:12:29 by igarcia2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -285,6 +285,6 @@ int		key_release(int keycode, t_data *data);
 void	print_nbr(t_mlx *mlx_data, int x, int y, int nbr);
 void	print_str(t_mlx *mlx_data, int x, int y, char *str);
 void	print_pixel_render(int x, int y, int color, t_mlx *mlx_data);
-void	print_tile_pixel(int x, int y, int tile_type, t_mlx *mlx_data);
+void	print_tile_pixel(int x, int y, int map_idx[2], t_data *data);
 
 #endif

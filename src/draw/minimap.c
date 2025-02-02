@@ -6,7 +6,7 @@
 /*   By: igarcia2 <igarcia2@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 20:32:28 by igarcia2          #+#    #+#             */
-/*   Updated: 2025/02/02 02:02:04 by igarcia2         ###   ########.fr       */
+/*   Updated: 2025/02/02 21:13:49 by igarcia2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ void	draw_shadow(t_mlx *mlx_data, int start[2], int minimap_size[2])
 	}
 }
 
-void	draw_content(t_minimap *minimap_data, t_mlx *mlx_data, t_data *data)
+void	draw_content(t_minimap *minimap_data, t_data *data)
 {
 	int		index[2];
 	int		start[2];
@@ -75,16 +75,8 @@ void	draw_content(t_minimap *minimap_data, t_mlx *mlx_data, t_data *data)
 		{
 			curr[Y] = floor((start[Y] + (index[Y] * minimap_data->scale))
 					/ TILE_SIZE);
-			if (curr[Y] < 0 || curr[X] < 0
-				|| curr[X] >= data->map_data->max_width
-				|| curr[Y] >= data->map_data->max_height)
-				print_pixel_render(index[X] + minimap_data->start[X] + 1,
-					index[Y] + minimap_data->start[Y] + 1,
-					MINIMAP_BACK_COLOR, mlx_data);
-			else
-				print_tile_pixel(index[X] + minimap_data->start[X] + 1,
-					index[Y] + minimap_data->start[Y] + 1,
-					data->map_data->map[curr[Y]][curr[X]], mlx_data);
+			print_tile_pixel(index[X] + minimap_data->start[X] + 1,
+				index[Y] + minimap_data->start[Y] + 1, curr, data);
 			index[Y]++;
 		}
 		index[X]++;
@@ -122,6 +114,6 @@ void	create_minimap(t_minimap *minimap_data, t_mlx *mlx_data, t_data *data)
 {
 	draw_border(mlx_data, minimap_data->start, minimap_data->size);
 	draw_shadow(mlx_data, minimap_data->start, minimap_data->size);
-	draw_content(minimap_data, mlx_data, data);
+	draw_content(minimap_data, data);
 	draw_player(minimap_data, mlx_data);
 }
