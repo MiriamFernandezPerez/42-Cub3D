@@ -6,7 +6,7 @@
 /*   By: mirifern <mirifern@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 21:08:03 by mirifern          #+#    #+#             */
-/*   Updated: 2025/02/02 01:58:00 by igarcia2         ###   ########.fr       */
+/*   Updated: 2025/02/02 02:29:08 by igarcia2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -189,6 +189,12 @@ typedef struct s_data
 
 /*main.c*/
 int		main(int ac, char **av);
+
+/*init.c*/
+void	init_data(t_data **data);
+void	init_minimap_data(t_minimap *minimap_data);
+void	init_map(t_map *map_data);
+void	init_mlx(t_data *data);
 
 /*open_file.c*/
 int		open_file(char *path, t_data *data);
