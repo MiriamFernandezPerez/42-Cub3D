@@ -243,10 +243,10 @@ void	try_open_path(t_data *data, char *path);
 int		open_cub_file(char *path, t_data *data);
 
 /*parse_file.c*/
-int	check_tiles_between(char **map, int y, int x);
+int		check_tiles_between(char **map, int y, int x);
 void	validate_doors(t_data *data, char **map);
 char	*parse_path(char *line, t_data *data, char id);
-int		parse_line(t_data *data, t_map *map_data, char *line);
+int		parse_line(t_data *data, char *line);
 void	parse_cub_file(t_data *data, char **cub_file);
 
 /*parse_map.c*/

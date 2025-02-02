@@ -73,29 +73,29 @@ char	*parse_path(char *line, t_data *data, char id)
 	return (path);
 }
 
-int	parse_line(t_data *data, t_map *map_data, char *line)
+int	parse_line(t_data *data, char *line)
 {
 	char	*trim_line;
 
 	trim_line = ft_strtrim(line, "\t\n ");
 	if (ft_strncmp(trim_line, NORTH_TXT, 3) == 0)
-		map_data->north_txt_path = parse_path(trim_line + 3, data, ID_NORTH);
+		add_texture_node(ID_NORTH, parse_path(trim_line + 3, data, ID_NORTH), data);
 	else if (ft_strncmp(trim_line, SOUTH_TXT, 3) == 0)
-		map_data->south_txt_path = parse_path(trim_line + 3, data, ID_SOUTH);
+		add_texture_node(ID_SOUTH, parse_path(trim_line + 3, data, ID_SOUTH), data);
 	else if (ft_strncmp(trim_line, WEST_TXT, 3) == 0)
-		map_data->west_txt_path = parse_path(trim_line + 3, data, ID_WEST);
+		add_texture_node(ID_WEST, parse_path(trim_line + 3, data, ID_WEST), data);
 	else if (ft_strncmp(trim_line, EAST_TXT, 3) == 0)
-		map_data->east_txt_path = parse_path(trim_line + 3, data, ID_EAST);
+		add_texture_node(ID_EAST, parse_path(trim_line + 3, data, ID_EAST), data);
 	else if (ft_strncmp(trim_line, FLOOR, 2) == 0)
-		map_data->floor_txt_path = parse_path(trim_line + 2, data, ID_FLOOR);
+		add_texture_node(ID_FLOOR, parse_path(trim_line + 2, data, ID_FLOOR), data);
 	else if (ft_strncmp(trim_line, CEIL, 2) == 0)
-		map_data->ceiling_txt_path = parse_path(trim_line + 2, data, ID_CEIL);
+		add_texture_node(ID_CEIL, parse_path(trim_line + 2, data, ID_CEIL), data);
 	else if (ft_strncmp(trim_line, DOOR, 2) == 0)
-		map_data->door_txt_path = parse_path(trim_line + 2, data, ID_DOOR);
+		add_texture_node(ID_DOOR, parse_path(trim_line + 2, data, ID_DOOR), data);
 	else if (ft_strncmp(trim_line, NEXT_MAP, 5) == 0)
-		map_data->next_map = parse_path(trim_line + 5, data, ID_MAP);
+		add_texture_node(ID_MAP, parse_path(trim_line + 5, data, ID_MAP), data);
 	else if (ft_strncmp(trim_line, EXIT, 5) == 0)
-		map_data->exit_sprite_path = parse_path(trim_line + 5, data, ID_EXIT);
+		add_texture_node(ID_EXIT, parse_path(trim_line + 5, data, ID_EXIT), data);
 	else
 		return (free(trim_line), 1);
 	return (free(trim_line), 0);
@@ -112,7 +112,7 @@ void	parse_cub_file(t_data *data, char **cub_file)
 			i++;
 		else
 		{
-			if (parse_line(data, data->map_data, cub_file[i++]) == 1)
+			if (parse_line(data, cub_file[i++]) == 1)
 			{
 				i--;
 				break ;
