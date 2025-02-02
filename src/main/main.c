@@ -6,7 +6,7 @@
 /*   By: mirifern <mirifern@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 21:05:41 by mirifern          #+#    #+#             */
-/*   Updated: 2025/02/01 23:39:37 by igarcia2         ###   ########.fr       */
+/*   Updated: 2025/02/02 01:56:44 by igarcia2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,8 @@ void	init_minimap_data(t_minimap *minimap_data)
 	minimap_data->start[X]
 		= WIDTH - minimap_data->size[X] - minimap_data->margin[X];	
 	minimap_data->start[Y] = minimap_data->margin[Y];
+	printf("minimap_data->tile_size:%d \n", minimap_data->tile_size);
+	minimap_data->scale = TILE_SIZE / minimap_data->tile_size;
 }
 
 // Initializes data struct
