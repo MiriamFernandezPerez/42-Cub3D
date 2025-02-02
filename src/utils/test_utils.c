@@ -6,7 +6,7 @@
 /*   By: igarcia2 <igarcia2@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 16:44:21 by igarcia2          #+#    #+#             */
-/*   Updated: 2025/02/01 18:59:01 by igarcia2         ###   ########.fr       */
+/*   Updated: 2025/02/02 22:17:16 by igarcia2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,4 +61,20 @@ void	print_player_info(t_data *data)
 	print_nbr(data->mlx_data, 80, 40, data->player->pos[X]);
 	print_str(data->mlx_data, 10, 60, "Player[Y]: ");
 	print_nbr(data->mlx_data, 80, 60, data->player->pos[Y]);
+}
+
+//Function that prints number in the rendering window
+void	print_nbr(t_mlx *mlx_data, int x, int y, int nbr)
+{
+	char	*str;
+
+	str = ft_itoa(nbr);
+	mlx_string_put(mlx_data->mlx_ptr, mlx_data->win_ptr, x, y, 0xFFFFFF, str);
+	free(str);
+}
+
+//Function that prints text in the rendering window
+void	print_str(t_mlx *mlx_data, int x, int y, char *str)
+{
+	mlx_string_put(mlx_data->mlx_ptr, mlx_data->win_ptr, x, y, 0xFFFFFF, str);
 }

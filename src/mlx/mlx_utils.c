@@ -6,27 +6,11 @@
 /*   By: igarcia2 <igarcia2@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 19:25:31 by igarcia2          #+#    #+#             */
-/*   Updated: 2025/02/02 21:14:02 by igarcia2         ###   ########.fr       */
+/*   Updated: 2025/02/02 22:18:16 by igarcia2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/cub3d.h"
-
-//Function that prints number in the rendering window
-void	print_nbr(t_mlx *mlx_data, int x, int y, int nbr)
-{
-	char	*str;
-
-	str = ft_itoa(nbr);
-	mlx_string_put(mlx_data->mlx_ptr, mlx_data->win_ptr, x, y, 0xFFFFFF, str);
-	free(str);
-}
-
-//Function that prints text in the rendering window
-void	print_str(t_mlx *mlx_data, int x, int y, char *str)
-{
-	mlx_string_put(mlx_data->mlx_ptr, mlx_data->win_ptr, x, y, 0xFFFFFF, str);
-}
 
 void	print_pixel_render(int x, int y, int color, t_mlx *mlx_data)
 {
@@ -67,4 +51,43 @@ void	print_tile_pixel(int x, int y, int map_idx[2], t_data *data)
 			color = MINIMAP_DOOR_COLOR;
 	}
 	print_pixel_render(x, y, color, data->mlx_data);
+}
+
+void	barycentric_weights(int vtx[3][2], int x, int y, float weights[3])
+{
+	weights[0] = ((vtx[1][Y] - vtx[2][Y]) * (x - vtx[2][X])
+			+ (vtx[2][X] - vtx[1][X]) * (y - vtx[2][Y]))
+		/ ((float)(vtx[1][Y] - vtx[2][Y]) *(vtx[0][X] - vtx[2][X])
+			+ (vtx[2][X] - vtx[1][X]) * (vtx[0][Y] - vtx[2][Y]));
+	weights[1] = ((vtx[2][Y] - vtx[0][Y]) * (x - vtx[2][X])
+			+ (vtx[0][X] - vtx[2][X]) * (y - vtx[2][Y]))
+		/ ((float)(vtx[1][Y] - vtx[2][Y]) *(vtx[0][X] - vtx[2][X])
+			+ (vtx[2][X] - vtx[1][X]) * (vtx[0][Y] - vtx[2][Y]));
+	weights[2] = 1 - weights[0] - weights[1];
+}
+
+void	print_triangle(int vtx[3][2], int color, t_mlx *mlx_data)
+{
+	int		min[2];
+	int		max[2];
+	int		index[2];
+	float	weights[3];
+
+	min[X] = fmin(vtx[0][X], fmin(vtx[1][X], vtx[2][X]));
+	min[Y] = fmin(vtx[0][Y], fmin(vtx[1][Y], vtx[2][Y]));
+	max[X] = fmax(vtx[0][X], fmax(vtx[1][X], vtx[2][X]));
+	max[Y] = fmax(vtx[0][Y], fmax(vtx[1][Y], vtx[2][Y]));
+	index[Y] = min[Y];
+	while (index[Y] <= max[Y])
+	{
+		index[X] = min[X];
+		while (index[X] <= max[X])
+		{
+			barycentric_weights(vtx, index[X], index[Y], weights);
+			if (weights[0] >= 0 && weights[1] >= 0 && weights[2] >= 0)
+				print_pixel_render(index[X], index[Y], color, mlx_data);
+			index[X]++;
+		}
+		index[Y]++;
+	}
 }
