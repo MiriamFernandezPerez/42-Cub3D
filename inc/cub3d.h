@@ -6,7 +6,7 @@
 /*   By: mirifern <mirifern@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 21:08:03 by mirifern          #+#    #+#             */
-/*   Updated: 2025/02/02 22:17:29 by igarcia2         ###   ########.fr       */
+/*   Updated: 2025/02/03 00:33:21 by igarcia2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,6 +103,7 @@
 # define ERR_MLX_INIT "Error\nmlx : initialization failed\n"
 # define ERR_MLX_WIN "Error\nmlx : window creation failed\n"
 # define ERR_MLX_IMG "Error\nmlx : image creation failed\n"
+# define ERR_LOAD_TXT "Error\nTextures load failed\n"
 
 # define ERR_MAP_CHAR "Error\nInvalid map character\n"
 # define ERR_MAP_BORDER "Error\nMap is not closed\n"
@@ -113,7 +114,6 @@
 //# define ERR_MAP_TEX "Error\nMap texture is missing\n"
 //# define ERR_MAP_COLOR "Error\nMap color is missing\n"
 //# define ERR_RES "Error\nInvalid resolution\n"
-//# define ERR_TEX "Error\nInvalid texture\n"
 //# define ERR_COLOR "Error\nInvalid color\n"
 
 /*Coordinates*/
@@ -146,6 +146,16 @@ typedef struct s_player
 	double	angle; //Direction
 }	t_player;
 
+typedef struct s_texture
+{
+	void				*texture_img;
+	char				id_txt;
+	int					width;
+	int					height;
+	char				*path;
+    struct s_texture	*next;
+}	t_texture;
+
 /*Map info*/
 typedef struct s_map
 {
@@ -165,6 +175,7 @@ typedef struct s_map
 	int			zero_qt;
 	int			zeros_found;
 	char		*next_map;
+	t_texture	*txt_list;
 }	t_map;
 
 /*Raycasting data*/
@@ -224,6 +235,8 @@ void	init_data(t_data **data);
 void	init_minimap_data(t_minimap *minimap_data);
 void	init_map(t_map *map_data);
 void	init_mlx(t_data *data);
+void	init_textures(t_map *map_data, t_texture *txt_data, t_mlx *mlx_data,
+		t_data *data);
 
 /*open_file.c*/
 void	try_open_path(t_data *data, char *path);
@@ -268,6 +281,10 @@ void	init_map_test(t_map *map, t_data *data);
 void	print_player_info(t_data *data);
 void	print_nbr(t_mlx *mlx_data, int x, int y, int nbr);
 void	print_str(t_mlx *mlx_data, int x, int y, char *str);
+
+/*texture_utils.c*/
+void	add_texture_node(char id_texture, char *path, t_data *data);
+void	clear_txt_list(t_texture **txt_list);
 
 /*draw_map.c*/
 void	draw_map(t_raycast *ray_data, t_data *data);

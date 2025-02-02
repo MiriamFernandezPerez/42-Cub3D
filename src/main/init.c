@@ -6,11 +6,29 @@
 /*   By: igarcia2 <igarcia2@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/02 02:27:49 by igarcia2          #+#    #+#             */
-/*   Updated: 2025/02/02 02:28:23 by igarcia2         ###   ########.fr       */
+/*   Updated: 2025/02/03 00:33:11 by igarcia2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/cub3d.h"
+
+/*void	init_textures(t_map *map_data, t_texture *txt_data, t_mlx *mlx_data,
+		t_data *data)
+{
+    // Cargamos la textura del muro usando mlx_xpm_file_to_image
+	txt_data->wall_n_txt = mlx_xpm_file_to_image(mlx_data->mlx_ptr,
+			map_data->north_txt_path, 64, 64);
+	txt_data->wall_s_txt = mlx_xpm_file_to_image(mlx_data->mlx_ptr,
+			map_data->south_txt_path, 64, 64);
+	txt_data->wall_e_txt = mlx_xpm_file_to_image(mlx_data->mlx_ptr,
+			map_data->east_txt_path, 64, 64);
+	txt_data->wall_w_txt = mlx_xpm_file_to_image(mlx_data->mlx_ptr,
+			map_data->west_txt_path, 64, 64);
+    // Comprobamos si la textura se cargó correctamente
+	if (!(txt_data->wall_n_txt) || !(txt_data->wall_s_txt)
+			|| !(txt_data->wall_e_txt) || !(txt_data->wall_w_txt))
+		ft_error_exit(ERR_LOAD_TXT, data);
+}*/
 
 void	init_mlx(t_data *data)
 {
@@ -51,6 +69,7 @@ void	init_map(t_map *map_data)
 	map_data->next_map = NULL;
 	map_data->zero_qt = 0;
 	map_data->zeros_found = 0;
+	map_data->txt_list = NULL;
 }
 
 void	init_minimap_data(t_minimap *minimap_data)

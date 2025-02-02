@@ -6,7 +6,7 @@
 /*   By: igarcia2 <igarcia2@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 15:32:12 by igarcia2          #+#    #+#             */
-/*   Updated: 2025/02/01 22:34:36 by igarcia2         ###   ########.fr       */
+/*   Updated: 2025/02/03 00:26:21 by igarcia2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,31 +49,30 @@ void	destroy_mlx(t_data *data)
 // Releases all map data
 void	free_map(t_map *map_data)
 {
-	if (map_data)
-	{
-		if (map_data->map)
-			free_str_array(&(map_data->map));
-		if (map_data->north_txt_path)
-			free(map_data->north_txt_path);
-		if (map_data->south_txt_path)
-			free(map_data->south_txt_path);
-		if (map_data->east_txt_path)
-			free(map_data->east_txt_path);
-		if (map_data->west_txt_path)
-			free(map_data->west_txt_path);
-		if (map_data->door_txt_path)
-			free(map_data->door_txt_path);
-		if (map_data->ceiling_txt_path)
-			free(map_data->ceiling_txt_path);
-		if (map_data->floor_txt_path)
-			free(map_data->floor_txt_path);
-		if (map_data->exit_sprite_path)
-			free(map_data->exit_sprite_path);
-		if (map_data->next_map)
-			free(map_data->next_map);
-		free(map_data);
-		map_data = NULL;
-	}
+	if (map_data->map)
+		free_str_array(&(map_data->map));
+	if (map_data->north_txt_path)
+		free(map_data->north_txt_path);
+	if (map_data->south_txt_path)
+		free(map_data->south_txt_path);
+	if (map_data->east_txt_path)
+		free(map_data->east_txt_path);
+	if (map_data->west_txt_path)
+		free(map_data->west_txt_path);
+	if (map_data->door_txt_path)
+		free(map_data->door_txt_path);
+	if (map_data->ceiling_txt_path)
+		free(map_data->ceiling_txt_path);
+	if (map_data->floor_txt_path)
+		free(map_data->floor_txt_path);
+	if (map_data->exit_sprite_path)
+		free(map_data->exit_sprite_path);
+	if (map_data->next_map)
+		free(map_data->next_map);
+	if (map_data->txt_list)
+		clear_txt_list(&map_data->txt_list);
+	free(map_data);
+	map_data = NULL;
 }
 
 // Releases all the data necessary to finalize the program execution
