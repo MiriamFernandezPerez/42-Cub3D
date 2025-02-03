@@ -29,12 +29,12 @@ void	find_shortest_hit_distance(t_player *player, t_raycast *ray_data)
 	double	horz_distance;
 	double	vert_distance;
 
-	if (ray_data->horz_hit[X] > -1)
+	if (ray_data->horz_hit[X] > 0)
 		horz_distance = sqrt(pow(player->pos[X] - ray_data->horz_hit[X], 2)
 				+ pow(player->pos[Y] - ray_data->horz_hit[Y], 2));
 	else
 		horz_distance = -1;
-	if (ray_data->vert_hit[X] > -1)
+	if (ray_data->vert_hit[X] > 0)
 		vert_distance = sqrt(pow(player->pos[X] - ray_data->vert_hit[X], 2)
 				+ pow(player->pos[Y] - ray_data->vert_hit[Y], 2));
 	else
@@ -47,17 +47,50 @@ void	find_shortest_hit_distance(t_player *player, t_raycast *ray_data)
 		ray_data->shortest_distance = horz_distance;
 	else
 		ray_data->shortest_distance = vert_distance;
+	if (ray_data->shortest_distance == horz_distance)
+		ray_data->vector_hit = X;
+	else
+		ray_data->vector_hit = Y;
 }
 
-void	render_column(int x, t_data *data)
+/*void	render_wall(int x, int y, t_raycast *ray_data, t_data *data)
+{
+	float	texture_x;
+	double	alpha;
+
+	alpha = ray_data->alpha;
+	//calcular columna de la textura
+	if (ray_data->vector_hit == X)
+		texture_x = ray_data->horz_hit[X]
+			- floor(ray_data->horz_hit[X] / TILE_SIZE) * TILE_SIZE;
+	else
+		texture_x = ray_data->vert_hit[Y]
+			- floor(ray_data->vert_hit[Y] / TILE_SIZE) * TILE_SIZE;
+	texture_x /= TILE_SIZE;
+
+	//Encontrar textura orientacion
+	if (ray_data->vector_hit == X && alpha > 0 && alpha < 180)
+		texture_x *= (get_texture(ID_SOUTH, data)->width);
+	else if (ray_data->vector_hit == X && alpha > 180 && alpha < 360)
+		texture_x *= (get_texture(ID_NORTH, data)->width);
+	else if (ray_data->vector_hit == Y && alpha > 90 && alpha < 270)
+		texture_x *= (get_texture(ID_EAST, data)->width);
+	else if (ray_data->vector_hit == Y)
+		texture_x *= (get_texture(ID_WEST, data)->width);
+
+}*/
+
+void	render_column(int x, double alpha, t_data *data)
 {
 	int	y;
+	alpha = alpha;
 
 	y = 0;
 	while (y < HEIGHT)
 	{
 		if (data->ray_data->wall_height >= HEIGHT)
 			print_pixel_render(x, y, 0xA95C4C, data->mlx_data);
+			//render_wall(x, y, data->ray_data, data);
 		else
 		{
 			if (y < data->ray_data->wall_y)
@@ -66,6 +99,7 @@ void	render_column(int x, t_data *data)
 			else if (y >= data->ray_data->wall_y
 				&& y <= data->ray_data->wall_y + data->ray_data->wall_height)
 				print_pixel_render(x, y, 0xA95C4C, data->mlx_data);
+				//render_wall(x, y, data->ray_data, data);
 			else
 				print_pixel_render(
 					x, y, data->map_data->floor_color, data->mlx_data);
@@ -77,24 +111,27 @@ void	render_column(int x, t_data *data)
 void	draw_map(t_raycast *ray_data, t_data *data)
 {
 	int		x;
-	double	alpha;
 
 	x = 0;
-	alpha = data->player->angle + FOV / 2;
-	alpha = normalize_angle(alpha);
+	ray_data->alpha = data->player->angle + FOV / 2;
+	ray_data->alpha = normalize_angle(ray_data->alpha);
 	while (x < WIDTH)
 	{
-		horz_wall_hit(alpha, data->player, data);
-		vert_wall_hit(alpha, data->player, data);
+		horz_wall_hit(ray_data->alpha, data->player, data);
+		vert_wall_hit(ray_data->alpha, data->player, data);
 		find_shortest_hit_distance(data->player, data->ray_data);
-		calculate_corrected_distance(alpha, data);
+		calculate_corrected_distance(ray_data->alpha, data);
 		ray_data->wall_height = ceil((TILE_SIZE * (ray_data->distance_pp))
 				/ ray_data->corrected_distance);
 		if (ray_data->wall_height < HEIGHT)
 			ray_data->wall_y = HEIGHT / 2 - ray_data->wall_height / 2;
-		render_column(x, data);
-		alpha -= ray_data->angle_increment;
-		alpha = normalize_angle(alpha);
+		render_column(x, ray_data->alpha, data);
+		ray_data->alpha -= ray_data->angle_increment;
+		ray_data->alpha = normalize_angle(ray_data->alpha);
+		/*printf("----ALPHA %f -----\n", ray_data->alpha);
+		printf("horz_hit [X]:%f [Y]:%f\n", ray_data->horz_hit[X], ray_data->horz_hit[Y]);
+		printf("vert_hit [X]:%f [Y]:%f\n", ray_data->vert_hit[X], ray_data->vert_hit[Y]);
+		printf("------------\n");*/
 		x++;
 	}
 }

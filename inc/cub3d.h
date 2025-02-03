@@ -175,8 +175,10 @@ typedef struct s_raycast
 {
 	double	distance_pp;
 	double	angle_increment;
+	double	alpha;
 	double	horz_hit[2];
 	double	vert_hit[2];
+	int		vector_hit;
 	double	shortest_distance;
 	double	corrected_distance;
 	int		wall_height;

@@ -16,13 +16,13 @@ void	reset_hit_data(int vector, t_raycast *ray_data)
 {
 	if (vector == X)
 	{
-		ray_data->horz_hit[X] = -1;
-		ray_data->horz_hit[Y] = -1;
+		ray_data->horz_hit[X] = 0;
+		ray_data->horz_hit[Y] = 0;
 	}
 	else
 	{
-		ray_data->vert_hit[X] = -1;
-		ray_data->vert_hit[Y] = -1;
+		ray_data->vert_hit[X] = 0;
+		ray_data->vert_hit[Y] = 0;
 	}
 }
 
