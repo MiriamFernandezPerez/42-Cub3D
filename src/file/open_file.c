@@ -6,7 +6,7 @@
 /*   By: igarcia2 <igarcia2@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 14:54:14 by igarcia2          #+#    #+#             */
-/*   Updated: 2025/01/20 17:13:06 by igarcia2         ###   ########.fr       */
+/*   Updated: 2025/02/03 01:57:01 by igarcia2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,5 +63,6 @@ int	open_cub_file(char *path, t_data *data)
 	normalize_map(data, data->map_data->map);
 	validate_map_border(data, data->map_data, data->map_data->map);
 	validate_map_route(data);
+	//TODO Check only one exit (X)
 	return (EXIT_SUCCESS);
 }
