@@ -6,7 +6,7 @@
 /*   By: igarcia2 <igarcia2@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 15:27:13 by igarcia2          #+#    #+#             */
-/*   Updated: 2025/02/01 18:52:40 by igarcia2         ###   ########.fr       */
+/*   Updated: 2025/02/03 19:30:20 by igarcia2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,62 +48,82 @@ void	find_shortest_hit_distance(t_player *player, t_raycast *ray_data)
 	else
 		ray_data->shortest_distance = vert_distance;
 	if (ray_data->shortest_distance == horz_distance)
-		ray_data->vector_hit = X;
+		ray_data->vtx_hit = X;
 	else
-		ray_data->vector_hit = Y;
+		ray_data->vtx_hit = Y;
 }
 
-/*void	render_wall(int x, int y, t_raycast *ray_data, t_data *data)
+int get_texture_pixel(t_texture *texture, int x, int y)
 {
-	float	texture_x;
-	double	alpha;
+	char	*pixel;
+	int		color;
 
-	alpha = ray_data->alpha;
+	if (!texture || x < 0 || y < 0 || x >= texture->width
+		|| y >= texture->height)
+        return (0x0);
+
+	pixel = texture->addr + (y * texture->line_len + x * (texture->bpp / 8));
+	color = *(int *)pixel;
+	return (color);
+}
+
+void	render_wall(int x, int y, t_raycast *ray_data, t_data *data)
+{
+	float		texture_vtx[2];
+	float		y_step;
+	t_texture	*texture;
+
 	//calcular columna de la textura
-	if (ray_data->vector_hit == X)
-		texture_x = ray_data->horz_hit[X]
+	if (ray_data->vtx_hit == X)
+		texture_vtx[X] = ray_data->horz_hit[X]
 			- floor(ray_data->horz_hit[X] / TILE_SIZE) * TILE_SIZE;
 	else
-		texture_x = ray_data->vert_hit[Y]
+		texture_vtx[X] = ray_data->vert_hit[Y]
 			- floor(ray_data->vert_hit[Y] / TILE_SIZE) * TILE_SIZE;
-	texture_x /= TILE_SIZE;
+	texture_vtx[X] /= TILE_SIZE;
 
 	//Encontrar textura orientacion
-	if (ray_data->vector_hit == X && alpha > 0 && alpha < 180)
-		texture_x *= (get_texture(ID_SOUTH, data)->width);
-	else if (ray_data->vector_hit == X && alpha > 180 && alpha < 360)
-		texture_x *= (get_texture(ID_NORTH, data)->width);
-	else if (ray_data->vector_hit == Y && alpha > 90 && alpha < 270)
-		texture_x *= (get_texture(ID_EAST, data)->width);
-	else if (ray_data->vector_hit == Y)
-		texture_x *= (get_texture(ID_WEST, data)->width);
+	if (ray_data->vtx_hit == X && ray_data->alpha > 0 && ray_data->alpha < 180)
+		texture = get_texture(ID_SOUTH, data);
+	else if (ray_data->vtx_hit == X && ray_data->alpha > 180
+			&& ray_data->alpha < 360)
+		texture = get_texture(ID_NORTH, data);
+	else if (ray_data->vtx_hit == Y && ray_data->alpha > 90
+			&& ray_data->alpha < 270)
+		texture = get_texture(ID_EAST, data);
+	else if (ray_data->vtx_hit == Y)
+		texture = get_texture(ID_WEST, data);
 
-}*/
+	//Calculamos texture_x y texture_y
+	texture_vtx[X] *= texture->width;
+	y_step = (float)texture->height / fmax(ray_data->wall_height, HEIGHT);
+	texture_vtx[Y] = 0;
+	if (ray_data->wall_height >= HEIGHT)
+		texture_vtx[Y] = ((ray_data->wall_height - HEIGHT) / 2) * y_step;
+	int tex_y = (int)texture_vtx[Y] % (texture->height - 1);
+	print_pixel_render(x, y, get_texture_pixel(texture,
+		(int)texture_vtx[X], tex_y), data->mlx_data);
+	texture_vtx[Y] += y_step;
+}
 
 void	render_column(int x, double alpha, t_data *data)
 {
 	int	y;
 	alpha = alpha;
 
+
 	y = 0;
 	while (y < HEIGHT)
 	{
-		if (data->ray_data->wall_height >= HEIGHT)
+		if (y < data->ray_data->wall_y)
+			print_pixel_render(
+				x, y, data->map_data->ceiling_color, data->mlx_data);
+		else if (y >= data->ray_data->wall_y
+			&& y <= data->ray_data->wall_y + data->ray_data->wall_height)
 			print_pixel_render(x, y, 0xA95C4C, data->mlx_data);
 			//render_wall(x, y, data->ray_data, data);
 		else
-		{
-			if (y < data->ray_data->wall_y)
-				print_pixel_render(
-					x, y, data->map_data->ceiling_color, data->mlx_data);
-			else if (y >= data->ray_data->wall_y
-				&& y <= data->ray_data->wall_y + data->ray_data->wall_height)
-				print_pixel_render(x, y, 0xA95C4C, data->mlx_data);
-				//render_wall(x, y, data->ray_data, data);
-			else
-				print_pixel_render(
-					x, y, data->map_data->floor_color, data->mlx_data);
-		}
+			print_pixel_render(x, y, data->map_data->floor_color, data->mlx_data);
 		y++;
 	}
 }
@@ -125,6 +145,8 @@ void	draw_map(t_raycast *ray_data, t_data *data)
 				/ ray_data->corrected_distance);
 		if (ray_data->wall_height < HEIGHT)
 			ray_data->wall_y = HEIGHT / 2 - ray_data->wall_height / 2;
+		else
+			ray_data->wall_y = 0;
 		render_column(x, ray_data->alpha, data);
 		ray_data->alpha -= ray_data->angle_increment;
 		ray_data->alpha = normalize_angle(ray_data->alpha);

@@ -6,7 +6,7 @@
 /*   By: igarcia2 <igarcia2@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 00:13:32 by igarcia2          #+#    #+#             */
-/*   Updated: 2025/02/03 00:57:49 by igarcia2         ###   ########.fr       */
+/*   Updated: 2025/02/03 19:27:55 by igarcia2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,7 @@ void	add_texture_node(char id_texture, char *path, t_data *data)
 	new->txt_img = NULL;
 	new->id_txt = id_texture;
 	new->path = path;
+	new->addr = NULL;
 	new->next = NULL;
 	add_node_back(&data->map_data->txt_list, new);
 }

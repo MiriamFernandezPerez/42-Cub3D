@@ -6,7 +6,7 @@
 /*   By: mirifern <mirifern@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 21:08:03 by mirifern          #+#    #+#             */
-/*   Updated: 2025/02/03 00:57:20 by igarcia2         ###   ########.fr       */
+/*   Updated: 2025/02/03 19:10:00 by igarcia2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,8 @@
 # include <X11/keysym.h>
 
 /*Constants*/
-# define WIDTH 1600
-# define HEIGHT 1000
+# define WIDTH 2000 
+# define HEIGHT 2000
 # define TILE_SIZE 64
 # define FOV 60
 # define PLAYER_SPEED 5
@@ -149,6 +149,10 @@ typedef struct s_player
 typedef struct s_texture
 {
 	void				*txt_img;
+	char				*addr;
+	int					bpp;
+	int					line_len;
+	int					endian;
 	char				id_txt;
 	int					width;
 	int					height;
@@ -178,7 +182,7 @@ typedef struct s_raycast
 	double	alpha;
 	double	horz_hit[2];
 	double	vert_hit[2];
-	int		vector_hit;
+	int		vtx_hit;
 	double	shortest_distance;
 	double	corrected_distance;
 	int		wall_height;
