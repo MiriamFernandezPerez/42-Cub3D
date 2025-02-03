@@ -14,13 +14,12 @@
 
 void	validate_conf_textures(t_data *data)
 {
-	if (!data->map_data->north_txt_path
-		|| !data->map_data->south_txt_path
-		|| !data->map_data->west_txt_path
-		|| !data->map_data->east_txt_path
-		|| !data->map_data->floor_txt_path || !data->map_data->ceiling_txt_path)
+	if (!get_texture(ID_NORTH, data) || !get_texture(ID_SOUTH, data)
+		|| !get_texture(ID_WEST, data) || !get_texture(ID_EAST, data)
+		|| !get_texture(ID_FLOOR, data) || !get_texture(ID_CEIL, data))
 		ft_error_exit(ERR_CONF, data);
-	printf("1 - '%s'\n2 - '%s'\n3 - '%s'\n4 - '%s'\n5 - '%s'\n6 - '%s'\n 7 - '%s'\n 8 - '%s'\n 9 - '%s'\n", data->map_data->north_txt_path, data->map_data->south_txt_path, data->map_data->west_txt_path, data->map_data->east_txt_path, data->map_data->floor_txt_path, data->map_data->ceiling_txt_path, data->map_data->door_txt_path, data->map_data->next_map, data->map_data->exit_sprite_path);
+
+	//TODO eliminar nodo FLOOR o CEIL si el path es NULL
 }
 
 int	check_rgb(char *path, int *i)
@@ -62,7 +61,7 @@ int	rgb_to_hex(char *path)
 	return ((r << 16) | (g << 8) | b);
 }
 
-void	check_color_or_texture(t_data *data, char *path, char id)
+int	check_color_or_texture(t_data *data, char *path, char id)
 {
 	int	fd;
 	int	color;
@@ -77,6 +76,7 @@ void	check_color_or_texture(t_data *data, char *path, char id)
 			data->map_data->floor_color = color;
 		else if (id == ID_CEIL)
 			data->map_data->ceiling_color = color;
+		return (1);
 	}
 	else
 	{
@@ -84,6 +84,7 @@ void	check_color_or_texture(t_data *data, char *path, char id)
 		if (fd == -1)
 			ft_error_exit(ERR_PATH, data);
 	}
+	return (0);
 }
 
 void	check_exit_sprite(char *path, t_data *data, int id)

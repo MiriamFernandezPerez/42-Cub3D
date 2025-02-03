@@ -56,14 +56,6 @@ void	init_map(t_map *map_data)
 	map_data->map = NULL;
 	map_data->max_height = 0;
 	map_data->max_width = 0;
-	map_data->north_txt_path = NULL;
-	map_data->south_txt_path = NULL;
-	map_data->east_txt_path = NULL;
-	map_data->west_txt_path = NULL;
-	map_data->door_txt_path = NULL;
-	map_data->ceiling_txt_path = NULL;
-	map_data->floor_txt_path = NULL;
-	map_data->exit_sprite_path = NULL;
 	map_data->ceiling_color = 0;
 	map_data->floor_color = 0;
 	map_data->next_map = NULL;

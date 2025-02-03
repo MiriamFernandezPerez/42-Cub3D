@@ -162,14 +162,6 @@ typedef struct s_map
 	char		**map;
 	int			max_height;
 	int			max_width;
-	char		*north_txt_path;
-	char		*south_txt_path;
-	char		*east_txt_path;
-	char		*west_txt_path;
-	char		*door_txt_path;
-	char		*ceiling_txt_path;
-	char		*floor_txt_path;
-	char		*exit_sprite_path;
 	int			ceiling_color;
 	int			floor_color;
 	int			zero_qt;
@@ -258,7 +250,7 @@ void	parse_map(t_data *data, char **map_line);
 
 /*validate_txt_and_colors.c*/
 void	validate_conf_textures(t_data *data);
-void	check_color_or_texture(t_data *data, char *path, char id);
+int		check_color_or_texture(t_data *data, char *path, char id);
 void	check_exit_sprite(char *path, t_data *data, int id);
 /*flood_fill.c*/
 void	validate_map_route(t_data *data);
@@ -294,6 +286,7 @@ void	print_str(t_mlx *mlx_data, int x, int y, char *str);
 void	add_texture_node(char id_texture, char *path, t_data *data);
 void	clear_txt_list(t_texture **txt_list);
 t_texture	*get_texture(char id_txt, t_data *data);
+t_texture	*last_node(t_texture *txt_list);
 
 /*draw_map.c*/
 void	draw_map(t_raycast *ray_data, t_data *data);

@@ -59,7 +59,11 @@ char	*parse_path(char *line, t_data *data, char id)
 		|| id == ID_EXIT || id == ID_MAP)
 		try_open_path(data, path);
 	else if (id == ID_FLOOR || id == ID_CEIL || id == ID_DOOR)
-		check_color_or_texture(data, path, id);
+		if (check_color_or_texture(data, path, id) == 1)
+		{
+			free(path);
+			return (NULL);
+		}
 	if (id == ID_EXIT || id == ID_DOOR)
 	{
 		try_open_path(data, path);
@@ -108,6 +112,7 @@ void	parse_cub_file(t_data *data, char **cub_file)
 	i = 0;
 	while (cub_file[i])
 	{
+
 		if (ft_strlen(cub_file[i]) == 0 || only_spaces(cub_file[i]))
 			i++;
 		else
@@ -119,11 +124,5 @@ void	parse_cub_file(t_data *data, char **cub_file)
 			}
 		}
 	}
-	validate_conf_textures(data);
 	parse_map(data, cub_file + i);
-	validate_doors(data, data->map_data->map);
-	validate_map_tiles(data, data->map_data->map);
-	normalize_map(data, data->map_data->map);
-	validate_map_border(data, data->map_data, data->map_data->map);
-	validate_map_route(data);
 }
