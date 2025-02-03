@@ -98,7 +98,6 @@ int	key_press(int keycode, t_data *data)
 {
 	if (keycode == KEY_ESC)
 	{
-		destroy_mlx(data);
 		free_data(data);
 		exit(EXIT_SUCCESS);
 	}

@@ -25,8 +25,8 @@
 # include <X11/keysym.h>
 
 /*Constants*/
-# define WIDTH 3200
-# define HEIGHT 2000
+# define WIDTH 1600
+# define HEIGHT 1000
 # define TILE_SIZE 64
 # define FOV 60
 # define PLAYER_SPEED 5
@@ -148,7 +148,7 @@ typedef struct s_player
 
 typedef struct s_texture
 {
-	void				*texture_img;
+	void				*txt_img;
 	char				id_txt;
 	int					width;
 	int					height;
@@ -227,8 +227,7 @@ void	init_data(t_data **data);
 void	init_minimap_data(t_minimap *minimap_data);
 void	init_map(t_map *map_data);
 void	init_mlx(t_data *data);
-void	init_textures(t_map *map_data, t_texture *txt_data, t_mlx *mlx_data,
-		t_data *data);
+void	init_textures(t_texture *txt_data, t_mlx *mlx_data,	t_data *data);
 
 /*open_file.c*/
 void	try_open_path(t_data *data, char *path);
@@ -284,7 +283,7 @@ void	print_str(t_mlx *mlx_data, int x, int y, char *str);
 
 /*texture_utils.c*/
 void	add_texture_node(char id_texture, char *path, t_data *data);
-void	clear_txt_list(t_texture **txt_list);
+void	clear_txt_list(t_texture **txt_list, t_mlx *mlx_data);
 t_texture	*get_texture(char id_txt, t_data *data);
 t_texture	*last_node(t_texture *txt_list);
 

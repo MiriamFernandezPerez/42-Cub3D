@@ -26,13 +26,15 @@ t_texture	*get_texture(char id_txt, t_data *data)
 	return (NULL);
 }
 
-void	clear_txt_list(t_texture **txt_list)
+void	clear_txt_list(t_texture **txt_list, t_mlx *mlx_data)
 {
 	if (!(*txt_list) || !txt_list)
 		return ;
-	clear_txt_list(&(*txt_list)->next);
+	clear_txt_list(&(*txt_list)->next, mlx_data);
 	if ((*txt_list)->path)
 		free((*txt_list)->path);
+	if ((*txt_list)->txt_img)
+		mlx_destroy_image(mlx_data->mlx_ptr, (*txt_list)->txt_img);
 	free(*txt_list);
 	*txt_list = NULL;
 }
@@ -74,6 +76,7 @@ void	add_texture_node(char id_texture, char *path, t_data *data)
 	new = (t_texture *)malloc(sizeof(t_texture));
 	if (!new)
 		malloc_protection(new, data);
+	new->txt_img = NULL;
 	new->id_txt = id_texture;
 	new->path = path;
 	new->next = NULL;

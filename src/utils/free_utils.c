@@ -47,7 +47,7 @@ void	destroy_mlx(t_data *data)
 }
 
 // Releases all map data
-void	free_map(t_map *map_data)
+void	free_map(t_map *map_data, t_mlx *mlx_data)
 {
 	if (map_data)
 	{
@@ -56,7 +56,7 @@ void	free_map(t_map *map_data)
 		if (map_data->next_map)
 			free(map_data->next_map);
 		if (map_data->txt_list)
-			clear_txt_list(&map_data->txt_list);
+			clear_txt_list(&map_data->txt_list, mlx_data);
 		free(map_data);
 	}
 	map_data = NULL;
@@ -68,7 +68,7 @@ void	free_data(t_data *data)
 	if (data)
 	{
 		if (data->map_data)
-			free_map(data->map_data);
+			free_map(data->map_data, data->mlx_data);
 		if (data->ray_data)
 			free(data->ray_data);
 		if (data->cub_file)

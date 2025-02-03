@@ -97,7 +97,7 @@ int	parse_line(t_data *data, char *line)
 	else if (ft_strncmp(trim_line, DOOR, 2) == 0)
 		add_texture_node(ID_DOOR, parse_path(trim_line + 2, data, ID_DOOR), data);
 	else if (ft_strncmp(trim_line, NEXT_MAP, 5) == 0)
-		add_texture_node(ID_MAP, parse_path(trim_line + 5, data, ID_MAP), data);
+		 data->map_data->next_map = parse_path(trim_line + 5, data, ID_MAP);
 	else if (ft_strncmp(trim_line, EXIT, 5) == 0)
 		add_texture_node(ID_EXIT, parse_path(trim_line + 5, data, ID_EXIT), data);
 	else

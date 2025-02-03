@@ -12,23 +12,23 @@
 
 #include "../../inc/cub3d.h"
 
-/*void	init_textures(t_map *map_data, t_texture *txt_data, t_mlx *mlx_data,
-		t_data *data)
+void	init_textures(t_texture *txt_list, t_mlx *mlx_data, t_data *data)
 {
-    // Cargamos la textura del muro usando mlx_xpm_file_to_image
-	txt_data->wall_n_txt = mlx_xpm_file_to_image(mlx_data->mlx_ptr,
-			map_data->north_txt_path, 64, 64);
-	txt_data->wall_s_txt = mlx_xpm_file_to_image(mlx_data->mlx_ptr,
-			map_data->south_txt_path, 64, 64);
-	txt_data->wall_e_txt = mlx_xpm_file_to_image(mlx_data->mlx_ptr,
-			map_data->east_txt_path, 64, 64);
-	txt_data->wall_w_txt = mlx_xpm_file_to_image(mlx_data->mlx_ptr,
-			map_data->west_txt_path, 64, 64);
-    // Comprobamos si la textura se cargó correctamente
-	if (!(txt_data->wall_n_txt) || !(txt_data->wall_s_txt)
-			|| !(txt_data->wall_e_txt) || !(txt_data->wall_w_txt))
-		ft_error_exit(ERR_LOAD_TXT, data);
-}*/
+	t_texture *current;
+
+	current = txt_list;
+	while (current)
+	{
+		if (current->path)
+		{
+			current->txt_img = mlx_xpm_file_to_image(mlx_data->mlx_ptr,
+			current->path, &current->width, &current->height);
+			if (current->txt_img == NULL)
+				ft_error_exit(ERR_LOAD_TXT, data);
+		}
+		current = current->next;
+	}
+}
 
 void	init_mlx(t_data *data)
 {
