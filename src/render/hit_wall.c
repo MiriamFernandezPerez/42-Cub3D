@@ -26,14 +26,15 @@ void	reset_hit_data(int vector, t_raycast *ray_data)
 	}
 }
 
-int	is_wall(int grid[2], t_map *map_data)
+int	get_tile_type(int grid[2], t_map *map_data)
 {
-	if (map_data->map[grid[Y]][grid[X]] == TILE_WALL)
-		return (1);
-	return (0);
+	int	tile_type;
+
+	tile_type = map_data->map[grid[Y]][grid[X]];
+	return (tile_type);
 }
 
-int	search_for_wall(int grid[2], double hit[2], double delta[2], t_data *data)
+int	find_wall(int grid[2], double hit[2], double delta[2], t_data *data)
 {
 	while (42)
 	{
@@ -42,7 +43,7 @@ int	search_for_wall(int grid[2], double hit[2], double delta[2], t_data *data)
 		if (grid[X] < 0 || grid[X] >= data->map_data->max_width
 			|| grid[Y] < 0 || grid[Y] >= data->map_data->max_height)
 			return (0);
-		if (is_wall(grid, data->map_data) == 1)
+		if (get_tile_type(grid, data->map_data) == TILE_WALL)
 			break ;
 		hit[X] += delta[X];
 		hit[Y] += delta[Y];
@@ -73,7 +74,7 @@ void	vert_wall_hit(double alpha, t_player *player, t_data *data)
 		delta[Y] = -fabs(delta[Y]);
 	else
 		delta[Y] = fabs((delta[Y]));
-	if (search_for_wall(grid, hit, delta, data) == 0)
+	if (find_wall(grid, hit, delta, data) == 0)
 		return (reset_hit_data(Y, data->ray_data));
 	data->ray_data->vert_hit[X] = hit[X];
 	data->ray_data->vert_hit[Y] = hit[Y];
@@ -102,7 +103,7 @@ void	horz_wall_hit(double alpha, t_player *player, t_data *data)
 		delta[X] = -fabs(delta[X]);
 	else
 		delta[X] = fabs(delta[X]);
-	if (search_for_wall(grid, hit, delta, data) == 0)
+	if (find_wall(grid, hit, delta, data) == 0)
 		return (reset_hit_data(X, data->ray_data));
 	data->ray_data->horz_hit[X] = hit[X];
 	data->ray_data->horz_hit[Y] = hit[Y];

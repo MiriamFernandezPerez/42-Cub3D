@@ -24,34 +24,62 @@ void	calculate_corrected_distance(double alpha, t_data *data)
 		= data->ray_data->shortest_distance * cos(deg_to_rad(beta));
 }
 
-void	find_shortest_hit_distance(t_player *player, t_raycast *ray_data)
+void choose_intersection(double distance[2], t_raycast *ray_data, t_data *data)
 {
-	double	horz_distance;
-	double	vert_distance;
+	int	dir[2];
+	int	horz[2];
+	int	vert[2];
+	int	wall[2];
+
+	if (ray_data->alpha > 90 && ray_data->alpha < 270)
+		dir[X] = 1;
+	else
+		dir[X] = -1;
+	if (ray_data->alpha > 0 && ray_data->alpha < 180)
+		dir[Y] = 1;
+	else
+		dir[Y] = -1;
+	horz[X] = (int)(ray_data->horz_hit[X] / TILE_SIZE);
+	horz[Y] = (int)(ray_data->horz_hit[Y] / TILE_SIZE) + dir[Y];
+	vert[X] = (int)(ray_data->vert_hit[X] / TILE_SIZE) + dir[X];
+	vert[Y] = (int)(ray_data->vert_hit[Y] / TILE_SIZE);
+	wall[X] = get_tile_type(vert, data->map_data);
+	wall[Y] = get_tile_type(horz, data->map_data);
+	if (wall[Y] == TILE_WALL)
+		distance[HORZ] = 0;
+	else
+		distance[VERT] = 0;
+}
+
+
+void	find_shortest_hit_distance(t_player *player, t_raycast *ray_data, t_data *data)
+{
+	double	distance[2];
 
 	if (ray_data->horz_hit[X] > 0)
-		horz_distance = sqrt(pow(player->pos[X] - ray_data->horz_hit[X], 2)
+		distance[HORZ] = sqrt(pow(player->pos[X] - ray_data->horz_hit[X], 2)
 				+ pow(player->pos[Y] - ray_data->horz_hit[Y], 2));
-	else
-		horz_distance = -1;
 	if (ray_data->vert_hit[X] > 0)
-		vert_distance = sqrt(pow(player->pos[X] - ray_data->vert_hit[X], 2)
+		distance[VERT] = sqrt(pow(player->pos[X] - ray_data->vert_hit[X], 2)
 				+ pow(player->pos[Y] - ray_data->vert_hit[Y], 2));
-	else
-		vert_distance = -1;
-	if (vert_distance == -1)
-		ray_data->shortest_distance = horz_distance;
-	else if (horz_distance == -1)
-		ray_data->shortest_distance = vert_distance;
-	else if (horz_distance < vert_distance)
-		ray_data->shortest_distance = horz_distance;
-	else
-		ray_data->shortest_distance = vert_distance;
-	if (ray_data->shortest_distance == horz_distance)
+	if (ray_data->vert_hit[X] <= 0)
+		ray_data->shortest_distance = distance[HORZ];
+	else if (ray_data->horz_hit[X] <= 0)
+		ray_data->shortest_distance = distance[VERT];
+	else if (distance[HORZ] < distance[VERT])
+		ray_data->shortest_distance = distance[HORZ];
+	else if (distance[VERT] < distance[HORZ])
+		 ray_data->shortest_distance = distance[VERT];
+	if (fabs(distance[HORZ] - distance[VERT]) < EPSILON)
+	{
+		ray_data->shortest_distance = distance[HORZ];
+		choose_intersection(distance, ray_data, data);
+	}
+	if (ray_data->shortest_distance == distance[HORZ])
 		ray_data->vtx_hit = X;
 	else
 		ray_data->vtx_hit = Y;
-	//printf("horz_distance: %f\nvert_distance:%f\n", horz_distance, vert_distance);
+	//printf("horz_distance: %f\nvert_distance:%f\n", distance[HORZ], distance[VERT]);
 }
 
 int get_texture_pixel(t_texture *texture, int x, int y)
@@ -61,14 +89,9 @@ int get_texture_pixel(t_texture *texture, int x, int y)
 
 	if (!texture || x < 0 || y < 0 || x >= texture->width
 		|| y >= texture->height)
-	{
-		printf("entro aqui\n");
         return (0x0);
-	}
-
 	pixel = texture->addr + (y * texture->line_len + x * (texture->bpp / 8));
 	color = *(int *)pixel;
-
 	//printf("color X:%d Y:%d: %i\n", x, y, color);
 	return (color);
 }
@@ -97,7 +120,7 @@ void	render_wall(int x, int *y, t_raycast *ray_data, t_data *data)
 			&& ray_data->alpha <= 270)
 		texture = get_texture(ID_WEST, data);
 	else if (ray_data->vtx_hit == Y)
-		texture = get_texture(ID_WEST, data);
+		texture = get_texture(ID_EAST, data);
 	//Calculamos texture_x y texture_y
 	texture_vtx[X] = (texture_vtx[X] / TILE_SIZE) * texture->width;
 	y_step = (float)texture->height / ray_data->wall_height;
@@ -151,7 +174,7 @@ void	draw_map(t_raycast *ray_data, t_data *data)
 		//printf("----ALPHA %f -----\n", ray_data->alpha);
 		horz_wall_hit(ray_data->alpha, data->player, data);
 		vert_wall_hit(ray_data->alpha, data->player, data);
-		find_shortest_hit_distance(data->player, data->ray_data);
+		find_shortest_hit_distance(data->player, data->ray_data, data);
 		calculate_corrected_distance(ray_data->alpha, data);
 		ray_data->wall_height = ceil((TILE_SIZE * (ray_data->distance_pp))
 				/ ray_data->corrected_distance);

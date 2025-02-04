@@ -120,7 +120,9 @@
 typedef enum e_coord
 {
 	X = 0,
-	Y = 1
+	Y = 1,
+	HORZ = 0,
+	VERT = 1
 }	t_coord;
 
 /*Tile Type*/
@@ -299,6 +301,7 @@ void	draw_map(t_raycast *ray_data, t_data *data);
 /*hit_wall.c*/
 void	vert_wall_hit(double alpha, t_player *player, t_data *data);
 void	horz_wall_hit(double alpha, t_player *player, t_data *data);
+int		get_tile_type(int grid[2], t_map *map_data);
 
 /*minimap.c*/
 void	create_minimap(t_minimap *minimap_data, t_mlx *mlx_data, t_data *data);

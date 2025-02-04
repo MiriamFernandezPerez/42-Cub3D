@@ -15,7 +15,7 @@ NAME = cub3d
 SRC_DIR = src/
 
 # Subdirectories to include
-SUBDIRS = main file utils draw mlx 
+SUBDIRS = main file utils render mlx 
 # Find all .c files only in the specified subdirectories
 SRC_FULL_DIR = $(foreach dir, $(SUBDIRS), $(wildcard $(SRC_DIR)$(dir)/*.c))
 
