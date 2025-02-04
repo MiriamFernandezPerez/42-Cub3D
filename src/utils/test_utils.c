@@ -6,7 +6,7 @@
 /*   By: igarcia2 <igarcia2@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 16:44:21 by igarcia2          #+#    #+#             */
-/*   Updated: 2025/02/02 22:17:16 by igarcia2         ###   ########.fr       */
+/*   Updated: 2025/02/04 22:25:13 by igarcia2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,4 +73,19 @@ void	print_nbr(t_mlx *mlx_data, int x, int y, int nbr)
 void	print_str(t_mlx *mlx_data, int x, int y, char *str)
 {
 	mlx_string_put(mlx_data->mlx_ptr, mlx_data->win_ptr, x, y, 0xFFFFFF, str);
+}
+
+void	print_ray_data(t_raycast *ray_data)
+{
+	printf("----ALPHA %f -----\n", ray_data->alpha);
+	printf("horz_hit [X]:%f [Y]:%f\n", ray_data->horz_hit[X],
+		ray_data->horz_hit[Y]);
+	printf("vert_hit [X]:%f [Y]:%f\n", ray_data->vert_hit[X],
+		ray_data->vert_hit[Y]);
+	printf("shortest_distance:%f ", ray_data->shortest_distance);
+	if (ray_data->vtx_hit == X)
+		printf("Vertex_hit: X\n");
+	else
+		printf("Vertex_hit: Y\n");
+	printf("------------\n");
 }

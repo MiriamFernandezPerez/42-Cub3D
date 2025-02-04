@@ -53,6 +53,7 @@ void	init_mlx(t_data *data)
 	data->mlx_data->redraw = 1;
 	mlx_hook(data->mlx_data->win_ptr, 2, 1L << 0, key_press, data);
 	mlx_loop_hook(data->mlx_data->mlx_ptr, game_loop, data);
+	mlx_hook(data->mlx_data->win_ptr, 17, 0, close_window, data);
 }
 
 void	init_map(t_map *map_data)

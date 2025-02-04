@@ -6,7 +6,7 @@
 /*   By: igarcia2 <igarcia2@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/26 16:47:55 by igarcia2          #+#    #+#             */
-/*   Updated: 2025/02/01 23:50:01 by igarcia2         ###   ########.fr       */
+/*   Updated: 2025/02/04 22:40:37 by igarcia2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ void	check_collision(double *delta, t_data *data)
 
 	collision[X] = 0;
 	collision[Y] = 0;
+	//TODO anadir margen preventivo colisiones
 	if (delta[X] != 0)
 	{
 		grid[X] = floor((data->player->pos[X] + delta[X]) / TILE_SIZE);
@@ -116,4 +117,11 @@ int	key_press(int keycode, t_data *data)
 	data->player->angle = normalize_angle(data->player->angle);
 	data->mlx_data->redraw = 1;
 	return (0);
+}
+
+int	close_window(t_data *data)
+{
+	free_data(data);
+	exit(EXIT_SUCCESS);
+	return (EXIT_SUCCESS);
 }

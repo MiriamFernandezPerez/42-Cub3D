@@ -6,7 +6,7 @@
 /*   By: igarcia2 <igarcia2@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/25 18:19:40 by igarcia2          #+#    #+#             */
-/*   Updated: 2025/02/01 18:54:48 by igarcia2         ###   ########.fr       */
+/*   Updated: 2025/02/04 21:03:26 by igarcia2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,14 +24,6 @@ void	reset_hit_data(int vector, t_raycast *ray_data)
 		ray_data->vert_hit[X] = 0;
 		ray_data->vert_hit[Y] = 0;
 	}
-}
-
-int	get_tile_type(int grid[2], t_map *map_data)
-{
-	int	tile_type;
-
-	tile_type = map_data->map[grid[Y]][grid[X]];
-	return (tile_type);
 }
 
 int	find_wall(int grid[2], double hit[2], double delta[2], t_data *data)

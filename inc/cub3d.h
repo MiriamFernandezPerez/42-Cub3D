@@ -6,7 +6,11 @@
 /*   By: mirifern <mirifern@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 21:08:03 by mirifern          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2025/02/04 23:43:06 by mirifern         ###   ########.fr       */
+=======
+/*   Updated: 2025/02/04 22:39:11 by igarcia2         ###   ########.fr       */
+>>>>>>> refs/remotes/origin/main
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +30,11 @@
 
 /*Constants*/
 # define WIDTH 3200 
+<<<<<<< HEAD
 # define HEIGHT 1600
+=======
+# define HEIGHT 2000
+>>>>>>> refs/remotes/origin/main
 # define TILE_SIZE 64
 # define FOV 60
 # define PLAYER_SPEED 5
@@ -288,11 +296,20 @@ int			only_spaces(const char *str);
 int			calculate_angle(char **map, int x, int y);
 
 /*test_utils.c*/
+<<<<<<< HEAD
 void		print_str_array(char **str_array);
 void		init_map_test(t_map *map, t_data *data);
 void		print_player_info(t_data *data);
 void		print_nbr(t_mlx *mlx_data, int x, int y, int nbr);
 void		print_str(t_mlx *mlx_data, int x, int y, char *str);
+=======
+void	print_str_array(char **str_array);
+void	init_map_test(t_map *map, t_data *data);
+void	print_player_info(t_data *data);
+void	print_nbr(t_mlx *mlx_data, int x, int y, int nbr);
+void	print_str(t_mlx *mlx_data, int x, int y, char *str);
+void	print_ray_data(t_raycast *ray_data);
+>>>>>>> refs/remotes/origin/main
 
 /*texture_utils.c*/
 void		add_texture_node(char id_texture, char *path, t_data *data);
@@ -304,18 +321,37 @@ t_texture	*last_node(t_texture *txt_list);
 void		draw_map(t_raycast *ray_data, t_data *data);
 
 /*hit_wall.c*/
+<<<<<<< HEAD
 void		vert_wall_hit(double alpha, t_player *player, t_data *data);
 void		horz_wall_hit(double alpha, t_player *player, t_data *data);
 int			get_tile_type(int grid[2], t_map *map_data);
+=======
+void	vert_wall_hit(double alpha, t_player *player, t_data *data);
+void	horz_wall_hit(double alpha, t_player *player, t_data *data);
+
+/*render_wall.c*/
+void	render_wall(int x, int *y, t_raycast *ray_data, t_data *data);
+
+/*render_utils.c*/
+int 	get_texture_pixel(t_texture *texture, int x, int y);
+int		get_tile_type(int grid[2], t_map *map_data);
+>>>>>>> refs/remotes/origin/main
 
 /*minimap.c*/
 void		create_minimap(t_minimap *minimap_data, t_mlx *mlx_data,
 				t_data *data);
 
 /*mlx.c*/
+<<<<<<< HEAD
 int			game_loop(t_data *data);
 int			key_press(int keycode, t_data *data);
 int			key_release(int keycode, t_data *data);
+=======
+int		game_loop(t_data *data);
+int		key_press(int keycode, t_data *data);
+int		key_release(int keycode, t_data *data);
+int		close_window(t_data *data);
+>>>>>>> refs/remotes/origin/main
 
 /*mlx_utils.c*/
 void		print_pixel_render(int x, int y, int color, t_mlx *mlx_data);
