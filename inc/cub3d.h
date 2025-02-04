@@ -25,8 +25,8 @@
 # include <X11/keysym.h>
 
 /*Constants*/
-# define WIDTH 2000 
-# define HEIGHT 2000
+# define WIDTH 1600 
+# define HEIGHT 1000
 # define TILE_SIZE 64
 # define FOV 60
 # define PLAYER_SPEED 5

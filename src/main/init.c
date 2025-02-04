@@ -25,15 +25,10 @@ void	init_textures(t_texture *txt_list, t_mlx *mlx_data, t_data *data)
 			current->path, &current->width, &current->height);
 			if (current->txt_img == NULL)
 				ft_error_exit(ERR_LOAD_TXT, data);
-		
-			printf("Textura cargada. Ancho: %d, Alto: %d\n",
-					current->width, current->height);
-
 			current->addr = mlx_get_data_addr(current->txt_img, &current->bpp,
 				&current->line_len, &current->endian);
 			if (current->addr == NULL)
 				ft_error_exit("Error\nmlx_get_data_addr failed\n", data);
-			printf("address txt_id:%c : %p\n", current->id_txt, current->addr);
 		}
 		current = current->next;
 	}

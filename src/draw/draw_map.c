@@ -51,6 +51,7 @@ void	find_shortest_hit_distance(t_player *player, t_raycast *ray_data)
 		ray_data->vtx_hit = X;
 	else
 		ray_data->vtx_hit = Y;
+	//printf("horz_distance: %f\nvert_distance:%f\n", horz_distance, vert_distance);
 }
 
 int get_texture_pixel(t_texture *texture, int x, int y)
@@ -60,50 +61,60 @@ int get_texture_pixel(t_texture *texture, int x, int y)
 
 	if (!texture || x < 0 || y < 0 || x >= texture->width
 		|| y >= texture->height)
+	{
+		printf("entro aqui\n");
         return (0x0);
+	}
 
 	pixel = texture->addr + (y * texture->line_len + x * (texture->bpp / 8));
 	color = *(int *)pixel;
+
+	//printf("color X:%d Y:%d: %i\n", x, y, color);
 	return (color);
 }
 
-void	render_wall(int x, int y, t_raycast *ray_data, t_data *data)
+void	render_wall(int x, int *y, t_raycast *ray_data, t_data *data)
 {
 	float		texture_vtx[2];
 	float		y_step;
 	t_texture	*texture;
+	int			tex_y;
 
 	//calcular columna de la textura
 	if (ray_data->vtx_hit == X)
-		texture_vtx[X] = ray_data->horz_hit[X]
-			- floor(ray_data->horz_hit[X] / TILE_SIZE) * TILE_SIZE;
+		texture_vtx[X] = fmod(ray_data->horz_hit[X], TILE_SIZE);
 	else
-		texture_vtx[X] = ray_data->vert_hit[Y]
-			- floor(ray_data->vert_hit[Y] / TILE_SIZE) * TILE_SIZE;
-	texture_vtx[X] /= TILE_SIZE;
+		texture_vtx[X] = fmod(ray_data->vert_hit[Y], TILE_SIZE);
+	texture_vtx[X] = (int)(texture_vtx[X] + 0.5);
 
 	//Encontrar textura orientacion
-	if (ray_data->vtx_hit == X && ray_data->alpha > 0 && ray_data->alpha < 180)
+	if (ray_data->vtx_hit == X && ray_data->alpha >= 0 && ray_data->alpha <= 180)
 		texture = get_texture(ID_SOUTH, data);
-	else if (ray_data->vtx_hit == X && ray_data->alpha > 180
-			&& ray_data->alpha < 360)
+	else if (ray_data->vtx_hit == X && ray_data->alpha >= 180
+			&& ray_data->alpha <= 360)
 		texture = get_texture(ID_NORTH, data);
-	else if (ray_data->vtx_hit == Y && ray_data->alpha > 90
-			&& ray_data->alpha < 270)
-		texture = get_texture(ID_EAST, data);
+	else if (ray_data->vtx_hit == Y && ray_data->alpha >= 90
+			&& ray_data->alpha <= 270)
+		texture = get_texture(ID_WEST, data);
 	else if (ray_data->vtx_hit == Y)
 		texture = get_texture(ID_WEST, data);
-
 	//Calculamos texture_x y texture_y
-	texture_vtx[X] *= texture->width;
-	y_step = (float)texture->height / fmax(ray_data->wall_height, HEIGHT);
+	texture_vtx[X] = (texture_vtx[X] / TILE_SIZE) * texture->width;
+	y_step = (float)texture->height / ray_data->wall_height;
 	texture_vtx[Y] = 0;
 	if (ray_data->wall_height >= HEIGHT)
 		texture_vtx[Y] = ((ray_data->wall_height - HEIGHT) / 2) * y_step;
-	int tex_y = (int)texture_vtx[Y] % (texture->height - 1);
-	print_pixel_render(x, y, get_texture_pixel(texture,
-		(int)texture_vtx[X], tex_y), data->mlx_data);
-	texture_vtx[Y] += y_step;
+	while (*y >= ray_data->wall_y
+		&& *y <= ray_data->wall_y + ray_data->wall_height && *y < HEIGHT)
+	{
+		tex_y = (int)texture_vtx[Y] % texture->height;
+		int tex_x = fmod(texture_vtx[X], texture->width);
+		print_pixel_render(x, *y, get_texture_pixel(texture,
+			(int)tex_x, tex_y), data->mlx_data);
+		texture_vtx[Y] += y_step;
+		(*y)++;
+	}
+	(*y)--;
 }
 
 void	render_column(int x, double alpha, t_data *data)
@@ -120,8 +131,8 @@ void	render_column(int x, double alpha, t_data *data)
 				x, y, data->map_data->ceiling_color, data->mlx_data);
 		else if (y >= data->ray_data->wall_y
 			&& y <= data->ray_data->wall_y + data->ray_data->wall_height)
-			print_pixel_render(x, y, 0xA95C4C, data->mlx_data);
-			//render_wall(x, y, data->ray_data, data);
+			//print_pixel_render(x, y, 0xA95C4C, data->mlx_data);
+			render_wall(x, &y, data->ray_data, data);
 		else
 			print_pixel_render(x, y, data->map_data->floor_color, data->mlx_data);
 		y++;
@@ -137,6 +148,7 @@ void	draw_map(t_raycast *ray_data, t_data *data)
 	ray_data->alpha = normalize_angle(ray_data->alpha);
 	while (x < WIDTH)
 	{
+		//printf("----ALPHA %f -----\n", ray_data->alpha);
 		horz_wall_hit(ray_data->alpha, data->player, data);
 		vert_wall_hit(ray_data->alpha, data->player, data);
 		find_shortest_hit_distance(data->player, data->ray_data);
@@ -153,6 +165,7 @@ void	draw_map(t_raycast *ray_data, t_data *data)
 		/*printf("----ALPHA %f -----\n", ray_data->alpha);
 		printf("horz_hit [X]:%f [Y]:%f\n", ray_data->horz_hit[X], ray_data->horz_hit[Y]);
 		printf("vert_hit [X]:%f [Y]:%f\n", ray_data->vert_hit[X], ray_data->vert_hit[Y]);
+
 		printf("------------\n");*/
 		x++;
 	}
