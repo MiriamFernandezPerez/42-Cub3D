@@ -13,7 +13,7 @@
 #include "../../inc/cub3d.h"
 
 /*Function to calculate all zeros on map*/
-int	floor__qt(char **map, int height)
+int	floor_qt(char **map, int height)
 {
 	int	i;
 	int	j;
