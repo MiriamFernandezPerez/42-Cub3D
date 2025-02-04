@@ -6,7 +6,7 @@
 /*   By: igarcia2 <igarcia2@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/26 16:47:55 by igarcia2          #+#    #+#             */
-/*   Updated: 2025/02/01 23:50:01 by igarcia2         ###   ########.fr       */
+/*   Updated: 2025/02/04 20:57:15 by igarcia2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ int	game_loop(t_data *data)
 // Función que chequea si el personaje puede moverse a la nueva posición
 void	check_collision(double *delta, t_data *data)
 {
+	//TODO anadir margen preventivo colisiones
 	int	collision[2];
 	int	grid[2];
 

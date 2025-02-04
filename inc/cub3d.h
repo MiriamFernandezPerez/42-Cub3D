@@ -6,7 +6,7 @@
 /*   By: mirifern <mirifern@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 21:08:03 by mirifern          #+#    #+#             */
-/*   Updated: 2025/02/03 19:10:00 by igarcia2         ###   ########.fr       */
+/*   Updated: 2025/02/04 21:55:41 by igarcia2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,8 @@
 # include <X11/keysym.h>
 
 /*Constants*/
-# define WIDTH 1600 
-# define HEIGHT 1000
+# define WIDTH 3200 
+# define HEIGHT 2000
 # define TILE_SIZE 64
 # define FOV 60
 # define PLAYER_SPEED 5
@@ -288,6 +288,7 @@ void	init_map_test(t_map *map, t_data *data);
 void	print_player_info(t_data *data);
 void	print_nbr(t_mlx *mlx_data, int x, int y, int nbr);
 void	print_str(t_mlx *mlx_data, int x, int y, char *str);
+void	print_ray_data(t_raycast *ray_data);
 
 /*texture_utils.c*/
 void	add_texture_node(char id_texture, char *path, t_data *data);
@@ -301,6 +302,12 @@ void	draw_map(t_raycast *ray_data, t_data *data);
 /*hit_wall.c*/
 void	vert_wall_hit(double alpha, t_player *player, t_data *data);
 void	horz_wall_hit(double alpha, t_player *player, t_data *data);
+
+/*render_wall.c*/
+void	render_wall(int x, int *y, t_raycast *ray_data, t_data *data);
+
+/*render_utils.c*/
+int 	get_texture_pixel(t_texture *texture, int x, int y);
 int		get_tile_type(int grid[2], t_map *map_data);
 
 /*minimap.c*/
