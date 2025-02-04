@@ -6,7 +6,7 @@
 /*   By: mirifern <mirifern@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 21:05:41 by mirifern          #+#    #+#             */
-/*   Updated: 2025/02/03 00:30:20 by igarcia2         ###   ########.fr       */
+/*   Updated: 2025/02/04 23:37:03 by mirifern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int	main(int ac, char **av)
 	if (open_cub_file(av[1], data) == EXIT_FAILURE)
 		return (free_data(data), EXIT_FAILURE);
 	init_mlx(data);
-	init_textures(data->map_data->txt_list,	data->mlx_data, data);
+	init_textures(data->map_data->txt_list, data->mlx_data, data);
 	mlx_loop(data->mlx_data->mlx_ptr);
 	return (0);
 }

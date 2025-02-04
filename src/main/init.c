@@ -6,7 +6,7 @@
 /*   By: igarcia2 <igarcia2@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/02 02:27:49 by igarcia2          #+#    #+#             */
-/*   Updated: 2025/02/03 19:31:18 by igarcia2         ###   ########.fr       */
+/*   Updated: 2025/02/04 23:36:04 by mirifern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	init_textures(t_texture *txt_list, t_mlx *mlx_data, t_data *data)
 {
-	t_texture *current;
+	t_texture	*current;
 
 	current = txt_list;
 	while (current)
@@ -22,11 +22,11 @@ void	init_textures(t_texture *txt_list, t_mlx *mlx_data, t_data *data)
 		if (current->path)
 		{
 			current->txt_img = mlx_xpm_file_to_image(mlx_data->mlx_ptr,
-			current->path, &current->width, &current->height);
+					current->path, &current->width, &current->height);
 			if (current->txt_img == NULL)
 				ft_error_exit(ERR_LOAD_TXT, data);
 			current->addr = mlx_get_data_addr(current->txt_img, &current->bpp,
-				&current->line_len, &current->endian);
+					&current->line_len, &current->endian);
 			if (current->addr == NULL)
 				ft_error_exit("Error\nmlx_get_data_addr failed\n", data);
 		}
@@ -63,8 +63,8 @@ void	init_map(t_map *map_data)
 	map_data->ceiling_color = 0;
 	map_data->floor_color = 0;
 	map_data->next_map = NULL;
-	map_data->zero_qt = 0;
-	map_data->zeros_found = 0;
+	map_data->floor_tiles_qt = 0;
+	map_data->floor_tiles_found = 0;
 	map_data->txt_list = NULL;
 }
 

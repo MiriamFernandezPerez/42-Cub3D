@@ -1,19 +1,9 @@
-D ./sources/textures/east_txt.xpm
-    NEXT ./sources/maps/map.cub
-    EXIT ./sources/textures/east_txt.xpm
-
-     NO ./sources/textures/4xxpm/13.xpm 
-
-
-
-SO     ./sources/textures/4xxpm/3.xpm
-
- WE   ./sources/textures/4xxpm/6.xpm      
-
-
-EA  ./sources/textures/4xxpm/11.xpm     
-F    187,239,168
-    C 139,221,222  
+NO ./sources/textures/4xxpm/6.xpm
+SO ./sources/textures/4xxpm/3.xpm
+WE ./sources/textures/4xxpm/11.xpm
+EA ./sources/textures/4xxpm/13.xpm   
+F 187,239,168
+C 139,221,222  
 
 
 

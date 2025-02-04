@@ -6,14 +6,14 @@
 /*   By: mirifern <mirifern@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 20:58:38 by mirifern          #+#    #+#             */
-/*   Updated: 2025/02/02 01:25:31 by mirifern         ###   ########.fr       */
+/*   Updated: 2025/02/04 23:32:57 by mirifern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/cub3d.h"
 
 /*Function to calculate all zeros on map*/
-int	zeros_qt(char **map, int height)
+int	floor__qt(char **map, int height)
 {
 	int	i;
 	int	j;
@@ -26,7 +26,7 @@ int	zeros_qt(char **map, int height)
 		j = 0;
 		while (j < (int)ft_strlen(map[i]))
 		{
-			if (map[i][j] == '0')
+			if (map[i][j] == TILE_FLOOR)
 				zeros_total++;
 			j++;
 		}
@@ -58,8 +58,8 @@ int	flood_fill(t_data *data, int x, int y, char **visited)
 	if (data->map_data->map[y][x] == TILE_WALL || visited[y][x] == 1)
 		return (0);
 	visited[y][x] = 1;
-	if (data->map_data->map[y][x] == '0')
-		data->map_data->zeros_found++;
+	if (data->map_data->map[y][x] == TILE_FLOOR)
+		data->map_data->floor_tiles_found++;
 	while (++i < 4)
 		flood_fill(data, x + dx[i], y + dy[i], visited);
 	return (1);
@@ -83,9 +83,9 @@ void	validate_map_route(t_data *data)
 		malloc_protection(visited[i], data);
 		i++;
 	}
-	map_data->zero_qt = zeros_qt(map_data->map, map_data->max_height);
+	map_data->floor_tiles_qt = floor_qt(map_data->map, map_data->max_height);
 	flood_fill(data, data->player->coord[X], data->player->coord[Y], visited);
-	if (map_data->zeros_found != data->map_data->zero_qt)
+	if (map_data->floor_tiles_found != data->map_data->floor_tiles_qt)
 	{
 		free_str_array(&visited);
 		ft_error_exit(ERR_SOLUT, data);

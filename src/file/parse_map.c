@@ -12,6 +12,42 @@
 
 #include "../../inc/cub3d.h"
 
+int	check_tiles_between_door(char **map, int y, int x)
+{
+	if ((map[y - 1]
+			&& (map[y - 1][x] == TILE_FLOOR && map[y + 1][x] != TILE_FLOOR))
+		|| (map[y - 1]
+			&& (map[y - 1][x] == TILE_WALL && map[y + 1][x] != TILE_WALL))
+		|| (map[x - 1]
+			&& (map[y][x - 1] == TILE_FLOOR && map[y][x + 1] != TILE_FLOOR))
+		|| (map[x - 1]
+			&& (map[y][x - 1] == TILE_WALL && map[y][x + 1] != TILE_WALL)))
+		return (1);
+	return (0);
+}
+
+void	validate_doors(t_data *data, char **map)
+{
+	int	y;
+	int	x;
+
+	y = 0;
+	while (map[y])
+	{
+		x = 0;
+		while (map[y][x])
+		{
+			if (map[y][x] == TILE_DOOR)
+			{
+				if (check_tiles_between_door(map, y, x))
+					ft_error_exit(ERR_DOOR, data);
+			}
+			x++;
+		}
+		y++;
+	}
+}
+
 void	validate_map_border(t_data *data, t_map *map_data, char **map)
 {
 	int	i[2];
@@ -24,7 +60,7 @@ void	validate_map_border(t_data *data, t_map *map_data, char **map)
 		{
 			if (map[i[Y]][i[X]] == TILE_FLOOR || map[i[Y]][i[X]] == TILE_N
 				|| map[i[Y]][i[X]] == TILE_S || map[i[Y]][i[X]] == TILE_W
-				|| map[i[Y]][i[X]] == TILE_E)
+				|| map[i[Y]][i[X]] == TILE_EXIT)
 			{
 				if (i[Y] == 0 || i[X] == 0 || !map[i[Y] + 1]
 					|| i[X] >= (int)ft_strlen(map[i[Y] + 1])
@@ -39,23 +75,6 @@ void	validate_map_border(t_data *data, t_map *map_data, char **map)
 			}
 		}
 	}
-}
-
-int	check_player(t_data *data, int y, int x)
-{
-	if (data->map_data->map[y][x] == TILE_N
-		|| data->map_data->map[y][x] == TILE_S
-		|| data->map_data->map[y][x] == TILE_W
-		|| data->map_data->map[y][x] == TILE_E)
-	{
-		data->player->pos[Y] = (y * TILE_SIZE) + TILE_SIZE / 2;
-		data->player->pos[X] = (x * TILE_SIZE) + TILE_SIZE / 2;
-		data->player->coord[Y] = y;
-		data->player->coord[X] = x;
-		data->player->angle = calculate_angle(data->map_data->map, y, x);
-		return (1);
-	}
-	return (0);
 }
 
 void	normalize_map(t_data *data, char **map)
@@ -82,35 +101,6 @@ void	normalize_map(t_data *data, char **map)
 		}
 		i++;
 	}
-}
-
-void	validate_map_tiles(t_data *data, char **map)
-{
-	int	i;
-	int	j;
-	int	player_qt;
-	int	max_j;
-
-	i = -1;
-	player_qt = 0;
-	max_j = 0;
-	while (map[++i])
-	{
-		j = -1;
-		while (map[i][++j])
-		{
-			if (check_player(data, i, j) == 1)
-				player_qt++;
-			else if (!ft_strchr(VALID_TILES, map[i][j]))
-				ft_error_exit(ERR_INV_CHAR, data);
-			if (max_j < j)
-				max_j = j;
-		}
-	}
-	if (player_qt != 1)
-		ft_error_exit(ERR_PLAYER, data);
-	data->map_data->max_width = max_j + 1;
-	data->map_data->max_height = i;
 }
 
 void	parse_map(t_data *data, char **map)

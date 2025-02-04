@@ -57,12 +57,13 @@ int	open_cub_file(char *path, t_data *data)
 		return (ft_perror(path), EXIT_FAILURE);
 	}
 	parse_cub_file(data, data->cub_file);
-	validate_conf_textures(data);
+	validate_tiles(data, data->map_data->map);
+	validate_player(data, data->map_data->map);
+	validate_exit(data, data->map_data->map);
 	validate_doors(data, data->map_data->map);
-	validate_map_tiles(data, data->map_data->map);
 	normalize_map(data, data->map_data->map);
 	validate_map_border(data, data->map_data, data->map_data->map);
 	validate_map_route(data);
-	//TODO Check only one exit (X)
+	validate_conf_textures(data);
 	return (EXIT_SUCCESS);
 }

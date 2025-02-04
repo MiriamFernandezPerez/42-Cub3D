@@ -6,7 +6,7 @@
 /*   By: igarcia2 <igarcia2@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 00:13:32 by igarcia2          #+#    #+#             */
-/*   Updated: 2025/02/03 19:27:55 by igarcia2         ###   ########.fr       */
+/*   Updated: 2025/02/04 23:38:00 by mirifern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,6 @@ void	clear_txt_list(t_texture **txt_list, t_mlx *mlx_data)
 	*txt_list = NULL;
 }
 
-
 t_texture	*last_node(t_texture *txt_list)
 {
 	if (!txt_list)
@@ -71,7 +70,7 @@ void	add_node_back(t_texture **txt_list, t_texture *new)
 
 void	add_texture_node(char id_texture, char *path, t_data *data)
 {
-	t_texture *new;
+	t_texture	*new;
 
 	new = (t_texture *)malloc(sizeof(t_texture));
 	if (!new)

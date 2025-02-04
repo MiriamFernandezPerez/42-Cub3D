@@ -18,8 +18,6 @@ void	validate_conf_textures(t_data *data)
 		|| !get_texture(ID_WEST, data) || !get_texture(ID_EAST, data)
 		|| !get_texture(ID_FLOOR, data) || !get_texture(ID_CEIL, data))
 		ft_error_exit(ERR_CONF, data);
-
-	//TODO eliminar nodo FLOOR o CEIL si el path es NULL
 }
 
 int	check_rgb(char *path, int *i)

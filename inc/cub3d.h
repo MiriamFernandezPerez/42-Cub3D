@@ -6,7 +6,7 @@
 /*   By: mirifern <mirifern@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 21:08:03 by mirifern          #+#    #+#             */
-/*   Updated: 2025/02/03 19:10:00 by igarcia2         ###   ########.fr       */
+/*   Updated: 2025/02/04 23:43:06 by mirifern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,8 @@
 # include <X11/keysym.h>
 
 /*Constants*/
-# define WIDTH 1600 
-# define HEIGHT 1000
+# define WIDTH 3200 
+# define HEIGHT 1600
 # define TILE_SIZE 64
 # define FOV 60
 # define PLAYER_SPEED 5
@@ -53,7 +53,7 @@
 # define DOOR "D "
 # define NEXT_MAP "NEXT "
 # define EXIT "EXIT "
-# define VALID_TILES "01DXC "
+# define VALID_TILES "01DXCNSWE "
 
 /*id_cub_file_settings*/
 # define ID_NORTH 'N'
@@ -97,6 +97,8 @@
 # define ERR_CONF "Error\nRequired sections missing from .cub file\n"
 # define ERR_INV_CHAR "Error\nInvalid character in map\n"
 # define ERR_PLAYER "Error\nMap must have only one player\n"
+# define ERR_EXIT "Error\nMap must have one exit as a maximum\n"
+# define ERR_NO_EXIT "Error\nPlayer can't access to the exit\n"
 # define ERR_DOOR "Error\nInvalid door at map\n"
 # define ERR_BORDER "Error\nThe map must be closed/surrounded by walls\n"
 # define ERR_SOLUT "Error\nInvalid Map, player can't visit all the spaces\n"
@@ -104,17 +106,10 @@
 # define ERR_MLX_WIN "Error\nmlx : window creation failed\n"
 # define ERR_MLX_IMG "Error\nmlx : image creation failed\n"
 # define ERR_LOAD_TXT "Error\nTextures load failed\n"
-
 # define ERR_MAP_CHAR "Error\nInvalid map character\n"
 # define ERR_MAP_BORDER "Error\nMap is not closed\n"
 # define ERR_MAP_PLAYER "Error\nPlayer is not in the map\n"
 # define ERR_MAP_EMPTY "Error\nMap is empty\n"
-//# define ERR_MAP_RES "Error\nMap resolution is too low\n"
-//# define ERR_MAP_RES2 "Error\nMap resolution is too high\n"
-//# define ERR_MAP_TEX "Error\nMap texture is missing\n"
-//# define ERR_MAP_COLOR "Error\nMap color is missing\n"
-//# define ERR_RES "Error\nInvalid resolution\n"
-//# define ERR_COLOR "Error\nInvalid color\n"
 
 /*Coordinates*/
 typedef enum e_coord
@@ -159,8 +154,8 @@ typedef struct s_texture
 	int					width;
 	int					height;
 	char				*path;
-    struct s_texture	*next;
-}	t_texture;
+	struct s_texture	*next;
+}				t_texture;
 
 /*Map info*/
 typedef struct s_map
@@ -170,8 +165,8 @@ typedef struct s_map
 	int			max_width;
 	int			ceiling_color;
 	int			floor_color;
-	int			zero_qt;
-	int			zeros_found;
+	int			floor_tiles_qt;
+	int			floor_tiles_found;
 	char		*next_map;
 	t_texture	*txt_list;
 }	t_map;
@@ -228,92 +223,103 @@ typedef struct s_data
 }	t_data;
 
 /*main.c*/
-int		main(int ac, char **av);
+int			main(int ac, char **av);
 
 /*init.c*/
-void	init_data(t_data **data);
-void	init_minimap_data(t_minimap *minimap_data);
-void	init_map(t_map *map_data);
-void	init_mlx(t_data *data);
-void	init_textures(t_texture *txt_data, t_mlx *mlx_data,	t_data *data);
+void		init_data(t_data **data);
+void		init_minimap_data(t_minimap *minimap_data);
+void		init_map(t_map *map_data);
+void		init_mlx(t_data *data);
+void		init_textures(t_texture *txt_data, t_mlx *mlx_data,	t_data *data);
 
 /*open_file.c*/
-void	try_open_path(t_data *data, char *path);
-int		open_cub_file(char *path, t_data *data);
+void		try_open_path(t_data *data, char *path);
+int			read_file(int fd, t_data *data);
+int			open_cub_file(char *path, t_data *data);
 
 /*parse_file.c*/
-int		check_tiles_between(char **map, int y, int x);
-void	validate_doors(t_data *data, char **map);
-char	*parse_path(char *line, t_data *data, char id);
-int		parse_line(t_data *data, char *line);
-void	parse_cub_file(t_data *data, char **cub_file);
+int			check_tiles_between_exit(char **map, int y, int x);
+void		validate_doors(t_data *data, char **map);
+char		*parse_path(char *line, t_data *data, char id);
+int			parse_line(t_data *data, char *line);
+void		parse_cub_file(t_data *data, char **cub_file);
 
 /*parse_map.c*/
-void	validate_map_border(t_data *data, t_map *map_data, char **map);
-int		check_player(t_data *data, int y, int x);
-void	normalize_map(t_data *data, char **map);
-void	validate_map_tiles(t_data *data, char **map);
-void	parse_map(t_data *data, char **map_line);
+int			check_tiles_between_door(char **map, int y, int x);
+void		validate_map_border(t_data *data, t_map *map_data, char **map);
+void		normalize_map(t_data *data, char **map);
+void		parse_map(t_data *data, char **map_line);
+
+/*validate_tiles.c*/
+int			check_tiles_between_exit(char **map, int y, int x);
+void		validate_exit(t_data *data, char **map);
+int			check_player(t_data *data, int y, int x);
+void		validate_player(t_data *data, char **map);
+void		validate_tiles(t_data *data, char **map);
 
 /*validate_txt_and_colors.c*/
-void	validate_conf_textures(t_data *data);
-int		check_color_or_texture(t_data *data, char *path, char id);
-void	check_exit_sprite(char *path, t_data *data, int id);
+void		validate_conf_textures(t_data *data);
+int			check_rgb(char *path, int *i);
+int			rgb_to_hex(char *path);
+int			check_color_or_texture(t_data *data, char *path, char id);
+void		check_exit_sprite(char *path, t_data *data, int id);
+
 /*flood_fill.c*/
-void	validate_map_route(t_data *data);
+void		validate_map_route(t_data *data);
 
 /*error.c*/
-void	ft_error_exit(char *msg, t_data *data);
-void	ft_error(char *msg);
-void	ft_perror(char *msg);
+void		ft_error_exit(char *msg, t_data *data);
+void		ft_error(char *msg);
+void		ft_perror(char *msg);
 
 /*str_utils.c*/
-char	**add_to_array(char ***current, char *new_value);
+char		**add_to_array(char ***current, char *new_value);
 
 /*free_utils*/
-void	free_data(t_data *data);
-void	free_str_array(char ***str_array);
-void	destroy_mlx(t_data *data);
+void		free_data(t_data *data);
+void		free_str_array(char ***str_array);
+void		destroy_mlx(t_data *data);
 
 /*utils.c*/
-void	malloc_protection(void *ptr, t_data *data);
-double	deg_to_rad(double degrees);
-double	normalize_angle(double angle);
-int		only_spaces(const char *str);
-int		calculate_angle(char **map, int x, int y);
+void		malloc_protection(void *ptr, t_data *data);
+double		deg_to_rad(double degrees);
+double		normalize_angle(double angle);
+int			only_spaces(const char *str);
+int			calculate_angle(char **map, int x, int y);
 
 /*test_utils.c*/
-void	print_str_array(char **str_array);
-void	init_map_test(t_map *map, t_data *data);
-void	print_player_info(t_data *data);
-void	print_nbr(t_mlx *mlx_data, int x, int y, int nbr);
-void	print_str(t_mlx *mlx_data, int x, int y, char *str);
+void		print_str_array(char **str_array);
+void		init_map_test(t_map *map, t_data *data);
+void		print_player_info(t_data *data);
+void		print_nbr(t_mlx *mlx_data, int x, int y, int nbr);
+void		print_str(t_mlx *mlx_data, int x, int y, char *str);
 
 /*texture_utils.c*/
-void	add_texture_node(char id_texture, char *path, t_data *data);
-void	clear_txt_list(t_texture **txt_list, t_mlx *mlx_data);
+void		add_texture_node(char id_texture, char *path, t_data *data);
+void		clear_txt_list(t_texture **txt_list, t_mlx *mlx_data);
 t_texture	*get_texture(char id_txt, t_data *data);
 t_texture	*last_node(t_texture *txt_list);
 
 /*draw_map.c*/
-void	draw_map(t_raycast *ray_data, t_data *data);
+void		draw_map(t_raycast *ray_data, t_data *data);
 
 /*hit_wall.c*/
-void	vert_wall_hit(double alpha, t_player *player, t_data *data);
-void	horz_wall_hit(double alpha, t_player *player, t_data *data);
-int		get_tile_type(int grid[2], t_map *map_data);
+void		vert_wall_hit(double alpha, t_player *player, t_data *data);
+void		horz_wall_hit(double alpha, t_player *player, t_data *data);
+int			get_tile_type(int grid[2], t_map *map_data);
 
 /*minimap.c*/
-void	create_minimap(t_minimap *minimap_data, t_mlx *mlx_data, t_data *data);
+void		create_minimap(t_minimap *minimap_data, t_mlx *mlx_data,
+				t_data *data);
 
 /*mlx.c*/
-int		game_loop(t_data *data);
-int		key_press(int keycode, t_data *data);
-int		key_release(int keycode, t_data *data);
+int			game_loop(t_data *data);
+int			key_press(int keycode, t_data *data);
+int			key_release(int keycode, t_data *data);
 
 /*mlx_utils.c*/
-void	print_pixel_render(int x, int y, int color, t_mlx *mlx_data);
-void	print_tile_pixel(int x, int y, int map_idx[2], t_data *data);
-void	print_triangle(int v[3][2], int color, t_mlx *mlx_data);
+void		print_pixel_render(int x, int y, int color, t_mlx *mlx_data);
+void		print_tile_pixel(int x, int y, int map_idx[2], t_data *data);
+void		print_triangle(int v[3][2], int color, t_mlx *mlx_data);
 
 #endif

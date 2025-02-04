@@ -6,47 +6,11 @@
 /*   By: mirifern <mirifern@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/02 01:30:57 by mirifern          #+#    #+#             */
-/*   Updated: 2025/02/02 01:30:58 by mirifern         ###   ########.fr       */
+/*   Updated: 2025/02/04 23:30:22 by mirifern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/cub3d.h"
-
-int	check_tiles_between(char **map, int y, int x)
-{
-	if ((map[y - 1]
-			&& (map[y - 1][x] == TILE_FLOOR && map[y + 1][x] != TILE_FLOOR))
-		|| (map[y - 1]
-			&& (map[y - 1][x] == TILE_WALL && map[y + 1][x] != TILE_WALL))
-		|| (map[x - 1]
-			&& (map[y][x - 1] == TILE_FLOOR && map[y][x + 1] != TILE_FLOOR))
-		|| (map[x - 1]
-			&& (map[y][x - 1] == TILE_WALL && map[y][x + 1] != TILE_WALL)))
-		return (1);
-	return (0);
-}
-
-void	validate_doors(t_data *data, char **map)
-{
-	int	y;
-	int	x;
-
-	y = 0;
-	while (map[y])
-	{
-		x = 0;
-		while (map[y][x])
-		{
-			if (map[y][x] == TILE_DOOR)
-			{
-				if (check_tiles_between(map, y, x))
-					ft_error_exit(ERR_DOOR, data);
-			}
-			x++;
-		}
-		y++;
-	}
-}
 
 char	*parse_path(char *line, t_data *data, char id)
 {
@@ -60,15 +24,9 @@ char	*parse_path(char *line, t_data *data, char id)
 		try_open_path(data, path);
 	else if (id == ID_FLOOR || id == ID_CEIL || id == ID_DOOR)
 		if (check_color_or_texture(data, path, id) == 1)
-		{
-			free(path);
-			return (NULL);
-		}
+			return (free(path), NULL);
 	if (id == ID_EXIT || id == ID_DOOR)
-	{
 		try_open_path(data, path);
-		//check_exit_sprite(path, data, id);
-	}
 	if (id == ID_MAP)
 	{
 		if (ft_strncmp(path + ft_strlen(path) - 4, ".cub", 4))
@@ -77,29 +35,29 @@ char	*parse_path(char *line, t_data *data, char id)
 	return (path);
 }
 
-int	parse_line(t_data *data, char *line)
+int	parse_line(t_data *d, char *line)
 {
 	char	*trim_line;
 
 	trim_line = ft_strtrim(line, "\t\n ");
 	if (ft_strncmp(trim_line, NORTH_TXT, 3) == 0)
-		add_texture_node(ID_NORTH, parse_path(trim_line + 3, data, ID_NORTH), data);
+		add_texture_node(ID_NORTH, parse_path(trim_line + 3, d, ID_NORTH), d);
 	else if (ft_strncmp(trim_line, SOUTH_TXT, 3) == 0)
-		add_texture_node(ID_SOUTH, parse_path(trim_line + 3, data, ID_SOUTH), data);
+		add_texture_node(ID_SOUTH, parse_path(trim_line + 3, d, ID_SOUTH), d);
 	else if (ft_strncmp(trim_line, WEST_TXT, 3) == 0)
-		add_texture_node(ID_WEST, parse_path(trim_line + 3, data, ID_WEST), data);
+		add_texture_node(ID_WEST, parse_path(trim_line + 3, d, ID_WEST), d);
 	else if (ft_strncmp(trim_line, EAST_TXT, 3) == 0)
-		add_texture_node(ID_EAST, parse_path(trim_line + 3, data, ID_EAST), data);
+		add_texture_node(ID_EAST, parse_path(trim_line + 3, d, ID_EAST), d);
 	else if (ft_strncmp(trim_line, FLOOR, 2) == 0)
-		add_texture_node(ID_FLOOR, parse_path(trim_line + 2, data, ID_FLOOR), data);
+		add_texture_node(ID_FLOOR, parse_path(trim_line + 2, d, ID_FLOOR), d);
 	else if (ft_strncmp(trim_line, CEIL, 2) == 0)
-		add_texture_node(ID_CEIL, parse_path(trim_line + 2, data, ID_CEIL), data);
+		add_texture_node(ID_CEIL, parse_path(trim_line + 2, d, ID_CEIL), d);
 	else if (ft_strncmp(trim_line, DOOR, 2) == 0)
-		add_texture_node(ID_DOOR, parse_path(trim_line + 2, data, ID_DOOR), data);
+		add_texture_node(ID_DOOR, parse_path(trim_line + 2, d, ID_DOOR), d);
 	else if (ft_strncmp(trim_line, NEXT_MAP, 5) == 0)
-		 data->map_data->next_map = parse_path(trim_line + 5, data, ID_MAP);
+		data->map_data->next_map = parse_path(trim_line + 5, d, ID_MAP);
 	else if (ft_strncmp(trim_line, EXIT, 5) == 0)
-		add_texture_node(ID_EXIT, parse_path(trim_line + 5, data, ID_EXIT), data);
+		add_texture_node(ID_EXIT, parse_path(trim_line + 5, d, ID_EXIT), d);
 	else
 		return (free(trim_line), 1);
 	return (free(trim_line), 0);
@@ -112,7 +70,6 @@ void	parse_cub_file(t_data *data, char **cub_file)
 	i = 0;
 	while (cub_file[i])
 	{
-
 		if (ft_strlen(cub_file[i]) == 0 || only_spaces(cub_file[i]))
 			i++;
 		else
