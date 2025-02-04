@@ -6,7 +6,7 @@
 /*   By: igarcia2 <igarcia2@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 16:44:21 by igarcia2          #+#    #+#             */
-/*   Updated: 2025/02/04 21:14:20 by igarcia2         ###   ########.fr       */
+/*   Updated: 2025/02/04 22:25:13 by igarcia2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,5 +88,4 @@ void	print_ray_data(t_raycast *ray_data)
 	else
 		printf("Vertex_hit: Y\n");
 	printf("------------\n");
-
 }

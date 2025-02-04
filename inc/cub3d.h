@@ -6,7 +6,7 @@
 /*   By: mirifern <mirifern@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 21:08:03 by mirifern          #+#    #+#             */
-/*   Updated: 2025/02/04 21:55:41 by igarcia2         ###   ########.fr       */
+/*   Updated: 2025/02/04 22:39:11 by igarcia2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -317,6 +317,7 @@ void	create_minimap(t_minimap *minimap_data, t_mlx *mlx_data, t_data *data);
 int		game_loop(t_data *data);
 int		key_press(int keycode, t_data *data);
 int		key_release(int keycode, t_data *data);
+int		close_window(t_data *data);
 
 /*mlx_utils.c*/
 void	print_pixel_render(int x, int y, int color, t_mlx *mlx_data);

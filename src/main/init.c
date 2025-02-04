@@ -6,7 +6,7 @@
 /*   By: igarcia2 <igarcia2@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/02 02:27:49 by igarcia2          #+#    #+#             */
-/*   Updated: 2025/02/03 19:31:18 by igarcia2         ###   ########.fr       */
+/*   Updated: 2025/02/04 22:38:22 by igarcia2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	init_textures(t_texture *txt_list, t_mlx *mlx_data, t_data *data)
 {
-	t_texture *current;
+	t_texture	*current;
 
 	current = txt_list;
 	while (current)
@@ -22,11 +22,11 @@ void	init_textures(t_texture *txt_list, t_mlx *mlx_data, t_data *data)
 		if (current->path)
 		{
 			current->txt_img = mlx_xpm_file_to_image(mlx_data->mlx_ptr,
-			current->path, &current->width, &current->height);
+					current->path, &current->width, &current->height);
 			if (current->txt_img == NULL)
 				ft_error_exit(ERR_LOAD_TXT, data);
 			current->addr = mlx_get_data_addr(current->txt_img, &current->bpp,
-				&current->line_len, &current->endian);
+					&current->line_len, &current->endian);
 			if (current->addr == NULL)
 				ft_error_exit("Error\nmlx_get_data_addr failed\n", data);
 		}
@@ -53,6 +53,7 @@ void	init_mlx(t_data *data)
 	data->mlx_data->redraw = 1;
 	mlx_hook(data->mlx_data->win_ptr, 2, 1L << 0, key_press, data);
 	mlx_loop_hook(data->mlx_data->mlx_ptr, game_loop, data);
+	mlx_hook(data->mlx_data->win_ptr, 17, 0, close_window, data);
 }
 
 void	init_map(t_map *map_data)
