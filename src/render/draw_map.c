@@ -27,29 +27,28 @@ void	calculate_corrected_distance(double alpha, t_data *data)
 void	fix_corner_case_intersection(double distance[2], t_raycast *ray_data,
 		t_data *data)
 {
-	int	dir[2];
 	int	horz[2];
 	int	vert[2];
 	int	wall[2];
 
-	if (ray_data->alpha > 90 && ray_data->alpha < 270)
-		dir[X] = 1;
-	else
-		dir[X] = -1;
-	if (ray_data->alpha > 0 && ray_data->alpha < 180)
-		dir[Y] = 1;
-	else
-		dir[Y] = -1;
 	horz[X] = (int)(ray_data->horz_hit[X] / TILE_SIZE);
-	horz[Y] = (int)(ray_data->horz_hit[Y] / TILE_SIZE) + dir[Y];
-	vert[X] = (int)(ray_data->vert_hit[X] / TILE_SIZE) + dir[X];
+	horz[Y] = (int)(ray_data->horz_hit[Y] / TILE_SIZE);
+	vert[X] = (int)(ray_data->vert_hit[X] / TILE_SIZE);
 	vert[Y] = (int)(ray_data->vert_hit[Y] / TILE_SIZE);
-	wall[X] = get_tile_type(vert, data->map_data);
-	wall[Y] = get_tile_type(horz, data->map_data);
-	if (wall[Y] == TILE_WALL)
-		distance[HORZ] = 0;
+	if (ray_data->alpha > 90 && ray_data->alpha < 270)
+		horz[X] -= 1;
 	else
+		vert[X] -= 1;
+	if (ray_data->alpha > 0 && ray_data->alpha < 90)
+		vert[Y] -= 1;
+	else
+		horz[Y] -= 1;
+	wall[HORZ] = get_tile_type(horz, data->map_data);
+	wall[VERT] = get_tile_type(vert, data->map_data);
+	if (wall[VERT] == TILE_WALL)
 		distance[VERT] = 0;
+	else
+		distance[HORZ] = 0;
 }
 
 void	get_shortest_dist(t_player *player, t_raycast *ray_data, t_data *data)

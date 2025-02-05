@@ -25,8 +25,8 @@
 # include <X11/keysym.h>
 
 /*Constants*/
-# define WIDTH 3200 
-# define HEIGHT 2000
+# define WIDTH 1600 
+# define HEIGHT 1000
 # define TILE_SIZE 64
 # define FOV 60
 # define PLAYER_SPEED 5
@@ -288,12 +288,12 @@ int			only_spaces(const char *str);
 int			calculate_angle(char **map, int x, int y);
 
 /*test_utils.c*/
-void	print_str_array(char **str_array);
-void	init_map_test(t_map *map, t_data *data);
-void	print_player_info(t_data *data);
-void	print_nbr(t_mlx *mlx_data, int x, int y, int nbr);
-void	print_str(t_mlx *mlx_data, int x, int y, char *str);
-void	print_ray_data(t_raycast *ray_data);
+void		print_str_array(char **str_array);
+void		init_map_test(t_map *map, t_data *data);
+void		print_player_info(t_data *data);
+void		print_nbr(t_mlx *mlx_data, int x, int y, int nbr);
+void		print_str(t_mlx *mlx_data, int x, int y, char *str);
+void		print_ray_data(t_raycast *ray_data);
 
 /*texture_utils.c*/
 void		add_texture_node(char id_texture, char *path, t_data *data);
@@ -305,25 +305,25 @@ t_texture	*last_node(t_texture *txt_list);
 void		draw_map(t_raycast *ray_data, t_data *data);
 
 /*hit_wall.c*/
-void	vert_wall_hit(double alpha, t_player *player, t_data *data);
-void	horz_wall_hit(double alpha, t_player *player, t_data *data);
+void		vert_wall_hit(double alpha, t_player *player, t_data *data);
+void		horz_wall_hit(double alpha, t_player *player, t_data *data);
 
 /*render_wall.c*/
-void	render_wall(int x, int *y, t_raycast *ray_data, t_data *data);
+void		render_wall(int x, int *y, t_raycast *ray_data, t_data *data);
 
 /*render_utils.c*/
-int 	get_texture_pixel(t_texture *texture, int x, int y);
-int		get_tile_type(int grid[2], t_map *map_data);
+int			get_texture_pixel(t_texture *texture, int x, int y);
+int			get_tile_type(int grid[2], t_map *map_data);
 
 /*minimap.c*/
 void		create_minimap(t_minimap *minimap_data, t_mlx *mlx_data,
 				t_data *data);
 
 /*mlx.c*/
-int		game_loop(t_data *data);
-int		key_press(int keycode, t_data *data);
-int		key_release(int keycode, t_data *data);
-int		close_window(t_data *data);
+int			game_loop(t_data *data);
+int			key_press(int keycode, t_data *data);
+int			key_release(int keycode, t_data *data);
+int			close_window(t_data *data);
 
 /*mlx_utils.c*/
 void		print_pixel_render(int x, int y, int color, t_mlx *mlx_data);
