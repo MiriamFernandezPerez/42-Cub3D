@@ -1,14 +1,14 @@
-NO ./sources/textures/4xxpm/6.xpm
-SO ./sources/textures/4xxpm/3.xpm
-WE ./sources/textures/4xxpm/11.xpm
-EA ./sources/textures/4xxpm/13.xpm   
+NO ./sources/textures/4xxpm/2.xpm
+SO ./sources/textures/4xxpm/7.xpm
+WE ./sources/textures/4xxpm/grass.xpm
+EA ./sources/textures/4xxpm/redstone.xpm   
 F 187,239,168
 C 139,221,222  
 
 
 
         1111111111111111111111111
-        10000000011100000000000W1
+        10000000011100000000000S1
         1011000001110000000000001
         1001000000000000000000001
 111111111011010001110000000000001
