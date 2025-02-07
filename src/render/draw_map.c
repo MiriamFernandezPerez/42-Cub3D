@@ -6,7 +6,7 @@
 /*   By: igarcia2 <igarcia2@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 15:27:13 by igarcia2          #+#    #+#             */
-/*   Updated: 2025/02/04 22:02:31 by igarcia2         ###   ########.fr       */
+/*   Updated: 2025/02/06 19:36:55 by igarcia2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	calculate_corrected_distance(t_raycast *ray_data, t_data *data)
 	beta = ray_data->alpha - data->player->angle;
 	beta = normalize_angle(beta);
 	if (beta > 180)
-		beta = 360 - beta;
+		beta = (360 - beta);
 	data->ray_data->corrected_distance
 		= data->ray_data->shortest_distance * cos(deg_to_rad(beta));
 	ray_data->wall_height = ceil((TILE_SIZE * (ray_data->distance_pp))
@@ -37,10 +37,13 @@ void	fix_corner_case_intersection(double distance[2], t_raycast *ray_data,
 	int	vert[2];
 	int	wall[2];
 
-	horz[X] = (int)(ray_data->horz_hit[X] / TILE_SIZE);
-	horz[Y] = (int)(ray_data->horz_hit[Y] / TILE_SIZE);
-	vert[X] = (int)(ray_data->vert_hit[X] / TILE_SIZE);
-	vert[Y] = (int)(ray_data->vert_hit[Y] / TILE_SIZE);
+	horz[X] = (int)((ray_data->horz_hit[X] + EPSILON) / TILE_SIZE);
+	horz[Y] = (int)((ray_data->horz_hit[Y] + EPSILON) / TILE_SIZE);
+	vert[X] = (int)((ray_data->vert_hit[X] + EPSILON) / TILE_SIZE);
+	vert[Y] = (int)((ray_data->vert_hit[Y] + EPSILON) / TILE_SIZE);
+	printf("horz_hit[X]:%f horz_hit[Y]:%f\n", ray_data->horz_hit[X], ray_data->horz_hit[Y]);
+	printf("vert_hit[X]:%f vert_hit[Y]:%f\n", ray_data->vert_hit[X], ray_data->vert_hit[Y]);
+
 	if (ray_data->alpha > 90 && ray_data->alpha < 270)
 		horz[X] -= 1;
 	else
@@ -55,6 +58,8 @@ void	fix_corner_case_intersection(double distance[2], t_raycast *ray_data,
 		distance[VERT] = 0;
 	else
 		distance[HORZ] = 0;
+	printf("horz[X]:%d horz[Y]%d\n", horz[X], horz[Y]);
+	printf("vert[X]:%d vert[Y]%d\n", vert[X], vert[Y]);
 }
 
 void	get_shortest_dist(t_player *player, t_raycast *ray_data, t_data *data)
