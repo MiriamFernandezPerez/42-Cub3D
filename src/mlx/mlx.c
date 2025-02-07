@@ -22,7 +22,7 @@ int	game_loop(t_data *data)
 		data->mlx_data->new_img_addr
 			= mlx_get_data_addr(new_img_ptr, &(data->mlx_data->bpp),
 				&(data->mlx_data->line_len), &(data->mlx_data->endian));
-		render_manager(data->ray_data, data);
+		raycast_manager(data->ray_data, data);
 		create_minimap(data->minimap_data, data->mlx_data, data);
 		data->mlx_data->redraw = 0;
 		mlx_put_image_to_window(data->mlx_data->mlx_ptr,

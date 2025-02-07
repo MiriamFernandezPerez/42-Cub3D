@@ -303,8 +303,8 @@ void		clear_txt_list(t_texture **txt_list, t_mlx *mlx_data);
 t_texture	*get_texture(char id_txt, t_data *data);
 t_texture	*last_node(t_texture *txt_list);
 
-/*draw_map.c*/
-void		render_manager(t_raycast *ray_data, t_data *data);
+/*raycast_manager.c*/
+void		raycast_manager(t_raycast *ray_data, t_data *data);
 
 /*hit_wall.c*/
 void		vert_wall_hit(double alpha, t_player *player, t_data *data);
@@ -313,8 +313,8 @@ void		horz_wall_hit(double alpha, t_player *player, t_data *data);
 /*render_wall.c*/
 void		render_wall(int x, int *y, t_raycast *ray_data, t_data *data);
 
-/*render_floor.c*/
-void		raycast_floor(int x, int *y, t_raycast *ray_data, t_data *data);
+/*render_ceil_floor.c*/
+void		render_ceil_floor(int x, int *y, t_data *data);
 
 /*render_utils.c*/
 int			get_texture_pixel(t_texture *texture, int x, int y);
