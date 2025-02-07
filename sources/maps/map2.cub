@@ -2,8 +2,9 @@
 SO     ./sources/textures/south_txt.xpm
  WE   ./sources/textures/west_txt.xpm      
 EA  ./sources/textures/east_txt.xpm     
-F    187,239,168
-    C 139,221,222
+F   ./sources/textures/east_txt.xpm
+C  187,239,168
+
 
 
 11111

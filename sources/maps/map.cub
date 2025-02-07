@@ -1,9 +1,10 @@
 NO ./sources/textures/4xxpm/12.xpm
-SO ./sources/textures/4xxpm/grassandstone.xpm
+SO ./sources/textures/4xxpm/grassandstone2.xpm
 WE ./sources/textures/4xxpm/redstone.xpm
 EA ./sources/textures/4xxpm/stone3.xpm   
 F ./sources/textures/4xxpm/stone7.xpm
-C 139,221,222  
+C ./sources/textures/4xxpm/grassandstone.xpm
+
 
 
 
