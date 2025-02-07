@@ -12,16 +12,22 @@
 
 #include "../../inc/cub3d.h"
 
-void	calculate_corrected_distance(double alpha, t_data *data)
+void	calculate_corrected_distance(t_raycast *ray_data, t_data *data)
 {
 	double	beta;
 
-	beta = alpha - data->player->angle;
+	beta = ray_data->alpha - data->player->angle;
 	beta = normalize_angle(beta);
 	if (beta > 180)
 		beta = 360 - beta;
 	data->ray_data->corrected_distance
 		= data->ray_data->shortest_distance * cos(deg_to_rad(beta));
+	ray_data->wall_height = ceil((TILE_SIZE * (ray_data->distance_pp))
+			/ ray_data->corrected_distance);
+	if (ray_data->wall_height < HEIGHT)
+		ray_data->wall_y = HEIGHT / 2 - ray_data->wall_height / 2;
+	else
+		ray_data->wall_y = 0;
 }
 
 void	fix_corner_case_intersection(double distance[2], t_raycast *ray_data,
@@ -114,13 +120,13 @@ void	draw_map(t_raycast *ray_data, t_data *data)
 		horz_wall_hit(ray_data->alpha, data->player, data);
 		vert_wall_hit(ray_data->alpha, data->player, data);
 		get_shortest_dist(data->player, data->ray_data, data);
-		calculate_corrected_distance(ray_data->alpha, data);
-		ray_data->wall_height = ceil((TILE_SIZE * (ray_data->distance_pp))
+		calculate_corrected_distance(ray_data, data);
+		/*ray_data->wall_height = ceil((TILE_SIZE * (ray_data->distance_pp))
 				/ ray_data->corrected_distance);
 		if (ray_data->wall_height < HEIGHT)
 			ray_data->wall_y = HEIGHT / 2 - ray_data->wall_height / 2;
 		else
-			ray_data->wall_y = 0;
+			ray_data->wall_y = 0;*/
 		render_column(x, data->mlx_data, data);
 		//print_ray_data(ray_data); //TEST
 		ray_data->alpha -= ray_data->angle_increment;
