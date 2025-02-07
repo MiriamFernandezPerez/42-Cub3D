@@ -25,13 +25,14 @@
 # include <X11/keysym.h>
 
 /*Constants*/
-# define WIDTH 1600
-# define HEIGHT 1000
+# define WIDTH 800
+# define HEIGHT 600
 # define TILE_SIZE 64
 # define FOV 60
 # define PLAYER_SPEED 5
 # define EPSILON 0.0001
 # define M_PI 3.14159265358979323846
+# define ROTATION_SPEED 0.08
 
 /*Keys*/
 # define KEY_ESC 65307
@@ -209,6 +210,7 @@ typedef struct s_mlx
 	int		endian;
 	int		redraw;
 	int		key_pressed;
+	int		mouse_pos;
 }	t_mlx;
 
 /*Cub3d*/
@@ -332,5 +334,8 @@ int			close_window(t_data *data);
 void		print_pixel_render(int x, int y, int color, t_mlx *mlx_data);
 void		print_tile_pixel(int x, int y, int map_idx[2], t_data *data);
 void		print_triangle(int v[3][2], int color, t_mlx *mlx_data);
+
+/*mlx_mouse*/
+int mouse_handler(int x, int y, t_data *data);
 
 #endif
