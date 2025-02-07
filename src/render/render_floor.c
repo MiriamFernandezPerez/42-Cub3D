@@ -1,0 +1,47 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   render_floor.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: igarcia2 <igarcia2@student.42barcel>       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/01/20 15:27:13 by igarcia2          #+#    #+#             */
+/*   Updated: 2025/02/06 19:36:55 by igarcia2         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "../../inc/cub3d.h"
+
+void	render_floor(int x, int *y, float floor[2], t_data *data)
+{
+	int			txt_pixel[2];
+	t_texture	*texture;
+
+	texture = get_texture(ID_FLOOR, data);
+	txt_pixel[X] = (int)(fabs(fmod(floor[X], TILE_SIZE))
+			* texture->width / TILE_SIZE) % texture->width;
+	txt_pixel[Y] = (int)(fabs(fmod(floor[Y], TILE_SIZE))
+			* texture->height / TILE_SIZE) % texture->height;
+	print_pixel_render(x, *y,
+		get_texture_pixel(texture, txt_pixel[X], txt_pixel[Y]), data->mlx_data);
+}
+
+void	raycast_floor(int x, int *y, t_raycast *ray_data, t_data *data)
+{
+	double	floor_dist;
+	double	beta;
+	float	floor[2];
+	float	corrected_dist;
+
+	beta = ray_data->alpha - data->player->angle;
+	beta = normalize_angle(beta);
+	if (beta > 180)
+		beta = 360 - beta;
+	corrected_dist = ray_data->distance_pp / cos(deg_to_rad(beta));
+	floor_dist = (TILE_SIZE * corrected_dist) / (2 * (*y - HEIGHT / 2));
+	floor[X] = data->player->pos[X] + floor_dist
+		* cos(deg_to_rad(ray_data->alpha));
+	floor[Y] = data->player->pos[Y] - floor_dist
+		* sin(deg_to_rad(ray_data->alpha));
+	render_floor(x, y, floor, data);
+}

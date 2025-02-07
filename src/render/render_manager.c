@@ -37,18 +37,15 @@ void	fix_corner_case_intersection(double distance[2], t_raycast *ray_data,
 	int	vert[2];
 	int	wall[2];
 
-	horz[X] = (int)((ray_data->horz_hit[X] + EPSILON) / TILE_SIZE);
-	horz[Y] = (int)((ray_data->horz_hit[Y] + EPSILON) / TILE_SIZE);
-	vert[X] = (int)((ray_data->vert_hit[X] + EPSILON) / TILE_SIZE);
-	vert[Y] = (int)((ray_data->vert_hit[Y] + EPSILON) / TILE_SIZE);
-	printf("horz_hit[X]:%f horz_hit[Y]:%f\n", ray_data->horz_hit[X], ray_data->horz_hit[Y]);
-	printf("vert_hit[X]:%f vert_hit[Y]:%f\n", ray_data->vert_hit[X], ray_data->vert_hit[Y]);
-
+	horz[X] = (int)round((ray_data->horz_hit[X]) / TILE_SIZE);
+	horz[Y] = (int)round((ray_data->horz_hit[Y]) / TILE_SIZE);
+	vert[X] = (int)round((ray_data->vert_hit[X]) / TILE_SIZE);
+	vert[Y] = (int)round((ray_data->vert_hit[Y]) / TILE_SIZE);
 	if (ray_data->alpha > 90 && ray_data->alpha < 270)
 		horz[X] -= 1;
 	else
 		vert[X] -= 1;
-	if (ray_data->alpha > 0 && ray_data->alpha < 90)
+	if (ray_data->alpha > 0 && ray_data->alpha < 180)
 		vert[Y] -= 1;
 	else
 		horz[Y] -= 1;
@@ -58,8 +55,6 @@ void	fix_corner_case_intersection(double distance[2], t_raycast *ray_data,
 		distance[VERT] = 0;
 	else
 		distance[HORZ] = 0;
-	printf("horz[X]:%d horz[Y]%d\n", horz[X], horz[Y]);
-	printf("vert[X]:%d vert[Y]%d\n", vert[X], vert[Y]);
 }
 
 void	get_shortest_dist(t_player *player, t_raycast *ray_data, t_data *data)
@@ -108,12 +103,18 @@ void	render_column(int x, t_mlx *mlx_data, t_data *data)
 			y--;
 		}
 		else
-			print_pixel_render(x, y, data->map_data->floor_color, mlx_data);
+		{
+			if (get_texture(ID_FLOOR, data)
+				&& get_texture(ID_FLOOR, data)->path)
+				raycast_floor(x, &y, data->ray_data, data);
+			else
+				print_pixel_render(x, y, data->map_data->floor_color, mlx_data);
+		}
 		y++;
 	}
 }
 
-void	draw_map(t_raycast *ray_data, t_data *data)
+void	render_manager(t_raycast *ray_data, t_data *data)
 {
 	int		x;
 
@@ -126,12 +127,6 @@ void	draw_map(t_raycast *ray_data, t_data *data)
 		vert_wall_hit(ray_data->alpha, data->player, data);
 		get_shortest_dist(data->player, data->ray_data, data);
 		calculate_corrected_distance(ray_data, data);
-		/*ray_data->wall_height = ceil((TILE_SIZE * (ray_data->distance_pp))
-				/ ray_data->corrected_distance);
-		if (ray_data->wall_height < HEIGHT)
-			ray_data->wall_y = HEIGHT / 2 - ray_data->wall_height / 2;
-		else
-			ray_data->wall_y = 0;*/
 		render_column(x, data->mlx_data, data);
 		//print_ray_data(ray_data); //TEST
 		ray_data->alpha -= ray_data->angle_increment;

@@ -41,14 +41,11 @@ void	render_wall(int x, int *y, t_raycast *ray_data, t_data *data)
 	float		y_step;
 	t_texture	*texture;
 
-	//calcular columna de la textura
 	if (ray_data->vtx_hit == X)
 		texture_vtx[X] = fmod(ray_data->horz_hit[X], TILE_SIZE);
 	else
 		texture_vtx[X] = fmod(ray_data->vert_hit[Y], TILE_SIZE);
-	//texture_vtx[X] = (int)(texture_vtx[X] + 0.5);
 	texture = get_wall_texture(ray_data, data);
-	//Calculamos texture_x y texture_y
 	texture_vtx[X] = (texture_vtx[X] / TILE_SIZE) * texture->width;
 	texture_vtx[Y] = 0.0f;
 	y_step = (float)texture->height / ray_data->wall_height;

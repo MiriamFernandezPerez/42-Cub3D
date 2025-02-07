@@ -1,8 +1,8 @@
-NO ./sources/textures/4xxpm/2.xpm
-SO ./sources/textures/4xxpm/7.xpm
-WE ./sources/textures/4xxpm/grass.xpm
-EA ./sources/textures/4xxpm/redstone.xpm   
-F 187,239,168
+NO ./sources/textures/4xxpm/12.xpm
+SO ./sources/textures/4xxpm/grassandstone.xpm
+WE ./sources/textures/4xxpm/redstone.xpm
+EA ./sources/textures/4xxpm/stone3.xpm   
+F ./sources/textures/4xxpm/stone7.xpm
 C 139,221,222  
 
 

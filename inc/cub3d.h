@@ -25,7 +25,7 @@
 # include <X11/keysym.h>
 
 /*Constants*/
-# define WIDTH 1600 
+# define WIDTH 1600
 # define HEIGHT 1000
 # define TILE_SIZE 64
 # define FOV 60
@@ -138,9 +138,9 @@ typedef enum e_tile_type
 /*Player*/
 typedef struct s_player
 {
-	int		pos[2]; //X and Y in pixels
-	int		coord[2]; //X y Y on grids
-	double	angle; //Direction
+	int		pos[2];
+	int		coord[2];
+	double	angle;
 }	t_player;
 
 typedef struct s_texture
@@ -302,7 +302,7 @@ t_texture	*get_texture(char id_txt, t_data *data);
 t_texture	*last_node(t_texture *txt_list);
 
 /*draw_map.c*/
-void		draw_map(t_raycast *ray_data, t_data *data);
+void		render_manager(t_raycast *ray_data, t_data *data);
 
 /*hit_wall.c*/
 void		vert_wall_hit(double alpha, t_player *player, t_data *data);
@@ -310,6 +310,9 @@ void		horz_wall_hit(double alpha, t_player *player, t_data *data);
 
 /*render_wall.c*/
 void		render_wall(int x, int *y, t_raycast *ray_data, t_data *data);
+
+/*render_floor.c*/
+void		raycast_floor(int x, int *y, t_raycast *ray_data, t_data *data);
 
 /*render_utils.c*/
 int			get_texture_pixel(t_texture *texture, int x, int y);
