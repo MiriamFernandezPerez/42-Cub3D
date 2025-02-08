@@ -6,7 +6,7 @@
 /*   By: mirifern <mirifern@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 21:08:03 by mirifern          #+#    #+#             */
-/*   Updated: 2025/02/06 19:37:54 by igarcia2         ###   ########.fr       */
+/*   Updated: 2025/02/08 19:15:43 by igarcia2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -320,6 +320,7 @@ void		render_ceil_floor(int x, int *y, t_data *data);
 /*render_utils.c*/
 int			get_texture_pixel(t_texture *texture, int x, int y);
 int			get_tile_type(int grid[2], t_map *map_data);
+void		get_grid_back_hit(int grid[2], t_raycast *ray_data);
 
 /*minimap.c*/
 void		create_minimap(t_minimap *minimap_data, t_mlx *mlx_data,
@@ -337,6 +338,6 @@ void		print_tile_pixel(int x, int y, int map_idx[2], t_data *data);
 void		print_triangle(int v[3][2], int color, t_mlx *mlx_data);
 
 /*mlx_mouse*/
-int mouse_handler(int x, int y, t_data *data);
+int 		mouse_handler(int x, int y, t_data *data);
 
 #endif
