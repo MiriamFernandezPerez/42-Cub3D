@@ -6,7 +6,7 @@
 /*   By: mirifern <mirifern@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 21:08:03 by mirifern          #+#    #+#             */
-/*   Updated: 2025/02/06 19:37:54 by igarcia2         ###   ########.fr       */
+/*   Updated: 2025/02/08 19:54:34 by igarcia2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,13 +25,15 @@
 # include <X11/keysym.h>
 
 /*Constants*/
-# define WIDTH 1850 
-# define HEIGHT 950
+# define WIDTH 1600
+# define HEIGHT 1000
 # define TILE_SIZE 64
 # define FOV 60
 # define PLAYER_SPEED 5
 # define EPSILON 0.0001
 # define M_PI 3.14159265358979323846
+# define ROTATION_SPEED 0.08
+# define ALPHA_COLOR 0xc4ff0e
 
 /*Keys*/
 # define KEY_ESC 65307
@@ -138,9 +140,9 @@ typedef enum e_tile_type
 /*Player*/
 typedef struct s_player
 {
-	int		pos[2]; //X and Y in pixels
-	int		coord[2]; //X y Y on grids
-	double	angle; //Direction
+	int		pos[2];
+	int		coord[2];
+	double	angle;
 }	t_player;
 
 typedef struct s_texture
@@ -209,6 +211,7 @@ typedef struct s_mlx
 	int		endian;
 	int		redraw;
 	int		key_pressed;
+	int		mouse_pos;
 }	t_mlx;
 
 /*Cub3d*/
@@ -301,8 +304,8 @@ void		clear_txt_list(t_texture **txt_list, t_mlx *mlx_data);
 t_texture	*get_texture(char id_txt, t_data *data);
 t_texture	*last_node(t_texture *txt_list);
 
-/*draw_map.c*/
-void		draw_map(t_raycast *ray_data, t_data *data);
+/*raycast_manager.c*/
+void		raycast_manager(t_raycast *ray_data, t_data *data);
 
 /*hit_wall.c*/
 void		vert_wall_hit(double alpha, t_player *player, t_data *data);
@@ -310,6 +313,9 @@ void		horz_wall_hit(double alpha, t_player *player, t_data *data);
 
 /*render_wall.c*/
 void		render_wall(int x, int *y, t_raycast *ray_data, t_data *data);
+
+/*render_ceil_floor.c*/
+void		render_ceil_floor(int x, int *y, t_data *data);
 
 /*render_utils.c*/
 int			get_texture_pixel(t_texture *texture, int x, int y);
@@ -332,6 +338,6 @@ void		print_tile_pixel(int x, int y, int map_idx[2], t_data *data);
 void		print_triangle(int v[3][2], int color, t_mlx *mlx_data);
 
 /*mlx_mouse*/
-int mouse_handler(int x, int y, t_data *data);
+int 		mouse_handler(int x, int y, t_data *data);
 
 #endif
