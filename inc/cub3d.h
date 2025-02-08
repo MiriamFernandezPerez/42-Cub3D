@@ -6,7 +6,7 @@
 /*   By: mirifern <mirifern@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 21:08:03 by mirifern          #+#    #+#             */
-/*   Updated: 2025/02/08 19:54:34 by igarcia2         ###   ########.fr       */
+/*   Updated: 2025/02/08 20:14:28 by igarcia2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@
 # define EPSILON 0.0001
 # define M_PI 3.14159265358979323846
 # define ROTATION_SPEED 0.08
-# define ALPHA_COLOR 0xc4ff0e
+# define ALPHA_COLOR 0xc4ff05
 
 /*Keys*/
 # define KEY_ESC 65307

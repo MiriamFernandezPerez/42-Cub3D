@@ -6,7 +6,7 @@
 /*   By: igarcia2 <igarcia2@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 15:27:13 by igarcia2          #+#    #+#             */
-/*   Updated: 2025/02/08 17:09:24 by igarcia2         ###   ########.fr       */
+/*   Updated: 2025/02/08 21:06:52 by igarcia2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	render_floor_item(int x, int *y, float floor[2], t_data *data)
 	grid[X] = (int)((floor[X] + (cos(deg_to_rad(data->ray_data->alpha)) * 0.5))
 			/ TILE_SIZE);
 	grid[Y] = (int)((floor[Y] - (sin(deg_to_rad(data->ray_data->alpha)) * 0.5))
-			/ TILE_SIZE);	
+			/ TILE_SIZE);
 	if (get_tile_type(grid, data->map_data) == TILE_EXIT)
 		texture = get_texture(ID_EXIT, data);
 	else

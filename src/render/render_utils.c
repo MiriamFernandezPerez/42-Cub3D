@@ -6,7 +6,7 @@
 /*   By: igarcia2 <igarcia2@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 21:02:36 by igarcia2          #+#    #+#             */
-/*   Updated: 2025/02/08 19:15:13 by igarcia2         ###   ########.fr       */
+/*   Updated: 2025/02/08 19:58:11 by igarcia2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,8 @@ void	get_grid_back_hit(int grid[2], t_raycast *ray_data)
 	}
 	else
 	{
-		grid[X] = (int)round((ray_data->vert_hit[X]) / TILE_SIZE);
-		grid[Y] = (int)round((ray_data->vert_hit[Y]) / TILE_SIZE);
+		grid[X] = (int)floor((ray_data->vert_hit[X]) / TILE_SIZE);
+		grid[Y] = (int)floor((ray_data->vert_hit[Y]) / TILE_SIZE);
 		if (ray_data->alpha > 90 && ray_data->alpha < 270)
 			grid[X] -= 1;
 	}

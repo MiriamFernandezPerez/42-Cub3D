@@ -1,17 +1,17 @@
-NO ./sources/textures/4xxpm/2.xpm
-SO ./sources/textures/4xxpm/14dark.xpm
-WE ./sources/textures/4xxpm/6dark.xpm
-EA ./sources/textures/4xxpm/11.xpm   
-F ./sources/textures/4xxpm/9.xpm
-C ./sources/textures/4xxpm/9dark.xpm
-D ./sources/textures/4xxpm/13dark.xpm
-EXIT ./sources/textures/trap.xpm
+NO ./sources/textures/3.xpm
+SO ./sources/textures/13wall_dark.xpm
+WE ./sources/textures/6dark.xpm
+EA ./sources/textures/11.xpm   
+F ./sources/textures/8darker.xpm
+C ./sources/textures/9darker.xpm
+D ./sources/textures/12dark.xpm
+EXIT ./sources/textures/exit_txt_1.xpm
 
 
 
 
         1111111111111111111111111
-        10000000011100000000000W1
+        10000000011100000X00000W1
         1011000001110000000000001
         1001000000000000000000001
 111111111011010000000000000000001
