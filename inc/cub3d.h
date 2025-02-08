@@ -25,14 +25,15 @@
 # include <X11/keysym.h>
 
 /*Constants*/
-# define WIDTH 800
-# define HEIGHT 600
+# define WIDTH 1600
+# define HEIGHT 1000
 # define TILE_SIZE 64
 # define FOV 60
 # define PLAYER_SPEED 5
 # define EPSILON 0.0001
 # define M_PI 3.14159265358979323846
 # define ROTATION_SPEED 0.08
+# define ALPHA_COLOR 0xc4ff0e
 
 /*Keys*/
 # define KEY_ESC 65307

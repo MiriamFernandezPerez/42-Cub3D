@@ -16,7 +16,7 @@ void	print_pixel_render(int x, int y, int color, t_mlx *mlx_data)
 {
 	int	pixel;
 
-	if (x < 0 || y < 0 || x >= WIDTH || y >= HEIGHT)
+	if (x < 0 || y < 0 || x >= WIDTH || y >= HEIGHT || color == ALPHA_COLOR)
 		return ;
 	pixel = (y * mlx_data->line_len) + (x * (mlx_data->bpp / 8));
 	mlx_data->new_img_addr[pixel] = color & 0xFF;

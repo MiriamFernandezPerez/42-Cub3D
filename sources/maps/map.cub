@@ -4,13 +4,14 @@ WE ./sources/textures/4xxpm/redstone.xpm
 EA ./sources/textures/4xxpm/stone3.xpm   
 F ./sources/textures/4xxpm/stone7.xpm
 C ./sources/textures/4xxpm/grassandstone.xpm
+EXIT ./sources/textures/trap.xpm
 
 
 
 
         1111111111111111111111111
         10000000011100000000000S1
-        1011000001110000000000001
+        101100000111000000X000001
         1001000000000000000000001
 111111111011010001110000000000001
 10000000001100000111D111111111111

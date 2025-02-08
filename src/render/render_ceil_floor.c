@@ -26,6 +26,30 @@ void	render_ceil(int x, int *y, float floor[2], t_data *data)
 		get_texture_pixel(texture, txt_pixel[X], txt_pixel[Y]), data->mlx_data);
 }
 
+void	render_floor_item(int x, int *y, float floor[2], t_data *data)
+{
+	int			grid[2];
+	int			txt_pixel[2];
+	t_texture	*texture;
+
+	grid[X] = (int)((floor[X] + (cos(deg_to_rad(data->ray_data->alpha)) * 0.5)) / TILE_SIZE);
+	grid[Y] = (int)((floor[Y] - (sin(deg_to_rad(data->ray_data->alpha)) * 0.5)) / TILE_SIZE);	
+	//grid[X] = (int)(round(floor[X] / TILE_SIZE));
+	//grid[Y] = (int)(round(floor[Y] / TILE_SIZE));
+	//printf("grid[X]:%d grid[Y]%d\n", grid[X], grid[Y]);
+	if (get_tile_type(grid, data->map_data) == TILE_EXIT)
+		texture = get_texture(ID_EXIT, data);
+	else
+		return ;
+
+	txt_pixel[X] = (int)(fabs(fmod(floor[X], TILE_SIZE))
+			* texture->width / TILE_SIZE) % texture->width;
+	txt_pixel[Y] = (int)(fabs(fmod(floor[Y], TILE_SIZE))
+			* texture->height / TILE_SIZE) % texture->height;
+	print_pixel_render(x, *y,
+		get_texture_pixel(texture, txt_pixel[X], txt_pixel[Y]), data->mlx_data);
+}
+
 void	render_floor(int x, int *y, float floor[2], t_data *data)
 {
 	int			txt_pixel[2];
@@ -70,6 +94,7 @@ void	render_ceil_floor(int x, int *y, t_data *data)
 	else
 		print_pixel_render(x, *y, data->map_data->floor_color,
 			data->mlx_data);
+	render_floor_item(x, y, floor, data);
 	if (get_texture(ID_CEIL, data) && get_texture(ID_CEIL, data)->path)
 	{
 		raycast_floor(floor, y, data->ray_data, data);
