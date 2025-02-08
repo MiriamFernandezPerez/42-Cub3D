@@ -6,7 +6,7 @@
 /*   By: igarcia2 <igarcia2@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 15:27:13 by igarcia2          #+#    #+#             */
-/*   Updated: 2025/02/06 19:36:55 by igarcia2         ###   ########.fr       */
+/*   Updated: 2025/02/08 17:09:24 by igarcia2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,16 +32,14 @@ void	render_floor_item(int x, int *y, float floor[2], t_data *data)
 	int			txt_pixel[2];
 	t_texture	*texture;
 
-	grid[X] = (int)((floor[X] + (cos(deg_to_rad(data->ray_data->alpha)) * 0.5)) / TILE_SIZE);
-	grid[Y] = (int)((floor[Y] - (sin(deg_to_rad(data->ray_data->alpha)) * 0.5)) / TILE_SIZE);	
-	//grid[X] = (int)(round(floor[X] / TILE_SIZE));
-	//grid[Y] = (int)(round(floor[Y] / TILE_SIZE));
-	//printf("grid[X]:%d grid[Y]%d\n", grid[X], grid[Y]);
+	grid[X] = (int)((floor[X] + (cos(deg_to_rad(data->ray_data->alpha)) * 0.5))
+			/ TILE_SIZE);
+	grid[Y] = (int)((floor[Y] - (sin(deg_to_rad(data->ray_data->alpha)) * 0.5))
+			/ TILE_SIZE);	
 	if (get_tile_type(grid, data->map_data) == TILE_EXIT)
 		texture = get_texture(ID_EXIT, data);
 	else
 		return ;
-
 	txt_pixel[X] = (int)(fabs(fmod(floor[X], TILE_SIZE))
 			* texture->width / TILE_SIZE) % texture->width;
 	txt_pixel[Y] = (int)(fabs(fmod(floor[Y], TILE_SIZE))
@@ -86,20 +84,16 @@ void	render_ceil_floor(int x, int *y, t_data *data)
 {
 	float	floor[2];
 
+
+	raycast_floor(floor, y, data->ray_data, data);
 	if (get_texture(ID_FLOOR, data) && get_texture(ID_FLOOR, data)->path)
-	{
-		raycast_floor(floor, y, data->ray_data, data);
 		render_floor(x, y, floor, data);
-	}
 	else
 		print_pixel_render(x, *y, data->map_data->floor_color,
 			data->mlx_data);
 	render_floor_item(x, y, floor, data);
 	if (get_texture(ID_CEIL, data) && get_texture(ID_CEIL, data)->path)
-	{
-		raycast_floor(floor, y, data->ray_data, data);
 		render_ceil(x, y, floor, data);
-	}
 	else
 		print_pixel_render(x, HEIGHT - *y + 1, data->map_data->ceiling_color,
 			data->mlx_data);
