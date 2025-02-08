@@ -1,9 +1,12 @@
-NO ./sources/textures/4xxpm/6.xpm
-SO ./sources/textures/4xxpm/3.xpm
-WE ./sources/textures/4xxpm/11.xpm
-EA ./sources/textures/brick-wall.xpm 
-F 187,239,168
-C 139,221,222  
+NO ./sources/textures/4xxpm/2.xpm
+SO ./sources/textures/4xxpm/14dark.xpm
+WE ./sources/textures/4xxpm/6dark.xpm
+EA ./sources/textures/4xxpm/11.xpm   
+F ./sources/textures/4xxpm/9.xpm
+C ./sources/textures/4xxpm/9dark.xpm
+D ./sources/textures/4xxpm/13dark.xpm
+EXIT ./sources/textures/trap.xpm
+
 
 
 

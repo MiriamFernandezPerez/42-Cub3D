@@ -6,7 +6,7 @@
 /*   By: igarcia2 <igarcia2@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 15:27:13 by igarcia2          #+#    #+#             */
-/*   Updated: 2025/02/06 19:36:55 by igarcia2         ###   ########.fr       */
+/*   Updated: 2025/02/08 18:15:53 by igarcia2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ void	fix_corner_case_intersection(double distance[2], t_raycast *ray_data,
 		horz[Y] -= 1;
 	wall[HORZ] = get_tile_type(horz, data->map_data);
 	wall[VERT] = get_tile_type(vert, data->map_data);
-	if (wall[VERT] == TILE_WALL)
+	if (wall[VERT] == TILE_WALL || wall[VERT] == TILE_DOOR)
 		distance[VERT] = 0;
 	else
 		distance[HORZ] = 0;
@@ -106,8 +106,10 @@ void	raycast_manager(t_raycast *ray_data, t_data *data)
 			if (y >= data->ray_data->wall_y
 				&& y <= data->ray_data->wall_y + data->ray_data->wall_height)
 				render_wall(x, &y, data->ray_data, data);
-			else
+			else if (y > data->ray_data->wall_y + data->ray_data->wall_height)
 				render_ceil_floor(x, &y, data);
+			else
+				y++;
 		}
 		//print_ray_data(ray_data); //TEST
 		ray_data->alpha -= ray_data->angle_increment;
