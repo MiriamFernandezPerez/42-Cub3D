@@ -27,16 +27,16 @@ t_texture	*get_wall_texture(t_raycast *ray_data, t_data *data)
 {
 	t_texture	*texture;
 
-	if (ray_data->vtx_hit == X && ray_data->alpha >= 0
+	if (ray_data->vtx_hit == HORZ && ray_data->alpha >= 0
 		&& ray_data->alpha <= 180)
 		texture = get_texture(ID_SOUTH, data);
-	else if (ray_data->vtx_hit == X && ray_data->alpha >= 180
+	else if (ray_data->vtx_hit == HORZ && ray_data->alpha >= 180
 		&& ray_data->alpha <= 360)
 		texture = get_texture(ID_NORTH, data);
-	else if (ray_data->vtx_hit == Y && ray_data->alpha >= 90
+	else if (ray_data->vtx_hit == VERT && ray_data->alpha >= 90
 		&& ray_data->alpha <= 270)
 		texture = get_texture(ID_WEST, data);
-	else if (ray_data->vtx_hit == Y)
+	else if (ray_data->vtx_hit == VERT)
 		texture = get_texture(ID_EAST, data);
 	if (check_door_hit(ray_data, data))
 		texture = check_door_hit(ray_data, data);
@@ -52,7 +52,7 @@ void	render_wall(int x, int *y, t_raycast *ray_data, t_data *data)
 	float		y_step;
 	t_texture	*texture;
 
-	if (ray_data->vtx_hit == X)
+	if (ray_data->vtx_hit == HORZ)
 		texture_vtx[X] = fmod(ray_data->horz_hit[X], TILE_SIZE);
 	else
 		texture_vtx[X] = fmod(ray_data->vert_hit[Y], TILE_SIZE);
@@ -68,7 +68,7 @@ void	render_wall(int x, int *y, t_raycast *ray_data, t_data *data)
 		tex[Y] = (int)texture_vtx[Y] % texture->height;
 		tex[X] = fmod(texture_vtx[X], texture->width);
 		print_pixel_render(x, *y, get_texture_pixel(texture,
-				tex[X], tex[Y]), data->mlx_data);
+				tex[X], tex[Y]), data);
 		texture_vtx[Y] += y_step;
 		(*y)++;
 	}

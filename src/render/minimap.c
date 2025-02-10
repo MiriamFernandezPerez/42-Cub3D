@@ -26,7 +26,7 @@ void	draw_border(t_mlx *mlx_data, int start[2], int minimap_size[2])
 				|| index[X] == start[X] + minimap_size[X] - 1
 				|| index[Y] == start[Y]
 				|| index[Y] == start[Y] + minimap_size[Y] - 1)
-				print_pixel_render(
+				print_gui_pixel(
 					index[X], index[Y], MINIMAP_BORDER_COLOR, mlx_data);
 			index[Y]++;
 		}
@@ -48,7 +48,7 @@ void	draw_shadow(t_mlx *mlx_data, int start[2], int minimap_size[2])
 				|| index[X] == start[X] + minimap_size[X]
 				|| index[Y] == start[Y] - 1
 				|| index[Y] == start[Y] + minimap_size[Y])
-				print_pixel_render(
+				print_gui_pixel(
 					index[X], index[Y], MINIMAP_SHADOW_COLOR, mlx_data);
 			index[Y]++;
 		}

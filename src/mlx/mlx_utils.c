@@ -12,7 +12,45 @@
 
 #include "../../inc/cub3d.h"
 
-void	print_pixel_render(int x, int y, int color, t_mlx *mlx_data)
+float get_wall_shading_intensity(float wall_distance) {
+    // Normalizamos la distancia para obtener un factor de intensidad
+    float normalized_distance = (wall_distance / MAX_DISTANCE);  // MAX_DISTANCE es la distancia máxima donde el muro es completamente oscuro
+    return fmax(0.2f, fmin(1.0f, 1.0f - normalized_distance * 0.8f));  // Usamos fmax y fmin para limitar entre 0 y 1
+}
+
+float get_ceiling_shading_intensity(int y, float base_intensity, int wall_top) {
+    float factor = (float)(wall_top - y) / wall_top;  // Normalizamos la altura en el techo
+    return base_intensity + (factor * (1.0f - base_intensity));  // A medida que subimos, aclaramos
+}
+
+float get_floor_shading_intensity(int y, float base_intensity, int wall_bottom) {
+    float factor = (float)(y - wall_bottom) / (HEIGHT - wall_bottom);  // Normalizamos la altura en el suelo
+    return base_intensity + (factor * (1.0f - base_intensity));  // A medida que bajamos hacia el jugador, aclaramos
+}
+
+int	apply_shading(int color, int y, t_raycast *ray_data)
+{
+	float	intensity;
+	int		r, g, b;
+
+	if (y < ray_data->wall_y)
+		intensity = get_ceiling_shading_intensity(
+			y, 0.5f, ray_data->wall_y + ray_data->wall_height);
+	else if (y >= ray_data->wall_y && y <= ray_data->wall_y + ray_data->wall_height)
+		intensity = get_wall_shading_intensity(ray_data->corrected_distance);
+	else
+		intensity = get_floor_shading_intensity(
+			y, 0.5f, ray_data->wall_y + ray_data->wall_height);
+	// Extraer los canales RGB
+	r = ((color >> 16) & 0xFF) * intensity;
+	g = ((color >> 8) & 0xFF) * intensity;
+	b = (color & 0xFF) * intensity;
+
+	// Recombinar el color y devolverlo
+	return ((r << 16) | (g << 8) | b);
+}
+
+void	print_gui_pixel(int x, int y, int color, t_mlx *mlx_data)
 {
 	int	pixel;
 
@@ -24,6 +62,22 @@ void	print_pixel_render(int x, int y, int color, t_mlx *mlx_data)
 	mlx_data->new_img_addr[pixel + 2] = (color >> 16) & 0xFF;
 	if (mlx_data->bpp == 32)
 		mlx_data->new_img_addr[pixel + 3] = (color >> 24);
+}
+
+void	print_pixel_render(int x, int y, int color, t_data *data)
+{
+	int		pixel;
+
+	if (x < 0 || y < 0 || x >= WIDTH || y >= HEIGHT || color == ALPHA_COLOR)
+		return ;
+	if (SHADING == 1)
+		color = apply_shading(color, y, data->ray_data);
+	pixel = (y * data->mlx_data->line_len) + (x * (data->mlx_data->bpp / 8));
+	data->mlx_data->new_img_addr[pixel] = color & 0xFF;
+	data->mlx_data->new_img_addr[pixel + 1] = (color >> 8) & 0xFF;
+	data->mlx_data->new_img_addr[pixel + 2] = (color >> 16) & 0xFF;
+	if (data->mlx_data->bpp == 32)
+		data->mlx_data->new_img_addr[pixel + 3] = (color >> 24);
 }
 
 void	print_tile_pixel(int x, int y, int map_idx[2], t_data *data)
@@ -50,7 +104,7 @@ void	print_tile_pixel(int x, int y, int map_idx[2], t_data *data)
 		else if (tile_type == TILE_DOOR)
 			color = MINIMAP_DOOR_COLOR;
 	}
-	print_pixel_render(x, y, color, data->mlx_data);
+	print_gui_pixel(x, y, color, data->mlx_data);
 }
 
 void	barycentric_weights(int vtx[3][2], int x, int y, float weights[3])
@@ -85,7 +139,7 @@ void	print_triangle(int vtx[3][2], int color, t_mlx *mlx_data)
 		{
 			barycentric_weights(vtx, index[X], index[Y], weights);
 			if (weights[0] >= 0 && weights[1] >= 0 && weights[2] >= 0)
-				print_pixel_render(index[X], index[Y], color, mlx_data);
+				print_gui_pixel(index[X], index[Y], color, mlx_data);
 			index[X]++;
 		}
 		index[Y]++;

@@ -34,6 +34,8 @@
 # define M_PI 3.14159265358979323846
 # define ROTATION_SPEED 0.08
 # define ALPHA_COLOR 0xc4ff05
+# define SHADING 1
+# define MAX_DISTANCE 1500
 
 /*Keys*/
 # define KEY_ESC 65307
@@ -333,7 +335,8 @@ int			key_release(int keycode, t_data *data);
 int			close_window(t_data *data);
 
 /*mlx_utils.c*/
-void		print_pixel_render(int x, int y, int color, t_mlx *mlx_data);
+void		print_pixel_render(int x, int y, int color, t_data *data);
+void		print_gui_pixel(int x, int y, int color, t_mlx *mlx_data);
 void		print_tile_pixel(int x, int y, int map_idx[2], t_data *data);
 void		print_triangle(int v[3][2], int color, t_mlx *mlx_data);
 

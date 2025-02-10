@@ -4,16 +4,16 @@ WE ./sources/textures/6dark.xpm
 EA ./sources/textures/11.xpm   
 F ./sources/textures/8darker.xpm
 C ./sources/textures/9darker.xpm
-D ./sources/textures/12dark.xpm
+D ./sources/textures/moriasdoor.xpm
 EXIT ./sources/textures/exit_txt_1.xpm
 
 
 
 
         1111111111111111111111111
-        10000000011100000X00000W1
+        10000000011100000X0000001
         1011000001110000000000001
-        1001000000000000000000001
+        10010000000000000000000W1
 111111111011010000000000000000001
 10000000001100000000D000111111111
 111101111011111011100010010001  

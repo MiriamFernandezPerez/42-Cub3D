@@ -37,6 +37,7 @@ void	fix_corner_case_intersection(double distance[2], t_raycast *ray_data,
 	int	vert[2];
 	int	wall[2];
 
+	//TODO revisar floor/round
 	horz[X] = (int)round((ray_data->horz_hit[X]) / TILE_SIZE);
 	horz[Y] = (int)round((ray_data->horz_hit[Y]) / TILE_SIZE);
 	vert[X] = (int)round((ray_data->vert_hit[X]) / TILE_SIZE);
@@ -113,6 +114,7 @@ void	raycast_manager(t_raycast *ray_data, t_data *data)
 		}
 		//print_ray_data(ray_data); //TEST
 		ray_data->alpha -= ray_data->angle_increment;
+		ray_data->shortest_distance = 0;
 		x++;
 	}
 }
