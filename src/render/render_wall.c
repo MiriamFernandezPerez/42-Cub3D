@@ -13,7 +13,7 @@
 #include "../../inc/cub3d.h"
 
 t_texture	*check_door_hit(t_raycast *ray_data, t_data *data)
-{	
+{
 	int	grid[2];
 
 	get_grid_back_hit(grid, ray_data);

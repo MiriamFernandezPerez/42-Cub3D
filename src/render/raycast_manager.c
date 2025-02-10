@@ -87,31 +87,37 @@ void	get_shortest_dist(t_player *player, t_raycast *ray_data, t_data *data)
 		ray_data->vtx_hit = Y;
 }
 
+void	manage_column(int x, t_raycast *ray_data, t_data *data)
+{
+	int	y;
+
+	y = 0;
+	while (y < HEIGHT)
+	{
+		if (y >= ray_data->wall_y
+			&& y <= ray_data->wall_y + ray_data->wall_height)
+			render_wall(x, &y, ray_data, data);
+		else if (y > ray_data->wall_y + ray_data->wall_height)
+			render_ceil_floor(x, &y, data);
+		else
+			y++;
+	}
+}
+
 void	raycast_manager(t_raycast *ray_data, t_data *data)
 {
 	int	x;
-	int	y;
 
 	x = 0;
 	ray_data->alpha = data->player->angle + FOV / 2;
 	while (x < WIDTH)
 	{
 		ray_data->alpha = normalize_angle(ray_data->alpha);
-		y = 0;
 		horz_wall_hit(ray_data->alpha, data->player, data);
 		vert_wall_hit(ray_data->alpha, data->player, data);
 		get_shortest_dist(data->player, data->ray_data, data);
 		corrected_wall_distance(ray_data, data);
-		while (y < HEIGHT)
-		{
-			if (y >= data->ray_data->wall_y
-				&& y <= data->ray_data->wall_y + data->ray_data->wall_height)
-				render_wall(x, &y, data->ray_data, data);
-			else if (y > data->ray_data->wall_y + data->ray_data->wall_height)
-				render_ceil_floor(x, &y, data);
-			else
-				y++;
-		}
+		manage_column(x, ray_data, data);
 		//print_ray_data(ray_data); //TEST
 		ray_data->alpha -= ray_data->angle_increment;
 		ray_data->shortest_distance = 0;

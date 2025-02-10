@@ -74,6 +74,7 @@ void	raycast_floor(float hit[2], int *y, t_raycast *ray_data, t_data *data)
 		beta = 360 - beta;
 	corrected_dist = ray_data->distance_pp / cos(deg_to_rad(beta));
 	floor_dist = (TILE_SIZE * corrected_dist) / (2 * (*y - HEIGHT / 2));
+	ray_data->pixel_distance = floor_dist;
 	hit[X] = data->player->pos[X] + floor_dist
 		* cos(deg_to_rad(ray_data->alpha));
 	hit[Y] = data->player->pos[Y] - floor_dist
@@ -83,7 +84,6 @@ void	raycast_floor(float hit[2], int *y, t_raycast *ray_data, t_data *data)
 void	render_ceil_floor(int x, int *y, t_data *data)
 {
 	float	hit[2];
-
 
 	raycast_floor(hit, y, data->ray_data, data);
 	if (get_texture(ID_FLOOR, data) && get_texture(ID_FLOOR, data)->path)

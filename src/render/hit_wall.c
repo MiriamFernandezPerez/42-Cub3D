@@ -36,7 +36,7 @@ int	find_wall(int grid[2], double hit[2], double delta[2], t_data *data)
 			|| grid[Y] < 0 || grid[Y] >= data->map_data->max_height)
 			return (0);
 		if (get_tile_type(grid, data->map_data) == TILE_WALL
-				|| get_tile_type(grid, data->map_data) == TILE_DOOR)
+			|| get_tile_type(grid, data->map_data) == TILE_DOOR)
 			break ;
 		hit[X] += delta[X];
 		hit[Y] += delta[Y];

@@ -25,8 +25,8 @@
 # include <X11/keysym.h>
 
 /*Constants*/
-# define WIDTH 1600
-# define HEIGHT 1000
+# define WIDTH 800
+# define HEIGHT 500
 # define TILE_SIZE 64
 # define FOV 60
 # define PLAYER_SPEED 5
@@ -34,8 +34,8 @@
 # define M_PI 3.14159265358979323846
 # define ROTATION_SPEED 0.08
 # define ALPHA_COLOR 0xc4ff05
-# define SHADING 1
-# define MAX_DISTANCE 1500
+# define SHADING 1 
+# define MAX_DISTANCE 1000
 
 /*Keys*/
 # define KEY_ESC 65307
@@ -124,6 +124,13 @@ typedef enum e_coord
 	VERT = 1
 }	t_coord;
 
+typedef enum e_rgb_matrix
+{
+	R = 0,
+	G = 1,
+	B = 2
+}	t_rgb_matrix;
+
 /*Tile Type*/
 typedef enum e_tile_type
 {
@@ -188,6 +195,8 @@ typedef struct s_raycast
 	double	corrected_distance;
 	int		wall_height;
 	int		wall_y;
+	float	pixel_distance;
+	float	intensity;
 }	t_raycast;
 
 typedef struct s_minimap

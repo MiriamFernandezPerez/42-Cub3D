@@ -16,7 +16,7 @@ void	get_grid_back_hit(int grid[2], t_raycast *ray_data)
 {
 	if (ray_data->vtx_hit == HORZ)
 	{
-		grid[X] = (int)floor((ray_data->horz_hit[X])  / TILE_SIZE);
+		grid[X] = (int)floor((ray_data->horz_hit[X]) / TILE_SIZE);
 		grid[Y] = (int)floor(round(ray_data->horz_hit[Y]) / TILE_SIZE);
 		if (ray_data->alpha >= 0 && ray_data->alpha <= 180)
 			grid[Y] -= 1;
