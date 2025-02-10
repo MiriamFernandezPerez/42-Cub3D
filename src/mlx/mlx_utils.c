@@ -18,11 +18,11 @@ float	get_pixel_shading_intensity(float pixel_distance)
 	float	intensity;
 
 	normalized = fmin(pixel_distance / MAX_DISTANCE, 1.0f);
-	intensity = 1.0f - normalized * 0.7f;
-	if (intensity < 0.3f)
-		intensity = 0.3f;
-	if (intensity > 1.0f)
-		intensity = 1.0f;
+	intensity = 0.9f - normalized * 0.9f;
+	if (intensity < 0.2f)
+		intensity = 0.2f;
+	if (intensity > 0.9f)
+		intensity = 0.9f;
 	return (intensity);
 }
 
