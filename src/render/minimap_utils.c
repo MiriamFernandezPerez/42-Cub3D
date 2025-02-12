@@ -26,7 +26,7 @@ void	print_tile_pixel(int x, int y, int map_idx[2], t_data *data)
 		tile_type = data->map_data->map[map_idx[Y]][map_idx[X]];
 		if (tile_type == TILE_WALL)
 			color = MINIMAP_WALL_COLOR;
-		else if (tile_type == TILE_FLOOR)
+		else if (tile_type == TILE_FLOOR || tile_type == TILE_EXIT)
 			color = MINIMAP_FLOOR_COLOR;
 		else if (tile_type == TILE_SPACE)
 			color = MINIMAP_BACK_COLOR;

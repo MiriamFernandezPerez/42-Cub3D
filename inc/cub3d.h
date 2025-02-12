@@ -75,13 +75,13 @@
 # define MINIMAP_HEIGHT 0.2
 # define MINIMAP_MARGIN 0.02
 # define TILES_VERTICAL 13
-# define MINIMAP_BACK_COLOR 0xA7A6A6
+# define MINIMAP_BACK_COLOR 0x5A5858
 # define MINIMAP_PLAYER_COLOR 0xFF0000
 # define MINIMAP_WALL_COLOR 0xA7A6A6
 # define MINIMAP_FLOOR_COLOR 0x363333
 # define MINIMAP_DOOR_COLOR 0x505050
 # define MINIMAP_BORDER_COLOR 0x000000
-# define MINIMAP_SHADOW_COLOR 0x505050
+# define MINIMAP_SHADOW_COLOR 0x2C2C2C
 
 /*Errors*/
 # define ERR_ARGS "Error\nInvalid number of arguments\n"
@@ -206,6 +206,7 @@ typedef struct s_minimap
 	int		margin[2];
 	int		tile_size;
 	int		tiles_horz;
+	double	angle_step;
 	double	scale;
 }	t_minimap;
 

@@ -93,6 +93,7 @@ void	init_minimap_data(t_minimap *minimap_data)
 	minimap_data->start[X]
 		= WIDTH - minimap_data->size[X] - minimap_data->margin[X];
 	minimap_data->start[Y] = minimap_data->margin[Y];
+	minimap_data->angle_step = FOV / (double)minimap_data->size[X];
 	minimap_data->scale = TILE_SIZE / (double)minimap_data->tile_size;
 }
 
