@@ -6,7 +6,7 @@
 /*   By: igarcia2 <igarcia2@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 15:32:12 by igarcia2          #+#    #+#             */
-/*   Updated: 2025/02/04 22:36:23 by igarcia2         ###   ########.fr       */
+/*   Updated: 2025/02/18 22:27:16 by igarcia2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,8 @@ void	free_map(t_map *map_data, t_mlx *mlx_data)
 			free(map_data->next_map);
 		if (map_data->txt_list)
 			clear_txt_list(&map_data->txt_list, mlx_data);
+		if (map_data->door_list)
+			clear_door_list(&map_data->door_list);
 		free(map_data);
 	}
 	map_data = NULL;

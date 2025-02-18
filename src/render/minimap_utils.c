@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   render_wall.c                                      :+:      :+:    :+:   */
+/*   minimap_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: igarcia2 <igarcia2@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 20:58:02 by igarcia2          #+#    #+#             */
-/*   Updated: 2025/02/08 19:19:47 by igarcia2         ###   ########.fr       */
+/*   Updated: 2025/02/18 20:14:28 by igarcia2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ int	get_floor_color(int x, int y, t_minimap *minimap_data, t_data *data)
 	world[Y] = ((data->player->pos[Y] - (TILES_VERTICAL / 2.0) * TILE_SIZE) + ((y - (minimap_data->start[Y] + 1)) * minimap_data->scale));
 
 
-	printf("world x:%f y:%f\n", world[X], world[Y]);
+	//printf("world x:%f y:%f\n", world[X], world[Y]);
 	distance = calculate_distance(data->player->pos[X], data->player->pos[Y],
 		world[X], world[Y]);
 	angle_to_point = atan2(world[Y] - data->player->pos[Y], world[X] - data->player->pos[X]) * (180.0 / M_PI);
@@ -66,7 +66,7 @@ if (pixel_index < 0)
 		pixel_index = WIDTH - 1;
 	//printf("distance:%f\n", distance);i
 	//printf("distance X=%d  :%f\n", pixel_index, minimap_data->shortest_distances[pixel_index]);
-	printf("pixel index: %d\n", pixel_index);
+	//printf("pixel index: %d\n", pixel_index);
 	if (distance <= minimap_data->shortest_distances[pixel_index])
 		return (0xFFFFFF);
 	return (MINIMAP_FLOOR_COLOR);
@@ -88,8 +88,8 @@ void	print_tile_pixel(int x, int y, int map_idx[2], t_data *data)
 			color = MINIMAP_WALL_COLOR;
 		else if (tile_type == TILE_FLOOR || tile_type == TILE_EXIT)
 		{
-			color = get_floor_color(x, y, data->minimap_data, data);
-			//color = MINIMAP_FLOOR_COLOR;
+			//color = get_floor_color(x, y, data->minimap_data, data);
+			color = MINIMAP_FLOOR_COLOR;
 		}
 		else if (tile_type == TILE_SPACE)
 			color = MINIMAP_BACK_COLOR;

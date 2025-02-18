@@ -6,7 +6,7 @@
 /*   By: mirifern <mirifern@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 21:08:03 by mirifern          #+#    #+#             */
-/*   Updated: 2025/02/08 20:14:28 by igarcia2         ###   ########.fr       */
+/*   Updated: 2025/02/18 22:29:14 by igarcia2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,8 @@
 # include <X11/keysym.h>
 
 /*Constants*/
-# define WIDTH 800
-# define HEIGHT 500
+# define WIDTH 1600
+# define HEIGHT 1000
 # define TILE_SIZE 64
 # define FOV 60
 # define PLAYER_SPEED 5
@@ -146,6 +146,14 @@ typedef enum e_tile_type
 	TILE_COLLECT = 'C'
 }	t_tile_type;
 
+typedef enum e_door_state
+{
+	CLOSED,
+	OPEN,
+	OPENING,
+	CLOSING
+}	t_door_state;
+
 /*Player*/
 typedef struct s_player
 {
@@ -168,6 +176,15 @@ typedef struct s_texture
 	struct s_texture	*next;
 }				t_texture;
 
+typedef struct s_door
+{
+	int				grid[2];
+	int				orient;
+	t_door_state	state;
+	float			offset;
+	struct s_door	*next;
+}	t_door;
+
 /*Map info*/
 typedef struct s_map
 {
@@ -180,6 +197,7 @@ typedef struct s_map
 	int			floor_tiles_found;
 	char		*next_map;
 	t_texture	*txt_list;
+	t_door		*door_list;
 }	t_map;
 
 /*Raycasting data*/
@@ -311,11 +329,16 @@ void		print_nbr(t_mlx *mlx_data, int x, int y, int nbr);
 void		print_str(t_mlx *mlx_data, int x, int y, char *str);
 void		print_ray_data(t_raycast *ray_data);
 
-/*texture_utils.c*/
+/*texture_list.c*/
 void		add_texture_node(char id_texture, char *path, t_data *data);
 void		clear_txt_list(t_texture **txt_list, t_mlx *mlx_data);
 t_texture	*get_texture(char id_txt, t_data *data);
-t_texture	*last_node(t_texture *txt_list);
+//t_texture	*last_node(t_texture *txt_list);
+
+/*door_list.c*/
+void		add_door_node(int grid[2], t_data *data);
+void		clear_door_list(t_door **door_list);
+t_door		*get_door(int grid[2], t_data *data);
 
 /*raycast_manager.c*/
 void		raycast_manager(t_raycast *ray_data, t_data *data);

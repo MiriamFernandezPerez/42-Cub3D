@@ -6,7 +6,7 @@
 /*   By: igarcia2 <igarcia2@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 20:58:02 by igarcia2          #+#    #+#             */
-/*   Updated: 2025/02/08 19:19:47 by igarcia2         ###   ########.fr       */
+/*   Updated: 2025/02/18 20:58:29 by igarcia2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,8 @@ t_texture	*get_wall_texture(t_raycast *ray_data, t_data *data)
 		texture = get_texture(ID_WEST, data);
 	else if (ray_data->vtx_hit == VERT)
 		texture = get_texture(ID_EAST, data);
-	if (check_door_hit(ray_data, data))
-		texture = check_door_hit(ray_data, data);
+	//if (check_door_hit(ray_data, data))
+		//texture = check_door_hit(ray_data, data);
 	if (!texture)
 		ft_error_exit(ERR_LOAD_TXT, data);
 	return (texture);

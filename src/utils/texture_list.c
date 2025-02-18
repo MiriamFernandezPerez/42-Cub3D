@@ -6,7 +6,7 @@
 /*   By: igarcia2 <igarcia2@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 00:13:32 by igarcia2          #+#    #+#             */
-/*   Updated: 2025/02/04 22:24:04 by igarcia2         ###   ########.fr       */
+/*   Updated: 2025/02/18 22:23:44 by igarcia2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void	clear_txt_list(t_texture **txt_list, t_mlx *mlx_data)
 	*txt_list = NULL;
 }
 
-t_texture	*last_node(t_texture *txt_list)
+static t_texture	*last_node(t_texture *txt_list)
 {
 	if (!txt_list)
 		return (NULL);
@@ -50,7 +50,7 @@ t_texture	*last_node(t_texture *txt_list)
 	return (txt_list);
 }
 
-void	add_node_back(t_texture **txt_list, t_texture *new)
+static void	add_node_back(t_texture **txt_list, t_texture *new)
 {
 	t_texture	*last;
 

@@ -6,7 +6,7 @@
 /*   By: igarcia2 <igarcia2@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/25 18:19:40 by igarcia2          #+#    #+#             */
-/*   Updated: 2025/02/08 18:31:52 by igarcia2         ###   ########.fr       */
+/*   Updated: 2025/02/18 22:13:14 by igarcia2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,9 @@ int	find_wall(int grid[2], double hit[2], double delta[2], t_data *data)
 		if (grid[X] < 0 || grid[X] >= data->map_data->max_width
 			|| grid[Y] < 0 || grid[Y] >= data->map_data->max_height)
 			return (0);
-		if (get_tile_type(grid, data->map_data) == TILE_WALL
-			|| get_tile_type(grid, data->map_data) == TILE_DOOR)
+		/*if (get_tile_type(grid, data->map_data) == TILE_WALL
+			|| get_tile_type(grid, data->map_data) == TILE_DOOR)*/
+		if (get_tile_type(grid, data->map_data) == TILE_WALL)
 			break ;
 		hit[X] += delta[X];
 		hit[Y] += delta[Y];

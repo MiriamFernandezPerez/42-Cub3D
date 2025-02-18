@@ -6,7 +6,7 @@
 /*   By: igarcia2 <igarcia2@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 15:27:13 by igarcia2          #+#    #+#             */
-/*   Updated: 2025/02/08 18:15:53 by igarcia2         ###   ########.fr       */
+/*   Updated: 2025/02/18 21:01:45 by igarcia2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,8 @@ void	fix_corner_case_intersection(double distance[2], t_raycast *ray_data,
 		horz[Y] -= 1;
 	wall[HORZ] = get_tile_type(horz, data->map_data);
 	wall[VERT] = get_tile_type(vert, data->map_data);
-	if (wall[VERT] == TILE_WALL || wall[VERT] == TILE_DOOR)
+	//if (wall[VERT] == TILE_WALL || wall[VERT] == TILE_DOOR)
+	if (wall[VERT] == TILE_WALL)
 		distance[VERT] = 0;
 	else
 		distance[HORZ] = 0;

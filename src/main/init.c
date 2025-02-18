@@ -6,7 +6,7 @@
 /*   By: igarcia2 <igarcia2@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/02 02:27:49 by igarcia2          #+#    #+#             */
-/*   Updated: 2025/02/04 23:36:04 by mirifern         ###   ########.fr       */
+/*   Updated: 2025/02/18 22:30:10 by igarcia2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,7 @@ void	init_map(t_map *map_data)
 	map_data->floor_tiles_qt = 0;
 	map_data->floor_tiles_found = 0;
 	map_data->txt_list = NULL;
+	map_data->door_list = NULL;
 }
 
 void	init_minimap_data(t_minimap *minimap_data)
