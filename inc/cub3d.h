@@ -6,7 +6,7 @@
 /*   By: mirifern <mirifern@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 21:08:03 by mirifern          #+#    #+#             */
-/*   Updated: 2025/02/18 22:29:14 by igarcia2         ###   ########.fr       */
+/*   Updated: 2025/02/18 22:47:59 by igarcia2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -333,10 +333,9 @@ void		print_ray_data(t_raycast *ray_data);
 void		add_texture_node(char id_texture, char *path, t_data *data);
 void		clear_txt_list(t_texture **txt_list, t_mlx *mlx_data);
 t_texture	*get_texture(char id_txt, t_data *data);
-//t_texture	*last_node(t_texture *txt_list);
 
 /*door_list.c*/
-void		add_door_node(int grid[2], t_data *data);
+void		add_door_node(int grid[2], int orient, t_data *data);
 void		clear_door_list(t_door **door_list);
 t_door		*get_door(int grid[2], t_data *data);
 

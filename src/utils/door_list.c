@@ -6,7 +6,7 @@
 /*   By: igarcia2 <igarcia2@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 00:13:32 by igarcia2          #+#    #+#             */
-/*   Updated: 2025/02/18 22:25:56 by igarcia2         ###   ########.fr       */
+/*   Updated: 2025/02/18 22:47:36 by igarcia2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ static void	add_node_back(t_door **door_list, t_door *new)
 	}
 }
 
-void	add_door_node(int grid[2], t_data *data)
+void	add_door_node(int grid[2], int orient, t_data *data)
 {
 	t_door	*new;
 
@@ -74,6 +74,7 @@ void	add_door_node(int grid[2], t_data *data)
 	new->grid[X] = grid[X];
 	new->grid[Y] = grid[Y];
 	new->state = CLOSED;
+	new->orient = orient;
 	new->next = NULL;
 	add_node_back(&data->map_data->door_list, new);
 }
