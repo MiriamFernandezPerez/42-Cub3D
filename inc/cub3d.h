@@ -206,6 +206,7 @@ typedef struct s_minimap
 	int		margin[2];
 	int		tile_size;
 	int		tiles_horz;
+	double	shortest_distances[WIDTH];
 	double	angle_step;
 	double	scale;
 }	t_minimap;

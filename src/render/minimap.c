@@ -83,42 +83,6 @@ void	draw_content(t_minimap *minimap_data, t_data *data)
 	}
 }
 
-void draw_fov(t_minimap *minimap_data, t_raycast *ray_data, t_data *data)
-{
-	int	ray[2];
-	int	minimap[2];
-	int	grid[2];
-	int	mmap_center[2];
-
-    ray_data->alpha =  normalize_angle(data->player->angle + FOV / 2);
-	mmap_center[X] = minimap_data->start[X] + minimap_data->size[X] / 2;
-	mmap_center[Y] = minimap_data->start[Y] + minimap_data->size[Y] / 2;
-	while (fabs(ray_data->alpha - normalize_angle(data->player->angle - FOV / 2)) > EPSILON)
-	{
-		ray_data->alpha = normalize_angle(ray_data->alpha);
-		ray[X] = data->player->pos[X];
-		ray[Y] = data->player->pos[Y];
-		while (42)
-		{
-			minimap[X] = mmap_center[X] + (ray[X] - data->player->pos[X]) / minimap_data->scale; 
-			minimap[Y] = mmap_center[Y] + (ray[Y] - data->player->pos[Y]) / minimap_data->scale; 
-			if (minimap[X] <= minimap_data->start[X] + 1 || minimap[X] >= minimap_data->start[X] + minimap_data->size[X] - 1 || minimap[Y] <= minimap_data->start[Y] + 1 || minimap[Y] >= minimap_data->start[Y] + minimap_data->size[Y] - 1)
-				break;
-			grid[X] = (int)floor(ray[X] / TILE_SIZE);
-			grid[Y] = (int)floor(ray[Y] / TILE_SIZE);
-			if (get_tile_type(grid, data->map_data) == TILE_WALL
-				|| get_tile_type(grid, data->map_data) == TILE_DOOR)
-				break;
-			print_gui_pixel(minimap[X], minimap[Y], 0xFFFFFF, data->mlx_data);
-            ray[X] += cos(deg_to_rad(ray_data->alpha)) * minimap_data->tile_size;
-            ray[Y] -= sin(deg_to_rad(ray_data->alpha)) * minimap_data->tile_size;
-		}
-		data->ray_data->alpha -= minimap_data->angle_step / 10;
-		if (fabs(ray_data->alpha - normalize_angle(data->player->angle - FOV / 2)) < EPSILON)
-			break;
-	}
-}
-
 void	draw_player(t_minimap *minimap_data, t_data *data)
 {
 	int		center[2];
@@ -144,6 +108,5 @@ void	create_minimap(t_minimap *minimap_data, t_mlx *mlx_data, t_data *data)
 	draw_border(mlx_data, minimap_data->start, minimap_data->size);
 	draw_shadow(mlx_data, minimap_data->start, minimap_data->size);
 	draw_content(minimap_data, data);
-	//draw_fov(minimap_data, data->ray_data, data);
 	draw_player(minimap_data, data);
 }

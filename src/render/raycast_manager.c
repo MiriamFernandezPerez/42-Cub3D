@@ -116,6 +116,7 @@ void	raycast_manager(t_raycast *ray_data, t_data *data)
 		horz_wall_hit(ray_data->alpha, data->player, data);
 		vert_wall_hit(ray_data->alpha, data->player, data);
 		get_shortest_dist(data->player, data->ray_data, data);
+		data->minimap_data->shortest_distances[x] = ray_data->shortest_distance;
 		corrected_wall_distance(ray_data, data);
 		manage_column(x, ray_data, data);
 		//print_ray_data(ray_data); //TEST
