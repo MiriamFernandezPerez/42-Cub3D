@@ -229,6 +229,14 @@ typedef struct s_minimap
 	double	scale;
 }	t_minimap;
 
+/*Start_screen*/
+typedef struct s_start
+{
+    void    *img; //una imagen para cada pantalla
+	int     width;
+    int     height;
+}   t_start;
+
 /*Mlx*/
 typedef struct s_mlx
 {
@@ -253,6 +261,9 @@ typedef struct s_data
 	t_minimap		*minimap_data;
 	t_mlx			*mlx_data;
 	t_player		*player;
+	t_start			*start[3]; //delete
+	int				blink; //delete
+	int				selected; //delete
 	char			**cub_file;
 }	t_data;
 
@@ -320,6 +331,9 @@ double		deg_to_rad(double degrees);
 double		normalize_angle(double angle);
 int			only_spaces(const char *str);
 int			calculate_angle(char **map, int x, int y);
+
+/*start_screen.c*/
+void 		start_screen(t_data *data);
 
 /*test_utils.c*/
 void		print_str_array(char **str_array);

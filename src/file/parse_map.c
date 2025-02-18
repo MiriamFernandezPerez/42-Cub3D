@@ -23,6 +23,9 @@ int	check_tiles_between_door(char **map, int y, int x)
 		|| (map[x - 1]
 			&& (map[y][x - 1] == TILE_WALL && map[y][x + 1] != TILE_WALL)))
 		return (1);
+	//TODO
+	//int grid[2]; X, Y
+	// add_door_node(grid, VERT, data);
 	return (0);
 }
 
