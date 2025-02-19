@@ -290,7 +290,7 @@ int			parse_line(t_data *data, char *line);
 void		parse_cub_file(t_data *data, char **cub_file);
 
 /*parse_map.c*/
-int			check_tiles_between_door(char **map, int y, int x);
+int			check_tiles_between_door(char **map, int y, int x, t_data *data);
 void		validate_map_border(t_data *data, t_map *map_data, char **map);
 void		normalize_map(t_data *data, char **map);
 void		parse_map(t_data *data, char **map_line);

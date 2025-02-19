@@ -12,8 +12,12 @@
 
 #include "../../inc/cub3d.h"
 
-int	check_tiles_between_door(char **map, int y, int x)
+int	check_tiles_between_door(char **map, int y, int x, t_data *data)
 {
+	int grid[2];
+
+	grid[0] = x;
+	grid[1] = y;
 	if ((map[y - 1]
 			&& (map[y - 1][x] == TILE_FLOOR && map[y + 1][x] != TILE_FLOOR))
 		|| (map[y - 1]
@@ -23,9 +27,13 @@ int	check_tiles_between_door(char **map, int y, int x)
 		|| (map[x - 1]
 			&& (map[y][x - 1] == TILE_WALL && map[y][x + 1] != TILE_WALL)))
 		return (1);
-	//TODO
-	//int grid[2]; X, Y
-	// add_door_node(grid, VERT, data);
+	else
+	{
+		if (map[y][x - 1] == TILE_WALL && map[y][x + 1] == TILE_WALL)
+			add_door_node(grid, HORZ, data);
+		else if (map[y - 1][x] == TILE_WALL && map[y + 1][x] == TILE_WALL)
+			add_door_node(grid, VERT, data);
+	}
 	return (0);
 }
 
@@ -42,7 +50,7 @@ void	validate_doors(t_data *data, char **map)
 		{
 			if (map[y][x] == TILE_DOOR)
 			{
-				if (check_tiles_between_door(map, y, x))
+				if (check_tiles_between_door(map, y, x, data))
 					ft_error_exit(ERR_DOOR, data);
 			}
 			x++;
