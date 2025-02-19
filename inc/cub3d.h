@@ -106,6 +106,8 @@
 # define ERR_DOOR "Error\nInvalid door at map\n"
 # define ERR_BORDER "Error\nThe map must be closed/surrounded by walls\n"
 # define ERR_SOLUT "Error\nInvalid Map, player can't visit all the spaces\n"
+# define ERR_START "Error\nCan't open start screen files\n"
+# define NO_PLAY "Don't you want to play? Maybe later, see you :)!!\n"
 # define ERR_MLX_INIT "Error\nmlx : initialization failed\n"
 # define ERR_MLX_WIN "Error\nmlx : window creation failed\n"
 # define ERR_MLX_IMG "Error\nmlx : image creation failed\n"
@@ -232,7 +234,9 @@ typedef struct s_minimap
 /*Start_screen*/
 typedef struct s_start
 {
-    void    *img; //una imagen para cada pantalla
+    void    *img[3];
+	int		blink; 
+	int		selected;
 	int     width;
     int     height;
 }   t_start;
@@ -261,9 +265,7 @@ typedef struct s_data
 	t_minimap		*minimap_data;
 	t_mlx			*mlx_data;
 	t_player		*player;
-	t_start			*start[3]; //delete
-	int				blink; //delete
-	int				selected; //delete
+	t_start			*start;
 	char			**cub_file;
 }	t_data;
 
@@ -333,6 +335,7 @@ int			only_spaces(const char *str);
 int			calculate_angle(char **map, int x, int y);
 
 /*start_screen.c*/
+int			start_loop(t_data *data);
 void 		start_screen(t_data *data);
 
 /*test_utils.c*/

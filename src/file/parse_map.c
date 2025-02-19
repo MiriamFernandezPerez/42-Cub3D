@@ -14,26 +14,28 @@
 
 int	check_tiles_between_door(char **map, int y, int x, t_data *data)
 {
-	int grid[2];
+	int	grid[2];
 
 	grid[0] = x;
 	grid[1] = y;
-	if ((map[y - 1]
-			&& (map[y - 1][x] == TILE_FLOOR && map[y + 1][x] != TILE_FLOOR))
-		|| (map[y - 1]
-			&& (map[y - 1][x] == TILE_WALL && map[y + 1][x] != TILE_WALL))
-		|| (map[x - 1]
-			&& (map[y][x - 1] == TILE_FLOOR && map[y][x + 1] != TILE_FLOOR))
-		|| (map[x - 1]
-			&& (map[y][x - 1] == TILE_WALL && map[y][x + 1] != TILE_WALL)))
+	if (y > 0 && map[y - 1] && x >= 0 && map[y - 1][x] == TILE_FLOOR
+		&& (y + 1 < data->map_data->max_height && map[y + 1][x] != TILE_FLOOR))
 		return (1);
-	else
-	{
-		if (map[y][x - 1] == TILE_WALL && map[y][x + 1] == TILE_WALL)
-			add_door_node(grid, HORZ, data);
-		else if (map[y - 1][x] == TILE_WALL && map[y + 1][x] == TILE_WALL)
-			add_door_node(grid, VERT, data);
-	}
+	else if (y > 0 && map[y - 1] && x >= 0 && map[y - 1][x] == TILE_WALL
+		&& (y + 1 < data->map_data->max_height && map[y + 1][x] != TILE_WALL))
+		return (1);
+	else if (x > 0 && map[y] && map[y][x - 1] == TILE_FLOOR
+		&& (x + 1 < data->map_data->max_width && map[y][x + 1] != TILE_FLOOR))
+		return (1);
+	else if (x > 0 && map[y] && map[y][x - 1] == TILE_WALL
+		&& (x + 1 < data->map_data->max_width && map[y][x + 1] != TILE_WALL))
+		return (1);
+	if (x > 0 && map[y] && map[y][x - 1] == TILE_WALL
+		&& x + 1 < data->map_data->max_width && map[y][x + 1] == TILE_WALL)
+		add_door_node(grid, HORZ, data);
+	else if (y > 0 && map[y - 1] && map[y - 1][x] == TILE_WALL
+		&& (y + 1 < data->map_data->max_height && map[y + 1][x] == TILE_WALL))
+		add_door_node(grid, VERT, data);
 	return (0);
 }
 

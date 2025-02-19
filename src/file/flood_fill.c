@@ -74,7 +74,7 @@ void	validate_map_route(t_data *data)
 	t_map	*map_data;
 
 	i = 0;
-	visited = (char **)malloc(data->map_data->max_height * sizeof(char *));
+	visited = (char **)calloc(data->map_data->max_height + 1, sizeof(char *));
 	map_data = data->map_data;
 	malloc_protection(visited, data);
 	while (i < data->map_data->max_height)

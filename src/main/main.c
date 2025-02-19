@@ -36,7 +36,7 @@ int	main(int ac, char **av)
 	init_mlx(data);
 	
 	init_textures(data->map_data->txt_list, data->mlx_data, data);
-	//start_screen(data);
+	start_screen(data);
 	mlx_loop(data->mlx_data->mlx_ptr);
 	return (0);
 }
