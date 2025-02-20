@@ -51,11 +51,12 @@ int	key_hook(int keycode, t_data *data)
 		data->start->selected = 2;
 	if (keycode == KEY_RIGHT)
 		data->start->selected = 1;
-	if (keycode == KEY_ENTER && data->start->selected == 1)
+	if (keycode == KEY_SPACE && data->start->selected == 1)
 	{
 		printf("EMPIEZA EL JUEGO %d\n", keycode);
+		mlx_loop_hook(data->mlx_data->mlx_ptr, game_loop, data);
 	}
-	else if (keycode == KEY_ENTER && data->start->selected == 2)
+	else if (keycode == KEY_SPACE && data->start->selected == 2)
 	{
 		ft_putstr_fd(NO_PLAY, STDERR_FILENO);
 		free_data(data);
@@ -68,23 +69,22 @@ int	start_loop(t_data *data)
 {
 	int		index;
 	t_mlx	*info;
-	t_start	*st;
+	//int		x;
+	//int		y;
 
 	info = data->mlx_data;
-	st = data->start;
 	if (data->start->blink)
 		index = data->start->selected;
 	else
 		index = 0;
-	printf("selected: %d\n", index);
 	if (index < 0 || index >= 3 || !data->start->img[index])
 	{
 		ft_error(ERR_START);
 		return (0);
 	}
-	mlx_put_image_to_window(info->mlx_ptr, info->win_ptr, st->img[index], 0, 0);
-	usleep(150000);
-	st->blink = !st->blink;
+	mlx_put_image_to_window(info->mlx_ptr, info->win_ptr, data->start->img[index], 0, 0);
+	usleep(160000);
+	data->start->blink = !data->start->blink;
 	return (0);
 }
 

@@ -4,7 +4,7 @@ WE ./sources/textures/6dark.xpm
 EA ./sources/textures/11.xpm   
 F ./sources/textures/8darker.xpm
 C ./sources/textures/9darker.xpm
-D ./sources/textures/moriasdoor.xpm
+D ./sources/textures/reddoor.xpm
 EXIT ./sources/textures/exit_txt_1.xpm
 
 

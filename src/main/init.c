@@ -45,9 +45,9 @@ void	init_mlx(t_data *data)
 		= mlx_new_window(data->mlx_data->mlx_ptr, WIDTH, HEIGHT, "cub3d");
 	if (!data->mlx_data->win_ptr)
 		ft_error_exit(ERR_MLX_WIN, data);
+	mlx_mouse_move(data->mlx_data->mlx_ptr, data->mlx_data->win_ptr,
+	WIDTH, HEIGHT);
 	mlx_mouse_hide(data->mlx_data->mlx_ptr, data->mlx_data->win_ptr);
-	/*mlx_mouse_move(data->mlx_data->mlx_ptr, data->mlx_data->win_ptr,
-	WIDTH, HEIGHT);*/
 	data->mlx_data->img_ptr = NULL;
 	data->mlx_data->img_addr = NULL;
 	data->mlx_data->new_img_addr = NULL;
