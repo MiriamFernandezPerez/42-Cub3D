@@ -25,8 +25,8 @@
 # include <X11/keysym.h>
 
 /*Constants*/
-# define WIDTH 3200
-# define HEIGHT 2000
+# define WIDTH 1600
+# define HEIGHT 600
 # define TILE_SIZE 64
 # define FOV 60
 # define PLAYER_SPEED 5
@@ -232,14 +232,30 @@ typedef struct s_minimap
 	double	scale;
 }	t_minimap;
 
+/*Rescale start_image*/
+typedef struct s_img_size
+{
+    int src_width;
+    int src_height;
+    int dst_width;
+    int dst_height;
+}   t_img_size;
+
 /*Start_screen*/
 typedef struct s_start
 {
-    void    *img[3];
+    void    *img[8];
+	int		play;
 	int		blink; 
 	int		selected;
 	int     width;
     int     height;
+	int		src_x;
+	int		src_y;
+	int		color;
+	int		bpp;
+	int		size_line;
+	int		endian;
 }   t_start;
 
 /*Mlx*/
@@ -272,6 +288,7 @@ typedef struct s_data
 
 /*main.c*/
 int			main(int ac, char **av);
+void		*resize_image(t_data *data, t_mlx *mlx, void *src_img, t_img_size size);
 
 /*init.c*/
 void		init_data(t_data **data);
@@ -321,6 +338,7 @@ void		ft_error(char *msg);
 void		ft_perror(char *msg);
 
 /*str_utils.c*/
+char		*load_path(int i);
 char		**add_to_array(char ***current, char *new_value);
 
 /*free_utils*/
@@ -336,8 +354,17 @@ int			only_spaces(const char *str);
 int			calculate_angle(char **map, int x, int y);
 
 /*start_screen.c*/
+void		destroy_arr_img(t_data *data, void **image);
+int			key_menu(int keycode, t_data *data);
 int			start_loop(t_data *data);
 void 		start_screen(t_data *data);
+
+/*manage_images.c*/
+char		*load_path(int i);
+void		*load_xpm_image(t_data *data, int i);
+void		render_fade_in(t_data *data);
+void		*resize_image(t_data *data, t_mlx *mlx, void *src_img, t_img_size size);
+void		resize_images(t_data *data, void **image, t_img_size size);
 
 /*test_utils.c*/
 void		print_str_array(char **str_array);

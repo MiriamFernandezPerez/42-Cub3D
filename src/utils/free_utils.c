@@ -65,14 +65,14 @@ void	free_map(t_map *map_data, t_mlx *mlx_data)
 }
 
 //Release start screen images
-void free_start(t_start *start, t_mlx *mlx_data)
+void	free_start(t_start *start, t_mlx *mlx_data)
 {
 	int	i;
 
 	i = 0;
 	if (!start)
-		return;
-	while (i < 3)
+		return ;
+	while (i < 8)
 	{
 		if (start->img[i])
 		{

@@ -12,55 +12,41 @@
 
 #include "../../inc/cub3d.h"
 
-/*void	show_image_with_fade(t_data *data, t_start *img)
+void	destroy_arr_img(t_data *data, void **image)
 {
-	int		alpha;
-	t_mlx	*info;
+	int		i;
 
-	alpha = 0;
-	info = data->mlx_data;
-	while (alpha <= 255)
+	i = 0;
+	while (image[i])
 	{
-		if (!img || !img->img)
-			return ;
-		mlx_put_image_to_window(info->mlx_ptr, info->win_ptr, img->img, 0, 0);
-		usleep(5000);
-		alpha += 5;
+		printf("**i = %d\n", i);
+		if (image[i] != NULL)
+		{
+			printf("i = %d\n", i);
+			mlx_destroy_image(data->mlx_data->mlx_ptr, image[i]);
+			image[i] = NULL;
+		}
+		i++;
 	}
-}*/
-
-void	*load_xpm_image(char *path, t_data *data)
-{
-	void	*img;
-	t_mlx	*info;
-	int		width;
-	int		height;
-
-	info = data->mlx_data;
-	width = data->start->width;
-	height = data->start->height;
-	img = mlx_xpm_file_to_image(info->mlx_ptr, path, &width, &height);
-	if (!img)
-		return (NULL);
-	return (img);
 }
 
-int	key_hook(int keycode, t_data *data)
+int	key_menu(int keycode, t_data *data)
 {
 	if (keycode == KEY_LEFT)
-		data->start->selected = 2;
+		data->start->selected = 7;
 	if (keycode == KEY_RIGHT)
-		data->start->selected = 1;
-	if (keycode == KEY_SPACE && data->start->selected == 1)
+		data->start->selected = 6;
+	if (keycode == KEY_SPACE && data->start->selected == 6)
 	{
-		printf("EMPIEZA EL JUEGO %d\n", keycode);
+		data->start->play = 1;
 		mlx_loop_hook(data->mlx_data->mlx_ptr, game_loop, data);
 	}
-	else if (keycode == KEY_SPACE && data->start->selected == 2)
+	else if ((keycode == KEY_SPACE && data->start->selected == 7)
+		|| keycode == KEY_ESC)
 	{
-		ft_putstr_fd(NO_PLAY, STDERR_FILENO);
+		destroy_arr_img(data, data->start->img);
 		free_data(data);
-		exit(0);
+		exit(EXIT_SUCCESS);
 	}
 	return (0);
 }
@@ -69,62 +55,57 @@ int	start_loop(t_data *data)
 {
 	int		index;
 	t_mlx	*info;
-	//int		x;
-	//int		y;
 
 	info = data->mlx_data;
 	if (data->start->blink)
 		index = data->start->selected;
 	else
-		index = 0;
-	if (index < 0 || index >= 3 || !data->start->img[index])
+		index = 5;
+	if (index < 5 || index >= 9 || !data->start->img[index])
 	{
 		ft_error(ERR_START);
 		return (0);
 	}
-	mlx_put_image_to_window(info->mlx_ptr, info->win_ptr, data->start->img[index], 0, 0);
+	mlx_put_image_to_window(info->mlx_ptr, info->win_ptr,
+		data->start->img[index], 0, 0);
 	usleep(160000);
 	data->start->blink = !data->start->blink;
 	return (0);
 }
 
-void	destroy_n_exit(t_data *data, void **image)
+int	key_hook(int keycode, t_data *data)
 {
-	int		i;
-
-	i = 0;
-	while (i < 3)
-	{
-		if (image[i] != NULL)
-		{
-			mlx_destroy_image(data->mlx_data->mlx_ptr, image[i]);
-			image[i] = NULL;
-		}
-		i++;
-	}
-	ft_putstr_fd(ERR_START, STDERR_FILENO);
-	exit(EXIT_FAILURE);
+	if (data->start->play == 0)
+		return (key_menu(keycode, data));
+	else
+		return (key_press(keycode, data));
 }
 
 void	start_screen(t_data *data)
 {
-	void	*image[3];
+	int			i;
+	void		*image[8];
+	t_img_size	size;
 
-	image[0] = load_xpm_image("./sources/start_screen/start_screen0.xpm", data);
-	image[1] = load_xpm_image("./sources/start_screen/start_screen1.xpm", data);
-	image[2] = load_xpm_image("./sources/start_screen/start_screen2.xpm", data);
-	if (!image[0] || !image[1] || !image[2])
-		destroy_n_exit(data, (void **)image);
-	//show_image_with_fade(data, image[0]);
-	data->start->img[0] = image[0];
-	data->start->img[1] = image[1];
-	data->start->img[2] = image[2];
-	mlx_key_hook(data->mlx_data->win_ptr, key_hook, data);
+	i = -1;
+	data->start->play = 0;
+	data->start->width = 0;
+	data->start->height = 0;
+	data->start->src_x = 0;
+	data->start->src_y = 0;
+	size.dst_width = WIDTH;
+	size.dst_height = HEIGHT;
+	while (++i < 8)
+	{
+		image[i] = load_xpm_image(data, i);
+	}
+	image[i] = "\0";
+	resize_images(data, image, size);
+	mlx_hook(data->mlx_data->win_ptr, 2, 1L << 0, key_hook, data);
+	mlx_hook(data->mlx_data->win_ptr, 17, 0, close_window, data);
+	mlx_hook(data->mlx_data->win_ptr, 6, 1L << 6, mouse_handler, data);
 	data->start->blink = 0;
-	data->start->selected = 1;
+	data->start->selected = 6;
+	render_fade_in(data);
 	mlx_loop_hook(data->mlx_data->mlx_ptr, start_loop, data);
 }
-
-//iniciar loop_hook de la pantalla de inicio y quitar el game_loop
-// y el key_hook, activarlo despues
-//de que el player inicie el juego en el boton start 
