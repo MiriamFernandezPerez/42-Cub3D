@@ -30,6 +30,12 @@ void	get_grid_back_hit(int grid[2], t_raycast *ray_data)
 	}
 }
 
+// Función para obtener la distancia entre dos puntos (X, Y)
+double	calculate_distance(double x1, double y1, double x2, double y2)
+{
+	return (sqrt(pow(x2 - x1, 2) + pow(y2 - y1, 2)));
+}
+
 int	get_texture_pixel(t_texture *texture, int x, int y)
 {
 	char	*pixel;

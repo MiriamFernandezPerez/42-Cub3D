@@ -19,6 +19,7 @@
 # include <math.h>
 # include <stddef.h>
 # include <stdbool.h>
+# include <sys/time.h>
 # include "../src/libft/libft.h"
 # include "../minilibx-linux/mlx.h"
 # include <X11/Xlib.h>
@@ -26,7 +27,7 @@
 
 /*Constants*/
 # define WIDTH 1600
-# define HEIGHT 600
+# define HEIGHT 1000
 # define TILE_SIZE 64
 # define FOV 60
 # define PLAYER_SPEED 5
@@ -34,8 +35,12 @@
 # define M_PI 3.14159265358979323846
 # define ROTATION_SPEED 0.09
 # define ALPHA_COLOR 0xc4ff05
+# define COLLISION_MARGIN 0.15
 # define SHADING 1 
 # define MAX_DISTANCE 1000
+# define DOOR_OPEN_DISTANCE TILE_SIZE * 2.5
+# define DOOR_CLOSE_DISTANCE TILE_SIZE * 4
+# define DOOR_OPEN_TIME 1.5
 
 /*Keys*/
 # define KEY_ESC 65307
@@ -152,7 +157,7 @@ typedef enum e_tile_type
 typedef enum e_door_state
 {
 	CLOSED,
-	OPEN,
+	OPENED,
 	OPENING,
 	CLOSING
 }	t_door_state;
@@ -185,6 +190,7 @@ typedef struct s_door
 	int				orient;
 	t_door_state	state;
 	float			offset;
+	double			timer;
 	struct s_door	*next;
 }	t_door;
 
@@ -245,7 +251,6 @@ typedef struct s_img_size
 typedef struct s_start
 {
     void    *img[8];
-	int		play;
 	int		blink; 
 	int		selected;
 	int     width;
@@ -352,6 +357,7 @@ double		deg_to_rad(double degrees);
 double		normalize_angle(double angle);
 int			only_spaces(const char *str);
 int			calculate_angle(char **map, int x, int y);
+long		get_time();
 
 /*start_screen.c*/
 void		destroy_arr_img(t_data *data, void **image);
@@ -397,26 +403,34 @@ void		render_wall(int x, int *y, t_raycast *ray_data, t_data *data);
 /*render_ceil_floor.c*/
 void		render_ceil_floor(int x, int *y, t_data *data);
 
+/*door.c*/
+int			door_hit(t_door *door, double hit[2], double delta[2]);
+
 /*render_utils.c*/
 int			get_texture_pixel(t_texture *texture, int x, int y);
 int			get_tile_type(int grid[2], t_map *map_data);
 void		get_grid_back_hit(int grid[2], t_raycast *ray_data);
+double		calculate_distance(double x1, double y1, double x2, double y2);
 
 /*minimap.c*/
 void		create_minimap(t_minimap *minimap_data, t_mlx *mlx_data,
 				t_data *data);
 
+/*minimap_utils.c*/
+void		print_tile_pixel(int x, int y, int map_idx[2], t_data *data);
+void		print_triangle(int v[3][2], int color, t_mlx *mlx_data);
+
 /*mlx.c*/
-int			game_loop(t_data *data);
 int			key_press(int keycode, t_data *data);
 int			key_release(int keycode, t_data *data);
 int			close_window(t_data *data);
 
+/*game_loop.c*/
+int			game_loop(t_data *data);
+
 /*mlx_utils.c*/
 void		print_pixel_render(int x, int y, int color, t_data *data);
 void		print_gui_pixel(int x, int y, int color, t_mlx *mlx_data);
-void		print_tile_pixel(int x, int y, int map_idx[2], t_data *data);
-void		print_triangle(int v[3][2], int color, t_mlx *mlx_data);
 
 /*mlx_mouse*/
 int 		mouse_handler(int x, int y, t_data *data);

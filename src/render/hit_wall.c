@@ -28,6 +28,8 @@ void	reset_hit_data(int vector, t_raycast *ray_data)
 
 int	find_wall(int grid[2], double hit[2], double delta[2], t_data *data)
 {
+	int	door;
+
 	while (42)
 	{
 		grid[X] = floor(hit[X] / TILE_SIZE);
@@ -39,22 +41,11 @@ int	find_wall(int grid[2], double hit[2], double delta[2], t_data *data)
 			break ;
 		else if (get_tile_type(grid, data->map_data) == TILE_DOOR)
 		{
-			 if (get_door(grid, data)->orient == HORZ)
-			 {
-				 if (fabs(delta[X]) == TILE_SIZE)
-					 return (0);
-				hit[X] += (delta[X] / 2.0f);
-				hit[Y] += (delta[Y] / 2.0f);
+			door = door_hit(get_door(grid, data), hit, delta);
+			if (door == 0)
+				return (0);
+			else if (door == 1)
 				break ;
-			 }
-			 else
-			 {
-				 if (fabs(delta[Y]) == TILE_SIZE)
-					 return (0);
-				hit[X] += (delta[X] / 2.0f);
-				hit[Y] += (delta[Y] / 2.0f);
-				break ;
-			 }
 		}
 		hit[X] += delta[X];
 		hit[Y] += delta[Y];

@@ -57,8 +57,8 @@ void	init_mlx(t_data *data)
 	data->mlx_data->mouse_pos = 0;
 	//mlx_hook(data->mlx_data->win_ptr, 2, 1L << 0, key_press, data);
 	//mlx_loop_hook(data->mlx_data->mlx_ptr, game_loop, data);
-	//mlx_hook(data->mlx_data->win_ptr, 17, 0, close_window, data);
-	//mlx_hook(data->mlx_data->win_ptr, 6, 1L << 6, mouse_handler, data);
+	mlx_hook(data->mlx_data->win_ptr, 17, 0, close_window, data);
+	mlx_hook(data->mlx_data->win_ptr, 6, 1L << 6, mouse_handler, data);
 }
 
 void	init_map(t_map *map_data)
@@ -108,10 +108,12 @@ void	init_data(t_data **data)
 	(*data)->mlx_data = NULL;
 	(*data)->cub_file = NULL;
 	(*data)->minimap_data = NULL;
+	(*data)->start = NULL;
 	(*data)->player = (t_player *)malloc(sizeof(t_player));
 	malloc_protection((*data)->player, *data);
 	(*data)->start = (t_start *)malloc(sizeof(t_start));
 	malloc_protection((*data)->start, *data);
+	//TODO Iniciar contenido de start en NULL
 	(*data)->ray_data = malloc(sizeof(t_raycast));
 	malloc_protection((*data)->ray_data, *data);
 	(*data)->ray_data->angle_increment = (double)FOV / (double)WIDTH;

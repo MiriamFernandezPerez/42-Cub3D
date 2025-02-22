@@ -52,7 +52,6 @@ void	fix_corner_case_intersection(double distance[2], t_raycast *ray_data,
 		horz[Y] -= 1;
 	wall[HORZ] = get_tile_type(horz, data->map_data);
 	wall[VERT] = get_tile_type(vert, data->map_data);
-	//if (wall[VERT] == TILE_WALL || wall[VERT] == TILE_DOOR)
 	if (wall[VERT] == TILE_WALL)
 		distance[VERT] = 0;
 	else

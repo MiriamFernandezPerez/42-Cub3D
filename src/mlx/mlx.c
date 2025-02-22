@@ -12,58 +12,33 @@
 
 #include "../../inc/cub3d.h"
 
-int	game_loop(t_data *data)
-{
-	void	*new_img_ptr;
-
-	if (data->mlx_data->redraw)
-	{
-		new_img_ptr = mlx_new_image(data->mlx_data->mlx_ptr, WIDTH, HEIGHT);
-		data->mlx_data->new_img_addr
-			= mlx_get_data_addr(new_img_ptr, &(data->mlx_data->bpp),
-				&(data->mlx_data->line_len), &(data->mlx_data->endian));
-		raycast_manager(data->ray_data, data);
-		create_minimap(data->minimap_data, data->mlx_data, data);
-		data->mlx_data->redraw = 0;
-		mlx_put_image_to_window(data->mlx_data->mlx_ptr,
-			data->mlx_data->win_ptr, new_img_ptr, 0, 0);
-		if (data->mlx_data->img_ptr)
-			mlx_destroy_image(data->mlx_data->mlx_ptr, data->mlx_data->img_ptr);
-		data->mlx_data->img_ptr = new_img_ptr;
-		data->mlx_data->img_addr = data->mlx_data->new_img_addr;
-		data->mlx_data->new_img_addr = NULL;
-		print_player_info(data); //TEST	
-	}
-	return (0);
-}
-
 // Función que chequea si el personaje puede moverse a la nueva posición
 void	check_collision(double *delta, t_data *data)
 {
-	int	collision[2];
 	int	grid[2];
 
-	collision[X] = 0;
-	collision[Y] = 0;
-	//TODO anadir margen preventivo colisiones
 	if (delta[X] != 0)
 	{
-		grid[X] = floor((data->player->pos[X] + delta[X]) / TILE_SIZE);
+		grid[X] = floor((data->player->pos[X] + delta[X] + copysign(
+						(TILE_SIZE * COLLISION_MARGIN), delta[X])) / TILE_SIZE);
 		grid[Y] = floor(data->player->pos[Y] / TILE_SIZE);
 		if (data->map_data->map[grid[Y]][grid[X]] == TILE_WALL)
-			collision[X] = 1;
+			delta[X] = 0;
+		if (data->map_data->map[grid[Y]][grid[X]] == TILE_DOOR
+			&& get_door(grid, data)->state != OPENED)
+			delta[X] = 0;
 	}
 	if (delta[Y] != 0)
 	{
 		grid[X] = floor(data->player->pos[X] / TILE_SIZE);
-		grid[Y] = floor((data->player->pos[Y] + delta[Y]) / TILE_SIZE);
+		grid[Y] = floor((data->player->pos[Y] + delta[Y] + copysign(
+						(TILE_SIZE * COLLISION_MARGIN), delta[Y])) / TILE_SIZE);
 		if (data->map_data->map[grid[Y]][grid[X]] == TILE_WALL)
-			collision[Y] = 1;
+			delta[Y] = 0;
+		if (data->map_data->map[grid[Y]][grid[X]] == TILE_DOOR
+			&& get_door(grid, data)->state != OPENED)
+			delta[Y] = 0;
 	}
-	if (collision[X] == 1)
-		delta[X] = 0;
-	if (collision[Y] == 1)
-		delta[Y] = 0;
 }
 
 void	move_player(int key_pressed, t_data *data)

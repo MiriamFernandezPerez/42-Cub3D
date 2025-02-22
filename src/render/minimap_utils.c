@@ -17,26 +17,19 @@ int	is_angle_in_fov(double angle, t_data *data)
 	double	left_fov;
 	double	right_fov;
 
-	// Calcular el ángulo mínimo y máximo del FOV del jugador
 	left_fov = normalize_angle(data->player->angle - (FOV / 2));
 	right_fov = normalize_angle(data->player->angle + (FOV / 2));
-
-	// Comprobar si el ángulo está dentro del FOV, teniendo en cuenta los límites de 360°
-	if (left_fov < right_fov) {
+	if (left_fov < right_fov)
+	{
 		if (angle < left_fov || angle > right_fov)
 			return (0);
-	} else {
-		// Caso en el que el FOV cruza el 0°
+	}
+	else
+	{
 		if (angle > right_fov && angle < left_fov)
 			return (0);
 	}
 	return (1);
-}
-
-// Función para obtener la distancia entre dos puntos (X, Y)
-double	calculate_distance(double x1, double y1, double x2, double y2)
-{
-	return (sqrt(pow(x2 - x1, 2) + pow(y2 - y1, 2)));
 }
 
 int	get_floor_color(int x, int y, t_minimap *minimap_data, t_data *data)
@@ -48,8 +41,6 @@ int	get_floor_color(int x, int y, t_minimap *minimap_data, t_data *data)
 
 	world[X] = ((data->player->pos[X] - (minimap_data->tiles_horz / 2.0) * TILE_SIZE) + ((x - (minimap_data->start[X] + 1)) * minimap_data->scale));
 	world[Y] = ((data->player->pos[Y] - (TILES_VERTICAL / 2.0) * TILE_SIZE) + ((y - (minimap_data->start[Y] + 1)) * minimap_data->scale));
-
-
 	//printf("world x:%f y:%f\n", world[X], world[Y]);
 	distance = calculate_distance(data->player->pos[X], data->player->pos[Y],
 		world[X], world[Y]);

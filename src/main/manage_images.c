@@ -15,19 +15,18 @@
 void	*load_xpm_image(t_data *data, int i)
 {
 	void	*img;
-	t_mlx	*info;
 	int		width;
 	int		height;
 	char	*path;
 
-	info = data->mlx_data;
 	width = data->start->width;
 	height = data->start->height;
 	path = (load_path(i));
-	img = mlx_xpm_file_to_image(info->mlx_ptr, path, &width, &height);
+	img = mlx_xpm_file_to_image(data->mlx_data->mlx_ptr, path, &width, &height);
 	if (!img)
 	{
-		destroy_arr_img(data, (void **)img);
+		free_data(data);
+		exit(EXIT_FAILURE);
 	}
 	return (img);
 }
@@ -43,7 +42,7 @@ void	render_fade_in(t_data *data)
 	{
 		mlx_put_image_to_window(info->mlx_ptr, info->win_ptr,
 			data->start->img[i], 0, 0);
-		usleep(500000);
+		usleep(70000);
 		i++;
 	}
 }

@@ -12,24 +12,6 @@
 
 #include "../../inc/cub3d.h"
 
-void	destroy_arr_img(t_data *data, void **image)
-{
-	int		i;
-
-	i = 0;
-	while (image[i])
-	{
-		printf("**i = %d\n", i);
-		if (image[i] != NULL)
-		{
-			printf("i = %d\n", i);
-			mlx_destroy_image(data->mlx_data->mlx_ptr, image[i]);
-			image[i] = NULL;
-		}
-		i++;
-	}
-}
-
 int	key_menu(int keycode, t_data *data)
 {
 	if (keycode == KEY_LEFT)
@@ -38,13 +20,12 @@ int	key_menu(int keycode, t_data *data)
 		data->start->selected = 6;
 	if (keycode == KEY_SPACE && data->start->selected == 6)
 	{
-		data->start->play = 1;
 		mlx_loop_hook(data->mlx_data->mlx_ptr, game_loop, data);
+		mlx_hook(data->mlx_data->win_ptr, 2, 1L << 0, key_press, data);
 	}
 	else if ((keycode == KEY_SPACE && data->start->selected == 7)
 		|| keycode == KEY_ESC)
 	{
-		destroy_arr_img(data, data->start->img);
 		free_data(data);
 		exit(EXIT_SUCCESS);
 	}
@@ -73,14 +54,6 @@ int	start_loop(t_data *data)
 	return (0);
 }
 
-int	key_hook(int keycode, t_data *data)
-{
-	if (data->start->play == 0)
-		return (key_menu(keycode, data));
-	else
-		return (key_press(keycode, data));
-}
-
 void	start_screen(t_data *data)
 {
 	int			i;
@@ -88,9 +61,6 @@ void	start_screen(t_data *data)
 	t_img_size	size;
 
 	i = -1;
-	data->start->play = 0;
-	data->start->width = 0;
-	data->start->height = 0;
 	data->start->src_x = 0;
 	data->start->src_y = 0;
 	size.dst_width = WIDTH;
@@ -99,13 +69,11 @@ void	start_screen(t_data *data)
 	{
 		image[i] = load_xpm_image(data, i);
 	}
-	image[i] = "\0";
+	image[i] = NULL;
 	resize_images(data, image, size);
-	mlx_hook(data->mlx_data->win_ptr, 2, 1L << 0, key_hook, data);
-	mlx_hook(data->mlx_data->win_ptr, 17, 0, close_window, data);
-	mlx_hook(data->mlx_data->win_ptr, 6, 1L << 6, mouse_handler, data);
 	data->start->blink = 0;
 	data->start->selected = 6;
 	render_fade_in(data);
 	mlx_loop_hook(data->mlx_data->mlx_ptr, start_loop, data);
+	mlx_hook(data->mlx_data->win_ptr, 2, 1L << 0, key_menu, data);
 }
