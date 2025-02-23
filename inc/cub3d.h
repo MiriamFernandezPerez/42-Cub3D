@@ -41,6 +41,7 @@
 # define DOOR_OPEN_DISTANCE TILE_SIZE * 2.5
 # define DOOR_CLOSE_DISTANCE TILE_SIZE * 4
 # define DOOR_OPEN_TIME 1.5
+# define TITLE_IMAGES 8
 
 /*Keys*/
 # define KEY_ESC 65307
@@ -118,6 +119,7 @@
 # define ERR_MLX_WIN "Error\nmlx : window creation failed\n"
 # define ERR_MLX_IMG "Error\nmlx : image creation failed\n"
 # define ERR_LOAD_TXT "Error\nTextures load failed\n"
+# define ERR_LOAD_IMG "Error\nError loading images\n"
 # define ERR_MAP_CHAR "Error\nInvalid map character\n"
 # define ERR_MAP_BORDER "Error\nMap is not closed\n"
 # define ERR_MAP_PLAYER "Error\nPlayer is not in the map\n"
@@ -170,6 +172,7 @@ typedef struct s_player
 	double	angle;
 }	t_player;
 
+/*Texture images*/
 typedef struct s_texture
 {
 	void				*txt_img;
@@ -184,6 +187,7 @@ typedef struct s_texture
 	struct s_texture	*next;
 }				t_texture;
 
+/*Door data*/
 typedef struct s_door
 {
 	int				grid[2];
@@ -226,6 +230,7 @@ typedef struct s_raycast
 	float	intensity;
 }	t_raycast;
 
+/*Minimap data*/
 typedef struct s_minimap
 {
 	int		size[2];
@@ -238,30 +243,26 @@ typedef struct s_minimap
 	double	scale;
 }	t_minimap;
 
-/*Rescale start_image*/
-typedef struct s_img_size
+/*Images*/
+typedef struct s_img
 {
-    int src_width;
-    int src_height;
-    int dst_width;
-    int dst_height;
-}   t_img_size;
-
-/*Start_screen*/
-typedef struct s_start
-{
-    void    *img[8];
-	int		blink; 
-	int		selected;
-	int     width;
-    int     height;
-	int		src_x;
-	int		src_y;
-	int		color;
+	void	*ptr;
+	char	*addr;
+	int		width;
+	int		height;
 	int		bpp;
 	int		size_line;
 	int		endian;
-}   t_start;
+}	t_img;
+
+/*Title screen*/
+typedef struct s_title
+{
+    t_img   imgs[TITLE_IMAGES];
+	char	*paths[TITLE_IMAGES];
+	int		blink; 
+	int		selected;
+}   t_title;
 
 /*Mlx*/
 typedef struct s_mlx
@@ -287,13 +288,12 @@ typedef struct s_data
 	t_minimap		*minimap_data;
 	t_mlx			*mlx_data;
 	t_player		*player;
-	t_start			*start;
+	t_title			*title_data;
 	char			**cub_file;
 }	t_data;
 
 /*main.c*/
 int			main(int ac, char **av);
-void		*resize_image(t_data *data, t_mlx *mlx, void *src_img, t_img_size size);
 
 /*init.c*/
 void		init_data(t_data **data);
@@ -359,18 +359,14 @@ int			only_spaces(const char *str);
 int			calculate_angle(char **map, int x, int y);
 long		get_time();
 
-/*start_screen.c*/
-void		destroy_arr_img(t_data *data, void **image);
-int			key_menu(int keycode, t_data *data);
-int			start_loop(t_data *data);
-void 		start_screen(t_data *data);
+/*title_screen.c*/
+void		init_title(t_title *title_data);
+void 		title_screen(t_title *title_data, t_data *data);
 
-/*manage_images.c*/
-char		*load_path(int i);
-void		*load_xpm_image(t_data *data, int i);
-void		render_fade_in(t_data *data);
-void		*resize_image(t_data *data, t_mlx *mlx, void *src_img, t_img_size size);
-void		resize_images(t_data *data, void **image, t_img_size size);
+/*image_utils.c*/
+t_img		create_new_img(int width, int height, t_data *data);
+void		load_xpm_image(t_img *img, char *path, t_data *data);
+void		scale_image(t_img *img, int new_width, int new_height, t_data *data);
 
 /*test_utils.c*/
 void		print_str_array(char **str_array);

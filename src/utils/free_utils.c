@@ -64,24 +64,26 @@ void	free_map(t_map *map_data, t_mlx *mlx_data)
 	map_data = NULL;
 }
 
-//Release start screen images
-void	free_start(t_start *start, t_mlx *mlx_data)
+//Release title screen data
+void	free_title(t_title *title_data, t_mlx *mlx_data)
 {
 	int	i;
 
-	i = 0;
-	if (!start)
-		return ;
-	while (i < 8)
+	if (title_data)
 	{
-		if (start->img[i])
+		i = 0;
+		while (i < TITLE_IMAGES)
 		{
-			mlx_destroy_image(mlx_data->mlx_ptr, start->img[i]);
-			start->img[i] = NULL;
+			if (title_data->imgs[i].ptr)
+			{
+				mlx_destroy_image(mlx_data->mlx_ptr, title_data->imgs[i].ptr);
+				title_data->imgs[i].ptr = NULL;
+				title_data->imgs[i].addr = NULL;
+			}
+			i++;
 		}
-		i++;
+		free(title_data);
 	}
-	free(start);
 }
 
 // Releases all the data necessary to finalize the program execution
@@ -89,8 +91,8 @@ void	free_data(t_data *data)
 {
 	if (data)
 	{
-		if (data->start)
-			free_start(data->start, data->mlx_data);
+		if (data->title_data)
+			free_title(data->title_data, data->mlx_data);
 		if (data->map_data)
 			free_map(data->map_data, data->mlx_data);
 		if (data->ray_data)

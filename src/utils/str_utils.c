@@ -41,26 +41,3 @@ char	**add_to_array(char	***current, char *new_value)
 		free_str_array(current);
 	return (new);
 }
-
-char	*load_path(int i)
-{
-	if (i == 0)
-		return ("./sources/start_screen/start_screen5.xpm");
-	else if (i == 1)
-		return ("./sources/start_screen/start_screen4.xpm");
-	else if (i == 2)
-		return ("./sources/start_screen/start_screen3.xpm");
-	else if (i == 3)
-		return ("./sources/start_screen/start_screen2.xpm");
-	else if (i == 4)
-		return ("./sources/start_screen/start_screen1.xpm");
-	else if (i == 5)
-		return ("./sources/start_screen/start_screen0.xpm");
-	else if (i == 6)
-		return ("./sources/start_screen/start_screen_start.xpm");
-	else if (i == 7)
-		return ("./sources/start_screen/start_screen_exit.xpm");
-	else if (i == 8)
-		return (NULL);
-	return (NULL);
-}
