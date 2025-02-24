@@ -12,16 +12,6 @@
 
 #include "../../inc/cub3d.h"
 
-t_texture	*check_door_hit(t_raycast *ray_data, t_data *data)
-{
-	int	grid[2];
-
-	get_grid_back_hit(grid, ray_data);
-	if (get_tile_type(grid, data->map_data) == TILE_DOOR)
-		return (get_texture(ID_DOOR, data));
-	return (NULL);
-}
-
 //Select the correct texture according to the orientation of the wall
 t_texture	*get_wall_texture(t_raycast *ray_data, t_data *data)
 {
@@ -38,8 +28,6 @@ t_texture	*get_wall_texture(t_raycast *ray_data, t_data *data)
 		texture = get_texture(ID_WEST, data);
 	else if (ray_data->vtx_hit == VERT)
 		texture = get_texture(ID_EAST, data);
-	//if (check_door_hit(ray_data, data))
-		//texture = check_door_hit(ray_data, data);
 	if (!texture)
 		ft_error_exit(ERR_LOAD_TXT, data);
 	return (texture);

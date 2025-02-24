@@ -96,7 +96,12 @@ void	manage_column(int x, t_raycast *ray_data, t_data *data)
 	{
 		if (y >= ray_data->wall_y
 			&& y <= ray_data->wall_y + ray_data->wall_height)
-			render_wall(x, &y, ray_data, data);
+		{
+			if (is_door_hit(ray_data, data))
+				render_door(x, &y, ray_data, data);
+			else
+				render_wall(x, &y, ray_data, data);
+		}
 		else if (y > ray_data->wall_y + ray_data->wall_height)
 			render_ceil_floor(x, &y, data);
 		else

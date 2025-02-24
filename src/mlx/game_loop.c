@@ -59,11 +59,13 @@ void	check_doors(t_data *data)
 		{
 			curr_door->state = OPENING;
 			curr_door->timer = get_time();
+			data->mlx_data->redraw = 1;
 		}
 		else if (curr_door->state == OPENED && distance > DOOR_CLOSE_DISTANCE)
 		{
 			curr_door->state = CLOSING;
 			curr_door->timer = get_time();
+			data->mlx_data->redraw = 1;
 		}
 		curr_door = curr_door->next;
 	}

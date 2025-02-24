@@ -26,8 +26,8 @@
 # include <X11/keysym.h>
 
 /*Constants*/
-# define WIDTH 1600
-# define HEIGHT 1000
+# define WIDTH 800
+# define HEIGHT 500
 # define TILE_SIZE 64
 # define FOV 60
 # define PLAYER_SPEED 5
@@ -226,6 +226,7 @@ typedef struct s_raycast
 	double	corrected_distance;
 	int		wall_height;
 	int		wall_y;
+	t_door	*door;
 	float	pixel_distance;
 	float	intensity;
 }	t_raycast;
@@ -401,6 +402,8 @@ void		render_ceil_floor(int x, int *y, t_data *data);
 
 /*door.c*/
 int			door_hit(t_door *door, double hit[2], double delta[2]);
+int			is_door_hit(t_raycast *ray_data, t_data *data);
+void		render_door(int x, int *y, t_raycast *ray_data, t_data *data);
 
 /*render_utils.c*/
 int			get_texture_pixel(t_texture *texture, int x, int y);
