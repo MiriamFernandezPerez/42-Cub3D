@@ -29,12 +29,14 @@ void	reset_sprite_visibility(t_map *map_data)
 void	set_sprite_visible(int grid[2], t_data *data)
 {
 	t_sprite	*sprite;
-	
+	double			
 	sprite = get_sprite(grid, data);
 	sprite->is_visible = TRUE;
 	sprite->distance = sqrt(pow(data->player->pos[X] - sprite->world[X], 2)
 		+ pow(data->player->pos[Y] - sprite->world[Y], 2));
 	//Corregir distorsion??
-	sprite->size[Y] = ceil((TILE_SIZE * data->ray_data->distance_pp)
+	sprite->size[Y] = ceil((TILE_SIZE / 2 * data->ray_data->distance_pp)
 			/ sprite->distance);
+	sprite->size[X] = sprite->size[Y];
+	printf("Sprite->size[X]:%d [Y]:%d\n", sprite->size[X], sprite->size[Y]);
 }

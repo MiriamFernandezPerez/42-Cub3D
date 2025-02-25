@@ -222,6 +222,7 @@ typedef struct s_sprite
 	int				grid[2];
 	int				world[2];
 	int				size[2];
+	int				start[2];
 	double			distance;
 	int				txt_num;
 	int				is_visible;
