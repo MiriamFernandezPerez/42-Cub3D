@@ -26,7 +26,7 @@ void	reset_hit_data(int vector, t_raycast *ray_data)
 	}
 }
 
-int	find_wall(int grid[2], double hit[2], double delta[2], t_data *data)
+int	check_intersect(int grid[2], double hit[2], double delta[2], t_data *data)
 {
 	int	door;
 
@@ -47,13 +47,17 @@ int	find_wall(int grid[2], double hit[2], double delta[2], t_data *data)
 			else if (door == 1)
 				break ;
 		}
+		else if (get_tile_type(grid, data->map_data) == TILE_EXIT)
+		{
+			set_sprite_visible(grid, data);
+		}
 		hit[X] += delta[X];
 		hit[Y] += delta[Y];
 	}
 	return (1);
 }
 
-void	vert_wall_hit(double alpha, t_player *player, t_data *data)
+void	vert_hit(double alpha, t_player *player, t_data *data)
 {
 	int		grid[2];
 	double	hit[2];
@@ -76,13 +80,13 @@ void	vert_wall_hit(double alpha, t_player *player, t_data *data)
 		delta[Y] = -fabs(delta[Y]);
 	else
 		delta[Y] = fabs((delta[Y]));
-	if (find_wall(grid, hit, delta, data) == 0)
+	if (check_intersect(grid, hit, delta, data) == 0)
 		return (reset_hit_data(Y, data->ray_data));
 	data->ray_data->vert_hit[X] = hit[X];
 	data->ray_data->vert_hit[Y] = hit[Y];
 }
 
-void	horz_wall_hit(double alpha, t_player *player, t_data *data)
+void	horz_hit(double alpha, t_player *player, t_data *data)
 {
 	int		grid[2];
 	double	hit[2];
@@ -105,7 +109,7 @@ void	horz_wall_hit(double alpha, t_player *player, t_data *data)
 		delta[X] = -fabs(delta[X]);
 	else
 		delta[X] = fabs(delta[X]);
-	if (find_wall(grid, hit, delta, data) == 0)
+	if (check_intersect(grid, hit, delta, data) == 0)
 		return (reset_hit_data(X, data->ray_data));
 	data->ray_data->horz_hit[X] = hit[X];
 	data->ray_data->horz_hit[Y] = hit[Y];

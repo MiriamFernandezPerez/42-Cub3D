@@ -13,13 +13,13 @@
 #ifndef TITLE_IMG_PATH_H
 # define TITLE_IMG_PATH_H
 
-# define TITLE_IMG_PATH_0 "./sources/start_screen/start_screen5.xpm"
-# define TITLE_IMG_PATH_1 "./sources/start_screen/start_screen4.xpm"
-# define TITLE_IMG_PATH_2 "./sources/start_screen/start_screen3.xpm"
-# define TITLE_IMG_PATH_3 "./sources/start_screen/start_screen2.xpm"
-# define TITLE_IMG_PATH_4 "./sources/start_screen/start_screen1.xpm"
-# define TITLE_IMG_PATH_5 "./sources/start_screen/start_screen0.xpm"
-# define TITLE_IMG_PATH_6 "./sources/start_screen/start_screen_start.xpm"
-# define TITLE_IMG_PATH_7 "./sources/start_screen/start_screen_exit.xpm"
+# define TITLE_IMG_PATH_0 "./assets/title_screen/title_screen0.xpm"
+# define TITLE_IMG_PATH_1 "./assets/title_screen/title_screen1.xpm"
+# define TITLE_IMG_PATH_2 "./assets/title_screen/title_screen2.xpm"
+# define TITLE_IMG_PATH_3 "./assets/title_screen/title_screen3.xpm"
+# define TITLE_IMG_PATH_4 "./assets/title_screen/title_screen4.xpm"
+# define TITLE_IMG_PATH_5 "./assets/title_screen/title_screen5.xpm"
+# define TITLE_IMG_PATH_6 "./assets/title_screen/title_screen_start.xpm"
+# define TITLE_IMG_PATH_7 "./assets/title_screen/title_screen_exit.xpm"
 
 #endif

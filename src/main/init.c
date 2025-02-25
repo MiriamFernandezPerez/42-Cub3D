@@ -21,11 +21,11 @@ void	init_textures(t_texture *txt_list, t_mlx *mlx_data, t_data *data)
 	{
 		if (current->path)
 		{
-			current->txt_img = mlx_xpm_file_to_image(mlx_data->mlx_ptr,
+			current->img = mlx_xpm_file_to_image(mlx_data->mlx_ptr,
 					current->path, &current->width, &current->height);
-			if (current->txt_img == NULL)
+			if (current->img == NULL)
 				ft_error_exit(ERR_LOAD_TXT, data);
-			current->addr = mlx_get_data_addr(current->txt_img, &current->bpp,
+			current->addr = mlx_get_data_addr(current->img, &current->bpp,
 					&current->line_len, &current->endian);
 			if (current->addr == NULL)
 				ft_error_exit("Error\nmlx_get_data_addr failed\n", data);
@@ -73,6 +73,7 @@ void	init_map(t_map *map_data)
 	map_data->floor_tiles_found = 0;
 	map_data->txt_list = NULL;
 	map_data->door_list = NULL;
+	map_data->sprite_list = NULL;
 }
 
 void	init_minimap_data(t_minimap *minimap_data)

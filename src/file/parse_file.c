@@ -40,7 +40,7 @@ int	parse_line(t_data *d, char *line)
 	char	*trim_line;
 
 	trim_line = ft_strtrim(line, "\t\n ");
-	if (ft_strncmp(trim_line, NORTH_TXT, 3) == 0)
+	if (ft_strncmp(trim_line, NORTH_TXT, ft_strlen(NORTH_TXT)) == 0)
 		add_texture_node(ID_NORTH, parse_path(trim_line + 3, d, ID_NORTH), d);
 	else if (ft_strncmp(trim_line, SOUTH_TXT, 3) == 0)
 		add_texture_node(ID_SOUTH, parse_path(trim_line + 3, d, ID_SOUTH), d);

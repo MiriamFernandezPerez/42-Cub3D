@@ -59,6 +59,8 @@ void	free_map(t_map *map_data, t_mlx *mlx_data)
 			clear_txt_list(&map_data->txt_list, mlx_data);
 		if (map_data->door_list)
 			clear_door_list(&map_data->door_list);
+		if (map_data->sprite_list)
+			clear_sprite_list(&map_data->sprite_list);
 		free(map_data);
 	}
 	map_data = NULL;

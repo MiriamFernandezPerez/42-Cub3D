@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   texture_list.c                                     :+:      :+:    :+:   */
+/*   sprite_list.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: igarcia2 <igarcia2@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -12,29 +12,29 @@
 
 #include "../../inc/cub3d.h"
 
-t_texture	*get_texture(char id_txt, t_data *data)
+t_sprite	*get_sprite(int grid[2], t_data *data)
 {
-	t_texture	*current;
+	t_sprite	*current;
 
-	current = data->map_data->txt_list;
+	current = data->map_data->sprite_list;
 	while (current)
 	{
-		if (current->id_txt == id_txt)
+		if (current->grid[X] == grid[X] && current->grid[Y] == grid[Y])
 			return (current);
 		current = current->next;
 	}
 	return (NULL);
 }
 
-void	clear_txt_list(t_texture **txt_list, t_mlx *mlx_data)
+void	clear_sprite_list(t_sprite **sprite_list, t_mlx *mlx_data)
 {
-	if (!(*txt_list) || !txt_list)
+	if (!(*sprite_list) || !sprite_list)
 		return ;
-	clear_txt_list(&(*txt_list)->next, mlx_data);
-	if ((*txt_list)->path)
-		free((*txt_list)->path);
-	if ((*txt_list)->img)
-		mlx_destroy_image(mlx_data->mlx_ptr, (*txt_list)->img);
+	clear_sprite_list(&(*sprite_list)->next, mlx_data);
+	if ((*sprite_list)->txt->ptr)
+		destroy_mlx_image(mlx_data->mlx_ptr, (*sprite_list)->txt->ptr);
+	if ((*txt_list)->txt_img)
+		mlx_destroy_image(mlx_data->mlx_ptr, (*txt_list)->txt_img);
 	free(*txt_list);
 	*txt_list = NULL;
 }
@@ -75,10 +75,11 @@ void	add_texture_node(char id_texture, char *path, t_data *data)
 	new = (t_texture *)malloc(sizeof(t_texture));
 	if (!new)
 		malloc_protection(new, data);
-	new->img = NULL;
+	new->txt_img = NULL;
 	new->id_txt = id_texture;
 	new->path = path;
 	new->addr = NULL;
 	new->next = NULL;
 	add_node_back(&data->map_data->txt_list, new);
 }
+

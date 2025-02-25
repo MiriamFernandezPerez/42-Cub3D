@@ -118,13 +118,15 @@ void	raycast_manager(t_raycast *ray_data, t_data *data)
 	while (x < WIDTH)
 	{
 		ray_data->alpha = normalize_angle(ray_data->alpha);
-		horz_wall_hit(ray_data->alpha, data->player, data);
-		vert_wall_hit(ray_data->alpha, data->player, data);
+		horz_hit(ray_data->alpha, data->player, data);
+		vert_hit(ray_data->alpha, data->player, data);
 		get_shortest_dist(data->player, data->ray_data, data);
 		data->minimap_data->shortest_distances[x] = ray_data->shortest_distance;
 		corrected_wall_distance(ray_data, data);
 		manage_column(x, ray_data, data);
 		//print_ray_data(ray_data); //TEST
+		//TODO Reset sprites visibles
+		reset_sprite_visibility(data->map_data);
 		ray_data->alpha -= ray_data->angle_increment;
 		ray_data->shortest_distance = 0;
 		x++;

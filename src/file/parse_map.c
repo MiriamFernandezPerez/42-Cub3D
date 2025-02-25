@@ -16,8 +16,8 @@ int	check_tiles_between_door(char **map, int y, int x, t_data *data)
 {
 	int	grid[2];
 
-	grid[0] = x;
-	grid[1] = y;
+	grid[X] = x;
+	grid[Y] = y;
 	if (y > 0 && map[y - 1] && x >= 0 && map[y - 1][x] == TILE_FLOOR
 		&& (y + 1 < data->map_data->max_height && map[y + 1][x] != TILE_FLOOR))
 		return (1);
@@ -41,23 +41,26 @@ int	check_tiles_between_door(char **map, int y, int x, t_data *data)
 
 void	validate_doors(t_data *data, char **map)
 {
-	int	y;
-	int	x;
+	int	grid[2];
 
-	y = 0;
-	while (map[y])
+	grid[Y] = 0;
+	while (map[grid[Y]])
 	{
-		x = 0;
-		while (map[y][x])
+		grid[X] = 0;
+		while (map[grid[Y]][grid[X]])
 		{
-			if (map[y][x] == TILE_DOOR)
+			if (map[grid[Y]][grid[X]] == TILE_DOOR)
 			{
-				if (check_tiles_between_door(map, y, x, data))
+				if (check_tiles_between_door(map, grid[Y], grid[X], data))
 					ft_error_exit(ERR_DOOR, data);
 			}
-			x++;
+			else if (map[grid[Y]][grid[X]] == TILE_EXIT) //IVAN AÑADIDO
+			{
+				add_sprite_node(COLLECTABLE, 0, grid, data); 
+			} //AÑADIR NODOS SPRITE (COLECCIONABLES, ENEMIGOS...)?
+			grid[X]++;
 		}
-		y++;
+		grid[Y]++;
 	}
 }
 

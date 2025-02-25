@@ -34,7 +34,7 @@
 # define EPSILON 0.0001
 # define M_PI 3.14159265358979323846
 # define ROTATION_SPEED 0.09
-# define ALPHA_COLOR 0xc4ff05
+# define ALPHA_COLOR 0x08ff00
 # define COLLISION_MARGIN 0.15
 # define SHADING 1 
 # define MAX_DISTANCE 1000
@@ -66,7 +66,7 @@
 # define EXIT "EXIT "
 # define VALID_TILES "01DXCNSWE "
 
-/*id_cub_file_settings*/
+/*id_cub_file_settings & textures ID*/
 # define ID_NORTH 'N'
 # define ID_SOUTH 'S'
 # define ID_WEST 'W'
@@ -131,7 +131,9 @@ typedef enum e_coord
 	X = 0,
 	Y = 1,
 	HORZ = 0,
-	VERT = 1
+	VERT = 1,
+	TRUE = 1,
+	FALSE = 0
 }	t_coord;
 
 typedef enum e_rgb_matrix
@@ -164,6 +166,20 @@ typedef enum e_door_state
 	CLOSING
 }	t_door_state;
 
+typedef enum e_sprite_type
+{
+	COLLECTABLE,
+	DECORATION,
+	ENEMY
+}	t_sprite_type;
+
+typedef enum e_collectable_type
+{
+	CHEST,
+	COIN,
+	KEY
+}	t_collectable_type;
+
 /*Player*/
 typedef struct s_player
 {
@@ -175,7 +191,7 @@ typedef struct s_player
 /*Texture images*/
 typedef struct s_texture
 {
-	void				*txt_img;
+	void				*img;
 	char				*addr;
 	int					bpp;
 	int					line_len;
@@ -186,6 +202,32 @@ typedef struct s_texture
 	char				*path;
 	struct s_texture	*next;
 }				t_texture;
+
+/*Images*/
+typedef struct s_img
+{
+	void	*ptr;
+	char	*addr;
+	int		width;
+	int		height;
+	int		bpp;
+	int		size_line;
+	int		endian;
+}	t_img;
+
+typedef struct s_sprite
+{
+	t_sprite_type	type;
+	int				subtype;
+	int				grid[2];
+	int				world[2];
+	int				size[2];
+	double			distance;
+	int				txt_num;
+	int				is_visible;
+	struct s_sprite	*next;
+}	t_sprite;
+
 
 /*Door data*/
 typedef struct s_door
@@ -211,6 +253,7 @@ typedef struct s_map
 	char		*next_map;
 	t_texture	*txt_list;
 	t_door		*door_list;
+	t_sprite	*sprite_list;
 }	t_map;
 
 /*Raycasting data*/
@@ -243,18 +286,6 @@ typedef struct s_minimap
 	double	angle_step;
 	double	scale;
 }	t_minimap;
-
-/*Images*/
-typedef struct s_img
-{
-	void	*ptr;
-	char	*addr;
-	int		width;
-	int		height;
-	int		bpp;
-	int		size_line;
-	int		endian;
-}	t_img;
 
 /*Title screen*/
 typedef struct s_title
@@ -387,12 +418,18 @@ void		add_door_node(int grid[2], int orient, t_data *data);
 void		clear_door_list(t_door **door_list);
 t_door		*get_door(int grid[2], t_data *data);
 
+/*sprite_list.c*/
+void		add_sprite_node(t_sprite_type type, int subtype, int grid[2],
+			t_data *data);
+void		clear_sprite_list(t_sprite **sprite_list);
+t_sprite	*get_sprite(int grid[2], t_data *data);
+
 /*raycast_manager.c*/
 void		raycast_manager(t_raycast *ray_data, t_data *data);
 
 /*hit_wall.c*/
-void		vert_wall_hit(double alpha, t_player *player, t_data *data);
-void		horz_wall_hit(double alpha, t_player *player, t_data *data);
+void		vert_hit(double alpha, t_player *player, t_data *data);
+void		horz_hit(double alpha, t_player *player, t_data *data);
 
 /*render_wall.c*/
 void		render_wall(int x, int *y, t_raycast *ray_data, t_data *data);
@@ -404,6 +441,10 @@ void		render_ceil_floor(int x, int *y, t_data *data);
 int			door_hit(t_door *door, double hit[2], double delta[2]);
 int			is_door_hit(t_raycast *ray_data, t_data *data);
 void		render_door(int x, int *y, t_raycast *ray_data, t_data *data);
+
+/*sprite.c*/
+void	reset_sprite_visibility(t_map *map_data);
+void	set_sprite_visible(int grid[2], t_data *data);
 
 /*render_utils.c*/
 int			get_texture_pixel(t_texture *texture, int x, int y);
