@@ -59,8 +59,7 @@ int	open_cub_file(char *path, t_data *data)
 	parse_cub_file(data, data->cub_file);
 	validate_tiles(data, data->map_data->map);
 	validate_player(data, data->map_data->map);
-	validate_exit(data, data->map_data->map);
-	validate_doors(data, data->map_data->map);
+	validate_extras(data, data->map_data->map);
 	normalize_map(data, data->map_data->map);
 	validate_map_border(data, data->map_data, data->map_data->map);
 	validate_map_route(data);

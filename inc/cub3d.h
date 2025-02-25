@@ -64,7 +64,10 @@
 # define DOOR "D "
 # define NEXT_MAP "NEXT "
 # define EXIT "EXIT "
-# define VALID_TILES "01DXCNSWE "
+# define VALID_TILES "01NSWEDXQKC "
+# define COL1 "COL1 "
+# define COL2 "COL2 " 
+# define COL3 "COL3 "
 
 /*id_cub_file_settings & textures ID*/
 # define ID_NORTH 'N'
@@ -73,9 +76,12 @@
 # define ID_EAST 'E'
 # define ID_FLOOR 'F'
 # define ID_CEIL 'C'
-# define ID_DOOR 'D'
-# define ID_MAP 'M'
-# define ID_EXIT 'X'
+# define ID_DOOR 'D' //Door_id
+# define ID_COL1 '1' //Chest_id
+# define ID_COL2 '2' //Coin_id
+# define ID_COL3 '3' //Key_id
+# define ID_EXIT 'X' //Exit_id
+# define ID_MAP 'M' //Next Map_id
 
 /*Minimap*/
 # define MINIMAP_WIDTH 0.2
@@ -111,6 +117,9 @@
 # define ERR_EXIT "Error\nMap must have one exit as a maximum\n"
 # define ERR_NO_EXIT "Error\nPlayer can't access to the exit\n"
 # define ERR_DOOR "Error\nInvalid door at map\n"
+# define ERR_NO_COLLECT "Error\nPlayer can't access to all the collectibles\n"
+# define ERR_KEY "Error\nPlayer can't access to all the key\n"
+# define ERR_KET_QT "Error\nMap must have one key exit as a maximun\n"
 # define ERR_BORDER "Error\nThe map must be closed/surrounded by walls\n"
 # define ERR_SOLUT "Error\nInvalid Map, player can't visit all the spaces\n"
 # define ERR_START "Error\nCan't open start screen files\n"
@@ -155,7 +164,9 @@ typedef enum e_tile_type
 	TILE_S = 'S',
 	TILE_DOOR = 'D',
 	TILE_EXIT = 'X',
-	TILE_COLLECT = 'C'
+	TILE_CHEST = 'Q',
+	TILE_KEY = 'K',
+	TILE_COIN = 'C'
 }	t_tile_type;
 
 typedef enum e_door_state
@@ -251,6 +262,8 @@ typedef struct s_map
 	int			floor_color;
 	int			floor_tiles_qt;
 	int			floor_tiles_found;
+	int			exit_qt;
+	int			key_qt;
 	char		*next_map;
 	t_texture	*txt_list;
 	t_door		*door_list;
@@ -341,13 +354,13 @@ int			read_file(int fd, t_data *data);
 int			open_cub_file(char *path, t_data *data);
 
 /*parse_file.c*/
-int			check_tiles_between_exit(char **map, int y, int x);
-void		validate_doors(t_data *data, char **map);
+int			check_tiles_between(char **map, int y, int x);
 char		*parse_path(char *line, t_data *data, char id);
 int			parse_line(t_data *data, char *line);
 void		parse_cub_file(t_data *data, char **cub_file);
 
 /*parse_map.c*/
+void		validate_extras(t_data *data, char **map);
 int			check_tiles_between_door(char **map, int y, int x, t_data *data);
 void		validate_map_border(t_data *data, t_map *map_data, char **map);
 void		normalize_map(t_data *data, char **map);
@@ -355,7 +368,7 @@ void		parse_map(t_data *data, char **map_line);
 
 /*validate_tiles.c*/
 int			check_tiles_between_exit(char **map, int y, int x);
-void		validate_exit(t_data *data, char **map);
+void		validate_exit(t_data *data, char **map, int *grid);
 int			check_player(t_data *data, int y, int x);
 void		validate_player(t_data *data, char **map);
 void		validate_tiles(t_data *data, char **map);

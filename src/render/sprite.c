@@ -29,7 +29,7 @@ void	reset_sprite_visibility(t_map *map_data)
 void	set_sprite_visible(int grid[2], t_data *data)
 {
 	t_sprite	*sprite;
-	double			
+	
 	sprite = get_sprite(grid, data);
 	sprite->is_visible = TRUE;
 	sprite->distance = sqrt(pow(data->player->pos[X] - sprite->world[X], 2)

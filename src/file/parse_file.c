@@ -20,13 +20,12 @@ char	*parse_path(char *line, t_data *data, char id)
 	if (!path || ft_strchr(path, ' '))
 		ft_error_exit(ERR_TXT, data);
 	if (id == ID_NORTH || id == ID_SOUTH || id == ID_WEST || id == ID_EAST
-		|| id == ID_EXIT || id == ID_MAP)
+		|| id == ID_EXIT || id == ID_DOOR || id == ID_COL1 || id == ID_COL2
+		|| id == ID_COL3)
 		try_open_path(data, path);
-	else if (id == ID_FLOOR || id == ID_CEIL || id == ID_DOOR)
+	else if (id == ID_FLOOR || id == ID_CEIL)
 		if (check_color_or_texture(data, path, id) == 1)
 			return (free(path), NULL);
-	if (id == ID_EXIT || id == ID_DOOR)
-		try_open_path(data, path);
 	if (id == ID_MAP)
 	{
 		if (ft_strncmp(path + ft_strlen(path) - 4, ".cub", 4))
@@ -40,7 +39,7 @@ int	parse_line(t_data *d, char *line)
 	char	*trim_line;
 
 	trim_line = ft_strtrim(line, "\t\n ");
-	if (ft_strncmp(trim_line, NORTH_TXT, ft_strlen(NORTH_TXT)) == 0)
+	if (ft_strncmp(trim_line, NORTH_TXT, 3) == 0)
 		add_texture_node(ID_NORTH, parse_path(trim_line + 3, d, ID_NORTH), d);
 	else if (ft_strncmp(trim_line, SOUTH_TXT, 3) == 0)
 		add_texture_node(ID_SOUTH, parse_path(trim_line + 3, d, ID_SOUTH), d);
@@ -54,10 +53,16 @@ int	parse_line(t_data *d, char *line)
 		add_texture_node(ID_CEIL, parse_path(trim_line + 2, d, ID_CEIL), d);
 	else if (ft_strncmp(trim_line, DOOR, 2) == 0)
 		add_texture_node(ID_DOOR, parse_path(trim_line + 2, d, ID_DOOR), d);
-	else if (ft_strncmp(trim_line, NEXT_MAP, 5) == 0)
-		d->map_data->next_map = parse_path(trim_line + 5, d, ID_MAP);
 	else if (ft_strncmp(trim_line, EXIT, 5) == 0)
 		add_texture_node(ID_EXIT, parse_path(trim_line + 5, d, ID_EXIT), d);
+	else if (ft_strncmp(trim_line, COL1, 5) == 0)
+		add_texture_node(ID_COL1, parse_path(trim_line + 5, d, ID_COL1), d);
+	else if (ft_strncmp(trim_line, COL2, 5) == 0)
+		add_texture_node(ID_COL2, parse_path(trim_line + 5, d, ID_COL2), d);
+	else if (ft_strncmp(trim_line, COL3, 5) == 0)
+		add_texture_node(ID_COL3, parse_path(trim_line + 5, d, ID_COL3), d);
+	else if (ft_strncmp(trim_line, NEXT_MAP, 5) == 0)
+		d->map_data->next_map = parse_path(trim_line + 5, d, ID_MAP);
 	else
 		return (free(trim_line), 1);
 	return (free(trim_line), 0);
