@@ -26,7 +26,7 @@ void	reset_hit_data(int vector, t_raycast *ray_data)
 	}
 }
 
-int	check_vert_intersect(int grid[2], double hit[2], double delta[2], t_data *data)
+int	check_intersect(int grid[2], double hit[2], double delta[2], t_data *data)
 {
 	int	door;
 
@@ -49,39 +49,7 @@ int	check_vert_intersect(int grid[2], double hit[2], double delta[2], t_data *da
 		}
 		else if (get_tile_type(grid, data->map_data) == TILE_EXIT)
 		{
-			set_sprite_visible(grid, VERT, data);
-		}
-		hit[X] += delta[X];
-		hit[Y] += delta[Y];
-	}
-	return (1);
-}
-
-
-int	check_horz_intersect(int grid[2], double hit[2], double delta[2], t_data *data)
-{
-	int	door;
-
-	while (42)
-	{
-		grid[X] = floor(hit[X] / TILE_SIZE);
-		grid[Y] = floor(hit[Y] / TILE_SIZE);
-		if (grid[X] < 0 || grid[X] >= data->map_data->max_width
-			|| grid[Y] < 0 || grid[Y] >= data->map_data->max_height)
-			return (0);
-		if (get_tile_type(grid, data->map_data) == TILE_WALL)
-			break ;
-		else if (get_tile_type(grid, data->map_data) == TILE_DOOR)
-		{
-			door = door_hit(get_door(grid, data), hit, delta);
-			if (door == 0)
-				return (0);
-			else if (door == 1)
-				break ;
-		}
-		else if (get_tile_type(grid, data->map_data) == TILE_EXIT)
-		{
-			set_sprite_visible(grid, HORZ, data);
+			set_sprite_visible(grid, data);
 		}
 		hit[X] += delta[X];
 		hit[Y] += delta[Y];
@@ -112,7 +80,7 @@ void	vert_hit(double alpha, t_player *player, t_data *data)
 		delta[Y] = -fabs(delta[Y]);
 	else
 		delta[Y] = fabs((delta[Y]));
-	if (check_vert_intersect(grid, hit, delta, data) == 0)
+	if (check_intersect(grid, hit, delta, data) == 0)
 		return (reset_hit_data(Y, data->ray_data));
 	data->ray_data->vert_hit[X] = hit[X];
 	data->ray_data->vert_hit[Y] = hit[Y];
@@ -141,7 +109,7 @@ void	horz_hit(double alpha, t_player *player, t_data *data)
 		delta[X] = -fabs(delta[X]);
 	else
 		delta[X] = fabs(delta[X]);
-	if (check_horz_intersect(grid, hit, delta, data) == 0)
+	if (check_intersect(grid, hit, delta, data) == 0)
 		return (reset_hit_data(X, data->ray_data));
 	data->ray_data->horz_hit[X] = hit[X];
 	data->ray_data->horz_hit[Y] = hit[Y];

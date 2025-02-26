@@ -237,8 +237,6 @@ typedef struct s_sprite
 	double			distance;
 	int				txt_num;
 	int				is_visible;
-	int				visible_horz;
-	int				visible_vert;
 	struct s_sprite	*next;
 }	t_sprite;
 
@@ -463,7 +461,7 @@ void	render_sprite(int x, int y, t_raycast *ray_data, t_data *data);
 
 /*sprite.c*/
 void	reset_sprite_visibility(t_map *map_data);
-void	set_sprite_visible(int grid[2], int intersect, t_data *data);
+void	set_sprite_visible(int grid[2], t_data *data);
 
 /*render_utils.c*/
 int			get_texture_pixel(t_texture *texture, int x, int y);

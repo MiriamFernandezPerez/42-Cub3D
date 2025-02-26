@@ -19,50 +19,9 @@ log_error(){
 	logging "${LIGHT_RED}error${RESET}" "$@" >&2
 }
 
-# find and print x11 header path
+# Use fixed X11 include path
 get_xlib_include_path(){
-	local result=""
-
-	for inc in \
-		/usr/X11/include          \
-		/usr/X11R6/include        \
-		/usr/X11R5/include        \
-		/usr/X11R4/include        \
-								\
-		/usr/include              \
-		/usr/include/X11          \
-		/usr/include/X11R6        \
-		/usr/include/X11R5        \
-		/usr/include/X11R4        \
-								\
-		/usr/local/X11/include    \
-		/usr/local/X11R6/include  \
-		/usr/local/X11R5/include  \
-		/usr/local/X11R4/include  \
-								\
-		/usr/local/include/X11    \
-		/usr/local/include/X11R6  \
-		/usr/local/include/X11R5  \
-		/usr/local/include/X11R4  \
-								\
-		/usr/X386/include         \
-		/usr/x386/include         \
-		/usr/XFree86/include/X11  \
-								\
-		/usr/local/include        \
-		/usr/athena/include       \
-		/usr/local/x11r5/include  \
-		/usr/lpp/Xamples/include  \
-								\
-		/usr/openwin/include      \
-		/usr/openwin/share/include
-	do
-		if [ -f "$inc/X11/Xlib.h" -a -f "$inc/X11/extensions/XShm.h" ]; then
-			result=$inc
-			break
-		fi
-	done
-	echo $result
+	echo "/usr/include"
 }
 
 show_help(){
@@ -109,6 +68,8 @@ main(){
 		exit 1
 	fi
 	log_info "Found X11 include path directory: $xlib_inc"
+
+	export LDFLAGS="-L/usr/lib/x86_64-linux-gnu"
 
 	log_info 'Generate "makefile.gen" from template "makefile.mk"'
 		echo "INC=$xlib_inc"  	 	    	>  Makefile.gen 
