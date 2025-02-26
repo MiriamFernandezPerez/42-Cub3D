@@ -71,6 +71,8 @@ void	init_map(t_map *map_data)
 	map_data->next_map = NULL;
 	map_data->floor_tiles_qt = 0;
 	map_data->floor_tiles_found = 0;
+	map_data->exit_qt = 0;
+	map_data->key_qt = 0;
 	map_data->txt_list = NULL;
 	map_data->door_list = NULL;
 	map_data->sprite_list = NULL;

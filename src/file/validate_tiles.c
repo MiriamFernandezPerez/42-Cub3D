@@ -12,7 +12,7 @@
 
 #include "../../inc/cub3d.h"
 
-int	check_tiles_between_exit(char **map, int y, int x)
+int	check_tiles_between(char **map, int y, int x)
 {
 	if (map[y - 1][x] == TILE_WALL && map[y + 1][x] == TILE_WALL
 		&& map[y][x - 1] == TILE_WALL && map[y][x + 1] == TILE_WALL)
@@ -20,32 +20,17 @@ int	check_tiles_between_exit(char **map, int y, int x)
 	return (0);
 }
 
-void	validate_exit(t_data *data, char **map)
+void	validate_exit(t_data *data, char **map, int *grid)
 {
-	int	i;
-	int	j;
-	int	exit_qt;
-
-	i = 0;
-	exit_qt = 0;
-	while (map[i])
+	if (check_tiles_between(map, grid[Y], grid[X]) == 1)
+		ft_error_exit(ERR_NO_EXIT, data);
+	else
 	{
-		j = 0;
-		while (map[i][j])
-		{
-			if (map[i][j] == TILE_EXIT)
-			{
-				if (check_tiles_between_exit(data->map_data->map, i, j) == 1)
-					ft_error_exit(ERR_NO_EXIT, data);
-				else
-					exit_qt++;
-			}
-			j++;
-		}
-		i++;
+		data->map_data->exit_qt++;
+		add_sprite_node(COLLECTABLE, 0, grid, data); //Añadida la salida como sprite a falta de decidir si sera un sprite o una puerta 
 	}
-	if (exit_qt > 1)
-		ft_error_exit(ERR_EXIT, data);
+	if (data->map_data->exit_qt > 1)
+		ft_error_exit(ERR_EXIT, data);	
 }
 
 int	check_player(t_data *data, int y, int x)

@@ -39,7 +39,20 @@ int	check_tiles_between_door(char **map, int y, int x, t_data *data)
 	return (0);
 }
 
-void	validate_doors(t_data *data, char **map)
+void	validate_key(t_data *data, char **map, int *grid)
+{
+	if (check_tiles_between(map, grid[Y], grid[X]) == 1)
+		ft_error_exit(ERR_KEY, data);
+	else
+	{
+		data->map_data->key_qt++;
+		add_sprite_node(COLLECTABLE, KEY, grid, data);
+	}
+	if (data->map_data->key_qt > 1)
+		ft_error_exit(ERR_KET_QT, data);
+}
+
+void	validate_extras(t_data *data, char **map)
 {
 	int	grid[2];
 
@@ -55,9 +68,14 @@ void	validate_doors(t_data *data, char **map)
 					ft_error_exit(ERR_DOOR, data);
 			}
 			else if (map[grid[Y]][grid[X]] == TILE_EXIT) //IVAN AÑADIDO
-			{
-				add_sprite_node(COLLECTABLE, 0, grid, data); 
-			} //AÑADIR NODOS SPRITE (COLECCIONABLES, ENEMIGOS...)?
+				validate_exit(data, map, grid);
+			else if (map[grid[Y]][grid[X]] == TILE_CHEST)
+				add_sprite_node(COLLECTABLE, CHEST, grid, data);
+			else if (map[grid[Y]][grid[X]] == TILE_KEY)
+				validate_key(data, map, grid);
+			else if (map[grid[Y]][grid[X]] == TILE_COIN)
+				add_sprite_node(COLLECTABLE, COIN, grid, data);
+			//AÑADIR NODOS SPRITE (COLECCIONABLES, ENEMIGOS...)?
 			grid[X]++;
 		}
 		grid[Y]++;

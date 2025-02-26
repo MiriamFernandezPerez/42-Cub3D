@@ -72,5 +72,4 @@ void	set_sprite_visible(int grid[2], t_data *data)
 		- (sprite->size[X] / 2);
 	sprite->start[Y] = HEIGHT / 2 - sprite->size[Y] / 2;
 	printf("pos[X]:%d [Y]:%d\n", sprite->start[X], sprite->start[Y]);
-
 }
