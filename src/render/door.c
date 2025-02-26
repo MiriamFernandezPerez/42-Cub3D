@@ -37,6 +37,7 @@ void	render_door(int x, int *y, t_raycast *ray_data, t_data *data)
 				fmod(texture_vtx[X], texture->width),
 				(int)texture_vtx[Y] % texture->height), data);
 		texture_vtx[Y] += y_step;
+		render_sprite(x, *y, ray_data, data);
 		(*y)++;
 	}
 }

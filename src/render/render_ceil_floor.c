@@ -93,11 +93,12 @@ void	render_ceil_floor(int x, int *y, t_data *data)
 		render_floor(x, y, hit, data);
 	else
 		print_pixel_render(x, *y, data->map_data->floor_color, data);
-	render_floor_item(x, y, hit, data);
+	//render_floor_item(x, y, hit, data);
 	if (get_texture(ID_CEIL, data) && get_texture(ID_CEIL, data)->path)
 		render_ceil(x, y, hit, data);
 	else
 		print_pixel_render(x, HEIGHT - *y + 1, data->map_data->ceiling_color,
 			data);
+	render_sprite(x, *y, data->ray_data, data);
 	(*y)++;
 }

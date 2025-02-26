@@ -80,8 +80,9 @@ void	add_sprite_node(t_sprite_type type, int subtype, int grid[2], t_data *data)
 	printf("world[X]:%d world[Y]:%d\n", new->world[X], new->world[Y]);
 	new->size[X] = 0;
 	new->size[Y] = 0;
-	new->is_visible = 0;
 	new->distance = 0.0;
+	new->visible_horz = 0;
+	new->visible_vert = 0;
 	//Funcion segun type/subtype num.texturas (animacion)
 	new->txt_num = 1;
 	/////////////////////////////////////////

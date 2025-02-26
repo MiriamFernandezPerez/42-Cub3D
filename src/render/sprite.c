@@ -12,25 +12,113 @@
 
 #include "../../inc/cub3d.h"
 
+t_sprite	*get_closer_sprite(t_sprite *current, t_data *data)
+{
+	t_sprite	*closer;
+	t_sprite	*temp;
+
+	closer = NULL;
+	temp = data->map_data->sprite_list;
+	while (temp)
+	{
+		if (temp->distance < current->distance
+			&& (!closer || temp->distance > closer->distance))
+			closer = temp;
+		temp = temp->next;
+	}
+	return (closer);
+}
+
+t_sprite	*get_furthest_sprite(t_data *data)
+{
+	t_sprite *selected;
+	t_sprite *curr;
+	
+	selected = NULL;
+	curr = data->map_data->sprite_list;
+	while (curr)
+	{
+		/*if (!selected
+			&& ((data->ray_data->vtx_hit == HORZ && curr->visible_horz == TRUE)
+			|| (data->ray_data->vtx_hit == VERT && curr->visible_vert == TRUE)))
+			*/
+		if (!selected && curr->is_visible)
+			selected = curr;
+		/*else if (selected
+			&& ((data->ray_data->vtx_hit == HORZ && curr->visible_horz == TRUE)
+			|| (data->ray_data->vtx_hit == VERT && curr->visible_vert == TRUE)))
+			*/
+		else if (selected && curr->is_visible)
+		{
+			if (curr->distance > selected->distance)
+				selected = curr;
+		}
+		curr = curr->next;
+	}
+	return (selected);
+}
+
+
+int	get_sprite_txt_color(int x, int y, t_sprite *sprite, t_data *data)
+{
+	int			color;
+	double		txt[2];
+	t_texture	*texture;
+
+	color = 0x000000;
+	//TODO dependiendo del tipo de sprite cogemos textura
+	texture = get_texture(ID_EXIT, data);
+	txt[X] = (x - sprite->start[X]) / (double)sprite->size[X] * texture->width;
+	txt[Y] = (y - sprite->start[Y]) / (double)sprite->size[Y] * texture->height;
+	//printf("txt[X]:%f txt[Y]:%f\n", txt[X], txt[Y]);
+	//printf("x:%d y:%d\n", x, y);
+	//printf("start[X]:%d start[Y]:%d\n", sprite->start[X], sprite->start[Y]);
+	color = get_texture_pixel(texture, fmod(txt[X], texture->width),
+		fmod(txt[Y], texture->height));
+	return (color);
+}
+
+void	render_sprite(int x, int y, t_raycast *ray_data, t_data *data)
+{
+	(void) ray_data;
+	//TODO ir de sprites más lejanos a más cercanos
+	t_sprite	*curr;
+	int			color;
+
+	curr = get_furthest_sprite(data);
+	if (!curr)
+		return ;
+	while (curr)
+	{
+		if (x >= curr->start[X] && x <= curr->start[X] + curr->size[X])
+		{
+			//TODO comprobar Y
+			if (y >= curr->start[Y] && y <= curr->start[Y] + curr->size[Y])
+			{
+				color = get_sprite_txt_color(x, y, curr, data); 
+				print_pixel_render(x, y, color, data);
+			}
+		}
+		curr = get_closer_sprite(curr, data);
+	}
+}
+
 double	get_angle_diff(t_sprite *sprite, t_data *data)
 {
-	int		delta[2];
+	double	delta[2];
 	double	beta;
 	double	angle_diff;
 
-	delta[X] = abs(sprite->world[X] - data->player->pos[X]);
-	delta[Y] = abs(sprite->world[Y] - data->player->pos[Y]);
-	printf("delta x:%d Y:%i\n", delta[X], delta[Y]);
-	if (delta[Y] == 0 && delta[X] > 0)
-		beta = 0;
-	else if (delta[Y] == 0)
-		beta = 180.0;
-	else
-		beta = atan2(delta[Y], delta[X]) * (180 / M_PI);
-	angle_diff = data->player->angle - beta;
-	printf("beta: %f\n", beta);
-	angle_diff = fmod(angle_diff + 180, 360) - 180;
-	printf("angle_diff:%f\n", angle_diff);
+	delta[X] = sprite->world[X] - data->player->pos[X];
+	delta[Y] = data->player->pos[Y] - sprite->world[Y];
+	beta = atan2(delta[Y], delta[X]) * (180.0 / M_PI);
+	if (beta < 0)
+		beta += 360.0;
+	angle_diff = beta - data->player->angle;
+	if (angle_diff > 180.0)
+		angle_diff -= 360.0;
+	if (angle_diff < -180.0)
+		angle_diff += 360.0;
 	return (angle_diff);
 }
 
@@ -42,7 +130,9 @@ void	reset_sprite_visibility(t_map *map_data)
 	current = map_data->sprite_list;
 	while (current)
 	{
-		current->is_visible = FALSE;
+		//current->visible_horz = FALSE;
+		//current->visible_vert = FALSE;
+		current->is_visible = TRUE;
 		current->distance = 0.0;
 		current->start[X] = 0;
 		current->start[Y] = 0;
@@ -52,24 +142,26 @@ void	reset_sprite_visibility(t_map *map_data)
 	}
 }
 
-void	set_sprite_visible(int grid[2], t_data *data)
+void	set_sprite_visible(int grid[2], int	intersect, t_data *data)
 {
 	t_sprite	*sprite;
 	double		angle_diff;
 
+	intersect = intersect;
 	sprite = get_sprite(grid, data);
+	/*if (intersect == HORZ)
+		sprite->visible_horz = TRUE;
+	else if (intersect == VERT)
+		sprite->visible_vert = TRUE;*/
 	sprite->is_visible = TRUE;
 	sprite->distance = sqrt(pow(data->player->pos[X] - sprite->world[X], 2)
 		+ pow(data->player->pos[Y] - sprite->world[Y], 2));
-	//Corregir distorsion??
 	sprite->size[Y] = ceil((TILE_SIZE * data->ray_data->distance_pp)
 			/ sprite->distance);
 	sprite->size[X] = sprite->size[Y];
-	//printf("Sprite->size[X]:%d [Y]:%d\n", sprite->size[X], sprite->size[Y]);
 	angle_diff = get_angle_diff(sprite, data);
 	angle_diff = angle_diff;
-	sprite->start[X] = ((angle_diff / FOV) * (WIDTH / 2)) + (WIDTH / 2)
-		- (sprite->size[X] / 2);
-	sprite->start[Y] = HEIGHT / 2 - sprite->size[Y] / 2;
-	printf("pos[X]:%d [Y]:%d\n", sprite->start[X], sprite->start[Y]);
+	sprite->start[X] = ((-angle_diff / (FOV / 2.0) * (WIDTH / 2.0))
+			+ (WIDTH / 2.0)	- (sprite->size[X] / 2.0));
+	sprite->start[Y] = HEIGHT / 2.0 - sprite->size[Y] / 2.0;
 }
