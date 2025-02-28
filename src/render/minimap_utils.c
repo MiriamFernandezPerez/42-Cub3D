@@ -77,18 +77,12 @@ void	print_tile_pixel(int x, int y, int map_idx[2], t_data *data)
 		tile_type = data->map_data->map[map_idx[Y]][map_idx[X]];
 		if (tile_type == TILE_WALL)
 			color = MINIMAP_WALL_COLOR;
-		else if (tile_type == TILE_FLOOR || tile_type == TILE_EXIT)
-		{
-			//color = get_floor_color(x, y, data->minimap_data, data);
-			color = MINIMAP_FLOOR_COLOR;
-		}
 		else if (tile_type == TILE_SPACE)
 			color = MINIMAP_BACK_COLOR;
-		else if (tile_type == TILE_W || tile_type == TILE_N
-			|| tile_type == TILE_S || tile_type == TILE_E)
-			color = MINIMAP_FLOOR_COLOR;
 		else if (tile_type == TILE_DOOR)
 			color = MINIMAP_DOOR_COLOR;
+		else
+			color = MINIMAP_FLOOR_COLOR;
 	}
 	print_gui_pixel(x, y, color, data->mlx_data);
 }

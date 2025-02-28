@@ -20,8 +20,8 @@ char	*parse_path(char *line, t_data *data, char id)
 	if (!path || ft_strchr(path, ' '))
 		ft_error_exit(ERR_TXT, data);
 	if (id == ID_NORTH || id == ID_SOUTH || id == ID_WEST || id == ID_EAST
-		|| id == ID_EXIT || id == ID_DOOR || id == ID_COL1 || id == ID_COL2
-		|| id == ID_COL3)
+		|| id == ID_EXIT || id == ID_DOOR || id == ID_CHEST || id == ID_KEY
+		|| id == ID_COIN)
 		try_open_path(data, path);
 	else if (id == ID_FLOOR || id == ID_CEIL)
 		if (check_color_or_texture(data, path, id) == 1)
@@ -55,12 +55,12 @@ int	parse_line(t_data *d, char *line)
 		add_texture_node(ID_DOOR, parse_path(trim_line + 2, d, ID_DOOR), d);
 	else if (ft_strncmp(trim_line, EXIT, 5) == 0)
 		add_texture_node(ID_EXIT, parse_path(trim_line + 5, d, ID_EXIT), d);
-	else if (ft_strncmp(trim_line, COL1, 5) == 0)
-		add_texture_node(ID_COL1, parse_path(trim_line + 5, d, ID_COL1), d);
-	else if (ft_strncmp(trim_line, COL2, 5) == 0)
-		add_texture_node(ID_COL2, parse_path(trim_line + 5, d, ID_COL2), d);
-	else if (ft_strncmp(trim_line, COL3, 5) == 0)
-		add_texture_node(ID_COL3, parse_path(trim_line + 5, d, ID_COL3), d);
+	else if (ft_strncmp(trim_line, CHEST, 6) == 0)
+		add_texture_node(ID_CHEST, parse_path(trim_line + 6, d, ID_CHEST), d);
+	else if (ft_strncmp(trim_line, KEY, 4) == 0)
+		add_texture_node(ID_KEY, parse_path(trim_line + 4, d, ID_KEY), d);
+	else if (ft_strncmp(trim_line, COIN, 5) == 0)
+		add_texture_node(ID_COIN, parse_path(trim_line + 5, d, ID_COIN), d);
 	else if (ft_strncmp(trim_line, NEXT_MAP, 5) == 0)
 		d->map_data->next_map = parse_path(trim_line + 5, d, ID_MAP);
 	else

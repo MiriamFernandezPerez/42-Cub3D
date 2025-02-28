@@ -12,6 +12,26 @@
 
 #include "../../inc/cub3d.h"
 
+void	update_sprites(t_data *data)
+{
+	t_sprite	*sprite;
+
+	sprite = data->map_data->sprite_list;
+	while (sprite)
+	{
+		if (sprite->txt_num > 1)
+		{
+			if (get_time() - sprite->last_frame_time >= FRAME_DURATION)
+			{
+				sprite->frame = (sprite->frame + 1) % sprite->txt_num;
+				sprite->last_frame_time = get_time();
+				data->mlx_data->redraw = 1;
+			}
+		}
+		sprite = sprite->next;
+	}
+}
+
 //Manages the doors opening/closing status
 void	update_doors(t_data *data)
 {
@@ -98,6 +118,7 @@ int	game_loop(t_data *data)
 {
 	check_doors(data);
 	update_doors(data);
+	update_sprites(data);
 	if (data->mlx_data->redraw)
 		redraw_scene(data);
 	return (0);

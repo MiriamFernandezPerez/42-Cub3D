@@ -42,6 +42,7 @@
 # define DOOR_CLOSE_DISTANCE TILE_SIZE * 4
 # define DOOR_OPEN_TIME 1.5
 # define TITLE_IMAGES 8
+# define FRAME_DURATION 100
 
 /*Keys*/
 # define KEY_ESC 65307
@@ -64,11 +65,12 @@
 # define DOOR "D "
 # define NEXT_MAP "NEXT "
 # define EXIT "EXIT "
+# define CHEST "CHEST "
+# define KEY "KEY " 
+# define COIN "COIN "
 # define VALID_TILES "01NSWEDXQKC "
-# define SPRITE_TILES "XQKC" 
-# define COL1 "COL1 "
-# define COL2 "COL2 " 
-# define COL3 "COL3 "
+# define SPRITE_TILES "XQKC"
+# define CROSSABLE_TILES "0DNSEWXLQC"
 
 /*id_cub_file_settings & textures ID*/
 # define ID_NORTH 'N'
@@ -78,9 +80,9 @@
 # define ID_FLOOR 'F'
 # define ID_CEIL 'C'
 # define ID_DOOR 'D' //Door_id
-# define ID_COL1 '1' //Chest_id
-# define ID_COL2 '2' //Coin_id
-# define ID_COL3 '3' //Key_id
+# define ID_CHEST 'Q' //Chest_id
+# define ID_KEY 'K' //Key_id
+# define ID_COIN 'C' //Coin_id
 # define ID_EXIT 'X' //Exit_id
 # define ID_MAP 'M' //Next Map_id
 
@@ -187,9 +189,9 @@ typedef enum e_sprite_type
 
 typedef enum e_collectable_type
 {
-	CHEST,
-	COIN,
-	KEY
+	T_CHEST,
+	T_COIN,
+	T_KEY
 }	t_collectable_type;
 
 /*Player*/
@@ -237,7 +239,9 @@ typedef struct s_sprite
 	int				start[2];
 	double			distance;
 	int				txt_num;
-	int				is_visible;
+	int				frame;
+	unsigned long	last_frame_time;
+	//int				is_visible;
 	int				visible_horz;
 	int				visible_vert;
 	struct s_sprite	*next;
@@ -460,11 +464,11 @@ int			is_door_hit(t_raycast *ray_data, t_data *data);
 void		render_door(int x, int *y, t_raycast *ray_data, t_data *data);
 
 /*render_sprite.c*/
-void	render_sprite(int x, int y, t_raycast *ray_data, t_data *data);
+void		render_sprite(int x, int y, t_data *data);
 
 /*sprite.c*/
-void	reset_sprite_visibility(t_map *map_data);
-void	set_sprite_visible(int grid[2], int intersection,  t_data *data);
+void		reset_sprite_visibility(t_map *map_data);
+void		set_sprite_visible(int grid[2], int intersection,  t_data *data);
 
 /*render_utils.c*/
 int			get_texture_pixel(t_texture *texture, int x, int y);
@@ -488,8 +492,9 @@ int			close_window(t_data *data);
 /*game_loop.c*/
 int			game_loop(t_data *data);
 
-/*mlx_utils.c*/
+/*mlx_print.c*/
 void		print_pixel_render(int x, int y, int color, t_data *data);
+void		print_pixel_sprite(int pos[2], int color, t_sprite sprite, t_data *data);
 void		print_gui_pixel(int x, int y, int color, t_mlx *mlx_data);
 
 /*mlx_mouse*/

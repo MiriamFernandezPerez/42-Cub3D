@@ -119,12 +119,12 @@ void	init_data(t_data **data)
 	init_title((*data)->title_data);
 	(*data)->ray_data = malloc(sizeof(t_raycast));
 	malloc_protection((*data)->ray_data, *data);
-	(*data)->ray_data->angle_increment = (double)FOV / (double)WIDTH;
-	(*data)->ray_data->distance_pp = (WIDTH / 2) / (tan(deg_to_rad(FOV / 2)));
 	(*data)->map_data = malloc(sizeof(t_map));
 	malloc_protection((*data)->map_data, *data);
 	init_map((*data)->map_data);
 	(*data)->minimap_data = malloc(sizeof(t_minimap));
 	malloc_protection((*data)->minimap_data, (*data));
 	init_minimap_data((*data)->minimap_data);
+	(*data)->ray_data->angle_increment = (double)FOV / (double)WIDTH;
+	(*data)->ray_data->distance_pp = (WIDTH / 2) / (tan(deg_to_rad(FOV / 2)));
 }

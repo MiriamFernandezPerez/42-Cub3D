@@ -58,7 +58,7 @@ void	render_wall(int x, int *y, t_raycast *ray_data, t_data *data)
 		print_pixel_render(x, *y, get_texture_pixel(texture,
 				tex[X], tex[Y]), data);
 		texture_vtx[Y] += y_step;
-		render_sprite(x, *y, ray_data, data);
+		render_sprite(x, *y, data);
 		(*y)++;
 	}
 }

@@ -46,7 +46,7 @@ void	validate_key(t_data *data, char **map, int *grid)
 	else
 	{
 		data->map_data->key_qt++;
-		add_sprite_node(COLLECTABLE, KEY, grid, data);
+		add_sprite_node(COLLECTABLE, T_KEY, grid, data);
 	}
 	if (data->map_data->key_qt > 1)
 		ft_error_exit(ERR_KET_QT, data);
@@ -70,11 +70,11 @@ void	validate_extras(t_data *data, char **map)
 			else if (map[grid[Y]][grid[X]] == TILE_EXIT) //IVAN AÑADIDO
 				validate_exit(data, map, grid);
 			else if (map[grid[Y]][grid[X]] == TILE_CHEST)
-				add_sprite_node(COLLECTABLE, CHEST, grid, data);
+				add_sprite_node(COLLECTABLE, T_CHEST, grid, data);
 			else if (map[grid[Y]][grid[X]] == TILE_KEY)
 				validate_key(data, map, grid);
 			else if (map[grid[Y]][grid[X]] == TILE_COIN)
-				add_sprite_node(COLLECTABLE, COIN, grid, data);
+				add_sprite_node(COLLECTABLE, T_COIN, grid, data);
 			//AÑADIR NODOS SPRITE (COLECCIONABLES, ENEMIGOS...)?
 			grid[X]++;
 		}

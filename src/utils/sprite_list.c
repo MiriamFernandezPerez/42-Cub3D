@@ -64,7 +64,8 @@ static void	add_node_back(t_sprite **sprite_list, t_sprite *new)
 	}
 }
 
-void	add_sprite_node(t_sprite_type type, int subtype, int grid[2], t_data *data)
+void	add_sprite_node(t_sprite_type type, int subtype, int grid[2],
+	t_data *data)
 {
 	t_sprite	*new;
 
@@ -80,9 +81,12 @@ void	add_sprite_node(t_sprite_type type, int subtype, int grid[2], t_data *data)
 	new->size[X] = 0;
 	new->size[Y] = 0;
 	new->distance = 0.0;
+	new->frame = 0;
+	new->last_frame_time = get_time();
 	//TODO segun type/subtype num.texturas (animacion)
 	new->txt_num = 1;
+	if (subtype == T_KEY)
+		new->txt_num = 24;
 	new->next = NULL;
 	add_node_back(&data->map_data->sprite_list, new);
 }
-
