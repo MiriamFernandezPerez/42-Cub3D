@@ -7,7 +7,7 @@ C ./assets/textures/floor/13dark.xpm
 D ./assets/textures/moriasdoor.xpm
 EXIT ./assets/sprites/chest2.xpm
 CHEST ./assets/sprites/chest2.xpm
-KEY ./assets/sprites/key.xpm
+KEY ./assets/sprites/key128.xpm
 
 
 
