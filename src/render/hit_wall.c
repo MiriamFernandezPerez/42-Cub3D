@@ -47,10 +47,6 @@ int	check_intersect(int grid[2], double hit[2], double delta[2], t_data *data)
 			else if (door == 1)
 				break ;
 		}
-		else if (get_tile_type(grid, data->map_data) == TILE_EXIT)
-		{
-			set_sprite_visible(grid, data);
-		}
 		hit[X] += delta[X];
 		hit[Y] += delta[Y];
 	}

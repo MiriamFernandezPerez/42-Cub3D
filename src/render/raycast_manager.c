@@ -109,6 +109,33 @@ void	manage_column(int x, t_raycast *ray_data, t_data *data)
 	}
 }
 
+void check_sprites_along_ray(t_raycast *ray_data, t_data *data)
+{
+	double	step[2];
+	double	ray[2];
+	int		grid[2];
+
+	ray[X] = data->player->pos[X];
+	ray[Y] = data->player->pos[Y];
+	step[X] = cos(deg_to_rad(ray_data->alpha)) * (TILE_SIZE / 2.0);
+	step[Y] = sin(deg_to_rad(ray_data->alpha)) * (TILE_SIZE / 2.0);
+    while (sqrt(pow(data->player->pos[X] - ray[X], 2)
+		+ pow(data->player->pos[Y] - ray[Y], 2)) < ray_data->shortest_distance)
+    {
+     	grid[X] = (int)floor(ray[X] / TILE_SIZE);
+		grid[Y] = (int)floor(ray[Y] / TILE_SIZE);
+        if (ft_strchr(SPRITE_TILES, get_tile_type(grid, data->map_data)))
+        {
+            if (data->ray_data->vtx_hit == HORZ)
+                set_sprite_visible(grid, HORZ, data);
+            else
+                set_sprite_visible(grid, VERT, data);
+        }
+        ray[X] += step[X];
+        ray[Y] -= step[Y];
+    }
+}
+
 void	raycast_manager(t_raycast *ray_data, t_data *data)
 {
 	int	x;
@@ -123,9 +150,9 @@ void	raycast_manager(t_raycast *ray_data, t_data *data)
 		get_shortest_dist(data->player, data->ray_data, data);
 		data->minimap_data->shortest_distances[x] = ray_data->shortest_distance;
 		corrected_wall_distance(ray_data, data);
+		check_sprites_along_ray(ray_data, data);
 		manage_column(x, ray_data, data);
 		//print_ray_data(ray_data); //TEST
-		//TODO Reset sprites visibles
 		reset_sprite_visibility(data->map_data);
 		ray_data->alpha -= ray_data->angle_increment;
 		ray_data->shortest_distance = 0;

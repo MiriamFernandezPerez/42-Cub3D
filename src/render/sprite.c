@@ -12,6 +12,16 @@
 
 #include "../../inc/cub3d.h"
 
+int	is_sprite_visible_intersect(t_sprite *sprite, t_data *data)
+{
+	if (data->ray_data->vtx_hit == HORZ && sprite->visible_horz == TRUE)
+		return (TRUE);
+	if (data->ray_data->vtx_hit == VERT && sprite->visible_vert == TRUE)
+		return (TRUE);
+	return (FALSE);
+}
+
+
 t_sprite	*get_closer_sprite(t_sprite *current, t_data *data)
 {
 	t_sprite	*closer;
@@ -23,7 +33,8 @@ t_sprite	*get_closer_sprite(t_sprite *current, t_data *data)
 	{
 		//TODO añadir comprobacion de visibilidad
 		if (temp->distance < current->distance
-			&& (!closer || temp->distance > closer->distance))
+			&& (!closer || temp->distance > closer->distance)
+			&& is_sprite_visible_intersect(temp, data))
 			closer = temp;
 		temp = temp->next;
 	}
@@ -39,9 +50,12 @@ t_sprite	*get_furthest_sprite(t_data *data)
 	curr = data->map_data->sprite_list;
 	while (curr)
 	{
-		if (!selected && curr->is_visible)
+		if (!selected && is_sprite_visible_intersect(curr, data))
+		//if (!selected && curr->is_visible)
 			selected = curr;
-		else if (selected && curr->is_visible)
+
+		else if (selected && is_sprite_visible_intersect(curr, data))
+		//else if (selected && curr->is_visible)
 		{
 			if (curr->distance > selected->distance)
 				selected = curr;
@@ -81,14 +95,12 @@ void	render_sprite(int x, int y, t_raycast *ray_data, t_data *data)
 	{
 		if (x >= curr->start[X] && x <= curr->start[X] + curr->size[X])
 		{
-			//TODO comprobar Y
 			if (y >= curr->start[Y] && y <= curr->start[Y] + curr->size[Y])
 			{
 				color = get_sprite_txt_color(x, y, curr, data); 
 				print_pixel_render(x, y, color, data);
 			}
 		}
-		//TODO ir de sprites más lejanos a más cercanos
 		curr = get_closer_sprite(curr, data);
 	}
 }
@@ -120,7 +132,9 @@ void	reset_sprite_visibility(t_map *map_data)
 	current = map_data->sprite_list;
 	while (current)
 	{
-		current->is_visible = FALSE;
+		//current->is_visible = FALSE;
+		current->visible_horz = FALSE;
+		current->visible_vert = FALSE;
 		current->distance = 0.0;
 		current->start[X] = 0;
 		current->start[Y] = 0;
@@ -130,13 +144,17 @@ void	reset_sprite_visibility(t_map *map_data)
 	}
 }
 
-void	set_sprite_visible(int grid[2], t_data *data)
+void	set_sprite_visible(int grid[2], int intersection, t_data *data)
 {
 	t_sprite	*sprite;
 	double		angle_diff;
 
 	sprite = get_sprite(grid, data);
-	sprite->is_visible = TRUE;
+	//sprite->is_visible = TRUE;
+	if (intersection == HORZ)
+		sprite->visible_horz = TRUE;
+	else if (intersection == VERT)
+		sprite->visible_vert = TRUE;
 	sprite->distance = sqrt(pow(data->player->pos[X] - sprite->world[X], 2)
 		+ pow(data->player->pos[Y] - sprite->world[Y], 2));
 	sprite->size[Y] = ceil((TILE_SIZE * data->ray_data->distance_pp)

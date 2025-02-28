@@ -65,6 +65,7 @@
 # define NEXT_MAP "NEXT "
 # define EXIT "EXIT "
 # define VALID_TILES "01NSWEDXQKC "
+# define SPRITE_TILES "XQKC" 
 # define COL1 "COL1 "
 # define COL2 "COL2 " 
 # define COL3 "COL3 "
@@ -237,6 +238,8 @@ typedef struct s_sprite
 	double			distance;
 	int				txt_num;
 	int				is_visible;
+	int				visible_horz;
+	int				visible_vert;
 	struct s_sprite	*next;
 }	t_sprite;
 
@@ -461,7 +464,7 @@ void	render_sprite(int x, int y, t_raycast *ray_data, t_data *data);
 
 /*sprite.c*/
 void	reset_sprite_visibility(t_map *map_data);
-void	set_sprite_visible(int grid[2], t_data *data);
+void	set_sprite_visible(int grid[2], int intersection,  t_data *data);
 
 /*render_utils.c*/
 int			get_texture_pixel(t_texture *texture, int x, int y);

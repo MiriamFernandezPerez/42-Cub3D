@@ -77,13 +77,11 @@ void	add_sprite_node(t_sprite_type type, int subtype, int grid[2], t_data *data)
 	new->grid[Y] = grid[Y];
 	new->world[X] = (grid[X] + 0.5) * TILE_SIZE;
 	new->world[Y] = (grid[Y] + 0.5) * TILE_SIZE;
-	printf("world[X]:%d world[Y]:%d\n", new->world[X], new->world[Y]);
 	new->size[X] = 0;
 	new->size[Y] = 0;
 	new->distance = 0.0;
-	//Funcion segun type/subtype num.texturas (animacion)
+	//TODO segun type/subtype num.texturas (animacion)
 	new->txt_num = 1;
-	/////////////////////////////////////////
 	new->next = NULL;
 	add_node_back(&data->map_data->sprite_list, new);
 }
