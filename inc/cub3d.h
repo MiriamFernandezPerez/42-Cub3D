@@ -12,6 +12,11 @@
 
 #ifndef CUB3D_H
 # define CUB3D_H
+/*Libraries to Bass*/
+# include <stdint.h>
+# include <stdbool.h>
+# include "../bass/bass.h"
+/******************/
 # include <stdio.h>
 # include <stdlib.h>
 # include <unistd.h>
@@ -136,6 +141,8 @@
 # define ERR_MAP_BORDER "Error\nMap is not closed\n"
 # define ERR_MAP_PLAYER "Error\nPlayer is not in the map\n"
 # define ERR_MAP_EMPTY "Error\nMap is empty\n"
+# define ERR_BASS "Error\nBass Library failed\n"
+# define ERR_BASS_FILE "Error\nBass Create File failed\n"
 
 /*Coordinates*/
 typedef enum e_coord
@@ -333,6 +340,17 @@ typedef struct s_mlx
 	int		mouse_pos;
 }	t_mlx;
 
+/*Audio*/
+typedef struct s_audio
+{
+	uint32_t	start_audio;
+	uint32_t	collect_audio;
+	uint32_t 	door_audio;
+	uint32_t	key_audio;
+	u_int32_t	exit_audio;	
+} 	t_audio;
+
+
 /*Cub3d*/
 typedef struct s_data
 {
@@ -343,6 +361,7 @@ typedef struct s_data
 	t_player		*player;
 	t_title			*title_data;
 	char			**cub_file;
+	t_audio			*audio;
 }	t_data;
 
 /*main.c*/
@@ -499,5 +518,10 @@ void		print_gui_pixel(int x, int y, int color, t_mlx *mlx_data);
 
 /*mlx_mouse*/
 int 		mouse_handler(int x, int y, t_data *data);
+
+/*audio.c*/
+void	play_sound(uint32_t sound, bool play, bool loop);
+void	stop_audio(uint32_t *audio, t_data *data);
+void	init_audio_start();
 
 #endif

@@ -15,7 +15,7 @@ NAME = cub3d
 SRC_DIR = src/
 
 # Subdirectories to include
-SUBDIRS = main file utils render mlx 
+SUBDIRS = main file utils render mlx audio
 # Find all .c files only in the specified subdirectories
 SRC_FULL_DIR = $(foreach dir, $(SUBDIRS), $(wildcard $(SRC_DIR)$(dir)/*.c))
 
@@ -25,6 +25,11 @@ LIBFT_DIR = src/libft/
 LIBMLX = minilibx-linux/libmlx.a
 LIBMLX_FLAGS = -Lmlx_linux -Lmlx_Linux -L/usr/lib -Imlx_linux -lXext -lX11 -lm -lz -L/usr/lib/x86_64-linux-gnu 
 LIBMLX_DIR = minilibx-linux/
+
+# Paths BASS library
+BASS_DIR = bass
+BASS_LIB = $(BASS_DIR)/libbass.so
+BASS_FLAGS = -L$(BASS_DIR) -lbass -Wl,-rpath=./bass/	
 
 OBJ_DIR = bin/
 OBJ = $(SRC_FULL_DIR:$(SRC_DIR)%.c=$(OBJ_DIR)%.o)
@@ -101,7 +106,8 @@ $(OBJ_DIR)%.o: $(SRC_DIR)%.c Makefile | create_obj_dirs
 $(NAME): $(OBJ_DIR) $(OBJ)
 		@echo ""
 		@$(call SHOW_MESSAGE, $(YELLOW)$(INFO), " LINKING CUB3D...")
-		@$(CC) -I/usr/include -o $(NAME) $(OBJ) $(LIBFT) $(LIBMLX) $(LIBMLX_FLAGS) -fsanitize=address -fsanitize=leak
+		@$(CC) -I/usr/include -I$(BASS_DIR) -o $(NAME) $(OBJ) $(LIBFT) $(LIBMLX) $(LIBMLX_FLAGS) $(BASS_FLAGS) -fsanitize=address -fsanitize=leak
+		@cp $(BASS_LIB) .
 		@$(call SHOW_MESSAGE, $(GREEN)$(CHECKMARK), " CUB3D DONE!")
 
 $(OBJ_DIR): Makefile $(LIBFT)
@@ -134,7 +140,7 @@ libmlx_clean:
 
 fclean: clean libft_fclean
 		@$(call SHOW_MESSAGE, $(YELLOW)$(INFO), " FCLEANING...")
-		@$(RM) $(NAME)
+		@$(RM) $(NAME) libbass.so
 		@$(call SHOW_MESSAGE, $(GREEN)$(CHECKMARK), "	DONE!")
 		@echo "\n"
 

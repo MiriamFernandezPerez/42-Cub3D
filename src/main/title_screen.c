@@ -42,6 +42,7 @@ int	key_title(int keycode, t_data *data)
 		data->title_data->selected = 6;
 	if (keycode == KEY_SPACE && data->title_data->selected == 6)
 	{
+		stop_audio(&data->audio->start_audio, data);
 		mlx_loop_hook(data->mlx_data->mlx_ptr, game_loop, data);
 		mlx_hook(data->mlx_data->win_ptr, 2, 1L << 0, key_press, data);
 	}
@@ -104,6 +105,7 @@ void	title_screen(t_title *title_data, t_data *data)
 	}
 	data->title_data->selected = 6;
 	render_fade_in(data);
+	init_audio_start(data);
 	mlx_loop_hook(data->mlx_data->mlx_ptr, title_loop, data);
 	mlx_hook(data->mlx_data->win_ptr, 2, 1L << 0, key_title, data);
 }
