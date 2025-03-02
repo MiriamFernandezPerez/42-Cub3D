@@ -112,12 +112,11 @@ void	init_data(t_data **data)
 	(*data)->cub_file = NULL;
 	(*data)->minimap_data = NULL;
 	(*data)->title_data = NULL;
+	(*data)->audio_list = NULL;
 	(*data)->player = malloc(sizeof(t_player));
 	malloc_protection((*data)->player, *data);
 	(*data)->title_data = malloc(sizeof(t_title));
 	malloc_protection((*data)->title_data, *data);
-	(*data)->audio = malloc(sizeof(t_audio));
-	malloc_protection((*data)->audio, *data);
 	init_title((*data)->title_data);
 	(*data)->ray_data = malloc(sizeof(t_raycast));
 	malloc_protection((*data)->ray_data, *data);

@@ -21,7 +21,7 @@ void	update_sprites(t_data *data)
 	{
 		if (sprite->txt_num > 1)
 		{
-			if (get_time() - sprite->last_frame_time >= FRAME_DURATION)
+			if (get_time() - sprite->last_frame_time >= FRAME_DURATION) 
 			{
 				sprite->frame = (sprite->frame + 1) % sprite->txt_num;
 				sprite->last_frame_time = get_time();
@@ -80,12 +80,14 @@ void	check_doors(t_data *data)
 			curr_door->state = OPENING;
 			curr_door->timer = get_time();
 			data->mlx_data->redraw = 1;
+			//play_sound(DOOR_AUDIO, true, false, data);
 		}
 		else if (curr_door->state == OPENED && distance > DOOR_CLOSE_DISTANCE)
 		{
 			curr_door->state = CLOSING;
 			curr_door->timer = get_time();
 			data->mlx_data->redraw = 1;
+			//play_sound(DOOR_AUDIO, true, false, data);
 		}
 		curr_door = curr_door->next;
 	}
@@ -121,5 +123,6 @@ int	game_loop(t_data *data)
 	update_sprites(data);
 	if (data->mlx_data->redraw)
 		redraw_scene(data);
+	
 	return (0);
 }

@@ -12,43 +12,53 @@
 
 #include "../../inc/cub3d.h"
 #include "../../bass/bass.h"
+#include "../../inc/audio.h"
 
-void	play_sound(uint32_t sound, bool play, bool loop)
+void	play_sound(char audio_id, bool play, bool loop, t_data *data)
 {
-	if (!sound)
+	t_audio	*audio;
+
+	audio = get_audio(audio_id, data);
+	if (!audio)
 		return ;
 	if (loop)
-		BASS_ChannelFlags(sound, BASS_SAMPLE_LOOP, BASS_SAMPLE_LOOP);
+		BASS_ChannelFlags(audio->bass_id, BASS_SAMPLE_LOOP, BASS_SAMPLE_LOOP);
 	if (play)
-		BASS_ChannelPlay(sound, 0);
+		BASS_ChannelPlay(audio->bass_id, 0);
 	else
-		BASS_ChannelPause(sound);
+		BASS_ChannelPause(audio->bass_id);
 }
 
-void	stop_audio(uint32_t *audio, t_data *data)
+void	stop_audio(char	audio_id, t_data *data)
 {
-	if ((*audio) != 0)
+	t_audio *audio;
+
+	audio = get_audio(audio_id, data);
+	if (!audio)
+		return ;
+	if (audio->bass_id != 0)
 	{
-		BASS_ChannelStop((*audio));
-		(*audio) = 0;
-		printf("start audio %d\n", data->audio->start_audio);
+		BASS_ChannelStop((audio->bass_id));
 	}
 }
 
-void	init_audio_start(t_data *data)
+void	init_audio(t_data *data)
 {
-	uint32_t	sound;
+	t_audio	*audio;
 
-	sound = 0;
 	if (!BASS_Init(-1, 44100, 0, 0, NULL))
 		return (ft_error_exit(ERR_BASS, data));
-	sound = BASS_StreamCreateFile(FALSE,
-			"assets/audio/spring8bit.mp3", 0, 0, 0);
-	if (sound == 0)
-		return (ft_error_exit(ERR_BASS_FILE, data));
-	else
-		data->audio->start_audio = sound;
+	add_audio_node(TITLE_AUDIO, BASS_StreamCreateFile(FALSE,
+			TITLE_PATH, 0, 0, 0), data);
+	/*add_audio_node(TITLE_AUDIO, BASS_StreamCreateFile(FALSE,
+			TITLE_PATH, 0, 0, 0), data);*/
+	audio = data->audio_list;
+	while (audio)
+	{
+		if (audio->bass_id == 0)
+			ft_error_exit(ERR_BASS_FILE, data);
+		audio = audio->next;
+	}
 	//printf("Audio handle %d\n", sound);
-	play_sound(sound, true, true);
 	//printf("BASS inició correctamente\n");
 }

@@ -105,8 +105,8 @@ void	free_data(t_data *data)
 			free(data->player);
 		if (data->minimap_data)
 			free(data->minimap_data);
-		if (data->audio)
-			free(data->audio);
+		if (data->audio_list)
+			clear_audio_list(&data->audio_list);
 		if (data->mlx_data)
 			destroy_mlx(data);
 		free(data);

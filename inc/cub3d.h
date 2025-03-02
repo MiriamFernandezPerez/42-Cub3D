@@ -31,8 +31,8 @@
 # include <X11/keysym.h>
 
 /*Constants*/
-# define WIDTH 800
-# define HEIGHT 500
+# define WIDTH 1600
+# define HEIGHT 1000
 # define TILE_SIZE 64
 # define FOV 60
 # define PLAYER_SPEED 5
@@ -48,6 +48,11 @@
 # define DOOR_OPEN_TIME 1.5
 # define TITLE_IMAGES 8
 # define FRAME_DURATION 100
+
+/*audio*/
+# define TITLE_AUDIO 'T'
+# define DOOR_AUDIO 'D'
+# define CHEST_AUDIO 'C'
 
 /*Keys*/
 # define KEY_ESC 65307
@@ -340,14 +345,15 @@ typedef struct s_mlx
 	int		mouse_pos;
 }	t_mlx;
 
+
+
+
 /*Audio*/
 typedef struct s_audio
 {
-	uint32_t	start_audio;
-	uint32_t	collect_audio;
-	uint32_t 	door_audio;
-	uint32_t	key_audio;
-	u_int32_t	exit_audio;	
+	uint32_t		bass_id;
+	int				audio_id;
+	struct s_audio	*next;
 } 	t_audio;
 
 
@@ -361,7 +367,7 @@ typedef struct s_data
 	t_player		*player;
 	t_title			*title_data;
 	char			**cub_file;
-	t_audio			*audio;
+	t_audio			*audio_list;
 }	t_data;
 
 /*main.c*/
@@ -458,6 +464,11 @@ void		add_door_node(int grid[2], int orient, t_data *data);
 void		clear_door_list(t_door **door_list);
 t_door		*get_door(int grid[2], t_data *data);
 
+/*audio_list.c*/
+void		add_audio_node(char id_audio, uint32_t bass_id, t_data *data);
+void		clear_audio_list(t_audio **audio_list);
+t_audio		*get_audio(char audio_id, t_data *data);
+
 /*sprite_list.c*/
 void		add_sprite_node(t_sprite_type type, int subtype, int grid[2],
 			t_data *data);
@@ -520,8 +531,8 @@ void		print_gui_pixel(int x, int y, int color, t_mlx *mlx_data);
 int 		mouse_handler(int x, int y, t_data *data);
 
 /*audio.c*/
-void	play_sound(uint32_t sound, bool play, bool loop);
-void	stop_audio(uint32_t *audio, t_data *data);
-void	init_audio_start();
+void	play_sound(char audio_id, bool play, bool loop, t_data *data);
+void	stop_audio(char audio_id, t_data *data);
+void	init_audio(t_data *data);
 
 #endif
