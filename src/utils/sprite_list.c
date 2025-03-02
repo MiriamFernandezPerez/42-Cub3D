@@ -88,7 +88,7 @@ void	add_sprite_node(t_sprite_type type, int subtype, int grid[2],
 	if (subtype == T_KEY)
 		new->txt_num = 22;
 	else if (subtype == T_COIN)
-		new->txt_num = 9;
+		new->txt_num = 18;
 	new->next = NULL;
 	add_node_back(&data->map_data->sprite_list, new);
 }
