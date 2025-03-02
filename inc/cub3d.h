@@ -82,7 +82,7 @@
 # define ID_DOOR 'D' //Door_id
 # define ID_CHEST 'Q' //Chest_id
 # define ID_KEY 'K' //Key_id
-# define ID_COIN 'C' //Coin_id
+# define ID_COIN 'I' //Coin_id
 # define ID_EXIT 'X' //Exit_id
 # define ID_MAP 'M' //Next Map_id
 

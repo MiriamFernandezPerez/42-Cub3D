@@ -8,11 +8,11 @@ D ./assets/textures/moriasdoor.xpm
 EXIT ./assets/sprites/chest2.xpm
 CHEST ./assets/sprites/chest2.xpm
 KEY ./assets/sprites/key128.xpm
-
+COIN ./assets/sprites/coin128.xpm
 
 
         1111111111111111111111111
-        1Q000000010Q010X000000001
+        1Q000000010Q010X000C00001
        11011000001000100000000001
       10000D0000011011000K00000W1
 111111101011010000000000000000001
