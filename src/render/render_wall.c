@@ -38,25 +38,24 @@ void	render_wall(int x, int *y, t_raycast *ray_data, t_data *data)
 	int			tex[2];
 	float		texture_vtx[2];
 	float		y_step;
-	t_texture	*texture;
+	t_texture	*txt;
 
 	if (ray_data->vtx_hit == HORZ)
 		texture_vtx[X] = fmod(ray_data->horz_hit[X], TILE_SIZE);
 	else
 		texture_vtx[X] = fmod(ray_data->vert_hit[Y], TILE_SIZE);
-	texture = get_wall_texture(ray_data, data);
-	texture_vtx[X] = (texture_vtx[X] / TILE_SIZE) * texture->width;
+	txt = get_wall_texture(ray_data, data);
+	texture_vtx[X] = (texture_vtx[X] / TILE_SIZE) * txt->width;
 	texture_vtx[Y] = 0.0f;
-	y_step = (float)texture->height / ray_data->wall_height;
+	y_step = (float)txt->height / ray_data->wall_height;
 	if (ray_data->wall_height >= HEIGHT)
 		texture_vtx[Y] = ((ray_data->wall_height - HEIGHT) / 2) * y_step;
 	while (*y >= ray_data->wall_y
 		&& *y <= ray_data->wall_y + ray_data->wall_height && *y < HEIGHT)
 	{
-		tex[Y] = (int)texture_vtx[Y] % texture->height;
-		tex[X] = fmod(texture_vtx[X], texture->width);
-		print_pixel_render(x, *y, get_texture_pixel(texture,
-				tex[X], tex[Y]), data);
+		tex[Y] = (int)texture_vtx[Y] % txt->height;
+		tex[X] = fmod(texture_vtx[X], txt->width);
+		print_pixel_render(x, *y, get_texture_pxl(txt, tex[X], tex[Y]), data);
 		texture_vtx[Y] += y_step;
 		render_sprite(x, *y, data);
 		(*y)++;

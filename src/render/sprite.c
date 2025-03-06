@@ -39,7 +39,6 @@ void	reset_sprite_visibility(t_map *map_data)
 	current = map_data->sprite_list;
 	while (current)
 	{
-		//current->is_visible = FALSE;
 		current->visible_horz = FALSE;
 		current->visible_vert = FALSE;
 		current->distance = 0.0;
@@ -57,7 +56,6 @@ void	set_sprite_visible(int grid[2], int intersection, t_data *data)
 	double		angle_diff;
 
 	sprite = get_sprite(grid, data);
-	//sprite->is_visible = TRUE;
 	if (intersection == HORZ)
 		sprite->visible_horz = TRUE;
 	else if (intersection == VERT)

@@ -23,11 +23,11 @@ void	render_ceil(int x, int *y, float hit[2], t_data *data)
 			* texture->width / TILE_SIZE) % texture->width;
 	txt_pixel[Y] = (int)(fabs(fmod(hit[Y], TILE_SIZE))
 			* texture->height / TILE_SIZE) % texture->height;
-	color = get_texture_pixel(texture, txt_pixel[X], txt_pixel[Y]);
+	color = get_texture_pxl(texture, txt_pixel[X], txt_pixel[Y]);
 	print_pixel_render(x, HEIGHT - *y + 1, color, data);
 }
 
-void	render_floor_item(int x, int *y, float hit[2], t_data *data)
+/*void	render_floor_item(int x, int *y, float hit[2], t_data *data)
 {
 	int			grid[2];
 	int			txt_pixel[2];
@@ -48,7 +48,7 @@ void	render_floor_item(int x, int *y, float hit[2], t_data *data)
 			* texture->height / TILE_SIZE) % texture->height;
 	color = get_texture_pixel(texture, txt_pixel[X], txt_pixel[Y]);
 	print_pixel_render(x, *y, color, data);
-}
+}*/
 
 void	render_floor(int x, int *y, float hit[2], t_data *data)
 {
@@ -61,7 +61,7 @@ void	render_floor(int x, int *y, float hit[2], t_data *data)
 			* texture->width / TILE_SIZE) % texture->width;
 	txt_pixel[Y] = (int)(fabs(fmod(hit[Y], TILE_SIZE))
 			* texture->height / TILE_SIZE) % texture->height;
-	color = get_texture_pixel(texture, txt_pixel[X], txt_pixel[Y]);
+	color = get_texture_pxl(texture, txt_pixel[X], txt_pixel[Y]);
 	print_pixel_render(x, *y, color, data);
 }
 

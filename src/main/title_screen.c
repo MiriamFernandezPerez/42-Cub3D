@@ -105,7 +105,6 @@ void	title_screen(t_title *title_data, t_data *data)
 	}
 	data->title_data->selected = 6;
 	render_fade_in(data);
-	//init_audio_start(data);
 	play_sound(TITLE_AUDIO, true, true, data);
 	mlx_loop_hook(data->mlx_data->mlx_ptr, title_loop, data);
 	mlx_hook(data->mlx_data->win_ptr, 2, 1L << 0, key_title, data);

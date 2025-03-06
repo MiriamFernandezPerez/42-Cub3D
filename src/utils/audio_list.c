@@ -68,13 +68,11 @@ void	add_audio_node(char id_audio, uint32_t bass_id, t_data *data)
 {
 	t_audio	*new;
 
-	printf("New audio node\n");
 	new = (t_audio *)malloc(sizeof(t_audio));
 	if (!new)
 		malloc_protection(new, data);
 	new->audio_id = id_audio;
 	new->bass_id = bass_id;
-	printf("bss_id: %d audio_id:%c\n", new->bass_id, new->audio_id);
 	new->next = NULL;
 	add_node_back(&data->audio_list, new);
 }

@@ -67,7 +67,6 @@ int	get_sprite_txt_color(int x, int y, t_sprite *sprite, t_data *data)
 	t_texture	*texture;
 
 	color = 0x000000;
-	//TODO dependiendo del tipo de sprite cogemos textura
 	if (sprite->subtype == T_KEY)
 		texture = get_texture(ID_KEY, data);
 	else if (sprite->subtype == T_CHEST)
@@ -84,7 +83,7 @@ int	get_sprite_txt_color(int x, int y, t_sprite *sprite, t_data *data)
 	txt[X] = fmod(txt[X], texture->width / sprite->txt_num);
 	txt[Y] = fmod(txt[Y], texture->height);
 	txt[X] = txt[X] + (sprite->frame * (texture->width / sprite->txt_num));
-	color = get_texture_pixel(texture, txt[X], txt[Y]);
+	color = get_texture_pxl(texture, txt[X], txt[Y]);
 	return (color);
 }
 

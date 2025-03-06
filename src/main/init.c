@@ -55,8 +55,6 @@ void	init_mlx(t_data *data)
 	data->mlx_data->img_addr = NULL;
 	data->mlx_data->redraw = 1;
 	data->mlx_data->mouse_pos = 0;
-	//mlx_hook(data->mlx_data->win_ptr, 2, 1L << 0, key_press, data);
-	//mlx_loop_hook(data->mlx_data->mlx_ptr, game_loop, data);
 	mlx_hook(data->mlx_data->win_ptr, 17, 0, close_window, data);
 	mlx_hook(data->mlx_data->win_ptr, 6, 1L << 6, mouse_handler, data);
 }
@@ -109,8 +107,8 @@ void	init_data(t_data **data)
 	(*data)->map_data = NULL;
 	(*data)->ray_data = NULL;
 	(*data)->mlx_data = NULL;
-	(*data)->cub_file = NULL;
 	(*data)->minimap_data = NULL;
+	(*data)->cub_file = NULL;
 	(*data)->title_data = NULL;
 	(*data)->audio_list = NULL;
 	(*data)->player = malloc(sizeof(t_player));

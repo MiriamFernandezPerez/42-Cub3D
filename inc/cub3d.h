@@ -31,9 +31,9 @@
 # include <X11/keysym.h>
 
 /*Constants*/
-# define WIDTH 1600
-# define HEIGHT 1000
-# define TILE_SIZE 64
+# define WIDTH 800 
+# define HEIGHT 500
+# define TILE_SIZE 32
 # define FOV 60
 # define PLAYER_SPEED 5
 # define EPSILON 0.0001
@@ -42,7 +42,7 @@
 # define ALPHA_COLOR 0x08ff00
 # define COLLISION_MARGIN 0.15
 # define SHADING 1 
-# define MAX_DISTANCE 1000
+# define SHADING_MAX_DISTANCE 500 
 # define DOOR_OPEN_DISTANCE TILE_SIZE * 2.5
 # define DOOR_CLOSE_DISTANCE TILE_SIZE * 4
 # define DOOR_OPEN_TIME 1.5
@@ -80,6 +80,8 @@
 # define COIN "COIN "
 # define VALID_TILES "01NSWEDXQKC "
 # define SPRITE_TILES "XQKC"
+# define INTERACTABLE_TILES "CKQX"
+# define COLLECTABLE_TILES "CQK"
 # define CROSSABLE_TILES "0DNSEWXLQC"
 
 /*id_cub_file_settings & textures ID*/
@@ -212,6 +214,7 @@ typedef struct s_player
 	int		pos[2];
 	int		coord[2];
 	double	angle;
+	int		exit_reached;
 }	t_player;
 
 /*Texture images*/
@@ -253,7 +256,6 @@ typedef struct s_sprite
 	int				txt_num;
 	int				frame;
 	unsigned long	last_frame_time;
-	//int				is_visible;
 	int				visible_horz;
 	int				visible_vert;
 	struct s_sprite	*next;
@@ -437,6 +439,9 @@ int			only_spaces(const char *str);
 int			calculate_angle(char **map, int x, int y);
 long		get_time();
 
+/*free_utils.c*/
+void		free_map(t_map *map_data, t_mlx *mlx_data);
+
 /*title_screen.c*/
 void		init_title(t_title *title_data);
 void 		title_screen(t_title *title_data, t_data *data);
@@ -474,6 +479,7 @@ void		add_sprite_node(t_sprite_type type, int subtype, int grid[2],
 			t_data *data);
 void		clear_sprite_list(t_sprite **sprite_list);
 t_sprite	*get_sprite(int grid[2], t_data *data);
+void		delete_sprite(t_sprite *sprite, t_data *data);
 
 /*raycast_manager.c*/
 void		raycast_manager(t_raycast *ray_data, t_data *data);
@@ -501,7 +507,7 @@ void		reset_sprite_visibility(t_map *map_data);
 void		set_sprite_visible(int grid[2], int intersection,  t_data *data);
 
 /*render_utils.c*/
-int			get_texture_pixel(t_texture *texture, int x, int y);
+int			get_texture_pxl(t_texture *texture, int x, int y);
 int			get_tile_type(int grid[2], t_map *map_data);
 void		get_grid_back_hit(int grid[2], t_raycast *ray_data);
 double		calculate_distance(double x1, double y1, double x2, double y2);

@@ -1,16 +1,21 @@
-NO ./sources/textures/3.xpm
-SO ./sources/textures/13wall_dark.xpm
-WE ./sources/textures/6dark.xpm
-EA ./sources/textures/11.xpm   
-F ./sources/textures/8darker.xpm
-C ./sources/textures/9darker.xpm
+NO ./assets/textures/3.xpm
+SO ./assets/textures/13wall_dark.xpm
+WE ./assets/textures/6dark.xpm
+EA ./assets/textures/11.xpm   
+F ./assets/textures/floor/13.xpm
+C ./assets/textures/floor/13dark.xpm
+D ./assets/textures/moriasdoor.xpm
+EXIT ./assets/sprites/chest2.xpm
+CHEST ./assets/sprites/chest2.xpm
+KEY ./assets/sprites/key128.xpm
+COIN ./assets/sprites/coin128.xpm
 
 11111
+10X01
+11D11
 10001
 10001
 10001
-10001
-11001
 10001
 10001
 10001

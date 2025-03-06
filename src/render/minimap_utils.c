@@ -32,7 +32,7 @@ int	is_angle_in_fov(double angle, t_data *data)
 	return (1);
 }
 
-int	get_floor_color(int x, int y, t_minimap *minimap_data, t_data *data)
+/*int	get_floor_color(int x, int y, t_minimap *minimap_data, t_data *data)
 {
 	double	world[2];
 	double	distance;
@@ -61,7 +61,7 @@ if (pixel_index < 0)
 	if (distance <= minimap_data->shortest_distances[pixel_index])
 		return (0xFFFFFF);
 	return (MINIMAP_FLOOR_COLOR);
-}
+}*/
 
 void	print_tile_pixel(int x, int y, int map_idx[2], t_data *data)
 {

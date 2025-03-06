@@ -12,8 +12,43 @@
 
 #include "../../inc/cub3d.h"
 
+void	take_collectable(int grid[2], t_data *data)
+{
+	t_sprite	*sprite;
+
+	sprite = get_sprite(grid, data);
+	printf("Collectable at [%d][%d] taked\n", grid[X], grid[Y]);
+	if (sprite)
+	{
+		delete_sprite(sprite, data);
+		data->map_data->map[grid[Y]][grid[X]] = TILE_FLOOR;
+	}
+}
+
+void	check_interactable(t_data *data)
+{
+	int	grid[2];
+	int	current_tile;
+
+	grid[X] = data->player->pos[X] / TILE_SIZE;
+	grid[Y] = data->player->pos[Y] / TILE_SIZE;
+	current_tile = get_tile_type(grid, data->map_data);
+	if (ft_strchr(INTERACTABLE_TILES, current_tile))
+	{
+		if (calculate_distance(data->player->pos[X], data->player->pos[Y],
+				(grid[X] + 0.5) * TILE_SIZE, (grid[Y] + 0.5) * TILE_SIZE)
+			<= TILE_SIZE / 1.5)
+		{
+			if (ft_strchr(COLLECTABLE_TILES, current_tile))
+				take_collectable(grid, data);
+			else if (TILE_EXIT == current_tile)
+				data->player->exit_reached = 1;
+		}
+	}
+}
+
 // Función que chequea si el personaje puede moverse a la nueva posición
-void	check_collision(double *delta, t_data *data)
+void	check_wall_collision(double *delta, t_data *data)
 {
 	int	grid[2];
 
@@ -64,9 +99,10 @@ void	move_player(int key_pressed, t_data *data)
 		delta[Y] = 0;
 	delta[X] = copysign(ceil(fabs(delta[X])), delta[X]);
 	delta[Y] = copysign(ceil(fabs(delta[Y])), delta[Y]);
-	check_collision(delta, data);
+	check_wall_collision(delta, data);
 	data->player->pos[X] += delta[X];
 	data->player->pos[Y] += delta[Y];
+	check_interactable(data);
 }
 
 // Evento de teclado para mover al jugador o cambiar el ángulo

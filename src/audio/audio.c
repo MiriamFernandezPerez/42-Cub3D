@@ -29,9 +29,9 @@ void	play_sound(char audio_id, bool play, bool loop, t_data *data)
 		BASS_ChannelPause(audio->bass_id);
 }
 
-void	stop_audio(char	audio_id, t_data *data)
+void	stop_audio(char audio_id, t_data *data)
 {
-	t_audio *audio;
+	t_audio	*audio;
 
 	audio = get_audio(audio_id, data);
 	if (!audio)
@@ -50,8 +50,6 @@ void	init_audio(t_data *data)
 		return (ft_error_exit(ERR_BASS, data));
 	add_audio_node(TITLE_AUDIO, BASS_StreamCreateFile(FALSE,
 			TITLE_PATH, 0, 0, 0), data);
-	/*add_audio_node(TITLE_AUDIO, BASS_StreamCreateFile(FALSE,
-			TITLE_PATH, 0, 0, 0), data);*/
 	audio = data->audio_list;
 	while (audio)
 	{
@@ -59,6 +57,4 @@ void	init_audio(t_data *data)
 			ft_error_exit(ERR_BASS_FILE, data);
 		audio = audio->next;
 	}
-	//printf("Audio handle %d\n", sound);
-	//printf("BASS inició correctamente\n");
 }

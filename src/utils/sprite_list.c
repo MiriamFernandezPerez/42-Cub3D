@@ -35,17 +35,6 @@ void	clear_sprite_list(t_sprite **sprite_list)
 	*sprite_list = NULL;
 }
 
-static t_sprite	*last_node(t_sprite *sprite_list)
-{
-	if (!sprite_list)
-		return (NULL);
-	while (sprite_list->next)
-	{
-		sprite_list = sprite_list->next;
-	}
-	return (sprite_list);
-}
-
 static void	add_node_back(t_sprite **sprite_list, t_sprite *new)
 {
 	t_sprite	*last;
@@ -58,9 +47,27 @@ static void	add_node_back(t_sprite **sprite_list, t_sprite *new)
 			*sprite_list = new;
 		else
 		{
-			last = last_node(*sprite_list);
+			last = *sprite_list;
+			while (last->next)
+				last = last->next;
 			last->next = new;
 		}
+	}
+}
+
+void	delete_sprite(t_sprite *sprite, t_data *data)
+{
+	t_sprite	**current;
+
+	current = &data->map_data->sprite_list;
+	while (*current && *current != sprite)
+	{
+		current = &(*current)->next;
+	}
+	if (*current == sprite)
+	{
+		*current = sprite->next;
+		free(sprite);
 	}
 }
 
@@ -83,7 +90,6 @@ void	add_sprite_node(t_sprite_type type, int subtype, int grid[2],
 	new->distance = 0.0;
 	new->frame = 0;
 	new->last_frame_time = get_time();
-	//TODO segun type/subtype num.texturas (animacion)
 	new->txt_num = 1;
 	if (subtype == T_KEY)
 		new->txt_num = 22;

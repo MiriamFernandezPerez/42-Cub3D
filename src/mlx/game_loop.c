@@ -21,7 +21,7 @@ void	update_sprites(t_data *data)
 	{
 		if (sprite->txt_num > 1)
 		{
-			if (get_time() - sprite->last_frame_time >= FRAME_DURATION) 
+			if (get_time() - sprite->last_frame_time >= FRAME_DURATION)
 			{
 				sprite->frame = (sprite->frame + 1) % sprite->txt_num;
 				sprite->last_frame_time = get_time();
@@ -75,19 +75,16 @@ void	check_doors(t_data *data)
 				data->player->pos[Y], curr_door->grid[X] * TILE_SIZE
 				+ (TILE_SIZE / 2), curr_door->grid[Y] * TILE_SIZE
 				+ (TILE_SIZE / 2));
-		if (curr_door->state == CLOSED && distance <= DOOR_OPEN_DISTANCE)
+		if ((curr_door->state == CLOSED && distance <= DOOR_OPEN_DISTANCE)
+			|| (curr_door->state == OPENED && distance > DOOR_CLOSE_DISTANCE))
 		{
-			curr_door->state = OPENING;
+			//play_sound(DOOR_AUDIO, true, false, data);
 			curr_door->timer = get_time();
 			data->mlx_data->redraw = 1;
-			//play_sound(DOOR_AUDIO, true, false, data);
-		}
-		else if (curr_door->state == OPENED && distance > DOOR_CLOSE_DISTANCE)
-		{
-			curr_door->state = CLOSING;
-			curr_door->timer = get_time();
-			data->mlx_data->redraw = 1;
-			//play_sound(DOOR_AUDIO, true, false, data);
+			if (curr_door->state == CLOSED)
+				curr_door->state = OPENING;
+			else
+				curr_door->state = CLOSING;
 		}
 		curr_door = curr_door->next;
 	}
@@ -115,14 +112,54 @@ void	redraw_scene(t_data *data)
 	print_player_info(data); //TEST
 }
 
+//TODO Añadir pantalla final
+void	finish_game(t_data *data)
+{
+	printf("Exit reached, no next level\n");
+	free_data(data);
+	exit(EXIT_SUCCESS);
+}
+
+void	reset_structs(t_data *data)
+{
+	free_map(data->map_data, data->mlx_data);
+	if (data->cub_file)
+		free_str_array(&data->cub_file);
+	data->cub_file = NULL;
+	data->map_data = malloc(sizeof(t_map));
+	malloc_protection(data->map_data, data);
+	init_map(data->map_data);
+}
+
 //Manages the game main loop
 int	game_loop(t_data *data)
 {
+	//TODO separar funcion load_next_map();
+	char	*next_map;
+
+	if (data->player->exit_reached)
+	{
+		if (data->map_data->next_map)
+		{
+			next_map = ft_strdup(data->map_data->next_map);
+			reset_structs(data);
+			if (open_cub_file(next_map, data) == EXIT_FAILURE)
+			{
+				free(next_map);
+				return (free_data(data), EXIT_FAILURE);
+			}
+			free(next_map);
+			init_textures(data->map_data->txt_list, data->mlx_data, data);
+			data->mlx_data->redraw = 1;
+		}
+		else
+			finish_game(data);
+		data->player->exit_reached = 0;
+	}
 	check_doors(data);
 	update_doors(data);
 	update_sprites(data);
 	if (data->mlx_data->redraw)
 		redraw_scene(data);
-	
 	return (0);
 }
