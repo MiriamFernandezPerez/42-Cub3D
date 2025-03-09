@@ -19,7 +19,7 @@ void	update_sprites(t_data *data)
 	sprite = data->map_data->sprite_list;
 	while (sprite)
 	{
-		if (sprite->txt_num > 1)
+		if (sprite->txt_num > 1) //TODO añadir solo si sprite visible?
 		{
 			if (get_time() - sprite->last_frame_time >= FRAME_DURATION)
 			{
@@ -101,6 +101,7 @@ void	redraw_scene(t_data *data)
 			&(data->mlx_data->line_len), &(data->mlx_data->endian));
 	raycast_manager(data->ray_data, data);
 	create_minimap(data->minimap_data, data->mlx_data, data);
+	print_ui(data);
 	data->mlx_data->redraw = 0;
 	mlx_put_image_to_window(data->mlx_data->mlx_ptr,
 		data->mlx_data->win_ptr, new_img_ptr, 0, 0);
@@ -109,52 +110,16 @@ void	redraw_scene(t_data *data)
 	data->mlx_data->img_ptr = new_img_ptr;
 	data->mlx_data->img_addr = data->mlx_data->new_img_addr;
 	data->mlx_data->new_img_addr = NULL;
-	print_player_info(data); //TEST
-}
-
-//TODO Añadir pantalla final
-void	finish_game(t_data *data)
-{
-	printf("Exit reached, no next level\n");
-	free_data(data);
-	exit(EXIT_SUCCESS);
-}
-
-void	reset_structs(t_data *data)
-{
-	free_map(data->map_data, data->mlx_data);
-	if (data->cub_file)
-		free_str_array(&data->cub_file);
-	data->cub_file = NULL;
-	data->map_data = malloc(sizeof(t_map));
-	malloc_protection(data->map_data, data);
-	init_map(data->map_data);
+	//print_player_info(data); //TEST
 }
 
 //Manages the game main loop
 int	game_loop(t_data *data)
 {
-	//TODO separar funcion load_next_map();
-	char	*next_map;
-
 	if (data->player->exit_reached)
 	{
-		if (data->map_data->next_map)
-		{
-			next_map = ft_strdup(data->map_data->next_map);
-			reset_structs(data);
-			if (open_cub_file(next_map, data) == EXIT_FAILURE)
-			{
-				free(next_map);
-				return (free_data(data), EXIT_FAILURE);
-			}
-			free(next_map);
-			init_textures(data->map_data->txt_list, data->mlx_data, data);
-			data->mlx_data->redraw = 1;
-		}
-		else
-			finish_game(data);
-		data->player->exit_reached = 0;
+		if (load_next_map(data) == EXIT_FAILURE)
+			return (free_data(data), EXIT_FAILURE);
 	}
 	check_doors(data);
 	update_doors(data);

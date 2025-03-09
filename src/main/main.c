@@ -36,6 +36,7 @@ int	main(int ac, char **av)
 	init_mlx(data);
 	init_audio(data);
 	title_screen(data->title_data, data);
+	add_ui_textures(data);
 	init_textures(data->map_data->txt_list, data->mlx_data, data);
 	data->player->exit_reached = 0;
 	mlx_loop(data->mlx_data->mlx_ptr);

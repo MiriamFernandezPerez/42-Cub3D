@@ -71,6 +71,11 @@ void	init_map(t_map *map_data)
 	map_data->floor_tiles_found = 0;
 	map_data->exit_qt = 0;
 	map_data->key_qt = 0;
+	map_data->key_found = FALSE;
+	map_data->chest_qt = 0;
+	map_data->chest_found = 0;
+	map_data->coin_qt = 0;
+	map_data->coin_found = 0;
 	map_data->txt_list = NULL;
 	map_data->door_list = NULL;
 	map_data->sprite_list = NULL;
@@ -78,8 +83,8 @@ void	init_map(t_map *map_data)
 
 void	init_minimap_data(t_minimap *minimap_data)
 {
-	minimap_data->size[X] = WIDTH * 0.2;
-	minimap_data->size[Y] = HEIGHT * 0.2;
+	minimap_data->size[X] = WIDTH * MINIMAP_WIDTH;
+	minimap_data->size[Y] = HEIGHT * MINIMAP_HEIGHT;
 	minimap_data->margin[X] = WIDTH * MINIMAP_MARGIN;
 	minimap_data->margin[Y] = HEIGHT * MINIMAP_MARGIN;
 	minimap_data->tile_size = minimap_data->size[Y] / TILES_VERTICAL;

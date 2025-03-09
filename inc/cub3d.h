@@ -31,8 +31,8 @@
 # include <X11/keysym.h>
 
 /*Constants*/
-# define WIDTH 800 
-# define HEIGHT 500
+# define WIDTH 1600
+# define HEIGHT 1000
 # define TILE_SIZE 32
 # define FOV 60
 # define PLAYER_SPEED 5
@@ -285,6 +285,11 @@ typedef struct s_map
 	int			floor_tiles_found;
 	int			exit_qt;
 	int			key_qt;
+	int			key_found;
+	int			chest_qt;
+	int			chest_found;
+	int			coin_qt;
+	int			coin_found;
 	char		*next_map;
 	t_texture	*txt_list;
 	t_door		*door_list;
@@ -394,11 +399,12 @@ int			parse_line(t_data *data, char *line);
 void		parse_cub_file(t_data *data, char **cub_file);
 
 /*parse_map.c*/
-void		validate_extras(t_data *data, char **map);
-int			check_tiles_between_door(char **map, int y, int x, t_data *data);
-void		validate_map_border(t_data *data, t_map *map_data, char **map);
 void		normalize_map(t_data *data, char **map);
 void		parse_map(t_data *data, char **map_line);
+
+/*validate.c*/
+void		validate_extras(t_data *data, char **map);
+void		validate_map_border(t_data *data, t_map *map_data, char **map);
 
 /*validate_tiles.c*/
 int			check_tiles_between_exit(char **map, int y, int x);
@@ -520,6 +526,10 @@ void		create_minimap(t_minimap *minimap_data, t_mlx *mlx_data,
 void		print_tile_pixel(int x, int y, int map_idx[2], t_data *data);
 void		print_triangle(int v[3][2], int color, t_mlx *mlx_data);
 
+/*ui.c*/
+void		print_ui(t_data *data);
+void		add_ui_textures(t_data *data);
+
 /*mlx.c*/
 int			key_press(int keycode, t_data *data);
 int			key_release(int keycode, t_data *data);
@@ -527,6 +537,9 @@ int			close_window(t_data *data);
 
 /*game_loop.c*/
 int			game_loop(t_data *data);
+
+/*next_map.c*/
+int			load_next_map(t_data *data);
 
 /*mlx_print.c*/
 void		print_pixel_render(int x, int y, int color, t_data *data);
