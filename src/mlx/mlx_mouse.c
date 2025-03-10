@@ -25,7 +25,8 @@
 // vuelta completa 360º y si es mayor que 2π lo multiplico en negativo
 int	mouse_handler(int x, int y, t_data *data)
 {
-	int	delta_x;
+	int		delta_x;
+	float	ratio;
 
 	(void)y;
 	delta_x = 0;
@@ -34,7 +35,8 @@ int	mouse_handler(int x, int y, t_data *data)
 		data->mlx_data->mouse_pos = 0;
 		return (0);
 	}
-	delta_x = x - (WIDTH / 2);
+	ratio = (float)WIDTH / 800.0f;
+	delta_x = (x - (WIDTH / 2)) / ratio;
 	if (delta_x != 0)
 	{
 		data->player->angle -= delta_x * ROTATION_SPEED;
