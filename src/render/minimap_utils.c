@@ -32,37 +32,6 @@ int	is_angle_in_fov(double angle, t_data *data)
 	return (1);
 }
 
-/*int	get_floor_color(int x, int y, t_minimap *minimap_data, t_data *data)
-{
-	double	world[2];
-	double	distance;
-	double	angle_to_point;
-	int		pixel_index;
-
-	world[X] = ((data->player->pos[X] - (minimap_data->tiles_horz / 2.0) * TILE_SIZE) + ((x - (minimap_data->start[X] + 1)) * minimap_data->scale));
-	world[Y] = ((data->player->pos[Y] - (TILES_VERTICAL / 2.0) * TILE_SIZE) + ((y - (minimap_data->start[Y] + 1)) * minimap_data->scale));
-	//printf("world x:%f y:%f\n", world[X], world[Y]);
-	distance = calculate_distance(data->player->pos[X], data->player->pos[Y],
-		world[X], world[Y]);
-	angle_to_point = atan2(world[Y] - data->player->pos[Y], world[X] - data->player->pos[X]) * (180.0 / M_PI);
-	if (angle_to_point < 0)
-    angle_to_point += 360.0;  // Asegura que el ángulo esté en [0, 360]
-	//Comprobar si el angulo está dentro del fov del player
-	if (!is_angle_in_fov(angle_to_point, data))
-		return (MINIMAP_FLOOR_COLOR);
-	pixel_index = (int)((angle_to_point - (data->player->angle - (FOV / 2))) / FOV * WIDTH);
-if (pixel_index < 0)
-		pixel_index += WIDTH;
-	else if (pixel_index >= WIDTH)
-		pixel_index = WIDTH - 1;
-	//printf("distance:%f\n", distance);i
-	//printf("distance X=%d  :%f\n", pixel_index, minimap_data->shortest_distances[pixel_index]);
-	//printf("pixel index: %d\n", pixel_index);
-	if (distance <= minimap_data->shortest_distances[pixel_index])
-		return (0xFFFFFF);
-	return (MINIMAP_FLOOR_COLOR);
-}*/
-
 void	print_tile_pixel(int x, int y, int map_idx[2], t_data *data)
 {
 	int	color;

@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   mlx_mouse.c                                        :+:      :+:    :+:   */
+/*   mlx_input.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mirifern <mirifern@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -45,4 +45,36 @@ int	mouse_handler(int x, int y, t_data *data)
 	mlx_mouse_move(data->mlx_data->mlx_ptr, data->mlx_data->win_ptr,
 		WIDTH / 2, HEIGHT / 2);
 	return (0);
+}
+
+// Evento de teclado para mover al jugador o cambiar el ángulo
+int	key_press(int keycode, t_data *data)
+{
+	if (keycode == KEY_ESC)
+	{
+		free_data(data);
+		exit(EXIT_SUCCESS);
+	}
+	else if (keycode == KEY_LEFT)
+		data->player->angle += 5;
+	else if (keycode == KEY_RIGHT)
+		data->player->angle -= 5;
+	else if (keycode == KEY_W)
+		move_player(KEY_W, data);
+	else if (keycode == KEY_S)
+		move_player(KEY_S, data);
+	else if (keycode == KEY_A)
+		move_player(KEY_A, data);
+	else if (keycode == KEY_D)
+		move_player(KEY_D, data);
+	data->player->angle = normalize_angle(data->player->angle);
+	data->mlx_data->redraw = 1;
+	return (0);
+}
+
+int	close_window(t_data *data)
+{
+	free_data(data);
+	exit(EXIT_SUCCESS);
+	return (EXIT_SUCCESS);
 }

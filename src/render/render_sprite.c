@@ -105,7 +105,7 @@ void	render_sprite(int x, int y, t_data *data)
 			if (y >= curr->start[Y] && y <= curr->start[Y] + curr->size[Y])
 			{
 				color = get_sprite_txt_color(x, y, curr, data);
-				print_pixel_sprite(screen, color, *curr, data);
+				print_sprite_pxl(screen, color, *curr, data);
 			}
 		}
 		curr = get_closer_sprite(curr, data);

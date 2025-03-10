@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   mlx.c                                              :+:      :+:    :+:   */
+/*   player.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: igarcia2 <igarcia2@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -103,36 +103,4 @@ void	move_player(int key_pressed, t_data *data)
 	data->player->pos[X] += delta[X];
 	data->player->pos[Y] += delta[Y];
 	check_interactable(data);
-}
-
-// Evento de teclado para mover al jugador o cambiar el ángulo
-int	key_press(int keycode, t_data *data)
-{
-	if (keycode == KEY_ESC)
-	{
-		free_data(data);
-		exit(EXIT_SUCCESS);
-	}
-	else if (keycode == KEY_LEFT)
-		data->player->angle += 5;
-	else if (keycode == KEY_RIGHT)
-		data->player->angle -= 5;
-	else if (keycode == KEY_W)
-		move_player(KEY_W, data);
-	else if (keycode == KEY_S)
-		move_player(KEY_S, data);
-	else if (keycode == KEY_A)
-		move_player(KEY_A, data);
-	else if (keycode == KEY_D)
-		move_player(KEY_D, data);
-	data->player->angle = normalize_angle(data->player->angle);
-	data->mlx_data->redraw = 1;
-	return (0);
-}
-
-int	close_window(t_data *data)
-{
-	free_data(data);
-	exit(EXIT_SUCCESS);
-	return (EXIT_SUCCESS);
 }

@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   door.c                                             :+:      :+:    :+:   */
+/*   hit_door.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: igarcia2 <igarcia2@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -11,35 +11,6 @@
 /* ************************************************************************** */
 
 #include "../../inc/cub3d.h"
-
-void	render_door(int x, int *y, t_raycast *ray_data, t_data *data)
-{
-	float		txt_vtx[2];
-	float		y_step;
-	t_texture	*texture;
-
-	if (ray_data->vtx_hit == HORZ)
-		txt_vtx[X] = fmod(
-				ray_data->horz_hit[X] - ray_data->door->offset, TILE_SIZE);
-	else
-		txt_vtx[X] = fmod(
-				ray_data->vert_hit[Y] - ray_data->door->offset, TILE_SIZE);
-	texture = get_texture(ID_DOOR, data);
-	txt_vtx[X] = (txt_vtx[X] / TILE_SIZE) * texture->width;
-	txt_vtx[Y] = 0.0f;
-	y_step = (float)texture->height / ray_data->wall_height;
-	if (ray_data->wall_height >= HEIGHT)
-		txt_vtx[Y] = ((ray_data->wall_height - HEIGHT) / 2) * y_step;
-	while (*y >= ray_data->wall_y
-		&& *y <= ray_data->wall_y + ray_data->wall_height && *y < HEIGHT)
-	{
-		print_pixel_render(x, *y, get_texture_pxl(texture, fmod(txt_vtx[X],
-					texture->width), (int)txt_vtx[Y] % texture->height), data);
-		txt_vtx[Y] += y_step;
-		render_sprite(x, *y, data);
-		(*y)++;
-	}
-}
 
 int	is_door_hit(t_raycast *ray_data, t_data *data)
 {

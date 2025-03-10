@@ -31,8 +31,8 @@
 # include <X11/keysym.h>
 
 /*Constants*/
-# define WIDTH 1600
-# define HEIGHT 1000
+# define WIDTH 800
+# define HEIGHT 500
 # define TILE_SIZE 32
 # define FOV 60
 # define PLAYER_SPEED 5
@@ -43,8 +43,6 @@
 # define COLLISION_MARGIN 0.15
 # define SHADING 1 
 # define SHADING_MAX_DISTANCE 500 
-# define DOOR_OPEN_DISTANCE TILE_SIZE * 2.5
-# define DOOR_CLOSE_DISTANCE TILE_SIZE * 4
 # define DOOR_OPEN_TIME 1.5
 # define TITLE_IMAGES 8
 # define FRAME_DURATION 100
@@ -261,7 +259,6 @@ typedef struct s_sprite
 	struct s_sprite	*next;
 }	t_sprite;
 
-
 /*Door data*/
 typedef struct s_door
 {
@@ -330,11 +327,11 @@ typedef struct s_minimap
 /*Title screen*/
 typedef struct s_title
 {
-    t_img   imgs[TITLE_IMAGES];
+	t_img	imgs[TITLE_IMAGES];
 	char	*paths[TITLE_IMAGES];
-	int		blink; 
+	int		blink;
 	int		selected;
-}   t_title;
+}	t_title;
 
 /*Mlx*/
 typedef struct s_mlx
@@ -352,17 +349,13 @@ typedef struct s_mlx
 	int		mouse_pos;
 }	t_mlx;
 
-
-
-
 /*Audio*/
 typedef struct s_audio
 {
 	uint32_t		bass_id;
 	int				audio_id;
 	struct s_audio	*next;
-} 	t_audio;
-
+}	t_audio;
 
 /*Cub3d*/
 typedef struct s_data
@@ -386,6 +379,10 @@ void		init_minimap_data(t_minimap *minimap_data);
 void		init_map(t_map *map_data);
 void		init_mlx(t_data *data);
 void		init_textures(t_texture *txt_data, t_mlx *mlx_data,	t_data *data);
+
+/*title_screen.c*/
+void		init_title(t_title *title_data);
+void		title_screen(t_title *title_data, t_data *data);
 
 /*open_file.c*/
 void		try_open_path(t_data *data, char *path);
@@ -423,6 +420,8 @@ void		check_exit_sprite(char *path, t_data *data, int id);
 /*flood_fill.c*/
 void		validate_map_route(t_data *data);
 
+//------UTILS------//
+
 /*error.c*/
 void		ft_error_exit(char *msg, t_data *data);
 void		ft_error(char *msg);
@@ -439,23 +438,24 @@ void		destroy_mlx(t_data *data);
 
 /*utils.c*/
 void		malloc_protection(void *ptr, t_data *data);
-double		deg_to_rad(double degrees);
-double		normalize_angle(double angle);
+
 int			only_spaces(const char *str);
-int			calculate_angle(char **map, int x, int y);
-long		get_time();
+long		get_time(void);
 
 /*free_utils.c*/
 void		free_map(t_map *map_data, t_mlx *mlx_data);
 
-/*title_screen.c*/
-void		init_title(t_title *title_data);
-void 		title_screen(t_title *title_data, t_data *data);
+/*angle_utils.c*/
+
+double		deg_to_rad(double degrees);
+double		normalize_angle(double angle);
+int			calculate_angle(char **map, int x, int y);
 
 /*image_utils.c*/
 t_img		create_new_img(int width, int height, t_data *data);
 void		load_xpm_image(t_img *img, char *path, t_data *data);
-void		scale_image(t_img *img, int new_width, int new_height, t_data *data);
+void		scale_image(t_img *img, int new_width, int new_height,
+				t_data *data);
 
 /*test_utils.c*/
 void		print_str_array(char **str_array);
@@ -482,10 +482,12 @@ t_audio		*get_audio(char audio_id, t_data *data);
 
 /*sprite_list.c*/
 void		add_sprite_node(t_sprite_type type, int subtype, int grid[2],
-			t_data *data);
+				t_data *data);
 void		clear_sprite_list(t_sprite **sprite_list);
 t_sprite	*get_sprite(int grid[2], t_data *data);
 void		delete_sprite(t_sprite *sprite, t_data *data);
+
+//------RAYCAST------//
 
 /*raycast_manager.c*/
 void		raycast_manager(t_raycast *ray_data, t_data *data);
@@ -494,29 +496,36 @@ void		raycast_manager(t_raycast *ray_data, t_data *data);
 void		vert_hit(double alpha, t_player *player, t_data *data);
 void		horz_hit(double alpha, t_player *player, t_data *data);
 
+/*hit_door.c*/
+int			door_hit(t_door *door, double hit[2], double delta[2]);
+int			is_door_hit(t_raycast *ray_data, t_data *data);
+
+/*hit_sprite.c*/
+void		check_sprites_along_ray(t_raycast *ray_data, t_data *data);
+void		reset_sprite_visibility(t_map *map_data);
+void		set_sprite_visible(int grid[2], int intersection, t_data *data);
+
+/*raycast_utils.c*/
+int			get_tile_type(int grid[2], t_map *map_data);
+void		get_grid_back_hit(int grid[2], t_raycast *ray_data);
+double		calculate_distance(double x1, double y1, double x2, double y2);
+
+//--------RENDER-------//
+
 /*render_wall.c*/
 void		render_wall(int x, int *y, t_raycast *ray_data, t_data *data);
 
 /*render_ceil_floor.c*/
 void		render_ceil_floor(int x, int *y, t_data *data);
 
-/*door.c*/
-int			door_hit(t_door *door, double hit[2], double delta[2]);
-int			is_door_hit(t_raycast *ray_data, t_data *data);
+/*render_door.c*/
 void		render_door(int x, int *y, t_raycast *ray_data, t_data *data);
 
 /*render_sprite.c*/
 void		render_sprite(int x, int y, t_data *data);
 
-/*sprite.c*/
-void		reset_sprite_visibility(t_map *map_data);
-void		set_sprite_visible(int grid[2], int intersection,  t_data *data);
-
-/*render_utils.c*/
+/*render_texture.c*/
 int			get_texture_pxl(t_texture *texture, int x, int y);
-int			get_tile_type(int grid[2], t_map *map_data);
-void		get_grid_back_hit(int grid[2], t_raycast *ray_data);
-double		calculate_distance(double x1, double y1, double x2, double y2);
 
 /*minimap.c*/
 void		create_minimap(t_minimap *minimap_data, t_mlx *mlx_data,
@@ -530,10 +539,8 @@ void		print_triangle(int v[3][2], int color, t_mlx *mlx_data);
 void		print_ui(t_data *data);
 void		add_ui_textures(t_data *data);
 
-/*mlx.c*/
-int			key_press(int keycode, t_data *data);
-int			key_release(int keycode, t_data *data);
-int			close_window(t_data *data);
+/*player.c*/
+void		move_player(int key_pressed, t_data *data);
 
 /*game_loop.c*/
 int			game_loop(t_data *data);
@@ -543,15 +550,18 @@ int			load_next_map(t_data *data);
 
 /*mlx_print.c*/
 void		print_pixel_render(int x, int y, int color, t_data *data);
-void		print_pixel_sprite(int pos[2], int color, t_sprite sprite, t_data *data);
+void		print_sprite_pxl(int pos[2], int color, t_sprite sprite,
+				t_data *data);
 void		print_gui_pixel(int x, int y, int color, t_mlx *mlx_data);
 
-/*mlx_mouse*/
-int 		mouse_handler(int x, int y, t_data *data);
+/*mlx_input.c*/
+int			mouse_handler(int x, int y, t_data *data);
+int			key_press(int keycode, t_data *data);
+int			close_window(t_data *data);
 
 /*audio.c*/
-void	play_sound(char audio_id, bool play, bool loop, t_data *data);
-void	stop_audio(char audio_id, t_data *data);
-void	init_audio(t_data *data);
+void		play_sound(char audio_id, bool play, bool loop, t_data *data);
+void		stop_audio(char audio_id, t_data *data);
+void		init_audio(t_data *data);
 
 #endif

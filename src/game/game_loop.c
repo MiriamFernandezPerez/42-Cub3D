@@ -19,7 +19,7 @@ void	update_sprites(t_data *data)
 	sprite = data->map_data->sprite_list;
 	while (sprite)
 	{
-		if (sprite->txt_num > 1) //TODO añadir solo si sprite visible?
+		if (sprite->txt_num > 1)
 		{
 			if (get_time() - sprite->last_frame_time >= FRAME_DURATION)
 			{
@@ -75,10 +75,10 @@ void	check_doors(t_data *data)
 				data->player->pos[Y], curr_door->grid[X] * TILE_SIZE
 				+ (TILE_SIZE / 2), curr_door->grid[Y] * TILE_SIZE
 				+ (TILE_SIZE / 2));
-		if ((curr_door->state == CLOSED && distance <= DOOR_OPEN_DISTANCE)
-			|| (curr_door->state == OPENED && distance > DOOR_CLOSE_DISTANCE))
+		if ((curr_door->state == CLOSED && distance <= TILE_SIZE * 2.5)
+			|| (curr_door->state == OPENED && distance > TILE_SIZE * 4))
 		{
-			//play_sound(DOOR_AUDIO, true, false, data);
+			play_sound(DOOR_AUDIO, true, false, data);
 			curr_door->timer = get_time();
 			data->mlx_data->redraw = 1;
 			if (curr_door->state == CLOSED)
@@ -110,7 +110,6 @@ void	redraw_scene(t_data *data)
 	data->mlx_data->img_ptr = new_img_ptr;
 	data->mlx_data->img_addr = data->mlx_data->new_img_addr;
 	data->mlx_data->new_img_addr = NULL;
-	//print_player_info(data); //TEST
 }
 
 //Manages the game main loop

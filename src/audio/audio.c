@@ -24,7 +24,12 @@ void	play_sound(char audio_id, bool play, bool loop, t_data *data)
 	if (loop)
 		BASS_ChannelFlags(audio->bass_id, BASS_SAMPLE_LOOP, BASS_SAMPLE_LOOP);
 	if (play)
-		BASS_ChannelPlay(audio->bass_id, 0);
+	{
+		/*if (audio_id == DOOR_AUDIO)
+			BASS_ChannelPlay(BASS_SampleGetChannel(audio->bass_id, FALSE), 0);
+		else*/
+			BASS_ChannelPlay(audio->bass_id, FALSE);
+	}
 	else
 		BASS_ChannelPause(audio->bass_id);
 }
@@ -50,6 +55,8 @@ void	init_audio(t_data *data)
 		return (ft_error_exit(ERR_BASS, data));
 	add_audio_node(TITLE_AUDIO, BASS_StreamCreateFile(FALSE,
 			TITLE_PATH, 0, 0, 0), data);
+	/*add_audio_node(DOOR_AUDIO, BASS_SampleLoad(
+			FALSE, DOOR_PATH, 0, 0, 3, BASS_SAMPLE_OVER_VOL), data);*/
 	audio = data->audio_list;
 	while (audio)
 	{

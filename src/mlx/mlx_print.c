@@ -50,7 +50,7 @@ void	print_gui_pixel(int x, int y, int color, t_mlx *mlx_data)
 		mlx_data->new_img_addr[pixel + 3] = (color >> 24);
 }
 
-void	print_pixel_sprite(int pos[2], int color, t_sprite sprite, t_data *data)
+void	print_sprite_pxl(int pos[2], int color, t_sprite sprite, t_data *data)
 {
 	int			pixel;
 	float		intensity;
