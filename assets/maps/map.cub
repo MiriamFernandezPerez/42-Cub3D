@@ -5,7 +5,7 @@ EA ./assets/textures/11.xpm
 F ./assets/textures/floor/13.xpm
 C ./assets/textures/floor/13dark.xpm
 D ./assets/textures/moriasdoor.xpm
-EXIT ./assets/sprites/chest2.xpm
+EXIT ./assets/sprites/spring_exit.xpm
 CHEST ./assets/sprites/chest2.xpm
 KEY ./assets/sprites/key128.xpm
 COIN ./assets/sprites/coin128.xpm

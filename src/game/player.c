@@ -17,9 +17,14 @@ void	take_collectable(int grid[2], t_data *data)
 	t_sprite	*sprite;
 
 	sprite = get_sprite(grid, data);
-	printf("Collectable at [%d][%d] taked\n", grid[X], grid[Y]);
 	if (sprite)
 	{
+		if (sprite->subtype == T_CHEST)
+			data->map_data->chest_found++;
+		else if (sprite->subtype == T_COIN)
+			data->map_data->coin_found++;
+		else if (sprite->subtype == T_KEY)
+			data->map_data->key_found++;
 		delete_sprite(sprite, data);
 		data->map_data->map[grid[Y]][grid[X]] = TILE_FLOOR;
 	}

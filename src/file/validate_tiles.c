@@ -27,7 +27,7 @@ void	validate_exit(t_data *data, char **map, int *grid)
 	else
 	{
 		data->map_data->exit_qt++;
-		add_sprite_node(COLLECTABLE, 0, grid, data); //Añadida la salida como sprite a falta de decidir si sera un sprite o una puerta 
+		add_sprite_node(DECORATION, -1, grid, data); //Añadida la salida como sprite a falta de decidir si sera un sprite o una puerta 
 	}
 	if (data->map_data->exit_qt > 1)
 		ft_error_exit(ERR_EXIT, data);	
