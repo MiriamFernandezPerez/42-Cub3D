@@ -1,15 +1,14 @@
-NO ./assets/textures/spring_2.xpm
-SO ./assets/textures/spring_2.xpm
-WE ./assets/textures/spring_2_dark.xpm
-EA ./assets/textures/spring_2_dark.xpm
-F ./assets/textures/floor/spring.xpm
-C ./assets/textures/ceil/spring.xpm
+NO ./assets/textures/autumn.xpm
+SO ./assets/textures/autumn.xpm
+WE ./assets/textures/autumn_dark.xpm
+EA ./assets/textures/autumn_dark.xpm
+F ./assets/textures/floor/8dark.xpm
+C ./assets/textures/ceil/autumn.xpm
 D ./assets/textures/moriasdoor.xpm
-EXIT ./assets/sprites/spring_exit.xpm
+EXIT ./assets/sprites/autumn_exit.xpm
 CHEST ./assets/sprites/chest2.xpm
 KEY ./assets/sprites/key128.xpm
 COIN ./assets/sprites/coin128.xpm
-NEXT ./assets/maps/map2.cub
 
 
         1111111111111111111111111

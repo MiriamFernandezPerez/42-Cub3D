@@ -100,5 +100,6 @@ void	render_ceil_floor(int x, int *y, t_data *data)
 		print_pixel_render(x, HEIGHT - *y + 1, data->map_data->ceiling_color,
 			data);
 	render_sprite(x, *y, data);
+	render_sprite(x, HEIGHT - *y + 1, data);
 	(*y)++;
 }

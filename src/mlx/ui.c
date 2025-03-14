@@ -56,7 +56,7 @@ void	print_ui_sprite(int pos[2], int txt_id, t_data *data)
 	int			color;
 	t_texture	*texture;
 
-	sprite_size = WIDTH * 0.03;
+	sprite_size = ceil(data->minimap_data->size[X] / 10);
 	texture = get_texture(txt_id, data);
 	i[Y] = pos[Y];
 	while (i[Y] < pos[Y] + sprite_size)
@@ -101,29 +101,29 @@ void	print_num_sprite(int pos[2], int num, t_data *data)
 		print_ui_sprite(pos, ID_DIGIT_8_UI, data);
 	else if (num == 9)
 		print_ui_sprite(pos, ID_DIGIT_9_UI, data);	
-	pos[X] -= (WIDTH * 0.03) / 3;
+	pos[X] -= (data->minimap_data->size[X] / 10) / 2;
 }
 
 void	print_ui(t_data *data)
 {
 	int	pos[2];
 
-	pos[X] = WIDTH * MINIMAP_MARGIN;
-	pos[Y] = HEIGHT * MINIMAP_MARGIN;
+	pos[X] = data->minimap_data->start[X];
+	pos[Y] = data->minimap_data->start[Y] + data->minimap_data->size[Y] * 1.02;
 	//TODO print chest found
 	print_ui_sprite(pos, ID_CHEST_UI, data);
 	print_num_sprite(pos, data->map_data->chest_found, data); //CHESTS FOUND
 	print_ui_sprite(pos, ID_BAR_UI, data); //TODO BAR
-	pos[X] -= (WIDTH * 0.03) / 3;
+	pos[X] -= (data->minimap_data->size[X] / 10) / 2;
 	print_num_sprite(pos, data->map_data->chest_qt, data); //TOTAL CHEST
-	pos[X] += WIDTH * 0.03;
+	pos[X] += (data->minimap_data->size[X] / 10) * 0.8;
 	//TODO Print coin found
 	print_ui_sprite(pos, ID_COIN_UI, data);
 	print_num_sprite(pos, data->map_data->coin_found, data); //CHESTS FOUND
 	print_ui_sprite(pos, ID_BAR_UI, data); //TODO BAR
-	pos[X] -= (WIDTH * 0.03) / 3;
+	pos[X] -= (data->minimap_data->size[X] / 10) / 2;
 	print_num_sprite(pos, data->map_data->coin_qt, data); //TOTAL CHEST
-	pos[X] += WIDTH * 0.03 * 2;
+	pos[X] += (data->minimap_data->size[X] / 10) * 1.2;
 	//TODO print KEY
 	if (data->map_data->key_qt == 1 && data->map_data->key_found)
 		print_ui_sprite(pos, ID_KEY_UI, data);
