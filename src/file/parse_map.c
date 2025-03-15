@@ -22,9 +22,7 @@ void	normalize_map(t_data *data, char **map)
 	while (map[i])
 	{
 		len = (int)ft_strlen(map[i]);
-		if (len == data->map_data->max_width)
-			i++;
-		else
+		if (len != data->map_data->max_width)
 		{
 			new_row = malloc(data->map_data->max_width + 1);
 			malloc_protection(new_row, data);

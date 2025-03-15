@@ -28,6 +28,7 @@ void	reset_map_data(t_data *data)
 	data->cub_file = NULL;
 	data->map_data = malloc(sizeof(t_map));
 	malloc_protection(data->map_data, data);
+	printf("NEW MAP\n");
 	init_map(data->map_data);
 }
 

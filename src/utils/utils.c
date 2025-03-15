@@ -12,6 +12,20 @@
 
 #include "../../inc/cub3d.h"
 
+int	door_type(char **map, int y, int x)
+{
+	if (map[y][x] == TILE_DOOR)
+		return (0);
+	else if (map[y][x] == TILE_LOCKED_DOOR)
+		return (1);
+	return (-1);
+}
+
+int	is_crossable(char tile)
+{
+	return (ft_strchr(CROSSABLE_TILES, tile) != NULL);
+}
+
 void	malloc_protection(void *ptr, t_data *data)
 {
 	if (ptr == NULL)

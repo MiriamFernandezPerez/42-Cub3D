@@ -64,7 +64,7 @@ static void	add_node_back(t_door **door_list, t_door *new)
 	}
 }
 
-void	add_door_node(int grid[2], int orient, t_data *data)
+void	add_door_node(int grid[2], int orient, int locked, t_data *data)
 {
 	t_door	*new;
 
@@ -75,6 +75,7 @@ void	add_door_node(int grid[2], int orient, t_data *data)
 	new->grid[Y] = grid[Y];
 	new->state = CLOSED;
 	new->orient = orient;
+	new->is_locked = locked;
 	new->next = NULL;
 	add_node_back(&data->map_data->door_list, new);
 }

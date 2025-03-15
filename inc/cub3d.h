@@ -76,11 +76,11 @@
 # define CHEST "CHEST "
 # define KEY "KEY " 
 # define COIN "COIN "
-# define VALID_TILES "01NSWEDXQKC "
+# define VALID_TILES "01NSWEDXQKCP "
 # define SPRITE_TILES "XQKC"
 # define INTERACTABLE_TILES "CKQX"
 # define COLLECTABLE_TILES "CQK"
-# define CROSSABLE_TILES "0DNSEWXLQC"
+# define CROSSABLE_TILES "0DNSEWXLQCP"
 
 /*id_cub_file_settings & textures ID*/
 # define ID_NORTH 'N'
@@ -131,7 +131,9 @@
 # define ERR_NO_EXIT "Error\nPlayer can't access to the exit\n"
 # define ERR_DOOR "Error\nInvalid door at map\n"
 # define ERR_NO_COLLECT "Error\nPlayer can't access to all the collectibles\n"
-# define ERR_KEY "Error\nPlayer can't access to all the key\n"
+# define ERR_KEY "Error\nPlayer can't access to the key\n"
+# define ERR_CHEST "Error\nPlayer can't access to all the chests\n"
+# define ERR_COIN "Error\nPlayer can't access to all the coins\n"
 # define ERR_KET_QT "Error\nMap must have one key exit as a maximun\n"
 # define ERR_BORDER "Error\nThe map must be closed/surrounded by walls\n"
 # define ERR_SOLUT "Error\nInvalid Map, player can't visit all the spaces\n"
@@ -178,6 +180,7 @@ typedef enum e_tile_type
 	TILE_W = 'W',
 	TILE_S = 'S',
 	TILE_DOOR = 'D',
+	TILE_LOCKED_DOOR = 'P',
 	TILE_EXIT = 'X',
 	TILE_CHEST = 'Q',
 	TILE_KEY = 'K',
@@ -267,6 +270,7 @@ typedef struct s_door
 	t_door_state	state;
 	float			offset;
 	double			timer;
+	int				is_locked;
 	struct s_door	*next;
 }	t_door;
 
@@ -437,6 +441,8 @@ void		free_str_array(char ***str_array);
 void		destroy_mlx(t_data *data);
 
 /*utils.c*/
+int			door_type(char **map, int y, int x);
+int			is_crossable(char tile);
 void		malloc_protection(void *ptr, t_data *data);
 
 int			only_spaces(const char *str);
@@ -471,7 +477,7 @@ void		clear_txt_list(t_texture **txt_list, t_mlx *mlx_data);
 t_texture	*get_texture(char id_txt, t_data *data);
 
 /*door_list.c*/
-void		add_door_node(int grid[2], int orient, t_data *data);
+void		add_door_node(int grid[2], int orient, int locked, t_data *data);
 void		clear_door_list(t_door **door_list);
 t_door		*get_door(int grid[2], t_data *data);
 

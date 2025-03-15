@@ -15,27 +15,29 @@
 int	validate_door(char **map, int y, int x, t_data *data)
 {
 	int	grid[2];
+	int	locked;
 
 	grid[X] = x;
 	grid[Y] = y;
-	if (y > 0 && map[y - 1] && x >= 0 && map[y - 1][x] == TILE_FLOOR
-		&& (y + 1 < data->map_data->max_height && map[y + 1][x] != TILE_FLOOR))
+	locked = door_type(map, grid[Y], grid[X]);
+	if (y > 0 && map[y - 1] && x >= 0 && is_crossable(map[y - 1][x])
+		&& (y + 1 < data->map_data->max_height && !is_crossable(map[y + 1][x])))
 		return (EXIT_FAILURE);
 	else if (y > 0 && map[y - 1] && x >= 0 && map[y - 1][x] == TILE_WALL
 		&& (y + 1 < data->map_data->max_height && map[y + 1][x] != TILE_WALL))
 		return (EXIT_FAILURE);
-	else if (x > 0 && map[y] && map[y][x - 1] == TILE_FLOOR
-		&& (x + 1 < data->map_data->max_width && map[y][x + 1] != TILE_FLOOR))
+	else if (x > 0 && map[y] && is_crossable(map[y][x - 1])
+		&& (x + 1 < data->map_data->max_width && !is_crossable(map[y][x + 1])))
 		return (EXIT_FAILURE);
 	else if (x > 0 && map[y] && map[y][x - 1] == TILE_WALL
 		&& (x + 1 < data->map_data->max_width && map[y][x + 1] != TILE_WALL))
 		return (EXIT_FAILURE);
 	if (x > 0 && map[y] && map[y][x - 1] == TILE_WALL
 		&& x + 1 < data->map_data->max_width && map[y][x + 1] == TILE_WALL)
-		add_door_node(grid, HORZ, data);
+		add_door_node(grid, HORZ, locked, data);
 	else if (y > 0 && map[y - 1] && map[y - 1][x] == TILE_WALL
 		&& (y + 1 < data->map_data->max_height && map[y + 1][x] == TILE_WALL))
-		add_door_node(grid, VERT, data);
+		add_door_node(grid, VERT, locked, data);
 	return (0);
 }
 
@@ -56,11 +58,15 @@ void	add_collectable(int grid[2], int type, char **map, t_data *data)
 {
 	if (type == TILE_CHEST)
 	{
+		if (check_tiles_between(map, grid[Y], grid[X]) == 1)
+			ft_error_exit(ERR_CHEST, data);
 		data->map_data->chest_qt++;
 		add_sprite_node(COLLECTABLE, T_CHEST, grid, data);
 	}
 	else if (type == TILE_COIN)
 	{
+		if (check_tiles_between(map, grid[Y], grid[X]) == 1)
+			ft_error_exit(ERR_COIN, data);
 		data->map_data->coin_qt++;
 		add_sprite_node(COLLECTABLE, T_COIN, grid, data);
 	}
@@ -80,7 +86,7 @@ void	validate_extras(t_data *data, char **map)
 		while (map[grid[Y]][grid[X]])
 		{
 			tile_type = map[grid[Y]][grid[X]];
-			if (tile_type == TILE_DOOR)
+			if (tile_type == TILE_DOOR || tile_type == TILE_LOCKED_DOOR)
 			{
 				if (validate_door(map, grid[Y], grid[X], data) == EXIT_FAILURE)
 					ft_error_exit(ERR_DOOR, data);
@@ -105,17 +111,15 @@ void	validate_map_border(t_data *data, t_map *map_data, char **map)
 		i[X] = -1;
 		while (++i[X] < map_data->max_width)
 		{
-			if (map[i[Y]][i[X]] == TILE_FLOOR || map[i[Y]][i[X]] == TILE_N
-				|| map[i[Y]][i[X]] == TILE_S || map[i[Y]][i[X]] == TILE_W
-				|| map[i[Y]][i[X]] == TILE_EXIT)
+			if (is_crossable(map[i[Y]][i[X]]))
 			{
 				if (i[Y] == 0 || i[X] == 0 || !map[i[Y] + 1]
 					|| i[X] >= (int)ft_strlen(map[i[Y] + 1])
 					|| (i[Y] > 0 && i[X] < (int)ft_strlen(map[i[Y] - 1])
-						&& map[i[Y] - 1][i[X]] == ' ')
+						&& map[i[Y] - 1][i[X]] == TILE_SPACE)
 					|| (map[i[Y] + 1] && i[X] < (int)ft_strlen(map[i[Y] + 1])
 					&& map[i[Y] + 1][i[X]] == ' ')
-					|| (i[X] > 0 && map[i[Y]][i[X] - 1] == ' ')
+					|| (i[X] > 0 && map[i[Y]][i[X] - 1] == TILE_SPACE)
 					|| (i[X] < map_data->max_width - 1
 						&& map[i[Y]][i[X] + 1] == ' '))
 					ft_error_exit(ERR_BORDER, data);
