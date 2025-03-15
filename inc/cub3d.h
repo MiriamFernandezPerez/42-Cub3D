@@ -71,25 +71,27 @@
 # define FLOOR "F "
 # define CEIL "C "
 # define DOOR "D "
+# define LOCKED_DOOR "L "
 # define NEXT_MAP "NEXT "
 # define EXIT "EXIT "
 # define CHEST "CHEST "
 # define KEY "KEY " 
 # define COIN "COIN "
-# define VALID_TILES "01NSWEDXQKCP "
+# define VALID_TILES "01NSWEDXQKCL "
 # define SPRITE_TILES "XQKC"
 # define INTERACTABLE_TILES "CKQX"
 # define COLLECTABLE_TILES "CQK"
-# define CROSSABLE_TILES "0DNSEWXLQCP"
+# define CROSSABLE_TILES "0DNSEWXLQCL"
 
 /*id_cub_file_settings & textures ID*/
-# define ID_NORTH 'N'
-# define ID_SOUTH 'S'
-# define ID_WEST 'W'
-# define ID_EAST 'E'
-# define ID_FLOOR 'F'
-# define ID_CEIL 'C'
+# define ID_NORTH 'N' //North_id
+# define ID_SOUTH 'S' //South_id
+# define ID_WEST 'W' //West_id
+# define ID_EAST 'E' //East_id
+# define ID_FLOOR 'F' //Floor_id
+# define ID_CEIL 'C' //Ceil_id
 # define ID_DOOR 'D' //Door_id
+# define ID_LOCKED_DOOR 'L' //Locked_Door_id
 # define ID_CHEST 'Q' //Chest_id
 # define ID_KEY 'K' //Key_id
 # define ID_COIN 'I' //Coin_id
