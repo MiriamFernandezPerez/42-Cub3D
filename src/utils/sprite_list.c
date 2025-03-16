@@ -95,6 +95,8 @@ void	add_sprite_node(t_sprite_type type, int subtype, int grid[2],
 		new->txt_num = 22;
 	else if (subtype == T_COIN)
 		new->txt_num = 18;
+	else if (type == PORTAL)
+		new->txt_num = 5;
 	new->next = NULL;
 	add_node_back(&data->map_data->sprite_list, new);
 }

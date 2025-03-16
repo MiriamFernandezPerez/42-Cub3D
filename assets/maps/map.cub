@@ -4,11 +4,12 @@ WE ./assets/textures/spring_2_dark.xpm
 EA ./assets/textures/spring_2_dark.xpm
 F ./assets/textures/floor/spring.xpm
 C ./assets/textures/ceil/spring.xpm
-D ./assets/textures/moriasdoor.xpm
-EXIT ./assets/sprites/spring_exit.xpm
-CHEST ./assets/sprites/chest2.xpm
-KEY ./assets/sprites/key128.xpm
-COIN ./assets/sprites/coin128.xpm
+D ./assets/textures/springdoor.xpm
+L ./assets/textures/springdoor_locked.xpm
+EXIT ./assets/sprites/spring_portal.xpm
+CHEST ./assets/sprites/chest.xpm
+KEY ./assets/sprites/key.xpm
+COIN ./assets/sprites/coin.xpm
 NEXT ./assets/maps/map2.cub
 
 
@@ -16,9 +17,9 @@ NEXT ./assets/maps/map2.cub
         1Q000000C10Q0100000C00001
        11011000001000100000000001
       10000D0000011C11000K00000W1
-111111101011010000000000000000001
-10X0C0000C1100000001D11D111111111
-111101111011111011010110Q100Q1  
+111111111011010000000000000000001
+10X00L000C1100000001D11D111111111
+111111111011111011010110Q100Q1  
 1111C111111111011101D11D11C01
 11Q0000Q1101010111010C0010001
 10000000000000001101D10010C01

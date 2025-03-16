@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   door.c                                             :+:      :+:    :+:   */
+/*   render_door.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: igarcia2 <igarcia2@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -11,6 +11,14 @@
 /* ************************************************************************** */
 
 #include "../../inc/cub3d.h"
+
+t_texture	*get_door_texture(t_door *door, t_data *data)
+{
+	if (door->is_locked)
+		return (get_texture(ID_LOCKED_DOOR, data));
+	else
+		return (get_texture(ID_DOOR, data));
+}
 
 void	render_door(int x, int *y, t_raycast *ray_data, t_data *data)
 {
@@ -24,7 +32,7 @@ void	render_door(int x, int *y, t_raycast *ray_data, t_data *data)
 	else
 		txt_vtx[X] = fmod(
 				ray_data->vert_hit[Y] - ray_data->door->offset, TILE_SIZE);
-	texture = get_texture(ID_DOOR, data);
+	texture = get_door_texture(ray_data->door, data);
 	txt_vtx[X] = (txt_vtx[X] / TILE_SIZE) * texture->width;
 	txt_vtx[Y] = 0.0f;
 	y_step = (float)texture->height / ray_data->wall_height;

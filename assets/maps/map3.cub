@@ -4,11 +4,11 @@ WE ./assets/textures/summer_dark.xpm
 EA ./assets/textures/summer_dark.xpm
 F ./assets/textures/floor/summer.xpm
 C ./assets/textures/ceil/summer.xpm
-D ./assets/textures/moriasdoor.xpm
-EXIT ./assets/sprites/summer_exit.xpm
-CHEST ./assets/sprites/chest2.xpm
-KEY ./assets/sprites/key128.xpm
-COIN ./assets/sprites/coin128.xpm
+D ./assets/textures/summerdoor.xpm
+EXIT ./assets/sprites/summer_portal.xpm
+CHEST ./assets/sprites/chest.xpm
+KEY ./assets/sprites/key.xpm
+COIN ./assets/sprites/coin.xpm
 NEXT ./assets/maps/map4.cub
 
 

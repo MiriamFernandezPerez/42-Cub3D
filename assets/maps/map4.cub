@@ -4,11 +4,11 @@ WE ./assets/textures/autumn_dark.xpm
 EA ./assets/textures/autumn_dark.xpm
 F ./assets/textures/floor/8dark.xpm
 C ./assets/textures/ceil/autumn.xpm
-D ./assets/textures/moriasdoor.xpm
-EXIT ./assets/sprites/autumn_exit.xpm
-CHEST ./assets/sprites/chest2.xpm
-KEY ./assets/sprites/key128.xpm
-COIN ./assets/sprites/coin128.xpm
+D ./assets/textures/autumndoor.xpm
+EXIT ./assets/sprites/autumn_portal.xpm
+CHEST ./assets/sprites/chest.xpm
+KEY ./assets/sprites/key.xpm
+COIN ./assets/sprites/coin.xpm
 
 
         1111111111111111111111111

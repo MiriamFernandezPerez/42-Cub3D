@@ -26,7 +26,8 @@ int	is_door_hit(t_raycast *ray_data, t_data *data)
 		grid[X] = (int)floor(ray_data->vert_hit[X] / TILE_SIZE);
 		grid[Y] = (int)floor(ray_data->vert_hit[Y] / TILE_SIZE);
 	}
-	if (get_tile_type(grid, data->map_data) == TILE_DOOR)
+	if (get_tile_type(grid, data->map_data) == TILE_DOOR
+		|| get_tile_type(grid, data->map_data) == TILE_LOCKED_DOOR)
 	{
 		ray_data->door = get_door(grid, data);
 		return (1);

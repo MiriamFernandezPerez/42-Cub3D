@@ -27,29 +27,6 @@ void	render_ceil(int x, int *y, float hit[2], t_data *data)
 	print_pixel_render(x, HEIGHT - *y + 1, color, data);
 }
 
-/*void	render_floor_item(int x, int *y, float hit[2], t_data *data)
-{
-	int			grid[2];
-	int			txt_pixel[2];
-	t_texture	*texture;
-	int			color;
-
-	grid[X] = (int)((hit[X] + (cos(deg_to_rad(data->ray_data->alpha)) * 0.5))
-			/ TILE_SIZE);
-	grid[Y] = (int)((hit[Y] - (sin(deg_to_rad(data->ray_data->alpha)) * 0.5))
-			/ TILE_SIZE);
-	if (get_tile_type(grid, data->map_data) == TILE_EXIT)
-		texture = get_texture(ID_EXIT, data);
-	else
-		return ;
-	txt_pixel[X] = (int)(fabs(fmod(hit[X], TILE_SIZE))
-			* texture->width / TILE_SIZE) % texture->width;
-	txt_pixel[Y] = (int)(fabs(fmod(hit[Y], TILE_SIZE))
-			* texture->height / TILE_SIZE) % texture->height;
-	color = get_texture_pixel(texture, txt_pixel[X], txt_pixel[Y]);
-	print_pixel_render(x, *y, color, data);
-}*/
-
 void	render_floor(int x, int *y, float hit[2], t_data *data)
 {
 	int			txt_pixel[2];
@@ -93,7 +70,6 @@ void	render_ceil_floor(int x, int *y, t_data *data)
 		render_floor(x, y, hit, data);
 	else
 		print_pixel_render(x, *y, data->map_data->floor_color, data);
-	//render_floor_item(x, y, hit, data);
 	if (get_texture(ID_CEIL, data) && get_texture(ID_CEIL, data)->path)
 		render_ceil(x, y, hit, data);
 	else

@@ -32,64 +32,6 @@ void	update_sprites(t_data *data)
 	}
 }
 
-//Manages the doors opening/closing status
-void	update_doors(t_data *data)
-{
-	t_door	*curr_door;
-	double	elapsed;
-
-	curr_door = data->map_data->door_list;
-	while (curr_door)
-	{
-		elapsed = (get_time() - curr_door->timer) / 1000.0;
-		if (curr_door->state == OPENING || curr_door->state == CLOSING)
-			data->mlx_data->redraw = 1;
-		if (curr_door->state == OPENING && elapsed / DOOR_OPEN_TIME >= 1.0)
-		{
-			curr_door->offset = TILE_SIZE;
-			curr_door->state = OPENED;
-		}
-		else if (curr_door->state == OPENING)
-			curr_door->offset = TILE_SIZE * (elapsed / DOOR_OPEN_TIME);
-		else if (curr_door->state == CLOSING && elapsed / DOOR_OPEN_TIME >= 1.0)
-		{
-			curr_door->offset = 0;
-			curr_door->state = CLOSED;
-		}
-		else if (curr_door->state == CLOSING)
-			curr_door->offset = TILE_SIZE * (1.0 - (elapsed / DOOR_OPEN_TIME));
-		curr_door = curr_door->next;
-	}
-}
-
-//Checks for nearby doors
-void	check_doors(t_data *data)
-{
-	t_door	*curr_door;
-	double	distance;
-
-	curr_door = data->map_data->door_list;
-	while (curr_door)
-	{
-		distance = calculate_distance(data->player->pos[X],
-				data->player->pos[Y], curr_door->grid[X] * TILE_SIZE
-				+ (TILE_SIZE / 2), curr_door->grid[Y] * TILE_SIZE
-				+ (TILE_SIZE / 2));
-		if ((curr_door->state == CLOSED && distance <= TILE_SIZE * 2.5)
-			|| (curr_door->state == OPENED && distance > TILE_SIZE * 4))
-		{
-			play_sound(DOOR_AUDIO, true, false, data);
-			curr_door->timer = get_time();
-			data->mlx_data->redraw = 1;
-			if (curr_door->state == CLOSED)
-				curr_door->state = OPENING;
-			else
-				curr_door->state = CLOSING;
-		}
-		curr_door = curr_door->next;
-	}
-}
-
 //Redraws the scene
 void	redraw_scene(t_data *data)
 {
@@ -101,7 +43,7 @@ void	redraw_scene(t_data *data)
 			&(data->mlx_data->line_len), &(data->mlx_data->endian));
 	raycast_manager(data->ray_data, data);
 	create_minimap(data->minimap_data, data->mlx_data, data);
-	print_ui(data);
+	render_ui(data);
 	data->mlx_data->redraw = 0;
 	mlx_put_image_to_window(data->mlx_data->mlx_ptr,
 		data->mlx_data->win_ptr, new_img_ptr, 0, 0);

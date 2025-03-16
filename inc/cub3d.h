@@ -30,6 +30,8 @@
 # include <X11/Xlib.h>
 # include <X11/keysym.h>
 
+# include "sprite.h"
+
 /*Constants*/
 # define WIDTH 800
 # define HEIGHT 500
@@ -77,10 +79,13 @@
 # define CHEST "CHEST "
 # define KEY "KEY " 
 # define COIN "COIN "
+
+/*TILES*/
 # define VALID_TILES "01NSWEDXQKCL "
 # define SPRITE_TILES "XQKC"
 # define INTERACTABLE_TILES "CKQX"
 # define COLLECTABLE_TILES "CQK"
+# define DOOR_TILES "DL"
 # define CROSSABLE_TILES "0DNSEWXLQCL"
 
 /*id_cub_file_settings & textures ID*/
@@ -182,7 +187,7 @@ typedef enum e_tile_type
 	TILE_W = 'W',
 	TILE_S = 'S',
 	TILE_DOOR = 'D',
-	TILE_LOCKED_DOOR = 'P',
+	TILE_LOCKED_DOOR = 'L',
 	TILE_EXIT = 'X',
 	TILE_CHEST = 'Q',
 	TILE_KEY = 'K',
@@ -197,10 +202,11 @@ typedef enum e_door_state
 	CLOSING
 }	t_door_state;
 
-typedef enum e_sprite_type
+/*typedef enum e_sprite_type
 {
 	COLLECTABLE,
 	DECORATION,
+	PORTAL,
 	ENEMY
 }	t_sprite_type;
 
@@ -209,7 +215,7 @@ typedef enum e_collectable_type
 	T_CHEST,
 	T_COIN,
 	T_KEY
-}	t_collectable_type;
+}	t_collectable_type;*/
 
 /*Player*/
 typedef struct s_player
@@ -247,7 +253,7 @@ typedef struct s_img
 	int		endian;
 }	t_img;
 
-typedef struct s_sprite
+/*typedef struct s_sprite
 {
 	t_sprite_type	type;
 	int				subtype;
@@ -262,7 +268,7 @@ typedef struct s_sprite
 	int				visible_horz;
 	int				visible_vert;
 	struct s_sprite	*next;
-}	t_sprite;
+}	t_sprite;*/
 
 /*Door data*/
 typedef struct s_door
@@ -385,6 +391,9 @@ void		init_minimap_data(t_minimap *minimap_data);
 void		init_map(t_map *map_data);
 void		init_mlx(t_data *data);
 void		init_textures(t_texture *txt_data, t_mlx *mlx_data,	t_data *data);
+
+/*add_textures.c*/
+void		add_common_textures(t_data *data);
 
 /*title_screen.c*/
 void		init_title(t_title *title_data);
@@ -535,6 +544,9 @@ void		render_sprite(int x, int y, t_data *data);
 /*render_texture.c*/
 int			get_texture_pxl(t_texture *texture, int x, int y);
 
+/*render_ui.c*/
+void		render_ui(t_data *data);
+
 /*minimap.c*/
 void		create_minimap(t_minimap *minimap_data, t_mlx *mlx_data,
 				t_data *data);
@@ -543,15 +555,15 @@ void		create_minimap(t_minimap *minimap_data, t_mlx *mlx_data,
 void		print_tile_pixel(int x, int y, int map_idx[2], t_data *data);
 void		print_triangle(int v[3][2], int color, t_mlx *mlx_data);
 
-/*ui.c*/
-void		print_ui(t_data *data);
-void		add_ui_textures(t_data *data);
-
 /*player.c*/
 void		move_player(int key_pressed, t_data *data);
 
 /*game_loop.c*/
 int			game_loop(t_data *data);
+
+/*update_door.c*/
+void		check_doors(t_data *data);
+void		update_doors(t_data *data);
 
 /*next_map.c*/
 int			load_next_map(t_data *data);

@@ -4,11 +4,11 @@ WE ./assets/textures/winter_dark.xpm
 EA ./assets/textures/winter_dark.xpm   
 F ./assets/textures/floor/winter.xpm
 C ./assets/textures/ceil/winter.xpm
-D ./assets/textures/moriasdoor.xpm
-EXIT ./assets/sprites/winter_exit.xpm
-CHEST ./assets/sprites/chest2.xpm
-KEY ./assets/sprites/key128.xpm
-COIN ./assets/sprites/coin128.xpm
+D ./assets/textures/winterdoor.xpm
+EXIT ./assets/sprites/winter_portal.xpm
+CHEST ./assets/sprites/chest.xpm
+KEY ./assets/sprites/key.xpm
+COIN ./assets/sprites/coin.xpm
 NEXT ./assets/maps/map3.cub
 
 11111111111111111111111111111111111

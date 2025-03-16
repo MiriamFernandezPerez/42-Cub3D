@@ -64,7 +64,7 @@ void	check_wall_collision(double *delta, t_data *data)
 		grid[Y] = floor(data->player->pos[Y] / TILE_SIZE);
 		if (data->map_data->map[grid[Y]][grid[X]] == TILE_WALL)
 			delta[X] = 0;
-		if (data->map_data->map[grid[Y]][grid[X]] == TILE_DOOR
+		if (ft_strchr(DOOR_TILES, data->map_data->map[grid[Y]][grid[X]])
 			&& get_door(grid, data)->state != OPENED)
 			delta[X] = 0;
 	}
@@ -75,7 +75,7 @@ void	check_wall_collision(double *delta, t_data *data)
 						(TILE_SIZE * COLLISION_MARGIN), delta[Y])) / TILE_SIZE);
 		if (data->map_data->map[grid[Y]][grid[X]] == TILE_WALL)
 			delta[Y] = 0;
-		if (data->map_data->map[grid[Y]][grid[X]] == TILE_DOOR
+		if (ft_strchr(DOOR_TILES, data->map_data->map[grid[Y]][grid[X]])
 			&& get_door(grid, data)->state != OPENED)
 			delta[Y] = 0;
 	}

@@ -39,7 +39,8 @@ int	check_intersect(int grid[2], double hit[2], double delta[2], t_data *data)
 			return (0);
 		if (get_tile_type(grid, data->map_data) == TILE_WALL)
 			break ;
-		else if (get_tile_type(grid, data->map_data) == TILE_DOOR)
+		else if (get_tile_type(grid, data->map_data) == TILE_DOOR
+			|| get_tile_type(grid, data->map_data) == TILE_LOCKED_DOOR)
 		{
 			door = door_hit(get_door(grid, data), hit, delta);
 			if (door == 0)
