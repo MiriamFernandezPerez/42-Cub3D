@@ -6,7 +6,7 @@
 /*   By: mirifern <mirifern@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 21:08:03 by mirifern          #+#    #+#             */
-/*   Updated: 2025/02/18 22:47:59 by igarcia2         ###   ########.fr       */
+/*   Updated: 2025/03/17 21:43:24 by mirifern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,8 @@
 # include "sprite.h"
 
 /*Constants*/
-# define WIDTH 800
-# define HEIGHT 500
+# define WIDTH 1200
+# define HEIGHT 700
 # define TILE_SIZE 32
 # define FOV 60
 # define PLAYER_SPEED 5
@@ -51,8 +51,14 @@
 
 /*audio*/
 # define TITLE_AUDIO 'T'
+# define SPRING_AUDIO 'S'
+# define SUMMER_AUDIO 'V'
+# define AUTUMN_AUDIO 'A'
+# define WINTER_AUDIO 'W'
 # define DOOR_AUDIO 'D'
-# define CHEST_AUDIO 'C'
+# define COLLECT_AUDIO 'C'
+# define KEY_AUDIO 'K'
+# define LEVEL_AUDIO 'L'
 
 /*Keys*/
 # define KEY_ESC 65307

@@ -20,11 +20,20 @@ void	take_collectable(int grid[2], t_data *data)
 	if (sprite)
 	{
 		if (sprite->subtype == T_CHEST)
+		{
+			play_sound(COLLECT_AUDIO, true, false, data);
 			data->map_data->chest_found++;
+		}
 		else if (sprite->subtype == T_COIN)
+		{
 			data->map_data->coin_found++;
+			play_sound(COLLECT_AUDIO, true, false, data);
+		}
 		else if (sprite->subtype == T_KEY)
+		{
+			play_sound(KEY_AUDIO, true, false, data);
 			data->map_data->key_found++;
+		}
 		delete_sprite(sprite, data);
 		data->map_data->map[grid[Y]][grid[X]] = TILE_FLOOR;
 	}
@@ -47,7 +56,10 @@ void	check_interactable(t_data *data)
 			if (ft_strchr(COLLECTABLE_TILES, current_tile))
 				take_collectable(grid, data);
 			else if (TILE_EXIT == current_tile)
+			{
+				play_sound(LEVEL_AUDIO, true, false, data);
 				data->player->exit_reached = 1;
+			}
 		}
 	}
 }
