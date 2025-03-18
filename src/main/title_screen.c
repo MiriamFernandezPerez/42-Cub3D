@@ -12,6 +12,7 @@
 
 #include "../../inc/cub3d.h"
 #include "../../inc/title_img_path.h"
+#include "../../inc/audio.h"
 
 void	init_title(t_title *title_data)
 {

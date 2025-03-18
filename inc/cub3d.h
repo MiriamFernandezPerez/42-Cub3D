@@ -49,7 +49,7 @@
 # define TITLE_IMAGES 8
 # define FRAME_DURATION 100
 
-/*audio*/
+/*audio
 # define TITLE_AUDIO 'T'
 # define SPRING_AUDIO 'S'
 # define SUMMER_AUDIO 'V'
@@ -58,7 +58,7 @@
 # define DOOR_AUDIO 'D'
 # define COLLECT_AUDIO 'C'
 # define KEY_AUDIO 'K'
-# define LEVEL_AUDIO 'L'
+# define LEVEL_AUDIO 'L'*/
 
 /*Keys*/
 # define KEY_ESC 65307
@@ -229,6 +229,7 @@ typedef struct s_player
 	int		pos[2];
 	int		coord[2];
 	double	angle;
+	int		level;
 	int		exit_reached;
 }	t_player;
 
@@ -258,23 +259,6 @@ typedef struct s_img
 	int		size_line;
 	int		endian;
 }	t_img;
-
-/*typedef struct s_sprite
-{
-	t_sprite_type	type;
-	int				subtype;
-	int				grid[2];
-	int				world[2];
-	int				size[2];
-	int				start[2];
-	double			distance;
-	int				txt_num;
-	int				frame;
-	unsigned long	last_frame_time;
-	int				visible_horz;
-	int				visible_vert;
-	struct s_sprite	*next;
-}	t_sprite;*/
 
 /*Door data*/
 typedef struct s_door

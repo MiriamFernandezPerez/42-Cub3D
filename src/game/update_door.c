@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "../../inc/cub3d.h"
+#include "../../inc/audio.h"
 
 //Manages the doors opening/closing status
 void	update_doors(t_data *data)
@@ -48,6 +49,7 @@ int	can_open_door(t_door *door, t_data *data)
 		return (1);
 	if (door->is_locked && data->map_data->key_found == 1)
 	{
+		play_sound(UNLOCK_AUDIO, true, false, data);
 		door->is_locked = 0;
 		return (1);
 	}

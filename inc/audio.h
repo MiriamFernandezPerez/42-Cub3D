@@ -13,8 +13,20 @@
 #ifndef AUDIO_H
 # define AUDIO_H
 
+# define TITLE_AUDIO 'T'
+# define SPRING_AUDIO 'S'
+# define SUMMER_AUDIO 'V'
+# define AUTUMN_AUDIO 'A'
+# define WINTER_AUDIO 'W'
+# define DOOR_AUDIO 'D'
+# define UNLOCK_AUDIO 'U'
+# define COLLECT_AUDIO 'C'
+# define KEY_AUDIO 'K'
+# define LEVEL_AUDIO 'L'
+
 # define TITLE_PATH "./assets/audio/spring8bit.mp3"
 # define DOOR_PATH "./assets/audio/door.mp3"
+# define UNLOCK_PATH "./assets/audio/unlock_door.mp3"
 # define SPRING_PATH "./assets/audio/spring8bit.mp3"
 # define SUMMER_PATH "./assets/audio/summer8bit.mp3"
 # define AUTUMN_PATH "./assets/audio/autumn8bit.mp3"

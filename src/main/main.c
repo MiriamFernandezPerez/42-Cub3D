@@ -39,6 +39,7 @@ int	main(int ac, char **av)
 	add_common_textures(data);
 	init_textures(data->map_data->txt_list, data->mlx_data, data);
 	data->player->exit_reached = 0;
+	data->player->level = 1;
 	mlx_loop(data->mlx_data->mlx_ptr);
 	return (0);
 }

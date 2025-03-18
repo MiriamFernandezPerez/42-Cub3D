@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "../../inc/cub3d.h"
+#include "../../inc/audio.h"
 
 void	take_collectable(int grid[2], t_data *data)
 {

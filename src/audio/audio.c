@@ -66,6 +66,8 @@ void	init_audio(t_data *data)
 			FALSE, DOOR_PATH, 0, 0, 3, BASS_SAMPLE_OVER_VOL), data);
 	add_audio_node(SPRING_AUDIO, BASS_StreamCreateFile(
 			FALSE, SPRING_PATH, 0, 0, 0), data);
+	add_audio_node(UNLOCK_AUDIO, BASS_StreamCreateFile(
+			FALSE, UNLOCK_PATH, 0, 0, 0), data);
 	add_audio_node(SUMMER_AUDIO, BASS_StreamCreateFile(
 			FALSE, SUMMER_PATH, 0, 0, 0), data);
 	add_audio_node(AUTUMN_AUDIO, BASS_StreamCreateFile(
