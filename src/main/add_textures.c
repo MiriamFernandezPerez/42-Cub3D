@@ -15,6 +15,7 @@
 
 void	add_ui_textures(t_data *data)
 {
+	add_texture_node(ID_PLAYER_UI, ft_strdup(PLAYER_UI_PATH), data);
 	add_texture_node(ID_CHEST_UI, ft_strdup(CHEST_UI_TXT_PATH), data);
 	add_texture_node(ID_COIN_UI, ft_strdup(COIN_UI_TXT_PATH), data);
 	add_texture_node(ID_KEY_UI, ft_strdup(KEY_UI_TXT_PATH), data);

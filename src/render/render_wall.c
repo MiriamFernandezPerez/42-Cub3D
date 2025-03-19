@@ -40,16 +40,16 @@ void	render_wall(int x, int *y, t_raycast *ray_data, t_data *data)
 	float		y_step;
 	t_texture	*txt;
 
+	texture_vtx[X] = fmod(ray_data->vert_hit[Y], TILE_SIZE);
 	if (ray_data->vtx_hit == HORZ)
 		texture_vtx[X] = fmod(ray_data->horz_hit[X], TILE_SIZE);
-	else
-		texture_vtx[X] = fmod(ray_data->vert_hit[Y], TILE_SIZE);
 	txt = get_wall_texture(ray_data, data);
 	texture_vtx[X] = (texture_vtx[X] / TILE_SIZE) * txt->width;
 	texture_vtx[Y] = 0.0f;
 	y_step = (float)txt->height / ray_data->wall_height;
-	if (ray_data->wall_height >= HEIGHT)
-		texture_vtx[Y] = ((ray_data->wall_height - HEIGHT) / 2) * y_step;
+	if (ray_data->wall_height >= (HEIGHT - (HEIGHT * UI_SIZE)))
+		texture_vtx[Y] = ((ray_data->wall_height - (HEIGHT
+						- (HEIGHT * UI_SIZE))) / 2) * y_step;
 	while (*y >= ray_data->wall_y
 		&& *y <= ray_data->wall_y + ray_data->wall_height && *y < HEIGHT)
 	{

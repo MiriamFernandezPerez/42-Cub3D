@@ -40,6 +40,8 @@ int	main(int ac, char **av)
 	init_textures(data->map_data->txt_list, data->mlx_data, data);
 	data->player->exit_reached = 0;
 	data->player->level = 1;
+	data->player->frame = 0;
+	data->player->last_frame_time = get_time();
 	mlx_loop(data->mlx_data->mlx_ptr);
 	return (0);
 }

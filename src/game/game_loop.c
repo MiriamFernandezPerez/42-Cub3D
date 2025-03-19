@@ -44,6 +44,7 @@ void	redraw_scene(t_data *data)
 	raycast_manager(data->ray_data, data);
 	create_minimap(data->minimap_data, data->mlx_data, data);
 	render_ui(data);
+	render_player(data);
 	data->mlx_data->redraw = 0;
 	mlx_put_image_to_window(data->mlx_data->mlx_ptr,
 		data->mlx_data->win_ptr, new_img_ptr, 0, 0);
@@ -65,7 +66,6 @@ int	game_loop(t_data *data)
 	check_doors(data);
 	update_doors(data);
 	update_sprites(data);
-	if (data->mlx_data->redraw)
-		redraw_scene(data);
+	redraw_scene(data);
 	return (0);
 }

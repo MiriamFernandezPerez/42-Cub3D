@@ -36,7 +36,7 @@ void	print_ui_sprite(int pos[2], int txt_id, t_data *data)
 	int			color;
 	t_texture	*texture;
 
-	sprite_size = ceil(data->minimap_data->size[X] / 10);
+	sprite_size = WIDTH / 50;
 	texture = get_texture(txt_id, data);
 	i[Y] = pos[Y];
 	while (i[Y] < pos[Y] + sprite_size)
@@ -93,8 +93,8 @@ void	render_ui(t_data *data)
 {
 	int	pos[2];
 
-	pos[X] = data->minimap_data->start[X];
-	pos[Y] = data->minimap_data->start[Y] + data->minimap_data->size[Y] * 1.02;
+	pos[X] = WIDTH * 0.02;
+	pos[Y] = HEIGHT * 0.01;
 	print_ui_sprite(pos, ID_CHEST_UI, data);
 	print_num_sprite(pos, data->map_data->chest_found, data);
 	print_ui_sprite(pos, ID_BAR_UI, data);

@@ -35,14 +35,15 @@
 /*Constants*/
 # define WIDTH 1200
 # define HEIGHT 700
-# define TILE_SIZE 32
+# define UI_SIZE 0.05
+# define TILE_SIZE 32 
 # define FOV 60
 # define PLAYER_SPEED 5
 # define EPSILON 0.0001
 # define M_PI 3.14159265358979323846
 # define ROTATION_SPEED 0.09
 # define ALPHA_COLOR 0x08ff00
-# define COLLISION_MARGIN 0.15
+# define COLLISION_MARGIN 0.25
 # define SHADING 1 
 # define SHADING_MAX_DISTANCE 500 
 # define DOOR_OPEN_TIME 1.5
@@ -226,11 +227,13 @@ typedef enum e_collectable_type
 /*Player*/
 typedef struct s_player
 {
-	int		pos[2];
-	int		coord[2];
-	double	angle;
-	int		level;
-	int		exit_reached;
+	int				pos[2];
+	int				coord[2];
+	double			angle;
+	int				level;
+	int				frame;
+	unsigned long	last_frame_time;
+	int				exit_reached;
 }	t_player;
 
 /*Texture images*/
@@ -536,6 +539,11 @@ int			get_texture_pxl(t_texture *texture, int x, int y);
 
 /*render_ui.c*/
 void		render_ui(t_data *data);
+int			get_ui_txt_color(int x, int y, int sprite_size, t_texture *texture);
+
+
+/*render_player.c*/
+void		render_player(t_data *data);
 
 /*minimap.c*/
 void		create_minimap(t_minimap *minimap_data, t_mlx *mlx_data,

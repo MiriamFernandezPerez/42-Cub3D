@@ -69,7 +69,8 @@ void	set_sprite_visible(int grid[2], int intersection, t_data *data)
 	angle_diff = angle_diff;
 	sprite->start[X] = ((-angle_diff / (FOV / 2.0) * (WIDTH / 2.0))
 			+ (WIDTH / 2.0) - (sprite->size[X] / 2.0));
-	sprite->start[Y] = HEIGHT / 2.0 - sprite->size[Y] / 2.0;
+	sprite->start[Y] = (HEIGHT + (HEIGHT * UI_SIZE))
+		/ 2.0 - sprite->size[Y] / 2.0;
 }
 
 void	check_sprites_along_ray(t_raycast *ray_data, t_data *data)

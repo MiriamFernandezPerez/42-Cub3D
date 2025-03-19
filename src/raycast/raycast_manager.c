@@ -24,10 +24,11 @@ void	corrected_wall_distance(t_raycast *ray_data, t_data *data)
 		= data->ray_data->shortest_distance * cos(deg_to_rad(beta));
 	ray_data->wall_height = ceil((TILE_SIZE * (ray_data->distance_pp))
 			/ ray_data->corrected_distance);
-	if (ray_data->wall_height < HEIGHT)
-		ray_data->wall_y = HEIGHT / 2 - ray_data->wall_height / 2;
+	if (ray_data->wall_height < HEIGHT - (HEIGHT * UI_SIZE))
+		ray_data->wall_y = (HEIGHT + (HEIGHT * UI_SIZE)) / 2
+			- ray_data->wall_height / 2 - 1;
 	else
-		ray_data->wall_y = 0;
+		ray_data->wall_y = HEIGHT * UI_SIZE;
 }
 
 void	fix_corner_case_intersection(double distance[2], t_raycast *ray_data,
@@ -90,7 +91,7 @@ void	render_column(int x, t_raycast *ray_data, t_data *data)
 {
 	int	y;
 
-	y = 0;
+	y = (HEIGHT * UI_SIZE);
 	while (y < HEIGHT)
 	{
 		if (y >= ray_data->wall_y
