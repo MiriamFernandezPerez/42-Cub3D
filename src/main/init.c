@@ -55,6 +55,8 @@ void	init_mlx(t_data *data)
 	data->mlx_data->img_addr = NULL;
 	data->mlx_data->redraw = 1;
 	data->mlx_data->mouse_pos = 0;
+	/*KeyRelease
+	ft_memset(data->mlx_data->keys, 0, sizeof(data->mlx_data->keys));*/
 	mlx_hook(data->mlx_data->win_ptr, 17, 0, close_window, data);
 	mlx_hook(data->mlx_data->win_ptr, 6, 1L << 6, mouse_handler, data);
 }

@@ -345,6 +345,8 @@ typedef struct s_mlx
 	int		redraw;
 	int		key_pressed;
 	int		mouse_pos;
+	/*KeyRelease
+	int		keys[256];*/
 }	t_mlx;
 
 /*Audio*/
@@ -567,7 +569,10 @@ void		print_gui_pixel(int x, int y, int color, t_mlx *mlx_data);
 
 /*mlx_input.c*/
 int			mouse_handler(int x, int y, t_data *data);
+/*KeyRelease
+int			key_release(int keycode, t_data *data);*/
 int			key_press(int keycode, t_data *data);
+void		update_movement(t_data *data);
 int			close_window(t_data *data);
 
 /*audio.c*/
