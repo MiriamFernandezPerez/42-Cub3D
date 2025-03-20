@@ -22,6 +22,15 @@ int	check_args(int ac, char **av)
 	return (EXIT_SUCCESS);
 }
 
+void	init_player(t_data *data)
+{
+	data->player->exit_reached = 0;
+	data->player->level = 0;
+	data->player->frame = 0;
+	data->player->last_frame_time = get_time();
+	data->player->score = 0;
+}
+
 // Main function
 int	main(int ac, char **av)
 {
@@ -38,10 +47,7 @@ int	main(int ac, char **av)
 	title_screen(data->title_data, data);
 	add_common_textures(data);
 	init_textures(data->map_data->txt_list, data->mlx_data, data);
-	data->player->exit_reached = 0;
-	data->player->level = 1;
-	data->player->frame = 0;
-	data->player->last_frame_time = get_time();
+	init_player(data);
 	mlx_loop(data->mlx_data->mlx_ptr);
 	return (0);
 }

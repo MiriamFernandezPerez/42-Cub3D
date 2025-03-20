@@ -46,6 +46,7 @@ int	key_title(int keycode, t_data *data)
 		stop_audio(TITLE_AUDIO, data);
 		mlx_loop_hook(data->mlx_data->mlx_ptr, game_loop, data);
 		mlx_hook(data->mlx_data->win_ptr, 2, 1L << 0, key_press, data);
+		play_sound(SPRING_AUDIO, true, true, data);
 	}
 	else if ((keycode == KEY_SPACE && data->title_data->selected == 7)
 		|| keycode == KEY_ESC)

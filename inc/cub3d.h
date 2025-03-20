@@ -50,16 +50,8 @@
 # define TITLE_IMAGES 8
 # define FRAME_DURATION 100
 
-/*audio
-# define TITLE_AUDIO 'T'
-# define SPRING_AUDIO 'S'
-# define SUMMER_AUDIO 'V'
-# define AUTUMN_AUDIO 'A'
-# define WINTER_AUDIO 'W'
-# define DOOR_AUDIO 'D'
-# define COLLECT_AUDIO 'C'
-# define KEY_AUDIO 'K'
-# define LEVEL_AUDIO 'L'*/
+# define COIN_SCORE 100
+# define CHEST_SCORE 500
 
 /*Keys*/
 # define KEY_ESC 65307
@@ -113,7 +105,7 @@
 /*Minimap*/
 # define MINIMAP_WIDTH 0.2
 # define MINIMAP_HEIGHT 0.2
-# define MINIMAP_MARGIN 0.02
+# define MINIMAP_MARGIN 0.01
 # define TILES_VERTICAL 13
 # define MINIMAP_BACK_COLOR 0x5A5858
 # define MINIMAP_PLAYER_COLOR 0xFF0000
@@ -231,6 +223,7 @@ typedef struct s_player
 	int				coord[2];
 	double			angle;
 	int				level;
+	int				score;
 	int				frame;
 	unsigned long	last_frame_time;
 	int				exit_reached;

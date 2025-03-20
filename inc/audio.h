@@ -24,7 +24,7 @@
 # define KEY_AUDIO 'K'
 # define LEVEL_AUDIO 'L'
 
-# define TITLE_PATH "./assets/audio/spring8bit.mp3"
+# define TITLE_PATH "./assets/audio/concerto8bit.mp3"
 # define DOOR_PATH "./assets/audio/door.mp3"
 # define UNLOCK_PATH "./assets/audio/unlock_door.mp3"
 # define SPRING_PATH "./assets/audio/spring8bit.mp3"

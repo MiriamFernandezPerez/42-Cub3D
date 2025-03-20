@@ -46,7 +46,7 @@ void	render_player(t_data *data)
 	int	color;
 
 	player_size = WIDTH * 0.3;
-	start_pos[X] = WIDTH / 2 - player_size / 2;
+	start_pos[X] = WIDTH / 3 - player_size / 3;
 	start_pos[Y] = HEIGHT - player_size;
 	pos[X] = start_pos[X];
 	while (pos[X] < start_pos[X] + player_size)

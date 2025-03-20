@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "../../inc/cub3d.h"
+#include "../../inc/audio.h"
 
 //TODO Añadir pantalla final
 void	finish_game(t_data *data)
@@ -28,6 +29,30 @@ void	reset_map_data(t_data *data)
 	data->map_data = malloc(sizeof(t_map));
 	malloc_protection(data->map_data, data);
 	init_map(data->map_data);
+}
+
+void	select_song(t_data *data)
+{
+	if (data->player->level % 4 == 0)
+	{
+		stop_audio(WINTER_AUDIO, data);
+		play_sound(SPRING_AUDIO, true, true, data);
+	}
+	else if (data->player->level % 4 == 1)
+	{
+		stop_audio(SPRING_AUDIO, data);
+		play_sound(SUMMER_AUDIO, true, true, data);
+	}
+	else if (data->player->level % 4 == 2)
+	{
+		stop_audio(SUMMER_AUDIO, data);
+		play_sound(AUTUMN_AUDIO, true, true, data);
+	}
+	else if (data->player->level % 4 == 3)
+	{
+		stop_audio(AUTUMN_AUDIO, data);
+		play_sound(WINTER_AUDIO, true, true, data);
+	}
 }
 
 int	load_next_map(t_data *data)
@@ -48,6 +73,7 @@ int	load_next_map(t_data *data)
 		init_textures(data->map_data->txt_list, data->mlx_data, data);
 		data->mlx_data->redraw = 1;
 		data->player->level++;
+		select_song(data);
 	}
 	else
 		finish_game(data);

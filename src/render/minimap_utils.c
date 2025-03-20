@@ -48,7 +48,7 @@ void	print_tile_pixel(int x, int y, int map_idx[2], t_data *data)
 			color = MINIMAP_WALL_COLOR;
 		else if (tile_type == TILE_SPACE)
 			color = MINIMAP_BACK_COLOR;
-		else if (tile_type == TILE_DOOR)
+		else if (tile_type == TILE_DOOR || tile_type == TILE_LOCKED_DOOR)
 			color = MINIMAP_DOOR_COLOR;
 		else
 			color = MINIMAP_FLOOR_COLOR;
