@@ -63,8 +63,7 @@ int	game_loop(t_data *data)
 		if (load_next_map(data) == EXIT_FAILURE)
 			return (free_data(data), EXIT_FAILURE);
 	}
-	/*KeyRelease
-	update_movement(data);*/
+	update_movement(data);
 	check_doors(data);
 	update_doors(data);
 	update_sprites(data);

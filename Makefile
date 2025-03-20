@@ -37,7 +37,7 @@ OBJ = $(SRC_FULL_DIR:$(SRC_DIR)%.c=$(OBJ_DIR)%.o)
 DEPS = $(OBJ:.o=.d)
 
 CC = gcc
-CFLAGS = -Wall -Wextra -Werror -g
+CFLAGS = -Wall -Wextra -Werror -g #-Ofast
 RM = rm -rf
 
 # Color codes

@@ -49,81 +49,20 @@ int	mouse_handler(int x, int y, t_data *data)
 	return (0);
 }
 
-// Evento de teclado para mover al jugador o cambiar el ángulo
-int	key_press(int keycode, t_data *data)
-{
-	if (keycode == KEY_ESC)
-	{
-		free_data(data);
-		exit(EXIT_SUCCESS);
-	}
-	else if (keycode == KEY_LEFT)
-		data->player->angle += 5;
-	else if (keycode == KEY_RIGHT)
-		data->player->angle -= 5;
-	else if (keycode == KEY_W)
-		move_player(KEY_W, data);
-	else if (keycode == KEY_S)
-		move_player(KEY_S, data);
-	else if (keycode == KEY_A)
-		move_player(KEY_A, data);
-	else if (keycode == KEY_D)
-		move_player(KEY_D, data);
-	data->player->angle = normalize_angle(data->player->angle);
-	data->mlx_data->redraw = 1;
-	return (0);
-}
-
-/*KeyRelease
-void	update_movement(t_data *data)
-{
-	int moved;
-
-	moved = 0;
-	if (data->mlx_data->keys[KEY_LEFT])
-	{
-		data->player->angle += 5;
-		moved = 1;
-	}
-	if (data->mlx_data->keys[KEY_RIGHT])
-	{
-		data->player->angle -= 5;
-		moved = 1;
-	}
-	if (data->mlx_data->keys[KEY_W])
-	{
-		move_player(KEY_W, data);
-		moved = 1;
-	}
-	if (data->mlx_data->keys[KEY_S])
-	{
-		move_player(KEY_S, data);
-		moved = 1;
-	}
-	if (data->mlx_data->keys[KEY_A])
-	{
-		move_player(KEY_A, data);
-		moved = 1;
-	}
-	if (data->mlx_data->keys[KEY_D])
-	{
-		move_player(KEY_D, data);
-		moved = 1;
-	}
-	if (moved)
-	{
-		data->player->angle = normalize_angle(data->player->angle);
-		data->mlx_data->redraw = 1;
-	}
-}
-
 int	key_release(int keycode, t_data *data)
 {
-	if (keycode >= 0 && keycode < 256)
-	{
-		printf("keyrelease %d\n", keycode);
-		data->mlx_data->keys[keycode] = 1;
-	}
+	if (keycode == KEY_W)
+		data->mlx_data->keys[ID_KEY_W] = 0;
+	else if (keycode == KEY_A)
+		data->mlx_data->keys[ID_KEY_A] = 0;
+	else if (keycode == KEY_D)
+		data->mlx_data->keys[ID_KEY_D] = 0;
+	else if (keycode == KEY_S)
+		data->mlx_data->keys[ID_KEY_S] = 0;
+	else if (keycode == KEY_LEFT)
+		data->mlx_data->keys[ID_KEY_LEFT] = 0;
+	else if (keycode == KEY_RIGHT)
+		data->mlx_data->keys[ID_KEY_RIGHT] = 0;
 	return (0);
 }
 
@@ -134,10 +73,20 @@ int	key_press(int keycode, t_data *data)
 		free_data(data);
 		exit(EXIT_SUCCESS);
 	}
-	if (keycode >= 0 && keycode < 256)
-		data->mlx_data->keys[keycode] = 1;
+	if (keycode == KEY_W)
+		data->mlx_data->keys[ID_KEY_W] = 1;
+	else if (keycode == KEY_A)
+		data->mlx_data->keys[ID_KEY_A] = 1;
+	else if (keycode == KEY_D)
+		data->mlx_data->keys[ID_KEY_D] = 1;
+	else if (keycode == KEY_S)
+		data->mlx_data->keys[ID_KEY_S] = 1;
+	else if (keycode == KEY_LEFT)
+		data->mlx_data->keys[ID_KEY_LEFT] = 1;
+	else if (keycode == KEY_RIGHT)
+		data->mlx_data->keys[ID_KEY_RIGHT] = 1;
 	return (0);
-}*/
+}
 
 int	close_window(t_data *data)
 {

@@ -63,6 +63,12 @@
 # define KEY_LEFT 65361
 # define KEY_RIGHT 65363
 # define KEY_SPACE 32
+# define ID_KEY_W 0
+# define ID_KEY_A 1
+# define ID_KEY_S 2
+# define ID_KEY_D 3
+# define ID_KEY_LEFT 4
+# define ID_KEY_RIGHT 5
 
 /*cub_file*/
 # define NORTH_TXT "NO "
@@ -345,8 +351,8 @@ typedef struct s_mlx
 	int		redraw;
 	int		key_pressed;
 	int		mouse_pos;
-	/*KeyRelease
-	int		keys[256];*/
+	/*KeyRelease*/
+	int		keys[6];
 }	t_mlx;
 
 /*Audio*/
@@ -443,7 +449,6 @@ void		destroy_mlx(t_data *data);
 int			door_type(char **map, int y, int x);
 int			is_crossable(char tile);
 void		malloc_protection(void *ptr, t_data *data);
-
 int			only_spaces(const char *str);
 long		get_time(void);
 
@@ -536,7 +541,6 @@ int			get_texture_pxl(t_texture *texture, int x, int y);
 void		render_ui(t_data *data);
 int			get_ui_txt_color(int x, int y, int sprite_size, t_texture *texture);
 
-
 /*render_player.c*/
 void		render_player(t_data *data);
 
@@ -569,10 +573,13 @@ void		print_gui_pixel(int x, int y, int color, t_mlx *mlx_data);
 
 /*mlx_input.c*/
 int			mouse_handler(int x, int y, t_data *data);
-/*KeyRelease
-int			key_release(int keycode, t_data *data);*/
-int			key_press(int keycode, t_data *data);
+
+/*mlx_update_movement.c*/
 void		update_movement(t_data *data);
+
+/*KeyRelease*/
+int			key_release(int keycode, t_data *data);
+int			key_press(int keycode, t_data *data);
 int			close_window(t_data *data);
 
 /*audio.c*/

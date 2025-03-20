@@ -44,11 +44,9 @@ int	key_title(int keycode, t_data *data)
 	if (keycode == KEY_SPACE && data->title_data->selected == 6)
 	{
 		stop_audio(TITLE_AUDIO, data);
-		mlx_loop_hook(data->mlx_data->mlx_ptr, game_loop, data);
 		mlx_hook(data->mlx_data->win_ptr, 2, 1L << 0, key_press, data);
+		mlx_loop_hook(data->mlx_data->mlx_ptr, game_loop, data);
 		play_sound(SPRING_AUDIO, true, true, data);
-		/*Release
-		mlx_hook(data->mlx_data->win_ptr, 3, 1L << 1, key_release, data);*/
 	}
 	else if ((keycode == KEY_SPACE && data->title_data->selected == 7)
 		|| keycode == KEY_ESC)
@@ -112,4 +110,5 @@ void	title_screen(t_title *title_data, t_data *data)
 	play_sound(TITLE_AUDIO, true, true, data);
 	mlx_loop_hook(data->mlx_data->mlx_ptr, title_loop, data);
 	mlx_hook(data->mlx_data->win_ptr, 2, 1L << 0, key_title, data);
+	mlx_hook(data->mlx_data->win_ptr, 3, 1L << 1, key_release, data);
 }
