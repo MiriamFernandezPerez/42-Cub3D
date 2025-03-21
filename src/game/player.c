@@ -6,7 +6,7 @@
 /*   By: igarcia2 <igarcia2@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/26 16:47:55 by igarcia2          #+#    #+#             */
-/*   Updated: 2025/02/04 22:40:37 by igarcia2         ###   ########.fr       */
+/*   Updated: 2025/03/21 23:07:03 by igarcia2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,8 +67,34 @@ void	check_interactable(t_data *data)
 	}
 }
 
+void	check_diagonal_collision(double *delta, t_data *data)
+{
+	int	grid[2];
+
+	if (delta[X] != 0 && delta[Y] != 0)
+	{
+		grid[X] = floor((data->player->pos[X] + delta[X] + copysign(
+						(TILE_SIZE * COLLISION_MARGIN),
+						delta[X])) / TILE_SIZE);
+		grid[Y] = floor((data->player->pos[Y] + delta[Y] + copysign(
+						(TILE_SIZE * COLLISION_MARGIN),
+						delta[Y])) / TILE_SIZE);
+		if (data->map_data->map[grid[Y]][grid[X]] == TILE_WALL)
+		{
+			delta[X] = 0;
+			delta[Y] = 0;
+		}
+		if (ft_strchr(DOOR_TILES, data->map_data->map[grid[Y]][grid[X]])
+			&& get_door(grid, data)->state != OPENED)
+		{
+			delta[X] = 0;
+			delta[Y] = 0;
+		}
+	}
+}
+
 // Función que chequea si el personaje puede moverse a la nueva posición
-void	check_wall_collision(double *delta, t_data *data)
+void	check_collision(double *delta, t_data *data)
 {
 	int	grid[2];
 
@@ -94,6 +120,7 @@ void	check_wall_collision(double *delta, t_data *data)
 			&& get_door(grid, data)->state != OPENED)
 			delta[Y] = 0;
 	}
+	check_diagonal_collision(delta, data);
 }
 
 void	move_player(int key_pressed, t_data *data)
@@ -111,15 +138,15 @@ void	move_player(int key_pressed, t_data *data)
 	else if (key_pressed == KEY_D)
 		angle -= 90;
 	angle = normalize_angle(angle);
-	delta[X] = direction * cos(deg_to_rad(angle)) * PLAYER_SPEED;
-	delta[Y] = direction * sin(deg_to_rad(angle)) * PLAYER_SPEED * -1;
+	delta[X] = direction * cos(deg_to_rad(angle)) * (PLAYER_SPEED * ((HEIGHT * WIDTH) / 960000));
+	delta[Y] = direction * sin(deg_to_rad(angle)) * (PLAYER_SPEED * ((HEIGHT * WIDTH) / 960000)) * -1;
 	if (fabs(delta[X]) < EPSILON)
 		delta[X] = 0;
 	if (fabs(delta[Y]) < EPSILON)
 		delta[Y] = 0;
 	delta[X] = copysign(ceil(fabs(delta[X])), delta[X]);
 	delta[Y] = copysign(ceil(fabs(delta[Y])), delta[Y]);
-	check_wall_collision(delta, data);
+	check_collision(delta, data);
 	data->player->pos[X] += delta[X];
 	data->player->pos[Y] += delta[Y];
 	check_interactable(data);

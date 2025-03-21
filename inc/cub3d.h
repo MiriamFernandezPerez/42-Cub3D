@@ -6,7 +6,7 @@
 /*   By: mirifern <mirifern@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 21:08:03 by mirifern          #+#    #+#             */
-/*   Updated: 2025/03/17 21:43:24 by mirifern         ###   ########.fr       */
+/*   Updated: 2025/03/21 23:09:43 by igarcia2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@
 
 /*Constants*/
 # define WIDTH 1200
-# define HEIGHT 700
+# define HEIGHT 800
 # define UI_SIZE 0.05
 # define TILE_SIZE 32 
 # define FOV 60
@@ -43,7 +43,7 @@
 # define M_PI 3.14159265358979323846
 # define ROTATION_SPEED 0.09
 # define ALPHA_COLOR 0x08ff00
-# define COLLISION_MARGIN 0.25
+# define COLLISION_MARGIN 0.30
 # define SHADING 1 
 # define SHADING_MAX_DISTANCE 500 
 # define DOOR_OPEN_TIME 1.5
