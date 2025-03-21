@@ -22,7 +22,7 @@ void	take_collectable(int grid[2], t_data *data)
 	{
 		if (sprite->subtype == T_CHEST)
 		{
-			play_sound(COLLECT_AUDIO, true, false, data);
+			play_sound(CHEST_AUDIO, true, false, data);
 			data->player->score += CHEST_SCORE;
 			data->map_data->chest_found++;
 		}
@@ -30,7 +30,7 @@ void	take_collectable(int grid[2], t_data *data)
 		{
 			data->map_data->coin_found++;
 			data->player->score += COIN_SCORE;
-			play_sound(COLLECT_AUDIO, true, false, data);
+			play_sound(COIN_AUDIO, true, false, data);
 		}
 		else if (sprite->subtype == T_KEY)
 		{

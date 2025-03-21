@@ -20,7 +20,8 @@
 # define WINTER_AUDIO 'W'
 # define DOOR_AUDIO 'D'
 # define UNLOCK_AUDIO 'U'
-# define COLLECT_AUDIO 'C'
+# define COIN_AUDIO 'C'
+# define CHEST_AUDIO 'Q'
 # define KEY_AUDIO 'K'
 # define LEVEL_AUDIO 'L'
 
@@ -33,6 +34,7 @@
 # define WINTER_PATH "./assets/audio/winter8bit.mp3"
 # define KEY_PATH "./assets/audio/key_pickup.mp3"
 # define LEVEL_PATH "./assets/audio/level_up.mp3"
-# define COLLECT_PATH "./assets/audio/coin_pickup.wav"
+# define COIN_PATH "./assets/audio/coin_pickup.wav"
+# define CHEST_PATH "./assets/audio/chest_pickup.mp3"
 
 #endif

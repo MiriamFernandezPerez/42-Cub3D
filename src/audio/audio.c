@@ -28,7 +28,7 @@ void	play_sound(char id, bool play, bool loop, t_data *data)
 		BASS_ChannelFlags(audio->bass_id, BASS_SAMPLE_LOOP, BASS_SAMPLE_LOOP);
 	if (play)
 	{
-		if (id == DOOR_AUDIO || id == COLLECT_AUDIO
+		if (id == DOOR_AUDIO || id == COIN_AUDIO || id == CHEST_AUDIO
 			|| id == KEY_AUDIO || id == LEVEL_AUDIO)
 		{
 			channel = BASS_SampleGetChannel(audio->bass_id, FALSE);
@@ -71,10 +71,12 @@ void	load_audio_files(t_data *data)
 			0, 0, 0), data);
 	add_audio_node(WINTER_AUDIO, BASS_StreamCreateFile(FALSE, WINTER_PATH,
 			0, 0, 0), data);
-	add_audio_node(COLLECT_AUDIO, BASS_SampleLoad(FALSE, COLLECT_PATH,
-			0, 0, 3, BASS_SAMPLE_OVER_VOL), data);
+	add_audio_node(COIN_AUDIO, BASS_SampleLoad(FALSE, COIN_PATH,
+			0, 0, 9, BASS_SAMPLE_OVER_VOL), data);
+	add_audio_node(CHEST_AUDIO, BASS_SampleLoad(FALSE, CHEST_PATH,
+			0, 0, 9, BASS_SAMPLE_OVER_VOL), data);
 	add_audio_node(KEY_AUDIO, BASS_SampleLoad(FALSE, KEY_PATH,
-			0, 0, 3, BASS_SAMPLE_OVER_VOL), data);
+			0, 0, 1, BASS_SAMPLE_OVER_VOL), data);
 	add_audio_node(LEVEL_AUDIO, BASS_SampleLoad(FALSE, LEVEL_PATH,
 			0, 0, 1, BASS_SAMPLE_OVER_VOL), data);
 }
