@@ -108,61 +108,6 @@
 # define ID_EXIT 'X' //Exit_id
 # define ID_MAP 'M' //Next Map_id
 
-/*Minimap*/
-# define MINIMAP_WIDTH 0.2
-# define MINIMAP_HEIGHT 0.2
-# define MINIMAP_MARGIN 0.01
-# define TILES_VERTICAL 13
-# define MINIMAP_BACK_COLOR 0x5A5858
-# define MINIMAP_PLAYER_COLOR 0xFF0000
-# define MINIMAP_WALL_COLOR 0xA7A6A6
-# define MINIMAP_FLOOR_COLOR 0x363333
-# define MINIMAP_DOOR_COLOR 0x505050
-# define MINIMAP_BORDER_COLOR 0x000000
-# define MINIMAP_SHADOW_COLOR 0x2C2C2C
-
-/*Errors*/
-# define ERR_ARGS "Error\nInvalid number of arguments\n"
-# define ERR_EXT "Error\nInvalid file extension\n"
-# define ERR_MALLOC "Error\nMemory allocation failed\n"
-# define ERR_CPY "Error\nMemory error when duplicating map\n"
-# define ERR_EMPTY "Error\nFile is Empty\n"
-# define ERR_MAP "Error\nInvalid map\n"
-# define ERR_TXT "Error\nInvalid textures in configuration map\n"
-# define ERR_PATH "Error\nCan't open texture path\n"
-# define ERR_NEXT "Error\nNext map file is not a .cub file\n"
-# define ERR_OPEN_NEXT "Error\nCan't open next_map file\n"
-# define ERR_COLOR "Error\n.Invalid color format\n"
-# define ERR_RGB "Error\n. Invalid RGB configuration\n"
-# define ERR_FILE "Error\nInvalid file\n"
-# define ERR_OPEN "Error\nCould not open file\n"
-# define ERR_CONF "Error\nRequired sections missing from .cub file\n"
-# define ERR_INV_CHAR "Error\nInvalid character in map\n"
-# define ERR_PLAYER "Error\nMap must have only one player\n"
-# define ERR_EXIT "Error\nMap must have one exit as a maximum\n"
-# define ERR_NO_EXIT "Error\nPlayer can't access to the exit\n"
-# define ERR_DOOR "Error\nInvalid door at map\n"
-# define ERR_NO_COLLECT "Error\nPlayer can't access to all the collectibles\n"
-# define ERR_KEY "Error\nPlayer can't access to the key\n"
-# define ERR_CHEST "Error\nPlayer can't access to all the chests\n"
-# define ERR_COIN "Error\nPlayer can't access to all the coins\n"
-# define ERR_KET_QT "Error\nMap must have one key exit as a maximun\n"
-# define ERR_BORDER "Error\nThe map must be closed/surrounded by walls\n"
-# define ERR_SOLUT "Error\nInvalid Map, player can't visit all the spaces\n"
-# define ERR_START "Error\nCan't open start screen files\n"
-# define NO_PLAY "Don't you want to play? Maybe later, see you :)!!\n"
-# define ERR_MLX_INIT "Error\nmlx : initialization failed\n"
-# define ERR_MLX_WIN "Error\nmlx : window creation failed\n"
-# define ERR_MLX_IMG "Error\nmlx : image creation failed\n"
-# define ERR_LOAD_TXT "Error\nTextures load failed\n"
-# define ERR_LOAD_IMG "Error\nError loading images\n"
-# define ERR_MAP_CHAR "Error\nInvalid map character\n"
-# define ERR_MAP_BORDER "Error\nMap is not closed\n"
-# define ERR_MAP_PLAYER "Error\nPlayer is not in the map\n"
-# define ERR_MAP_EMPTY "Error\nMap is empty\n"
-# define ERR_BASS "Error\nBass Library failed\n"
-# define ERR_BASS_FILE "Error\nBass Create File failed\n"
-
 /*Coordinates*/
 typedef enum e_coord
 {
@@ -206,21 +151,6 @@ typedef enum e_door_state
 	OPENING,
 	CLOSING
 }	t_door_state;
-
-/*typedef enum e_sprite_type
-{
-	COLLECTABLE,
-	DECORATION,
-	PORTAL,
-	ENEMY
-}	t_sprite_type;
-
-typedef enum e_collectable_type
-{
-	T_CHEST,
-	T_COIN,
-	T_KEY
-}	t_collectable_type;*/
 
 /*Player*/
 typedef struct s_player
@@ -348,10 +278,7 @@ typedef struct s_mlx
 	int		bpp;
 	int		line_len;
 	int		endian;
-	int		redraw;
-	int		key_pressed;
 	int		mouse_pos;
-	/*KeyRelease*/
 	int		keys[6];
 }	t_mlx;
 

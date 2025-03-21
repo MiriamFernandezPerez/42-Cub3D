@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "../../inc/cub3d.h"
+#include "../../inc/error.h"
 
 char	*parse_path(char *line, t_data *data, char id)
 {

@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "../../inc/cub3d.h"
+#include "../../inc/error.h"
 
 void	validate_conf_textures(t_data *data)
 {

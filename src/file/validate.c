@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "../../inc/cub3d.h"
+#include "../../inc/error.h"
 
 int	validate_door(char **map, int y, int x, t_data *data)
 {

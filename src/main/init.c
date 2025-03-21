@@ -11,6 +11,8 @@
 /* ************************************************************************** */
 
 #include "../../inc/cub3d.h"
+#include "../../inc/error.h"
+#include "../../inc/minimap.h"
 
 void	init_textures(t_texture *txt_list, t_mlx *mlx_data, t_data *data)
 {
@@ -53,7 +55,6 @@ void	init_mlx(t_data *data)
 	data->mlx_data->new_img_addr = NULL;
 	data->mlx_data->img_ptr = NULL;
 	data->mlx_data->img_addr = NULL;
-	data->mlx_data->redraw = 1;
 	data->mlx_data->mouse_pos = 0;
 	ft_memset(data->mlx_data->keys, 0, sizeof(data->mlx_data->keys));
 	mlx_hook(data->mlx_data->win_ptr, 17, 0, close_window, data);

@@ -23,8 +23,6 @@ void	update_doors(t_data *data)
 	while (curr_door)
 	{
 		elapsed = (get_time() - curr_door->timer) / 1000.0;
-		if (curr_door->state == OPENING || curr_door->state == CLOSING)
-			data->mlx_data->redraw = 1;
 		if (curr_door->state == OPENING && elapsed / DOOR_OPEN_TIME >= 1.0)
 		{
 			curr_door->offset = TILE_SIZE;
@@ -75,7 +73,6 @@ void	check_doors(t_data *data)
 		{
 			play_sound(DOOR_AUDIO, true, false, data);
 			curr_door->timer = get_time();
-			data->mlx_data->redraw = 1;
 			if (curr_door->state == CLOSED)
 				curr_door->state = OPENING;
 			else

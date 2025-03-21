@@ -13,6 +13,7 @@
 #include "../../inc/cub3d.h"
 #include "../../bass/bass.h"
 #include "../../inc/audio.h"
+#include "../../inc/error.h"
 
 void	play_sound(char id, bool play, bool loop, t_data *data)
 {

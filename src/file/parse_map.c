@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "../../inc/cub3d.h"
+#include "../../inc/error.h"
 
 void	normalize_map(t_data *data, char **map)
 {

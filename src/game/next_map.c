@@ -71,7 +71,6 @@ int	load_next_map(t_data *data)
 		free(next_map);
 		add_common_textures(data);
 		init_textures(data->map_data->txt_list, data->mlx_data, data);
-		data->mlx_data->redraw = 1;
 		data->player->level++;
 		select_song(data);
 	}

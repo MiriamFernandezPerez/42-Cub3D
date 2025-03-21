@@ -37,7 +37,7 @@ OBJ = $(SRC_FULL_DIR:$(SRC_DIR)%.c=$(OBJ_DIR)%.o)
 DEPS = $(OBJ:.o=.d)
 
 CC = gcc
-CFLAGS = -Wall -Wextra -Werror -g #-Ofast
+CFLAGS = -Wall -Wextra -Werror -g -Ofast
 RM = rm -rf
 
 # Color codes
@@ -106,7 +106,7 @@ $(OBJ_DIR)%.o: $(SRC_DIR)%.c Makefile | create_obj_dirs
 $(NAME): $(OBJ_DIR) $(OBJ)
 		@echo ""
 		@$(call SHOW_MESSAGE, $(YELLOW)$(INFO), " LINKING CUB3D...")
-		@$(CC) -I/usr/include -I$(BASS_DIR) -o $(NAME) $(OBJ) $(LIBFT) $(LIBMLX) $(LIBMLX_FLAGS) $(BASS_FLAGS) -fsanitize=address -fsanitize=leak
+		@$(CC) -I/usr/include -I$(BASS_DIR) -o $(NAME) $(OBJ) $(LIBFT) $(LIBMLX) $(LIBMLX_FLAGS) $(BASS_FLAGS) -Ofast -fsanitize=address -fsanitize=leak
 		@cp $(BASS_LIB) .
 		@$(call SHOW_MESSAGE, $(GREEN)$(CHECKMARK), " CUB3D DONE!")
 

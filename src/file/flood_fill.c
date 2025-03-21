@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "../../inc/cub3d.h"
+#include "../../inc/error.h"
 
 /*Function to calculate all zeros on map*/
 int	floor_qt(char **map, int height)

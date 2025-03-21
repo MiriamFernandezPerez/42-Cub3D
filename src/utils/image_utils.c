@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "../../inc/cub3d.h"
+#include "../../inc/error.h"
 
 void	load_xpm_image(t_img *img, char *path, t_data *data)
 {

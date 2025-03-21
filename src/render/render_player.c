@@ -54,8 +54,8 @@ void	render_player(t_data *data)
 		pos[Y] = start_pos[Y];
 		while (pos[Y] < start_pos[Y] + player_size)
 		{
-			color = get_player_txt(pos[X] - start_pos[X], pos[Y] - start_pos[Y],
-					player_size, data);
+			color = get_player_txt(pos[X] - start_pos[X],
+					pos[Y] - start_pos[Y], player_size, data);
 			print_gui_pixel(pos[X], pos[Y], color, data->mlx_data);
 			pos[Y]++;
 		}

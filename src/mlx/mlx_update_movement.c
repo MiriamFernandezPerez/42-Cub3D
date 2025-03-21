@@ -49,6 +49,5 @@ void	update_movement(t_data *data)
 	if (moved)
 	{
 		data->player->angle = normalize_angle(data->player->angle);
-		data->mlx_data->redraw = 1;
 	}
 }

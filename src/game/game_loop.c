@@ -25,7 +25,6 @@ void	update_sprites(t_data *data)
 			{
 				sprite->frame = (sprite->frame + 1) % sprite->txt_num;
 				sprite->last_frame_time = get_time();
-				data->mlx_data->redraw = 1;
 			}
 		}
 		sprite = sprite->next;
@@ -45,7 +44,6 @@ void	redraw_scene(t_data *data)
 	create_minimap(data->minimap_data, data->mlx_data, data);
 	render_ui(data);
 	render_player(data);
-	data->mlx_data->redraw = 0;
 	mlx_put_image_to_window(data->mlx_data->mlx_ptr,
 		data->mlx_data->win_ptr, new_img_ptr, 0, 0);
 	if (data->mlx_data->img_ptr)

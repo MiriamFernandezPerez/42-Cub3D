@@ -52,6 +52,7 @@ void	fix_corner_case_intersection(double distance[2], t_raycast *ray_data,
 		horz[Y] -= 1;
 	wall[HORZ] = get_tile_type(horz, data->map_data);
 	wall[VERT] = get_tile_type(vert, data->map_data);
+	ray_data->shortest_distance = distance[HORZ];
 	if (wall[VERT] == TILE_WALL)
 		distance[VERT] = 0;
 	else
@@ -62,6 +63,8 @@ void	get_shortest_dist(t_player *player, t_raycast *ray_data, t_data *data)
 {
 	double	distance[2];
 
+	distance[HORZ] = 0;
+	distance[VERT] = 0;
 	if (ray_data->horz_hit[X] > 0)
 		distance[HORZ] = sqrt(pow(player->pos[X] - ray_data->horz_hit[X], 2)
 				+ pow(player->pos[Y] - ray_data->horz_hit[Y], 2));
@@ -77,14 +80,10 @@ void	get_shortest_dist(t_player *player, t_raycast *ray_data, t_data *data)
 	else if (distance[VERT] < distance[HORZ])
 		ray_data->shortest_distance = distance[VERT];
 	if (fabs(distance[HORZ] - distance[VERT]) < EPSILON)
-	{
-		ray_data->shortest_distance = distance[HORZ];
 		fix_corner_case_intersection(distance, ray_data, data);
-	}
+	ray_data->vtx_hit = Y;
 	if (ray_data->shortest_distance == distance[HORZ])
 		ray_data->vtx_hit = X;
-	else
-		ray_data->vtx_hit = Y;
 }
 
 void	render_column(int x, t_raycast *ray_data, t_data *data)

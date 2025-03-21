@@ -41,7 +41,6 @@ int	mouse_handler(int x, int y, t_data *data)
 	{
 		data->player->angle -= delta_x * ROTATION_SPEED;
 		data->player->angle = normalize_angle(data->player->angle);
-		data->mlx_data->redraw = 1;
 	}
 	data->mlx_data->mouse_pos = 1;
 	mlx_mouse_move(data->mlx_data->mlx_ptr, data->mlx_data->win_ptr,
