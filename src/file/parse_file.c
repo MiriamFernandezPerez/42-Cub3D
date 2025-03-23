@@ -76,6 +76,9 @@ int	parse_extras(t_data *d, char *trim_line)
 	else if (ft_strncmp(trim_line, NEXT_MAP, ft_strlen(NEXT_MAP)) == 0)
 		d->map_data->next_map = parse_path(trim_line + ft_strlen(NEXT_MAP),
 				d, ID_MAP);
+	else if (ft_strncmp(trim_line, TREE, ft_strlen(TREE)) == 0)
+		add_texture_node(ID_TREE, parse_path(trim_line + ft_strlen(TREE),
+				d, ID_TREE), d);
 	else
 		return (1);
 	return (0);

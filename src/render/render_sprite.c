@@ -75,6 +75,8 @@ int	get_sprite_txt_color(int x, int y, t_sprite *sprite, t_data *data)
 		texture = get_texture(ID_CHEST, data);
 	else if (sprite->subtype == T_COIN)
 		texture = get_texture(ID_COIN, data);
+	else if (sprite->subtype == T_TREE)
+		texture = get_texture(ID_TREE, data);
 	else
 		texture = get_texture(ID_EXIT, data);
 	if (!texture)

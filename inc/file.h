@@ -23,5 +23,6 @@
 # define LOCKED_DOOR "L "
 # define NEXT_MAP "NEXT "
 # define EXIT "EXIT "
+# define TREE "TREE "
 
 #endif

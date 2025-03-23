@@ -98,6 +98,8 @@ void	validate_extras(t_data *data, char **map)
 				validate_exit(data, map, grid);
 			else if (ft_strchr(COLLECTABLE_TILES, tile_type))
 				add_collectable(grid, tile_type, map, data);
+			else if (tile_type == TILE_TREE)
+				add_sprite_node(DECORATION, T_TREE, grid, data);
 			grid[X]++;
 		}
 		grid[Y]++;

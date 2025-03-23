@@ -26,13 +26,13 @@ void	check_diagonal_collision(double *delta, t_data *data)
 		grid[Y] = floor((data->player->pos[Y] + delta[Y] + copysign(
 						(TILE_SIZE * COLLISION_MARGIN),
 						delta[Y])) / TILE_SIZE);
-		if (data->map_data->map[grid[Y]][grid[X]] == TILE_WALL)
+		if (ft_strchr(DOOR_TILES, data->map_data->map[grid[Y]][grid[X]])
+			&& get_door(grid, data)->state != OPENED)
 		{
 			delta[X] = 0;
 			delta[Y] = 0;
 		}
-		if (ft_strchr(DOOR_TILES, data->map_data->map[grid[Y]][grid[X]])
-			&& get_door(grid, data)->state != OPENED)
+		if (!ft_strchr(CROSSABLE_TILES, get_tile_type(grid, data->map_data)))
 		{
 			delta[X] = 0;
 			delta[Y] = 0;
@@ -50,10 +50,10 @@ void	check_collision(double *delta, t_data *data)
 		grid[X] = floor((data->player->pos[X] + delta[X] + copysign(
 						(TILE_SIZE * COLLISION_MARGIN), delta[X])) / TILE_SIZE);
 		grid[Y] = floor(data->player->pos[Y] / TILE_SIZE);
-		if (data->map_data->map[grid[Y]][grid[X]] == TILE_WALL)
-			delta[X] = 0;
 		if (ft_strchr(DOOR_TILES, data->map_data->map[grid[Y]][grid[X]])
 			&& get_door(grid, data)->state != OPENED)
+			delta[X] = 0;
+		if (!ft_strchr(CROSSABLE_TILES, get_tile_type(grid, data->map_data)))
 			delta[X] = 0;
 	}
 	if (delta[Y] != 0)
@@ -61,10 +61,10 @@ void	check_collision(double *delta, t_data *data)
 		grid[X] = floor(data->player->pos[X] / TILE_SIZE);
 		grid[Y] = floor((data->player->pos[Y] + delta[Y] + copysign(
 						(TILE_SIZE * COLLISION_MARGIN), delta[Y])) / TILE_SIZE);
-		if (data->map_data->map[grid[Y]][grid[X]] == TILE_WALL)
-			delta[Y] = 0;
 		if (ft_strchr(DOOR_TILES, data->map_data->map[grid[Y]][grid[X]])
 			&& get_door(grid, data)->state != OPENED)
+			delta[Y] = 0;
+		if (!ft_strchr(CROSSABLE_TILES, get_tile_type(grid, data->map_data)))
 			delta[Y] = 0;
 	}
 	check_diagonal_collision(delta, data);

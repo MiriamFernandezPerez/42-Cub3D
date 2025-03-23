@@ -14,16 +14,16 @@
 # define TILE_H
 
 # if BONUS == 1
-#  define VALID_TILES "01NSWEDXQKCL "
+#  define VALID_TILES "01NSWEDXQKCLT "
 # else
 #  define VALID_TILES "01NSWE "
 # endif
 
-# define SPRITE_TILES "XQKC"
+# define SPRITE_TILES "XQKCT"
 # define INTERACTABLE_TILES "CKQX"
 # define COLLECTABLE_TILES "CQK"
 # define DOOR_TILES "DL"
-# define CROSSABLE_TILES "0DNSEWXLQCL"
+# define CROSSABLE_TILES "0DNSEWXLQCK"
 
 typedef enum e_tile_type
 {
@@ -39,7 +39,8 @@ typedef enum e_tile_type
 	TILE_EXIT = 'X',
 	TILE_CHEST = 'Q',
 	TILE_KEY = 'K',
-	TILE_COIN = 'C'
+	TILE_COIN = 'C',
+	TILE_TREE = 'T'
 }	t_tile_type;
 
 #endif

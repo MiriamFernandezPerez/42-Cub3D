@@ -7,7 +7,6 @@ C ./assets/textures/ceil/winter.xpm
 D ./assets/textures/winterdoor.xpm
 EXIT ./assets/sprites/winter_portal.xpm
 
-NEXT ./assets/maps/map.cub
 
 11111111111111111111111111111111111
 1000000000110000000110000C0000000W1

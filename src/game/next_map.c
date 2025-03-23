@@ -16,6 +16,9 @@
 //TODO Añadir pantalla final
 void	finish_game(t_data *data)
 {
+	printf("Chest: %d%% / Coin: %d%%\n", (int)((double)data->player->total_chest_found
+		/ data->player->total_chest * 100), (int)((double)data->player->total_coin_found
+		/ data->player->total_coin * 100));
 	free_data(data);
 	exit(EXIT_SUCCESS);
 }

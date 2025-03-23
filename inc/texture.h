@@ -26,5 +26,6 @@
 # define ID_COIN 'I' //Coin_id
 # define ID_EXIT 'X' //Exit_id
 # define ID_MAP 'M' //Next Map_id
+# define ID_TREE 'T'
 
 #endif
