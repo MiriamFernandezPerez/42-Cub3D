@@ -36,8 +36,11 @@ OBJ = $(SRC_FULL_DIR:$(SRC_DIR)%.c=$(OBJ_DIR)%.o)
 
 DEPS = $(OBJ:.o=.d)
 
+BONUS_FILE = .bonus_mode
+
 CC = gcc
-CFLAGS = -Wall -Wextra -Werror -g -Ofast
+CFLAGS_MANDATORY = -Wall -Wextra -Werror -DBONUS=0 -g -Ofast
+CFLAGS_BONUS = -Wall -Wextra -Werror -DBONUS=1 -g -Ofast
 RM = rm -rf
 
 # Color codes
@@ -84,36 +87,52 @@ echo ""; \
 
 endef
 
+BONUS_CFLAGS = -DBONUS=1
+
 # Modify the all target to include the header
-all: 
+all: check_mode $(NAME)
 	$(call SHOW_HEADER, $(BLUE))
-	@make -C $(LIBFT_DIR) --no-print-directory
-	@make -C $(LIBMLX_DIR) --no-print-directory
-	@$(MAKE) $(NAME) --no-print-directory
+	@echo "0" > $(BONUS_FILE)
 	@echo "\n$(GREEN) $(CHECKMARK) -------- ALL DONE -------- $(CHECKMARK)$(RESET)\n"
 
-bonus:
+bonus: check_mode $(NAME)
 	$(call SHOW_HEADER, $(BLUE))
-	@$(MAKE) $(NAME) --no-print-directory
-	@echo "\n$(GREEN) $(CHECKMARK) -------- ALL DONE -------- $(CHECKMARK)$(RESET)\n"
+	@echo "1" > $(BONUS_FILE)
+	@echo "\n$(GREEN) $(CHECKMARK) -------- BONUS DONE -------- $(CHECKMARK)$(RESET)\n"
 
+check_mode:
+	@if [ ! -f $(BONUS_FILE) ]; then echo "-1" > $(BONUS_FILE); fi  # Si no existe, lo creamos
+	@if [ "$$(cat $(BONUS_FILE))" != "0" ] && [ "$(MAKECMDGOALS)" != "bonus" ]; then \
+		rm -rf $(OBJ_DIR); \
+	fi
+	@if [ "$$(cat $(BONUS_FILE))" != "1" ] && [ "$(MAKECMDGOALS)" = "bonus" ]; then \
+		rm -rf $(OBJ_DIR); \
+	fi
 
 $(OBJ_DIR)%.o: $(SRC_DIR)%.c Makefile | create_obj_dirs
-		@$(call SHOW_MESSAGE, $(INFO), " Compiling $<...")
-		@$(CC) $(CFLAGS) -c -MMD $< -o $@
-		@$(call SHOW_MESSAGE, $(CHECKMARK), " Compiled $<")
+	@$(call SHOW_MESSAGE, $(INFO), " Compiling $<...")
+	@if [ "$(MAKECMDGOALS)" = "bonus" ]; then \
+		$(CC) $(CFLAGS_BONUS) -c -MMD $< -o $@; \
+	else \
+		$(CC) $(CFLAGS_MANDATORY) -c -MMD $< -o $@; \
+	fi
+	@$(call SHOW_MESSAGE, $(CHECKMARK), " Compiled $<")
 
+# Regla para generar el ejecutable
 $(NAME): $(OBJ_DIR) $(OBJ)
-		@echo ""
-		@$(call SHOW_MESSAGE, $(YELLOW)$(INFO), " LINKING CUB3D...")
-		@$(CC) -I/usr/include -I$(BASS_DIR) -o $(NAME) $(OBJ) $(LIBFT) $(LIBMLX) $(LIBMLX_FLAGS) $(BASS_FLAGS) -Ofast -fsanitize=address -fsanitize=leak
-		@cp $(BASS_LIB) .
-		@$(call SHOW_MESSAGE, $(GREEN)$(CHECKMARK), " CUB3D DONE!")
+	@echo "MAKECMDGOALS is $(MAKECMDGOALS)"
+	@make -C $(LIBFT_DIR) --no-print-directory
+	@make -C $(LIBMLX_DIR) --no-print-directory
+	@echo ""
+	@$(call SHOW_MESSAGE, $(YELLOW)$(INFO), " LINKING CUB3D...")
+	@$(CC) -I/usr/include -I$(BASS_DIR) -o $(NAME) $(OBJ) $(LIBFT) $(LIBMLX) $(LIBMLX_FLAGS) $(BASS_FLAGS) -Ofast -fsanitize=address -fsanitize=leak
+	@cp $(BASS_LIB) .
+	@$(call SHOW_MESSAGE, $(GREEN)$(CHECKMARK), " CUB3D DONE!")
 
 $(OBJ_DIR): Makefile $(LIBFT)
-		@rm -rf $(OBJ_DIR)
-		@echo "$(YELLOW)COMPILING CUB3D FILES...$(RESET)"
-		@mkdir $(OBJ_DIR)
+	@rm -rf $(OBJ_DIR)
+	@echo "$(YELLOW)COMPILING CUB3D FILES...$(RESET)"
+	@mkdir $(OBJ_DIR)
 
 # Create necessary directories for object files and dependencies
 create_obj_dirs:
@@ -128,7 +147,7 @@ $(LIBFT):
 clean: libft_clean libmlx_clean
 		$(call SHOW_HEADER, $(BLUE))
 		@$(call SHOW_MESSAGE, $(YELLOW)$(INFO), " CLEANING...")
-		@$(RM) $(OBJ_DIR)
+		@$(RM) $(OBJ_DIR) $(BONUS_FILE)
 		@$(call SHOW_MESSAGE, $(GREEN)$(CHECKMARK), "	DONE!")
 		@echo "\n"
 

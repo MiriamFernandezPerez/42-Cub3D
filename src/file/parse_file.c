@@ -86,9 +86,17 @@ int	parse_line(t_data *data, char *line)
 	char	*trim_line;
 
 	trim_line = ft_strtrim(line, "\t\n ");
-	if (parse_mandatory(data, trim_line) == 0
-		|| parse_extras(data, trim_line) == 0)
-		return (free(trim_line), 0);
+	if (BONUS)
+	{
+		if (parse_mandatory(data, trim_line) == 0
+			|| parse_extras(data, trim_line) == 0)
+			return (free(trim_line), 0);
+	}
+	else
+	{
+		if (parse_mandatory(data, trim_line) == 0)
+			return (free(trim_line), 0);
+	}
 	return (free(trim_line), 1);
 }
 

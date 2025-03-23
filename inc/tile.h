@@ -13,7 +13,12 @@
 #ifndef TILE_H
 # define TILE_H
 
-# define VALID_TILES "01NSWEDXQKCL "
+# if BONUS == 1
+#  define VALID_TILES "01NSWEDXQKCL "
+# else
+#  define VALID_TILES "01NSWE "
+# endif
+
 # define SPRITE_TILES "XQKC"
 # define INTERACTABLE_TILES "CKQX"
 # define COLLECTABLE_TILES "CQK"
