@@ -395,6 +395,10 @@ int			get_texture_pxl(t_texture *texture, int x, int y);
 void		render_ui(t_data *data);
 int			get_ui_txt_color(int x, int y, int sprite_size, t_texture *texture);
 
+/*render_ui_utils.c*/
+int			get_ui_txt_color(int x, int y, int sprite_size, t_texture *texture);
+int			get_digit_txt(int num);
+
 /*render_player.c*/
 void		render_player(t_data *data);
 
@@ -431,10 +435,6 @@ void		print_gui_pixel(int x, int y, int color, t_mlx *mlx_data);
 
 /*mlx_input.c*/
 int			mouse_handler(int x, int y, t_data *data);
-
-
-
-/*KeyRelease*/
 int			key_release(int keycode, t_data *data);
 int			key_press(int keycode, t_data *data);
 int			close_window(t_data *data);

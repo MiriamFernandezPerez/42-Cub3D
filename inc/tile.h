@@ -38,4 +38,3 @@ typedef enum e_tile_type
 }	t_tile_type;
 
 #endif
-
