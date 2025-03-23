@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "../../inc/cub3d.h"
+#include "../../inc/texture.h"
 
 void	render_ceil(int x, int *y, float hit[2], t_data *data)
 {

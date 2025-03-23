@@ -12,6 +12,8 @@
 
 #include "../../inc/cub3d.h"
 #include "../../inc/error.h"
+#include "../../inc/tile.h"
+#include "../../inc/sprite.h"
 
 int	validate_door(char **map, int y, int x, t_data *data)
 {
@@ -20,7 +22,7 @@ int	validate_door(char **map, int y, int x, t_data *data)
 
 	grid[X] = x;
 	grid[Y] = y;
-	locked = door_type(map, grid[Y], grid[X]);
+	locked = get_door_type(map, grid[Y], grid[X]);
 	if (y > 0 && map[y - 1] && x >= 0 && is_crossable(map[y - 1][x])
 		&& (y + 1 < data->map_data->max_height && !is_crossable(map[y + 1][x])))
 		return (EXIT_FAILURE);

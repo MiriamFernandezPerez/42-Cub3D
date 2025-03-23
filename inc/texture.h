@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   texture.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: igarcia2 <igarcia2@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -10,39 +10,21 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../inc/cub3d.h"
-#include "../../inc/error.h"
+#ifndef TEXTURE_H
+# define TEXTURE_H
 
-void	malloc_protection(void *ptr, t_data *data)
-{
-	if (ptr == NULL)
-	{
-		ft_error(ERR_MALLOC);
-		if (data)
-			free_data(data);
-		exit(EXIT_FAILURE);
-	}
-}
+# define ID_NORTH 'N' //North_id
+# define ID_SOUTH 'S' //South_id
+# define ID_WEST 'W' //West_id
+# define ID_EAST 'E' //East_id
+# define ID_FLOOR 'F' //Floor_id
+# define ID_CEIL 'C' //Ceil_id
+# define ID_DOOR 'D' //Door_id
+# define ID_LOCKED_DOOR 'L' //Locked_Door_id
+# define ID_CHEST 'Q' //Chest_id
+# define ID_KEY 'K' //Key_id
+# define ID_COIN 'I' //Coin_id
+# define ID_EXIT 'X' //Exit_id
+# define ID_MAP 'M' //Next Map_id
 
-int	only_spaces(const char *str)
-{
-	int	i;
-
-	i = 0;
-	while (str[i])
-	{
-		if (!ft_isspace(str[i]))
-			return (0);
-		i++;
-	}
-	return (1);
-}
-
-//Get current time in milliseconds
-long	get_time(void)
-{
-	struct timeval	tv;
-
-	gettimeofday(&tv, NULL);
-	return ((tv.tv_sec * 1000) + (tv.tv_usec / 1000));
-}
+#endif

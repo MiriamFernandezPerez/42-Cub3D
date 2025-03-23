@@ -11,6 +11,8 @@
 /* ************************************************************************** */
 
 #include "../../inc/cub3d.h"
+#include "../../inc/sprite.h"
+#include "../../inc/texture.h"
 
 int	is_sprite_visible_intersect(t_sprite *sprite, t_data *data)
 {

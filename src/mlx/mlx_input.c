@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "../../inc/cub3d.h"
+#include "../../inc/key.h"
 
 // Al inicio del juego, como prev_mouse_x se ha inicizlizado en -1, actualizo la
 // variable al valor en el que se encuentra el raton y no hago ninguna rotacion

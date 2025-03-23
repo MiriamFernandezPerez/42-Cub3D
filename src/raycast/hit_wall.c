@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "../../inc/cub3d.h"
+#include "../../inc/tile.h"
 
 void	reset_hit_data(int vector, t_raycast *ray_data)
 {

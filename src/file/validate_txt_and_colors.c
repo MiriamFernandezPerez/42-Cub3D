@@ -12,6 +12,7 @@
 
 #include "../../inc/cub3d.h"
 #include "../../inc/error.h"
+#include "../../inc/texture.h"
 
 void	validate_conf_textures(t_data *data)
 {
@@ -40,24 +41,22 @@ int	check_rgb(char *path, int *i)
 
 int	rgb_to_hex(char *path)
 {
-	int	r;
-	int	g;
-	int	b;
+	int	rgb[3];
 	int	i;
 
 	i = 0;
-	r = check_rgb(path, &i);
-	if (r == -1 || path[i] != ',')
+	rgb[R] = check_rgb(path, &i);
+	if (rgb[R] == -1 || path[i] != ',')
 		return (-1);
 	i++;
-	g = check_rgb(path, &i);
-	if (g == -1 || path[i] != ',')
+	rgb[G] = check_rgb(path, &i);
+	if (rgb[G] == -1 || path[i] != ',')
 		return (-1);
 	i++;
-	b = check_rgb(path, &i);
-	if (b == -1 || path[i] != '\0')
+	rgb[B] = check_rgb(path, &i);
+	if (rgb[B] == -1 || path[i] != '\0')
 		return (-1);
-	return ((r << 16) | (g << 8) | b);
+	return ((rgb[R] << 16) | (rgb[G] << 8) | rgb[B]);
 }
 
 int	check_color_or_texture(t_data *data, char *path, char id)

@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   sprite.h                                           :+:      :+:    :+:   */
+/*   tile.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: igarcia2 <igarcia2@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -10,26 +10,32 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef SPRITE_H
-# define SPRITE_H
+#ifndef TILE_H
+# define TILE_H
 
-# define COIN_TXT_PATH "./assets/sprites/coin.xpm"
-# define KEY_TXT_PATH "./assets/sprites/key.xpm"
-# define CHEST_TXT_PATH "./assets/sprites/chest.xpm"
+# define VALID_TILES "01NSWEDXQKCL "
+# define SPRITE_TILES "XQKC"
+# define INTERACTABLE_TILES "CKQX"
+# define COLLECTABLE_TILES "CQK"
+# define DOOR_TILES "DL"
+# define CROSSABLE_TILES "0DNSEWXLQCL"
 
-typedef enum e_sprite_type
+typedef enum e_tile_type
 {
-	COLLECTABLE,
-	DECORATION,
-	PORTAL,
-	ENEMY
-}	t_sprite_type;
-
-typedef enum e_collectable_type
-{
-	T_CHEST,
-	T_COIN,
-	T_KEY
-}	t_collectable_type;
+	TILE_WALL = '1',
+	TILE_FLOOR = '0',
+	TILE_SPACE = ' ',
+	TILE_N = 'N',
+	TILE_E = 'E',
+	TILE_W = 'W',
+	TILE_S = 'S',
+	TILE_DOOR = 'D',
+	TILE_LOCKED_DOOR = 'L',
+	TILE_EXIT = 'X',
+	TILE_CHEST = 'Q',
+	TILE_KEY = 'K',
+	TILE_COIN = 'C'
+}	t_tile_type;
 
 #endif
+

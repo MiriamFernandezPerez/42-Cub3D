@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   player.c                                           :+:      :+:    :+:   */
+/*   move_player.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: igarcia2 <igarcia2@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -12,60 +12,7 @@
 
 #include "../../inc/cub3d.h"
 #include "../../inc/audio.h"
-
-void	take_collectable(int grid[2], t_data *data)
-{
-	t_sprite	*sprite;
-
-	sprite = get_sprite(grid, data);
-	if (sprite)
-	{
-		if (sprite->subtype == T_CHEST)
-		{
-			play_sound(CHEST_AUDIO, true, false, data);
-			data->player->score += CHEST_SCORE;
-			data->map_data->chest_found++;
-		}
-		else if (sprite->subtype == T_COIN)
-		{
-			data->map_data->coin_found++;
-			data->player->score += COIN_SCORE;
-			play_sound(COIN_AUDIO, true, false, data);
-		}
-		else if (sprite->subtype == T_KEY)
-		{
-			play_sound(KEY_AUDIO, true, false, data);
-			data->map_data->key_found++;
-		}
-		delete_sprite(sprite, data);
-		data->map_data->map[grid[Y]][grid[X]] = TILE_FLOOR;
-	}
-}
-
-void	check_interactable(t_data *data)
-{
-	int	grid[2];
-	int	current_tile;
-
-	grid[X] = data->player->pos[X] / TILE_SIZE;
-	grid[Y] = data->player->pos[Y] / TILE_SIZE;
-	current_tile = get_tile_type(grid, data->map_data);
-	if (ft_strchr(INTERACTABLE_TILES, current_tile))
-	{
-		if (calculate_distance(data->player->pos[X], data->player->pos[Y],
-				(grid[X] + 0.5) * TILE_SIZE, (grid[Y] + 0.5) * TILE_SIZE)
-			<= TILE_SIZE / 1.5)
-		{
-			if (ft_strchr(COLLECTABLE_TILES, current_tile))
-				take_collectable(grid, data);
-			else if (TILE_EXIT == current_tile)
-			{
-				play_sound(LEVEL_AUDIO, true, false, data);
-				data->player->exit_reached = 1;
-			}
-		}
-	}
-}
+#include "../../inc/tile.h"
 
 void	check_diagonal_collision(double *delta, t_data *data)
 {
@@ -123,23 +70,15 @@ void	check_collision(double *delta, t_data *data)
 	check_diagonal_collision(delta, data);
 }
 
-void	move_player(int key_pressed, t_data *data)
+void	move_player(int direction, int angle, t_data *data)
 {
 	double	delta[2];
-	double	direction;
-	double	angle;
 
-	angle = data->player->angle;
-	direction = 1;
-	if (key_pressed == KEY_S)
-		direction = -1;
-	if (key_pressed == KEY_A)
-		angle += 90;
-	else if (key_pressed == KEY_D)
-		angle -= 90;
-	angle = normalize_angle(angle);
-	delta[X] = direction * cos(deg_to_rad(angle)) * (PLAYER_SPEED * ((HEIGHT * WIDTH) / 960000));
-	delta[Y] = direction * sin(deg_to_rad(angle)) * (PLAYER_SPEED * ((HEIGHT * WIDTH) / 960000)) * -1;
+	angle = normalize_angle(data->player->angle + angle);
+	delta[X] = direction * cos(deg_to_rad(angle))
+		* (PLAYER_SPEED * ((HEIGHT * WIDTH) / 960000));
+	delta[Y] = direction * sin(deg_to_rad(angle))
+		* (PLAYER_SPEED * ((HEIGHT * WIDTH) / 960000)) * -1;
 	if (fabs(delta[X]) < EPSILON)
 		delta[X] = 0;
 	if (fabs(delta[Y]) < EPSILON)
@@ -149,5 +88,4 @@ void	move_player(int key_pressed, t_data *data)
 	check_collision(delta, data);
 	data->player->pos[X] += delta[X];
 	data->player->pos[Y] += delta[Y];
-	check_interactable(data);
 }

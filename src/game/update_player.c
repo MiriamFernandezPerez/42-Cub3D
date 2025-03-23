@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   mlx_update_movement.c                              :+:      :+:    :+:   */
+/*   update_player.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mirifern <mirifern@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -11,43 +11,37 @@
 /* ************************************************************************** */
 
 #include "../../inc/cub3d.h"
+#include "../../inc/key.h"
 
-void	handle_rotation(t_data *data, int *moved)
+void	handle_rotation(t_data *data)
 {
 	if (data->mlx_data->keys[ID_KEY_LEFT])
 	{
 		data->player->angle += 5;
-		*moved = 1;
+		data->player->angle = normalize_angle(data->player->angle);
 	}
 	else if (data->mlx_data->keys[ID_KEY_RIGHT])
 	{
 		data->player->angle -= 5;
-		*moved = 1;
-	}
-}
-
-void	handle_movement(t_data *data, int *moved)
-{
-	if (data->mlx_data->keys[ID_KEY_W])
-		move_player(KEY_W, data);
-	else if (data->mlx_data->keys[ID_KEY_S])
-		move_player(KEY_S, data);
-	else if (data->mlx_data->keys[ID_KEY_A])
-		move_player(KEY_A, data);
-	else if (data->mlx_data->keys[ID_KEY_D])
-		move_player(KEY_D, data);
-	*moved = 1;
-}
-
-void	update_movement(t_data *data)
-{
-	int	moved;
-
-	moved = 0;
-	handle_rotation(data, &moved);
-	handle_movement(data, &moved);
-	if (moved)
-	{
 		data->player->angle = normalize_angle(data->player->angle);
 	}
+}
+
+void	handle_movement(t_data *data)
+{
+	if (data->mlx_data->keys[ID_KEY_W])
+		move_player(1, 0, data);
+	else if (data->mlx_data->keys[ID_KEY_S])
+		move_player(-1, 0, data);
+	else if (data->mlx_data->keys[ID_KEY_A])
+		move_player(1, 90, data);
+	else if (data->mlx_data->keys[ID_KEY_D])
+		move_player(1, -90, data);
+}
+
+void	update_player(t_data *data)
+{
+	handle_rotation(data);
+	handle_movement(data);
+	check_interactable(data);
 }

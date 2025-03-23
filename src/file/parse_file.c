@@ -12,6 +12,8 @@
 
 #include "../../inc/cub3d.h"
 #include "../../inc/error.h"
+#include "../../inc/file.h"
+#include "../../inc/texture.h"
 
 char	*parse_path(char *line, t_data *data, char id)
 {
@@ -71,15 +73,6 @@ int	parse_extras(t_data *d, char *trim_line)
 	else if (ft_strncmp(trim_line, EXIT, ft_strlen(EXIT)) == 0)
 		add_texture_node(ID_EXIT, parse_path(trim_line + ft_strlen(EXIT),
 				d, ID_EXIT), d);
-	else if (ft_strncmp(trim_line, CHEST, ft_strlen(CHEST)) == 0)
-		add_texture_node(ID_CHEST, parse_path(trim_line + ft_strlen(CHEST),
-				d, ID_CHEST), d);
-	else if (ft_strncmp(trim_line, KEY, ft_strlen(KEY)) == 0)
-		add_texture_node(ID_KEY, parse_path(trim_line + ft_strlen(KEY),
-				d, ID_KEY), d);
-	else if (ft_strncmp(trim_line, COIN, ft_strlen(COIN)) == 0)
-		add_texture_node(ID_COIN, parse_path(trim_line + ft_strlen(COIN),
-				d, ID_COIN), d);
 	else if (ft_strncmp(trim_line, NEXT_MAP, ft_strlen(NEXT_MAP)) == 0)
 		d->map_data->next_map = parse_path(trim_line + ft_strlen(NEXT_MAP),
 				d, ID_MAP);

@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "../../inc/cub3d.h"
+#include "../../inc/texture.h"
 
 t_texture	*get_door_texture(t_door *door, t_data *data)
 {

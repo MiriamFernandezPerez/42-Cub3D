@@ -14,6 +14,8 @@
 # define ERROR_H
 
 # define ERR_ARGS "Error\nInvalid number of arguments\n"
+# define ERR_WINDOW_SIZE "Error\nHeight and width must be at least 100 pixels\n"
+# define ERR_HEIGHT "Error\nHeight must be greater than width\n"
 # define ERR_EXT "Error\nInvalid file extension\n"
 # define ERR_MALLOC "Error\nMemory allocation failed\n"
 # define ERR_CPY "Error\nMemory error when duplicating map\n"

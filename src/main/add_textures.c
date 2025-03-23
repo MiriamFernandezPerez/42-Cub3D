@@ -11,7 +11,9 @@
 /* ************************************************************************** */
 
 #include "../../inc/cub3d.h"
+#include "../../inc/texture.h"
 #include "../../inc/ui.h"
+#include "../../inc/sprite.h"
 
 void	add_ui_textures(t_data *data)
 {
@@ -45,5 +47,5 @@ void	add_collectable_textures(t_data *data)
 void	add_common_textures(t_data *data)
 {
 	add_ui_textures(data);
-	//add_common_textures(data);
+	add_collectable_textures(data);
 }

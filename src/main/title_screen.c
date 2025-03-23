@@ -14,6 +14,7 @@
 #include "../../inc/title_img_path.h"
 #include "../../inc/audio.h"
 #include "../../inc/error.h"
+#include "../../inc/key.h"
 
 void	init_title(t_title *title_data)
 {

@@ -7,9 +7,7 @@ C ./assets/textures/ceil/spring.xpm
 D ./assets/textures/springdoor.xpm
 L ./assets/textures/springdoor_locked.xpm
 EXIT ./assets/sprites/spring_portal.xpm
-CHEST ./assets/sprites/chest.xpm
-KEY ./assets/sprites/key.xpm
-COIN ./assets/sprites/coin.xpm
+
 NEXT ./assets/maps/map2.cub
 
 

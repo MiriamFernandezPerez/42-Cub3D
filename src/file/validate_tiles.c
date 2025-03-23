@@ -12,6 +12,8 @@
 
 #include "../../inc/cub3d.h"
 #include "../../inc/error.h"
+#include "../../inc/tile.h"
+#include "../../inc/sprite.h"
 
 int	check_tiles_between(char **map, int y, int x)
 {

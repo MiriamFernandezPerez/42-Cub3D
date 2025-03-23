@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "../../inc/cub3d.h"
+#include "../../inc/tile.h"
 
 void	corrected_wall_distance(t_raycast *ray_data, t_data *data)
 {

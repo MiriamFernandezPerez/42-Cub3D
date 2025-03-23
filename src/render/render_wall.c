@@ -12,6 +12,7 @@
 
 #include "../../inc/cub3d.h"
 #include "../../inc/error.h"
+#include "../../inc/texture.h"
 
 //Select the correct texture according to the orientation of the wall
 t_texture	*get_wall_texture(t_raycast *ray_data, t_data *data)

@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "../../inc/cub3d.h"
+#include "../../inc/tile.h"
 
 double	get_angle_diff(t_sprite *sprite, t_data *data)
 {

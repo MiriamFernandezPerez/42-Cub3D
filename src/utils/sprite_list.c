@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "../../inc/cub3d.h"
+#include "../../inc/sprite.h"
 
 t_sprite	*get_sprite(int grid[2], t_data *data)
 {
@@ -71,8 +72,7 @@ void	delete_sprite(t_sprite *sprite, t_data *data)
 	}
 }
 
-void	add_sprite_node(t_sprite_type type, int subtype, int grid[2],
-	t_data *data)
+void	add_sprite_node(int type, int subtype, int grid[2],	t_data *data)
 {
 	t_sprite	*new;
 

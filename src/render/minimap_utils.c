@@ -12,6 +12,7 @@
 
 #include "../../inc/cub3d.h"
 #include "../../inc/minimap.h"
+#include "../../inc/tile.h"
 
 int	is_angle_in_fov(double angle, t_data *data)
 {

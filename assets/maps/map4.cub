@@ -6,9 +6,7 @@ F ./assets/textures/floor/winter.xpm
 C ./assets/textures/ceil/winter.xpm
 D ./assets/textures/winterdoor.xpm
 EXIT ./assets/sprites/winter_portal.xpm
-CHEST ./assets/sprites/chest.xpm
-KEY ./assets/sprites/key.xpm
-COIN ./assets/sprites/coin.xpm
+
 NEXT ./assets/maps/map.cub
 
 11111111111111111111111111111111111

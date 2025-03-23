@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "../../inc/cub3d.h"
+#include "../../inc/tile.h"
 
 int	is_door_hit(t_raycast *ray_data, t_data *data)
 {

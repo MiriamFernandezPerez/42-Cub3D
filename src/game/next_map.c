@@ -59,6 +59,10 @@ int	load_next_map(t_data *data)
 {
 	char	*next_map;
 
+	data->player->total_chest += data->map_data->chest_qt;
+	data->player->total_coin += data->map_data->coin_qt;
+	data->player->total_chest_found += data->map_data->chest_found;
+	data->player->total_coin_found += data->map_data->coin_found;
 	if (data->map_data->next_map)
 	{
 		next_map = ft_strdup(data->map_data->next_map);

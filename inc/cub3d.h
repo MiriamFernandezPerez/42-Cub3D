@@ -13,9 +13,9 @@
 #ifndef CUB3D_H
 # define CUB3D_H
 /*Libraries to Bass*/
-# include <stdint.h>
-# include <stdbool.h>
-# include "../bass/bass.h"
+//# include <stdint.h>
+//# include <stdbool.h>
+//# include "../bass/bass.h"
 /******************/
 # include <stdio.h>
 # include <stdlib.h>
@@ -29,84 +29,7 @@
 # include "../minilibx-linux/mlx.h"
 # include <X11/Xlib.h>
 # include <X11/keysym.h>
-
-# include "sprite.h"
-
-/*Constants*/
-# define WIDTH 1200
-# define HEIGHT 800
-# define UI_SIZE 0.05
-# define TILE_SIZE 32 
-# define FOV 60
-# define PLAYER_SPEED 5
-# define EPSILON 0.0001
-# define M_PI 3.14159265358979323846
-# define ROTATION_SPEED 0.09
-# define ALPHA_COLOR 0x08ff00
-# define COLLISION_MARGIN 0.30
-# define SHADING 1 
-# define SHADING_MAX_DISTANCE 500 
-# define DOOR_OPEN_TIME 1.5
-# define TITLE_IMAGES 8
-# define FRAME_DURATION 100
-
-# define COIN_SCORE 100
-# define CHEST_SCORE 500
-
-/*Keys*/
-# define KEY_ESC 65307
-# define KEY_ENTER 65293
-# define KEY_W 119
-# define KEY_A 97
-# define KEY_S 115
-# define KEY_D 100
-# define KEY_LEFT 65361
-# define KEY_RIGHT 65363
-# define KEY_SPACE 32
-# define ID_KEY_W 0
-# define ID_KEY_A 1
-# define ID_KEY_S 2
-# define ID_KEY_D 3
-# define ID_KEY_LEFT 4
-# define ID_KEY_RIGHT 5
-
-/*cub_file*/
-# define NORTH_TXT "NO "
-# define SOUTH_TXT "SO "
-# define WEST_TXT "WE "
-# define EAST_TXT "EA "
-# define FLOOR "F "
-# define CEIL "C "
-# define DOOR "D "
-# define LOCKED_DOOR "L "
-# define NEXT_MAP "NEXT "
-# define EXIT "EXIT "
-# define CHEST "CHEST "
-# define KEY "KEY " 
-# define COIN "COIN "
-
-/*TILES*/
-# define VALID_TILES "01NSWEDXQKCL "
-# define SPRITE_TILES "XQKC"
-# define INTERACTABLE_TILES "CKQX"
-# define COLLECTABLE_TILES "CQK"
-# define DOOR_TILES "DL"
-# define CROSSABLE_TILES "0DNSEWXLQCL"
-
-/*id_cub_file_settings & textures ID*/
-# define ID_NORTH 'N' //North_id
-# define ID_SOUTH 'S' //South_id
-# define ID_WEST 'W' //West_id
-# define ID_EAST 'E' //East_id
-# define ID_FLOOR 'F' //Floor_id
-# define ID_CEIL 'C' //Ceil_id
-# define ID_DOOR 'D' //Door_id
-# define ID_LOCKED_DOOR 'L' //Locked_Door_id
-# define ID_CHEST 'Q' //Chest_id
-# define ID_KEY 'K' //Key_id
-# define ID_COIN 'I' //Coin_id
-# define ID_EXIT 'X' //Exit_id
-# define ID_MAP 'M' //Next Map_id
+# include "game_settings.h"
 
 /*Coordinates*/
 typedef enum e_coord
@@ -126,24 +49,6 @@ typedef enum e_rgb_matrix
 	B = 2
 }	t_rgb_matrix;
 
-/*Tile Type*/
-typedef enum e_tile_type
-{
-	TILE_WALL = '1',
-	TILE_FLOOR = '0',
-	TILE_SPACE = ' ',
-	TILE_N = 'N',
-	TILE_E = 'E',
-	TILE_W = 'W',
-	TILE_S = 'S',
-	TILE_DOOR = 'D',
-	TILE_LOCKED_DOOR = 'L',
-	TILE_EXIT = 'X',
-	TILE_CHEST = 'Q',
-	TILE_KEY = 'K',
-	TILE_COIN = 'C'
-}	t_tile_type;
-
 typedef enum e_door_state
 {
 	CLOSED,
@@ -160,6 +65,10 @@ typedef struct s_player
 	double			angle;
 	int				level;
 	int				score;
+	int				total_chest;
+	int				total_coin;
+	int				total_chest_found;
+	int				total_coin_found;
 	int				frame;
 	unsigned long	last_frame_time;
 	int				exit_reached;
@@ -178,7 +87,24 @@ typedef struct s_texture
 	int					height;
 	char				*path;
 	struct s_texture	*next;
-}				t_texture;
+}	t_texture;
+
+typedef struct s_sprite
+{
+	int				type;
+	int				subtype;
+	int				grid[2];
+	int				world[2];
+	int				size[2];
+	int				start[2];
+	double			distance;
+	int				txt_num;
+	int				frame;
+	unsigned long	last_frame_time;
+	int				visible_horz;
+	int				visible_vert;
+	struct s_sprite	*next;
+}	t_sprite;
 
 /*Images*/
 typedef struct s_img
@@ -373,11 +299,13 @@ void		free_str_array(char ***str_array);
 void		destroy_mlx(t_data *data);
 
 /*utils.c*/
-int			door_type(char **map, int y, int x);
-int			is_crossable(char tile);
 void		malloc_protection(void *ptr, t_data *data);
 int			only_spaces(const char *str);
 long		get_time(void);
+
+/*tile_utils.c*/
+int			get_door_type(char **map, int y, int x);
+int			is_crossable(char tile);
 
 /*free_utils.c*/
 void		free_map(t_map *map_data, t_mlx *mlx_data);
@@ -418,8 +346,7 @@ void		clear_audio_list(t_audio **audio_list);
 t_audio		*get_audio(char audio_id, t_data *data);
 
 /*sprite_list.c*/
-void		add_sprite_node(t_sprite_type type, int subtype, int grid[2],
-				t_data *data);
+void		add_sprite_node(int type, int subtype, int grid[2], t_data *data);
 void		clear_sprite_list(t_sprite **sprite_list);
 t_sprite	*get_sprite(int grid[2], t_data *data);
 void		delete_sprite(t_sprite *sprite, t_data *data);
@@ -479,8 +406,12 @@ void		create_minimap(t_minimap *minimap_data, t_mlx *mlx_data,
 void		print_tile_pixel(int x, int y, int map_idx[2], t_data *data);
 void		print_triangle(int v[3][2], int color, t_mlx *mlx_data);
 
-/*player.c*/
-void		move_player(int key_pressed, t_data *data);
+/*move_player.c*/
+void		move_player(int direction, int angle, t_data *data);
+void		check_interactable(t_data *data);
+
+/*update_player.c*/
+void		update_player(t_data *data);
 
 /*game_loop.c*/
 int			game_loop(t_data *data);
@@ -501,8 +432,7 @@ void		print_gui_pixel(int x, int y, int color, t_mlx *mlx_data);
 /*mlx_input.c*/
 int			mouse_handler(int x, int y, t_data *data);
 
-/*mlx_update_movement.c*/
-void		update_movement(t_data *data);
+
 
 /*KeyRelease*/
 int			key_release(int keycode, t_data *data);
