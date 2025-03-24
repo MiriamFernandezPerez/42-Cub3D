@@ -59,9 +59,12 @@ void	finish_game(t_data *data)
 		(int)((double)data->player->total_coin_found
 			/ data->player->total_coin * 100));
 	select_song(TRUE, data);
+	data->mlx_data->game_active = 0;
+	mlx_mouse_show(data->mlx_data->mlx_ptr, data->mlx_data->win_ptr);
 	//TODO Añadir pantalla final
-	free_data(data);
-	exit(EXIT_SUCCESS);
+	end_screen(data);
+	//free_data(data);
+	//exit(EXIT_SUCCESS);
 }
 
 int	load_next_map(t_data *data)

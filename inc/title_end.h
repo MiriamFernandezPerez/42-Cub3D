@@ -21,7 +21,6 @@
 # define TITLE_IMG_PATH_5 "./assets/title_screen/title_screen5.xpm"
 # define TITLE_IMG_PATH_6 "./assets/title_screen/title_screen_start.xpm"
 # define TITLE_IMG_PATH_7 "./assets/title_screen/title_screen_exit.xpm"
-
-# define END_IMG_PATH "/assets/end_screen.xpm"
+# define END_PATH "./assets/end_screen.xpm"
 
 #endif

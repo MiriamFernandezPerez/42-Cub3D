@@ -30,6 +30,8 @@ int	mouse_handler(int x, int y, t_data *data)
 	float	ratio;
 
 	(void)y;
+	if (!data->mlx_data->game_active)
+		return (0);
 	delta_x = 0;
 	if (data->mlx_data->mouse_pos)
 	{

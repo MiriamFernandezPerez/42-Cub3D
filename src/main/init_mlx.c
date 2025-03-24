@@ -38,6 +38,7 @@ void	init_mlx(t_data *data)
 	data->mlx_data->img_ptr = NULL;
 	data->mlx_data->img_addr = NULL;
 	data->mlx_data->mouse_pos = 0;
+	data->mlx_data->game_active = 0;
 	data->mlx_data->mlx_ptr = mlx_init();
 	if (!data->mlx_data->mlx_ptr)
 		ft_error_exit(ERR_MLX_INIT, data);
@@ -48,7 +49,6 @@ void	init_mlx(t_data *data)
 		ft_error_exit(ERR_MLX_WIN, data);
 	mlx_mouse_move(data->mlx_data->mlx_ptr, data->mlx_data->win_ptr,
 		WIDTH, HEIGHT);
-	mlx_mouse_hide(data->mlx_data->mlx_ptr, data->mlx_data->win_ptr);
 	ft_memset(data->mlx_data->keys, 0, sizeof(data->mlx_data->keys));
 	mlx_hook(data->mlx_data->win_ptr, 17, 0, close_window, data);
 	mlx_hook(data->mlx_data->win_ptr, 6, 1L << 6, mouse_handler, data);

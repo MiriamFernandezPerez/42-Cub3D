@@ -206,6 +206,7 @@ typedef struct s_mlx
 	int		endian;
 	int		mouse_pos;
 	int		keys[6];
+	int		game_active;
 }	t_mlx;
 
 /*Audio*/
@@ -225,6 +226,7 @@ typedef struct s_data
 	t_mlx			*mlx_data;
 	t_player		*player;
 	t_title			*title_data;
+	t_title			*end_data;
 	char			**cub_file;
 	t_audio			*audio_list;
 	double			loop_time;
@@ -397,6 +399,7 @@ int			get_texture_pxl(t_texture *texture, int x, int y);
 
 /*render_ui.c*/
 void		render_ui(t_data *data);
+void		print_num_sprite(int pos[2], int sprite_size, int num, t_data *data);
 int			get_ui_txt_color(int x, int y, int sprite_size, t_texture *texture);
 
 /*render_ui_utils.c*/
@@ -447,5 +450,8 @@ int			close_window(t_data *data);
 void		play_sound(char audio_id, bool play, bool loop, t_data *data);
 void		stop_audio(char audio_id, t_data *data);
 void		init_audio(t_data *data);
+
+/*end_screen.c*/
+void		end_screen(t_data *data);
 
 #endif
