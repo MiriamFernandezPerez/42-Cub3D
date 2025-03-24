@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   title_img_path.h                                   :+:      :+:    :+:   */
+/*   title_end.h                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: igarcia2 <igarcia2@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -10,8 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef TITLE_IMG_PATH_H
-# define TITLE_IMG_PATH_H
+#ifndef TITLE_END_H
+# define TITLE_END_H
 
 # define TITLE_IMG_PATH_0 "./assets/title_screen/title_screen0.xpm"
 # define TITLE_IMG_PATH_1 "./assets/title_screen/title_screen1.xpm"
@@ -21,5 +21,7 @@
 # define TITLE_IMG_PATH_5 "./assets/title_screen/title_screen5.xpm"
 # define TITLE_IMG_PATH_6 "./assets/title_screen/title_screen_start.xpm"
 # define TITLE_IMG_PATH_7 "./assets/title_screen/title_screen_exit.xpm"
+
+# define END_IMG_PATH "/assets/end_screen.xpm"
 
 #endif

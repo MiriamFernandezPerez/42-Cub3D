@@ -56,12 +56,18 @@ void	redraw_scene(t_data *data)
 //Manages the game main loop
 int	game_loop(t_data *data)
 {
+	double	current_time;
+	double	delta_time;
+
+	current_time = get_time();
+	delta_time = (current_time - data->loop_time) / 1000.0;
+	data->loop_time = current_time;
 	if (data->player->exit_reached)
 	{
 		if (load_next_map(data) == EXIT_FAILURE)
 			return (free_data(data), EXIT_FAILURE);
 	}
-	update_player(data);
+	update_player(delta_time, data);
 	check_doors(data);
 	update_doors(data);
 	update_sprites(data);

@@ -28,7 +28,7 @@ typedef enum e_sprite_type
 typedef enum e_decoration_type
 {
 	T_TREE = 300
-} t_decoration_type;
+}	 t_decoration_type;
 
 typedef enum e_collectable_type
 {

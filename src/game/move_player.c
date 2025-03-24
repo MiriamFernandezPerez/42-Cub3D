@@ -26,7 +26,7 @@ void	check_diagonal_collision(double *delta, t_data *data)
 		grid[Y] = floor((data->player->pos[Y] + delta[Y] + copysign(
 						(TILE_SIZE * COLLISION_MARGIN),
 						delta[Y])) / TILE_SIZE);
-		if (ft_strchr(DOOR_TILES, data->map_data->map[grid[Y]][grid[X]])
+		if (ft_strchr(DOOR_TILES, get_tile_type(grid, data->map_data))
 			&& get_door(grid, data)->state != OPENED)
 		{
 			delta[X] = 0;
@@ -50,7 +50,7 @@ void	check_collision(double *delta, t_data *data)
 		grid[X] = floor((data->player->pos[X] + delta[X] + copysign(
 						(TILE_SIZE * COLLISION_MARGIN), delta[X])) / TILE_SIZE);
 		grid[Y] = floor(data->player->pos[Y] / TILE_SIZE);
-		if (ft_strchr(DOOR_TILES, data->map_data->map[grid[Y]][grid[X]])
+		if (ft_strchr(DOOR_TILES, get_tile_type(grid, data->map_data))
 			&& get_door(grid, data)->state != OPENED)
 			delta[X] = 0;
 		if (!ft_strchr(CROSSABLE_TILES, get_tile_type(grid, data->map_data)))
@@ -61,7 +61,7 @@ void	check_collision(double *delta, t_data *data)
 		grid[X] = floor(data->player->pos[X] / TILE_SIZE);
 		grid[Y] = floor((data->player->pos[Y] + delta[Y] + copysign(
 						(TILE_SIZE * COLLISION_MARGIN), delta[Y])) / TILE_SIZE);
-		if (ft_strchr(DOOR_TILES, data->map_data->map[grid[Y]][grid[X]])
+		if (ft_strchr(DOOR_TILES, get_tile_type(grid, data->map_data))
 			&& get_door(grid, data)->state != OPENED)
 			delta[Y] = 0;
 		if (!ft_strchr(CROSSABLE_TILES, get_tile_type(grid, data->map_data)))
@@ -70,15 +70,15 @@ void	check_collision(double *delta, t_data *data)
 	check_diagonal_collision(delta, data);
 }
 
-void	move_player(int direction, int angle, t_data *data)
+void	move_player(int dir, int angle, double delta_time, t_data *data)
 {
 	double	delta[2];
 
 	angle = normalize_angle(data->player->angle + angle);
-	delta[X] = direction * cos(deg_to_rad(angle))
-		* (PLAYER_SPEED * ((HEIGHT * WIDTH) / 960000));
-	delta[Y] = direction * sin(deg_to_rad(angle))
-		* (PLAYER_SPEED * ((HEIGHT * WIDTH) / 960000)) * -1;
+	delta[X] = dir * cos(deg_to_rad(angle))
+		* PLAYER_SPEED * delta_time * 60;
+	delta[Y] = dir * sin(deg_to_rad(angle))
+		* PLAYER_SPEED * delta_time * 60 * -1;
 	if (fabs(delta[X]) < EPSILON)
 		delta[X] = 0;
 	if (fabs(delta[Y]) < EPSILON)

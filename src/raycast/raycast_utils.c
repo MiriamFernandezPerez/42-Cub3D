@@ -42,7 +42,7 @@ int	get_tile_type(int grid[2], t_map *map_data)
 
 	if (grid[X] < 0 || grid[X] >= map_data->max_width
 		|| grid[Y] < 0 || grid[Y] >= map_data->max_height)
-		return (0);
+		return (-1);
 	tile_type = map_data->map[grid[Y]][grid[X]];
 	return (tile_type);
 }

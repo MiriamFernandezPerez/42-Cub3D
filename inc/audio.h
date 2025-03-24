@@ -14,6 +14,7 @@
 # define AUDIO_H
 
 # define TITLE_AUDIO 'T'
+# define END_AUDIO 'T'
 # define SPRING_AUDIO 'S'
 # define SUMMER_AUDIO 'V'
 # define AUTUMN_AUDIO 'A'

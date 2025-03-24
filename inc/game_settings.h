@@ -13,12 +13,12 @@
 #ifndef GAME_SETTINGS_H
 # define GAME_SETTINGS_H
 
-# define WIDTH 1200
-# define HEIGHT 800
+# define WIDTH 1000
+# define HEIGHT 700
 # define UI_SIZE 0.05
 # define TILE_SIZE 32 
 # define FOV 60
-# define PLAYER_SPEED 5
+# define PLAYER_SPEED 2.0
 # define EPSILON 0.0001
 # define M_PI 3.14159265358979323846
 # define ROTATION_SPEED 0.09

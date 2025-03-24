@@ -227,6 +227,7 @@ typedef struct s_data
 	t_title			*title_data;
 	char			**cub_file;
 	t_audio			*audio_list;
+	double			loop_time;
 }	t_data;
 
 /*main.c*/
@@ -238,6 +239,9 @@ void		init_minimap_data(t_minimap *minimap_data);
 void		init_map(t_map *map_data);
 void		init_mlx(t_data *data);
 void		init_textures(t_texture *txt_data, t_mlx *mlx_data,	t_data *data);
+
+/*init_mlx.c*/
+void		init_mlx(t_data *data);
 
 /*add_textures.c*/
 void		add_common_textures(t_data *data);
@@ -411,11 +415,11 @@ void		print_tile_pixel(int x, int y, int map_idx[2], t_data *data);
 void		print_triangle(int v[3][2], int color, t_mlx *mlx_data);
 
 /*move_player.c*/
-void		move_player(int direction, int angle, t_data *data);
+void		move_player(int dir, int angle, double delta_time, t_data *data);
 void		check_interactable(t_data *data);
 
 /*update_player.c*/
-void		update_player(t_data *data);
+void		update_player(double delta_time, t_data *data);
 
 /*game_loop.c*/
 int			game_loop(t_data *data);

@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 #include "../../inc/cub3d.h"
-#include "../../inc/title_img_path.h"
+#include "../../inc/title_end.h"
 #include "../../inc/audio.h"
 #include "../../inc/error.h"
 #include "../../inc/key.h"

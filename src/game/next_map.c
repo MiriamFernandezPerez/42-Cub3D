@@ -13,16 +13,6 @@
 #include "../../inc/cub3d.h"
 #include "../../inc/audio.h"
 
-//TODO Añadir pantalla final
-void	finish_game(t_data *data)
-{
-	printf("Chest: %d%% / Coin: %d%%\n", (int)((double)data->player->total_chest_found
-		/ data->player->total_chest * 100), (int)((double)data->player->total_coin_found
-		/ data->player->total_coin * 100));
-	free_data(data);
-	exit(EXIT_SUCCESS);
-}
-
 void	reset_map_data(t_data *data)
 {
 	free_map(data->map_data, data->mlx_data);
@@ -34,28 +24,44 @@ void	reset_map_data(t_data *data)
 	init_map(data->map_data);
 }
 
-void	select_song(t_data *data)
+void	select_song(int is_end, t_data *data)
 {
+	int	next_song;
+
+	next_song = SPRING_AUDIO;
 	if (data->player->level % 4 == 0)
-	{
 		stop_audio(WINTER_AUDIO, data);
-		play_sound(SPRING_AUDIO, true, true, data);
-	}
 	else if (data->player->level % 4 == 1)
 	{
 		stop_audio(SPRING_AUDIO, data);
-		play_sound(SUMMER_AUDIO, true, true, data);
+		next_song = SUMMER_AUDIO;
 	}
 	else if (data->player->level % 4 == 2)
 	{
 		stop_audio(SUMMER_AUDIO, data);
-		play_sound(AUTUMN_AUDIO, true, true, data);
+		next_song = AUTUMN_AUDIO;
 	}
 	else if (data->player->level % 4 == 3)
 	{
 		stop_audio(AUTUMN_AUDIO, data);
-		play_sound(WINTER_AUDIO, true, true, data);
+		next_song = WINTER_AUDIO;
 	}
+	if (is_end)
+		next_song = END_AUDIO;
+	play_sound(next_song, true, true, data);
+}
+
+void	finish_game(t_data *data)
+{
+	printf("Chest: %d%% / Coin: %d%%\n",
+		(int)((double)data->player->total_chest_found
+			/ data->player->total_chest * 100),
+		(int)((double)data->player->total_coin_found
+			/ data->player->total_coin * 100));
+	select_song(TRUE, data);
+	//TODO Añadir pantalla final
+	free_data(data);
+	exit(EXIT_SUCCESS);
 }
 
 int	load_next_map(t_data *data)
@@ -79,7 +85,7 @@ int	load_next_map(t_data *data)
 		add_common_textures(data);
 		init_textures(data->map_data->txt_list, data->mlx_data, data);
 		data->player->level++;
-		select_song(data);
+		select_song(FALSE, data);
 	}
 	else
 		finish_game(data);

@@ -36,31 +36,6 @@ void	init_textures(t_texture *txt_list, t_mlx *mlx_data, t_data *data)
 	}
 }
 
-void	init_mlx(t_data *data)
-{
-	data->mlx_data = malloc(sizeof(t_mlx));
-	malloc_protection(data->mlx_data, data);
-	data->mlx_data->mlx_ptr = mlx_init();
-	if (!data->mlx_data->mlx_ptr)
-		ft_error_exit(ERR_MLX_INIT, data);
-	data->mlx_data->win_ptr
-		= mlx_new_window(data->mlx_data->mlx_ptr, WIDTH, HEIGHT, "cub3d");
-	if (!data->mlx_data->win_ptr)
-		ft_error_exit(ERR_MLX_WIN, data);
-	mlx_mouse_move(data->mlx_data->mlx_ptr, data->mlx_data->win_ptr,
-		WIDTH, HEIGHT);
-	mlx_mouse_hide(data->mlx_data->mlx_ptr, data->mlx_data->win_ptr);
-	data->mlx_data->img_ptr = NULL;
-	data->mlx_data->img_addr = NULL;
-	data->mlx_data->new_img_addr = NULL;
-	data->mlx_data->img_ptr = NULL;
-	data->mlx_data->img_addr = NULL;
-	data->mlx_data->mouse_pos = 0;
-	ft_memset(data->mlx_data->keys, 0, sizeof(data->mlx_data->keys));
-	mlx_hook(data->mlx_data->win_ptr, 17, 0, close_window, data);
-	mlx_hook(data->mlx_data->win_ptr, 6, 1L << 6, mouse_handler, data);
-}
-
 void	init_map(t_map *map_data)
 {
 	map_data->map = NULL;
@@ -106,6 +81,19 @@ void	init_minimap_data(t_minimap *minimap_data)
 	minimap_data->scale = TILE_SIZE / (double)minimap_data->tile_size;
 }
 
+void	init_player(t_data *data)
+{
+	data->player->exit_reached = 0;
+	data->player->level = 0;
+	data->player->frame = 0;
+	data->player->last_frame_time = get_time();
+	data->player->score = 0;
+	data->player->total_chest = 0;
+	data->player->total_coin = 0;
+	data->player->total_chest_found = 0;
+	data->player->total_coin_found = 0;
+}
+
 // Initializes data struct
 void	init_data(t_data **data)
 {
@@ -120,6 +108,7 @@ void	init_data(t_data **data)
 	(*data)->audio_list = NULL;
 	(*data)->player = malloc(sizeof(t_player));
 	malloc_protection((*data)->player, *data);
+	init_player(*data);
 	(*data)->title_data = malloc(sizeof(t_title));
 	malloc_protection((*data)->title_data, *data);
 	init_title((*data)->title_data);
