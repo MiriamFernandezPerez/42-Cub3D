@@ -16,43 +16,56 @@
 #include "../../inc/error.h"
 #include "../../inc/key.h"
 
-// void	draw_number(int pos[2], int sprite_size, int number, t_data *data)
-// {
-// 	int	digit;
-// 	int	i;
+void	print_score(t_data *data)
+{
+	int	pos[2];
 
-// 	i = 0;
-// 	if (number == 0)
-// 	{
-// 		print_num_sprite(pos, sprite_size, 0, data);
-// 		return ;
-// 	}
-// 	while (number > 0)
-// 	{
-// 		digit = number % 10;
-// 		number /= 10;
-// 		pos[X] += sprite_size;
-// 		i++;
-// 	}
-// }
+	pos[X] = WIDTH / 2;
+	pos[Y] = HEIGHT / 2;
+	print_num_sprite(pos, 32, 23, data);
+}
 
-int	load_end_screen(t_data *data)
+void	clear_screen(t_data *data)
+{
+	void	*new_img_ptr;
+
+	new_img_ptr = mlx_new_image(data->mlx_data->mlx_ptr, WIDTH, HEIGHT);
+	data->mlx_data->new_img_addr
+		= mlx_get_data_addr(new_img_ptr, &(data->mlx_data->bpp),
+			&(data->mlx_data->line_len), &(data->mlx_data->endian));
+	mlx_put_image_to_window(data->mlx_data->mlx_ptr,
+		data->mlx_data->win_ptr, new_img_ptr, 0, 0);
+	if (data->mlx_data->img_ptr)
+		mlx_destroy_image(data->mlx_data->mlx_ptr, data->mlx_data->img_ptr);
+	data->mlx_data->img_ptr = new_img_ptr;
+	data->mlx_data->img_addr = data->mlx_data->new_img_addr;
+	data->mlx_data->new_img_addr = NULL;
+
+}
+
+void	print_end_screen(t_data *data)
 {
 	t_img	end_image;
+	void	*new_img_ptr;
 
 	load_xpm_image(&end_image, END_PATH, data);
 	scale_image(&end_image, HEIGHT, HEIGHT, data);
+	new_img_ptr = end_image.ptr;
+	data->mlx_data->new_img_addr
+		= mlx_get_data_addr(new_img_ptr, &(data->mlx_data->bpp),
+			&(data->mlx_data->line_len), &(data->mlx_data->endian));
 	mlx_put_image_to_window(data->mlx_data->mlx_ptr,
-		data->mlx_data->win_ptr, end_image.ptr, WIDTH / 2 - HEIGHT / 2, 0);
+		data->mlx_data->win_ptr, new_img_ptr, WIDTH / 2 - HEIGHT / 2, 0);
 	if (data->mlx_data->img_ptr)
 		mlx_destroy_image(data->mlx_data->mlx_ptr, data->mlx_data->img_ptr);
-	data->mlx_data->img_ptr = end_image.ptr;
-	data->mlx_data->img_addr = end_image.addr;
-	return (0);
+	data->mlx_data->img_ptr = new_img_ptr;
+	data->mlx_data->img_addr = data->mlx_data->new_img_addr;
+	data->mlx_data->new_img_addr = NULL;
 }
 
 void	end_screen(t_data *data)
 {
-	play_sound(END_AUDIO, true, true, data);
-	mlx_loop_hook(data->mlx_data->mlx_ptr, load_end_screen, data);
+	clear_screen(data);
+	print_end_screen(data);
+	//print_score(data);
 }

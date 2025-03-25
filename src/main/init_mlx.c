@@ -47,8 +47,6 @@ void	init_mlx(t_data *data)
 		= mlx_new_window(data->mlx_data->mlx_ptr, WIDTH, HEIGHT, "cub3d");
 	if (!data->mlx_data->win_ptr)
 		ft_error_exit(ERR_MLX_WIN, data);
-	mlx_mouse_move(data->mlx_data->mlx_ptr, data->mlx_data->win_ptr,
-		WIDTH, HEIGHT);
 	ft_memset(data->mlx_data->keys, 0, sizeof(data->mlx_data->keys));
 	mlx_hook(data->mlx_data->win_ptr, 17, 0, close_window, data);
 	mlx_hook(data->mlx_data->win_ptr, 6, 1L << 6, mouse_handler, data);
