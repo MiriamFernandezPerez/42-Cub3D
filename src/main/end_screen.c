@@ -16,25 +16,25 @@
 #include "../../inc/error.h"
 #include "../../inc/key.h"
 
-void	draw_number(int pos[2], int sprite_size, int number, t_data *data)
-{
-	int	digit;
-	int	i;
+// void	draw_number(int pos[2], int sprite_size, int number, t_data *data)
+// {
+// 	int	digit;
+// 	int	i;
 
-	i = 0;
-	if (number == 0)
-	{
-		print_num_sprite(pos, sprite_size, 0, data);
-		return ;
-	}
-	while (number > 0)
-	{
-		digit = number % 10;
-		number /= 10;
-		pos[X] += sprite_size;
-		i++;
-	}
-}
+// 	i = 0;
+// 	if (number == 0)
+// 	{
+// 		print_num_sprite(pos, sprite_size, 0, data);
+// 		return ;
+// 	}
+// 	while (number > 0)
+// 	{
+// 		digit = number % 10;
+// 		number /= 10;
+// 		pos[X] += sprite_size;
+// 		i++;
+// 	}
+// }
 
 int	load_end_screen(t_data *data)
 {

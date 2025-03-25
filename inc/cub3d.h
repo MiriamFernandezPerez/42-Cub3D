@@ -253,6 +253,7 @@ void		init_title(t_title *title_data);
 void		title_screen(t_title *title_data, t_data *data);
 
 /*open_file.c*/
+void		check_paths_qt(t_data *data);
 void		try_open_path(t_data *data, char *path);
 int			read_file(int fd, t_data *data);
 int			open_cub_file(char *path, t_data *data);

@@ -121,5 +121,6 @@ void	parse_cub_file(t_data *data, char **cub_file)
 			}
 		}
 	}
+	check_paths_qt(data);
 	parse_map(data, cub_file + i);
 }

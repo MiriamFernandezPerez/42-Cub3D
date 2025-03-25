@@ -25,6 +25,7 @@
 # define ERR_TXT "Error\nInvalid textures in configuration map\n"
 # define ERR_PATH "Error\nCan't open texture path\n"
 # define ERR_NEXT "Error\nNext map file is not a .cub file\n"
+# define ERR_DUPL " texture is duplicated on .cub file\n"
 # define ERR_OPEN_NEXT "Error\nCan't open next_map file\n"
 # define ERR_COLOR "Error\n.Invalid color format\n"
 # define ERR_RGB "Error\n. Invalid RGB configuration\n"

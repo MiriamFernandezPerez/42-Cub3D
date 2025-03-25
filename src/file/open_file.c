@@ -13,6 +13,32 @@
 #include "../../inc/cub3d.h"
 #include "../../inc/error.h"
 
+void	check_paths_qt(t_data *data)
+{
+	t_texture	*current;
+	bool		id_found[256];
+	int			i;
+
+	current = data->map_data->txt_list;
+	i = 0;
+	while (i < 256)
+	{
+		id_found[i] = false;
+		i++;
+	}
+	while (current)
+	{
+		if (id_found[(unsigned char)current->id_txt])
+		{
+			ft_putstr_fd("Error: \n", 2);
+			ft_putchar_fd(current->id_txt, 2);
+			ft_error_exit(ERR_DUPL, data);
+		}
+		id_found[(unsigned char)current->id_txt] = true;
+		current = current->next;
+	}
+}
+
 void	try_open_path(t_data *data, char *path)
 {
 	int	fd;
