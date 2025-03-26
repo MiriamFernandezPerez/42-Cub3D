@@ -6,7 +6,7 @@
 /*   By: igarcia2 <igarcia2@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/25 18:19:40 by igarcia2          #+#    #+#             */
-/*   Updated: 2025/02/18 22:54:48 by igarcia2         ###   ########.fr       */
+/*   Updated: 2025/03/26 20:59:17 by igarcia2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,11 +53,6 @@ void	select_song(int is_end, t_data *data)
 
 void	finish_game(t_data *data)
 {
-	printf("Chest: %d%% / Coin: %d%%\n",
-		(int)((double)data->player->total_chest_found
-			/ data->player->total_chest * 100),
-		(int)((double)data->player->total_coin_found
-			/ data->player->total_coin * 100));
 	select_song(TRUE, data);
 	data->mlx_data->game_active = 0;
 	mlx_mouse_show(data->mlx_data->mlx_ptr, data->mlx_data->win_ptr);
