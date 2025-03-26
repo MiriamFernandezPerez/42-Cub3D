@@ -13,8 +13,8 @@
 #ifndef GAME_SETTINGS_H
 # define GAME_SETTINGS_H
 
-# define WIDTH 1000
-# define HEIGHT 700
+# define WIDTH 500
+# define HEIGHT 400
 # define UI_SIZE 0.05
 # define TILE_SIZE 32 
 # define FOV 60

@@ -402,7 +402,7 @@ int			get_texture_pxl(t_texture *texture, int x, int y);
 void		render_ui(t_data *data);
 void		print_num_sprite(int pos[2], int sprite_size, int num,
 				t_data *data);
-int			get_ui_txt_color(int x, int y, int sprite_size, t_texture *texture);
+int			get_ui_txt_color(int x, int y, int sprite_size, t_texture *texture);void		print_ui_score(int pos[2], int sprite_size, t_data *data);
 
 /*render_ui_utils.c*/
 int			get_ui_txt_color(int x, int y, int sprite_size, t_texture *texture);
