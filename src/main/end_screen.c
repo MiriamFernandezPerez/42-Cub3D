@@ -27,13 +27,13 @@ void	print_collectable(int pos[2], int sprite_size, t_data *data)
 		/ data->player->total_coin * 100;
 	if (chest_percent < 100)
 		print_num_sprite(pos, sprite_size, 0, data);
-	if (chest_percent % 10 < 1)
+	if (chest_percent / 10 < 1)
 		print_num_sprite(pos, sprite_size, 0, data);
 	print_num_sprite(pos, sprite_size, chest_percent, data);
 	pos[X] = HEIGHT * 0.46;
 	if (coin_percent < 100)
 		print_num_sprite(pos, sprite_size, 0, data);
-	if (coin_percent % 10 < 1)
+	if (coin_percent / 10 < 1)
 		print_num_sprite(pos, sprite_size, 0, data);
 	print_num_sprite(pos, sprite_size, coin_percent, data);
 }
