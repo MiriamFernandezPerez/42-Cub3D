@@ -400,7 +400,8 @@ int			get_texture_pxl(t_texture *texture, int x, int y);
 
 /*render_ui.c*/
 void		render_ui(t_data *data);
-void		print_num_sprite(int pos[2], int sprite_size, int num, t_data *data);
+void		print_num_sprite(int pos[2], int sprite_size, int num,
+				t_data *data);
 int			get_ui_txt_color(int x, int y, int sprite_size, t_texture *texture);
 
 /*render_ui_utils.c*/

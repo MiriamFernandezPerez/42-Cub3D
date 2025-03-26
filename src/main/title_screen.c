@@ -49,6 +49,8 @@ int	key_title(int keycode, t_data *data)
 		data->mlx_data->game_active = 1;
 		mlx_hook(data->mlx_data->win_ptr, 2, 1L << 0, key_press, data);
 		mlx_loop_hook(data->mlx_data->mlx_ptr, game_loop, data);
+		mlx_mouse_move(data->mlx_data->mlx_ptr, data->mlx_data->win_ptr,
+			WIDTH / 2, HEIGHT / 2);
 		mlx_mouse_hide(data->mlx_data->mlx_ptr, data->mlx_data->win_ptr);
 		mlx_hook(data->mlx_data->win_ptr, 6, 1L << 6, mouse_handler, data);
 		play_sound(SPRING_AUDIO, true, true, data);

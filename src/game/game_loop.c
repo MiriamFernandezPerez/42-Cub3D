@@ -55,7 +55,7 @@ void	redraw_scene(t_data *data)
 
 //Manages the game main loop
 int	game_loop(t_data *data)
-{	
+{
 	double	current_time;
 	double	delta_time;
 

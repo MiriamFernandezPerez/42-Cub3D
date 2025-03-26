@@ -40,7 +40,6 @@ void	clear_screen(t_data *data)
 	data->mlx_data->img_ptr = new_img_ptr;
 	data->mlx_data->img_addr = data->mlx_data->new_img_addr;
 	data->mlx_data->new_img_addr = NULL;
-
 }
 
 void	print_end_screen(t_data *data)
