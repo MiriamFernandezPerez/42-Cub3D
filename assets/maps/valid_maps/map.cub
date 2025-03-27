@@ -1,8 +1,8 @@
-NO ./assets/textures/spring_2.xpm
-SO ./assets/textures/spring_2.xpm
-WE ./assets/textures/spring_2_dark.xpm
-EA ./assets/textures/spring_2_dark.xpm
-F 0,0,0
+NO ./assets/textures/3dark.xpm
+SO ./assets/textures/3dark.xpm
+WE ./assets/textures/3darker.xpm
+EA ./assets/textures/3darker.xpm
+F ./assets/textures/12.xpm
 C 0,0,0
 
 
@@ -16,3 +16,5 @@ C 0,0,0
 1000000000000000000000001
 10000000000000000000000N1
 1111111111111111111111111
+
+
