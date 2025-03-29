@@ -75,8 +75,8 @@ void	render_ceil_floor(int x, int *y, t_data *data)
 	if (get_texture(ID_CEIL, data) && get_texture(ID_CEIL, data)->path)
 		render_ceil(x, y, hit, data);
 	else
-		print_pixel_render(x, HEIGHT - *y + 1, data->map_data->ceiling_color,
-			data);
+		print_pixel_render(x, HEIGHT - (*y - HEIGHT * UI_SIZE) + 1,
+			data->map_data->ceiling_color, data);
 	render_sprite(x, *y, data);
 	render_sprite(x, HEIGHT - (*y - (HEIGHT * UI_SIZE)) - 1, data);
 	(*y)++;
