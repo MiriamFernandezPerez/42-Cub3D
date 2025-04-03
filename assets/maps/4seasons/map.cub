@@ -8,7 +8,7 @@ D ./assets/textures/springdoor.xpm
 L ./assets/textures/springdoor_locked.xpm
 EXIT ./assets/sprites/spring_portal.xpm
 TREE ./assets/sprites/spring_tree.xpm
-NEXT ./assets/maps/map2.cub
+NEXT ./assets/maps/4seasons/map2.cub
 
 
         1111111111111111111111111
