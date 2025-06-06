@@ -28,6 +28,11 @@ NO ./path_to_the_north_texture
 SO ./path_to_the_south_texture
 WE ./path_to_the_west_texture
 EA ./path_to_the_east_texture
+F 220,100,0
+C 225,30,0
+1111111111111111111111111
+1000000000110000000000001
+1111111111111111111111111
 ```
 
 # 🧱 cub3D – Motor 3D con Raycasting en C
@@ -127,8 +132,4 @@ Para ejecutar el juego, ejecuta en terminal
 - ✍️ **Autor original:** Miriam Fernández Pérez  
 
 ---
-F 220,100,0
-C 225,30,0
-1111111111111111111111111
-1000000000110000000000001
-...
+
